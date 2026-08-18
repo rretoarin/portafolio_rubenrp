@@ -123,10 +123,11 @@ export const CONTENT = {
         muestras: {
           name: 'Sistema de Gestión de Muestras',
           tag: 'Herramienta interna de gestión',
+          sector: 'Joyería',
           summary:
             'Sistema interno para Arin S.A. que reemplazó el control manual en hojas de cálculo por un flujo digital con trazabilidad completa de cada muestra.',
           detail:
-            'Diseñé el modelo de datos y la aplicación completa: registro de muestras, seguimiento por estados, historial de cada movimiento y accesos diferenciados por rol. El requerimiento de Arin S.A. era saber en todo momento dónde está cada muestra y quién la manipuló; la arquitectura se armó alrededor de esa necesidad.',
+            'Diseñé el modelo de datos y la aplicación completa: registro de muestras, seguimiento por estados, historial de cada movimiento y accesos diferenciados por rol. En joyería cada muestra que sale es un activo de valor, así que el requerimiento era saber en todo momento dónde está y quién la manipuló. La arquitectura se armó alrededor de esa necesidad.',
           highlights: [
             'Trazabilidad completa: cada cambio queda registrado',
             'Roles y permisos según el puesto de cada usuario',
@@ -265,10 +266,11 @@ export const CONTENT = {
         muestras: {
           name: 'Sample Management System',
           tag: 'Internal management tool',
+          sector: 'Jewelry',
           summary:
             'Internal system for Arin S.A. that replaced manual spreadsheet tracking with a digital flow giving full traceability over every sample.',
           detail:
-            'I designed the data model and the whole application: sample registration, status tracking, a full history of every movement and role-based access. Arin S.A. needed to know where each sample is and who handled it at any moment; the architecture was built around that need.',
+            'I designed the data model and the whole application: sample registration, status tracking, a full history of every movement and role-based access. In jewelry every sample that leaves the building is a valuable asset, so the requirement was knowing where it is and who handled it at any moment. The architecture was built around that need.',
           highlights: [
             'Full traceability: every change is recorded',
             'Roles and permissions matched to each job',

@@ -44,6 +44,7 @@ function Project({ project, copy, index, labels }) {
                   <span>
                     <span className="sr-only">{labels.clientLabel}: </span>
                     <span className="text-soft">{project.client}</span>
+                    {copy.sector && <span> · {copy.sector}</span>}
                   </span>
                 </>
               )}
