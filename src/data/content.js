@@ -24,13 +24,13 @@ export function whatsappUrl(message) {
 export const PROJECTS = [
   {
     id: 'jm-consulting',
-    year: '2025',
+    year: '2026',
     url: 'https://jm-consulting-foods.netlify.app/',
     stack: ['React', 'Vite', 'Node.js', 'MongoDB', 'Netlify'],
   },
   {
     id: 'muestras',
-    year: '2025',
+    year: '2026',
     client: 'Arin S.A.',
     url: null, // Sistema interno: no hay demo pública.
     stack: ['React', 'Node.js', 'Express', 'MongoDB', 'JWT'],
