@@ -36,7 +36,18 @@ function Project({ project, copy, index, labels }) {
               )}
             </h3>
 
-            <p className="mt-2 text-sm text-muted">{copy.tag}</p>
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+              <span>{copy.tag}</span>
+              {project.client && (
+                <>
+                  <span aria-hidden className="h-3 w-px bg-line-strong" />
+                  <span>
+                    <span className="sr-only">{labels.clientLabel}: </span>
+                    <span className="text-soft">{project.client}</span>
+                  </span>
+                </>
+              )}
+            </div>
 
             <p className="mt-5 leading-relaxed text-soft">{copy.summary}</p>
             <p className="mt-4 text-sm leading-relaxed text-muted">{copy.detail}</p>

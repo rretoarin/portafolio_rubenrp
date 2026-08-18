@@ -20,6 +20,7 @@ export const PROJECTS = [
   {
     id: 'muestras',
     year: '2025',
+    client: 'Arin S.A.',
     url: null, // Sistema interno: no hay demo pública.
     stack: ['React', 'Node.js', 'Express', 'MongoDB', 'JWT'],
   },
@@ -103,6 +104,7 @@ export const CONTENT = {
       subtitle: 'Dos sistemas construidos de cero: uno público, uno interno.',
       viewLive: 'Ver sitio',
       privateLabel: 'Sistema interno · sin acceso público',
+      clientLabel: 'Cliente',
       items: {
         'jm-consulting': {
           name: 'J&M Consulting Foods',
@@ -120,11 +122,11 @@ export const CONTENT = {
         },
         muestras: {
           name: 'Sistema de Gestión de Muestras',
-          tag: 'Herramienta interna de empresa',
+          tag: 'Herramienta interna de gestión',
           summary:
-            'Sistema interno que reemplazó el control manual en hojas de cálculo por un flujo digital con trazabilidad completa de cada muestra.',
+            'Sistema interno para Arin S.A. que reemplazó el control manual en hojas de cálculo por un flujo digital con trazabilidad completa de cada muestra.',
           detail:
-            'Diseñé el modelo de datos y la aplicación completa: registro de muestras, seguimiento por estados, historial de cada movimiento y accesos diferenciados por rol. El objetivo del cliente era saber en todo momento dónde está cada muestra y quién la manipuló; la arquitectura se armó alrededor de esa necesidad.',
+            'Diseñé el modelo de datos y la aplicación completa: registro de muestras, seguimiento por estados, historial de cada movimiento y accesos diferenciados por rol. El requerimiento de Arin S.A. era saber en todo momento dónde está cada muestra y quién la manipuló; la arquitectura se armó alrededor de esa necesidad.',
           highlights: [
             'Trazabilidad completa: cada cambio queda registrado',
             'Roles y permisos según el puesto de cada usuario',
@@ -244,6 +246,7 @@ export const CONTENT = {
       subtitle: 'Two products built from scratch: one public, one internal.',
       viewLive: 'Visit site',
       privateLabel: 'Internal system · no public access',
+      clientLabel: 'Client',
       items: {
         'jm-consulting': {
           name: 'J&M Consulting Foods',
@@ -261,11 +264,11 @@ export const CONTENT = {
         },
         muestras: {
           name: 'Sample Management System',
-          tag: 'Internal company tool',
+          tag: 'Internal management tool',
           summary:
-            'Internal system that replaced manual spreadsheet tracking with a digital flow giving full traceability over every sample.',
+            'Internal system for Arin S.A. that replaced manual spreadsheet tracking with a digital flow giving full traceability over every sample.',
           detail:
-            'I designed the data model and the whole application: sample registration, status tracking, a full history of every movement and role-based access. The client needed to know where each sample is and who handled it at any moment; the architecture was built around that need.',
+            'I designed the data model and the whole application: sample registration, status tracking, a full history of every movement and role-based access. Arin S.A. needed to know where each sample is and who handled it at any moment; the architecture was built around that need.',
           highlights: [
             'Full traceability: every change is recorded',
             'Roles and permissions matched to each job',
