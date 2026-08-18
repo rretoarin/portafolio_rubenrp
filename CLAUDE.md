@@ -51,11 +51,20 @@ src/
 
 ## Diseño
 
+Referencia: portafolio dark minimalista con monoespaciada de display.
+
 - Negro real (`#000`) de fondo. Jerarquía por gris, no por color.
-- Tipografía: Inter (texto) + JetBrains Mono (etiquetas, números, badges).
-- Títulos en `font-light` con tracking negativo. Nada de negritas grandes.
-- Bordes de 1px y separadores; nada de sombras ni degradados llamativos.
-- Rejillas con `gap-px` sobre fondo `bg-line` para simular líneas divisorias.
+- **JetBrains Mono es la tipografía de display**: títulos, nombres, nav, botones,
+  píldoras y todo dato técnico. Inter sólo para párrafos de lectura corrida.
+- Clase `.display` para cualquier titular; nunca `font-bold` suelto.
+- Etiquetas de sección con `<SectionLabel>`, que renderiza `... /Nombre ...`.
+- Tarjetas con `.card` (radio 1.25rem, borde de 1px, fondo `surface`).
+  Hover: `hover:bg-raised`. Nada de sombras ni degradados llamativos.
+- Tecnologías y enlaces secundarios como `.pill` (píldora con contorno).
+- CTA principal: píldora blanca con círculo negro y flecha dentro.
+- `<Arc>` para los círculos gigantes de fondo. Van dentro de un contenedor
+  `relative overflow-hidden`, uno o dos por sección como máximo.
+- Rejillas tipo bento: `gap-3` y anchos alternados, no columnas iguales.
 
 ## Antes de dar algo por terminado
 
