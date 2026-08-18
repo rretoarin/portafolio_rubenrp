@@ -8,6 +8,14 @@ export const PROFILE = {
   email: 'rubenretopanta@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ruben-reto-panta-1580301a8/',
   linkedinLabel: 'ruben-reto-panta',
+  whatsapp: '51933214520', // Formato wa.me: sin +, espacios ni guiones.
+  whatsappDisplay: '+51 933 214 520',
+}
+
+// wa.me abre la conversación en app o en web según el dispositivo.
+export function whatsappUrl(message) {
+  const base = `https://wa.me/${PROFILE.whatsapp}`
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base
 }
 
 // Datos estables entre idiomas: URLs, stack, año.
@@ -230,6 +238,10 @@ export const CONTENT = {
       body: 'Cuéntame qué necesitas resolver. Respondo con una propuesta concreta: alcance, enfoque técnico y tiempos, sin compromiso.',
       emailLabel: 'Correo',
       linkedinLabel: 'LinkedIn',
+      whatsappLabel: 'WhatsApp',
+      whatsappAria: 'Escribirme por WhatsApp',
+      whatsappMessage:
+        'Hola Rubén, vi tu portafolio y quiero conversar sobre un proyecto.',
       cta: 'Escríbeme',
       copy: 'Copiar correo',
       copied: 'Copiado',
@@ -406,6 +418,10 @@ export const CONTENT = {
       body: 'Tell me what you need to solve. I reply with a concrete proposal: scope, technical approach and timeline, no strings attached.',
       emailLabel: 'Email',
       linkedinLabel: 'LinkedIn',
+      whatsappLabel: 'WhatsApp',
+      whatsappAria: 'Message me on WhatsApp',
+      whatsappMessage:
+        'Hi Rubén, I saw your portfolio and would like to discuss a project.',
       cta: 'Get in touch',
       copy: 'Copy email',
       copied: 'Copied',

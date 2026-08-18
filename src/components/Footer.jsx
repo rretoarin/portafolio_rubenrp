@@ -1,5 +1,5 @@
-import { PROFILE } from '../data/content'
-import { ArrowUp, LinkedIn, Mail } from './icons'
+import { PROFILE, whatsappUrl } from '../data/content'
+import { ArrowUp, LinkedIn, Mail, WhatsApp } from './icons'
 import { Arc } from './ui'
 
 const LINKS = ['about', 'projects', 'process', 'stack', 'contact']
@@ -25,6 +25,15 @@ export default function Footer({ t }) {
               <a href={`mailto:${PROFILE.email}`} className="pill">
                 <Mail width={14} height={14} />
                 Email
+              </a>
+              <a
+                href={whatsappUrl(t.contact.whatsappMessage)}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="pill"
+              >
+                <WhatsApp width={14} height={14} />
+                WhatsApp
               </a>
               <a
                 href={PROFILE.linkedin}

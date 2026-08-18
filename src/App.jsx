@@ -12,6 +12,7 @@ import Process from './components/Process'
 import Stack from './components/Stack'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import WhatsAppButton from './components/WhatsAppButton'
 
 const STORAGE_KEY = 'portfolio-lang'
 
@@ -64,6 +65,8 @@ export default function App() {
       </main>
 
       <Footer t={t} />
+
+      <WhatsAppButton t={t} />
 
       {/* Datos estructurados: ayudan a que Google muestre el perfil correctamente. */}
       <script

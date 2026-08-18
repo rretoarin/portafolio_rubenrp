@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { PROFILE } from '../data/content'
-import { ArrowUpRight, Check, Copy, LinkedIn, Mail } from './icons'
+import { PROFILE, whatsappUrl } from '../data/content'
+import { ArrowUpRight, Check, Copy, LinkedIn, Mail, WhatsApp } from './icons'
 import { Arc, SectionLabel } from './ui'
 
 export default function Contact({ t }) {
@@ -48,6 +48,26 @@ export default function Contact({ t }) {
           </div>
 
           <ul className="reveal grid gap-3 self-start">
+            <li className="card px-6 py-6">
+              <p className="eyebrow">{t.contact.whatsappLabel}</p>
+              <a
+                href={whatsappUrl(t.contact.whatsappMessage)}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="group mt-2.5 inline-flex items-center gap-2.5 font-mono text-sm text-bright md:text-base"
+              >
+                <WhatsApp width={15} height={15} className="text-muted" />
+                <span className="underline decoration-line-strong underline-offset-4 transition-colors group-hover:decoration-bright">
+                  {PROFILE.whatsappDisplay}
+                </span>
+                <ArrowUpRight
+                  width={14}
+                  height={14}
+                  className="text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </a>
+            </li>
+
             <li className="card flex items-center justify-between gap-4 px-6 py-6">
               <div className="min-w-0">
                 <p className="eyebrow">{t.contact.emailLabel}</p>

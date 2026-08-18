@@ -1,5 +1,5 @@
-import { PROFILE } from '../data/content'
-import { ArrowRight, LinkedIn, Mail } from './icons'
+import { PROFILE, whatsappUrl } from '../data/content'
+import { ArrowRight, LinkedIn, Mail, WhatsApp } from './icons'
 import { Arc } from './ui'
 
 export default function Hero({ t }) {
@@ -58,6 +58,15 @@ export default function Hero({ t }) {
               <a href={`mailto:${PROFILE.email}`} className="pill">
                 <Mail width={14} height={14} />
                 Email
+              </a>
+              <a
+                href={whatsappUrl(t.contact.whatsappMessage)}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="pill"
+              >
+                <WhatsApp width={14} height={14} />
+                WhatsApp
               </a>
               <a
                 href={PROFILE.linkedin}
