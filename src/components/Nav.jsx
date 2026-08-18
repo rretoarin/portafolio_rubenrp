@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { PROFILE } from '../data/content'
 import { Close, Menu } from './icons'
 
-const SECTIONS = ['about', 'projects', 'process', 'stack', 'contact']
+const SECTIONS = ['services', 'about', 'projects', 'process', 'stack', 'contact']
 
 export default function Nav({ t, onToggleLang }) {
   const [scrolled, setScrolled] = useState(false)
@@ -74,7 +74,7 @@ export default function Nav({ t, onToggleLang }) {
           </a>
 
           <div className="flex items-center gap-1">
-            <ul className="hidden items-center gap-1 md:flex">
+            <ul className="hidden items-center gap-1 lg:flex">
               {SECTIONS.map((id) => (
                 <li key={id}>
                   <a
@@ -105,7 +105,7 @@ export default function Nav({ t, onToggleLang }) {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? t.nav.close : t.nav.menu}
               aria-expanded={open}
-              className="ml-1 flex size-11 items-center justify-center rounded-full border border-line-strong text-soft transition-colors hover:border-bright hover:text-bright md:hidden"
+              className="ml-1 flex size-11 items-center justify-center rounded-full border border-line-strong text-soft transition-colors hover:border-bright hover:text-bright lg:hidden"
             >
               {open ? <Close width={18} height={18} /> : <Menu width={18} height={18} />}
             </button>
@@ -115,7 +115,7 @@ export default function Nav({ t, onToggleLang }) {
 
       {/* Menú móvil a pantalla completa. */}
       <div
-        className={`fixed inset-0 z-40 bg-ink transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 bg-ink transition-opacity duration-300 lg:hidden ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >

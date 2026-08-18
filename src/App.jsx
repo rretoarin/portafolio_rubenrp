@@ -6,6 +6,7 @@ import Nav from './components/Nav'
 import ScrollProgress from './components/ScrollProgress'
 import Marquee from './components/Marquee'
 import Hero from './components/Hero'
+import Services from './components/Services'
 import About from './components/About'
 import Projects from './components/Projects'
 import Process from './components/Process'
@@ -57,6 +58,7 @@ export default function App() {
       <main>
         <Hero t={t} />
         <Marquee />
+        <Services t={t} />
         <About t={t} />
         <Projects t={t} />
         <Process t={t} />

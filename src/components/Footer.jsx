@@ -2,7 +2,7 @@ import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowUp, LinkedIn, Mail, WhatsApp } from './icons'
 import { Arc } from './ui'
 
-const LINKS = ['about', 'projects', 'process', 'stack', 'contact']
+const LINKS = ['services', 'about', 'projects', 'process', 'stack', 'contact']
 
 export default function Footer({ t }) {
   return (

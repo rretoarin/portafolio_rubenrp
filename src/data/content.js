@@ -81,6 +81,7 @@ export const CONTENT = {
     langAria: 'Cambiar idioma a inglés',
     nav: {
       about: 'Perfil',
+      services: 'Servicios',
       projects: 'Proyectos',
       process: 'Proceso',
       stack: 'Stack',
@@ -126,6 +127,37 @@ export const CONTENT = {
         {
           title: 'No te dejo solo al entregar',
           text: 'Despliegue, dominio, capacitación de uso y un panel propio para que administres tu contenido sin depender de mí.',
+        },
+      ],
+    },
+    services: {
+      eyebrow: 'Servicios',
+      title: 'Tu negocio necesita una página web.',
+      subtitle:
+        'Hoy tu cliente busca en internet antes de decidir. Si no te encuentra, o solo encuentra un perfil de redes sin información, termina comprándole a otro. Una página propia le muestra tu producto en detalle, le responde las dudas antes de que las pregunte y te deja el contacto a un clic.',
+      sectorsLabel: 'Trabajo con cualquier rubro',
+      sectors: [
+        'Restaurantes',
+        'Consultoras',
+        'Talleres',
+        'Joyerías',
+        'Tiendas',
+        'Clínicas',
+        'Profesionales independientes',
+      ],
+      cta: 'Conversemos sobre tu negocio',
+      items: [
+        {
+          title: 'Página web para tu negocio',
+          text: 'Catálogo de productos o servicios con fotos y descripciones, quiénes son, dónde están y contacto directo por WhatsApp. Todo lo que tu cliente necesita saber antes de escribirte, sin que se lo tengas que explicar una por una.',
+        },
+        {
+          title: 'Un panel para administrarla tú',
+          text: 'Cambias textos, fotos, precios o publicaciones desde tu propio panel, sin llamarme ni pagar por cada ajuste. Tu página deja de depender de mí el día que te la entrego.',
+        },
+        {
+          title: 'Sistemas a medida',
+          text: 'Cuando el negocio necesita más que una web: control de inventario, seguimiento de pedidos o muestras, usuarios con distintos permisos y reportes de lo que pasa adentro.',
         },
       ],
     },
@@ -238,6 +270,7 @@ export const CONTENT = {
     langAria: 'Switch language to Spanish',
     nav: {
       about: 'About',
+      services: 'Services',
       projects: 'Work',
       process: 'Process',
       stack: 'Stack',
@@ -283,6 +316,37 @@ export const CONTENT = {
         {
           title: 'I do not disappear at handoff',
           text: 'Deployment, domain, training and your own admin panel so you manage your content without depending on me.',
+        },
+      ],
+    },
+    services: {
+      eyebrow: 'Services',
+      title: 'Your business needs a website.',
+      subtitle:
+        'Your customer searches online before deciding. If they cannot find you, or only find a social profile with no information, they end up buying from someone else. Your own site shows your product in detail, answers their questions before they ask, and puts your contact one click away.',
+      sectorsLabel: 'I work with any industry',
+      sectors: [
+        'Restaurants',
+        'Consultancies',
+        'Workshops',
+        'Jewelry',
+        'Retail',
+        'Clinics',
+        'Independent professionals',
+      ],
+      cta: 'Let us talk about your business',
+      items: [
+        {
+          title: 'A website for your business',
+          text: 'A catalog of products or services with photos and descriptions, who you are, where you are and direct WhatsApp contact. Everything your customer needs to know before writing to you, without you explaining it one by one.',
+        },
+        {
+          title: 'An admin panel you control',
+          text: 'You change text, photos, prices or posts from your own panel, without calling me or paying for every tweak. Your site stops depending on me the day I hand it over.',
+        },
+        {
+          title: 'Custom systems',
+          text: 'When the business needs more than a website: inventory control, order or sample tracking, users with different permissions and reports on what is happening inside.',
         },
       ],
     },
