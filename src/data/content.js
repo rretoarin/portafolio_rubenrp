@@ -8,6 +8,8 @@ export const PROFILE = {
   email: 'rubenretopanta@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ruben-reto-panta-1580301a8/',
   linkedinLabel: 'ruben-reto-panta',
+  // Retrato en /public. Con foto, el hero cambia de disposición solo.
+  photo: null,
   whatsapp: '51933214520', // Formato wa.me: sin +, espacios ni guiones.
   whatsappDisplay: '+51 933 214 520',
 }
@@ -96,9 +98,10 @@ export const CONTENT = {
     },
     hero: {
       status: 'Disponible para nuevos proyectos',
+      responseTime: 'Respondo en menos de 24 horas',
       role: 'Desarrollador Full Stack',
       headline: ['Desarrollador', 'Full Stack'],
-      lead: 'Construyo software que resuelve el problema real. No empiezo por la tecnología: empiezo por el requerimiento del cliente, defino cómo se estructura el sistema y recién ahí escribo código.',
+      lead: 'Hola, soy Rubén. Te ayudo a convertir eso que necesitas resolver en un sistema que funciona de verdad: escucho el requerimiento, te propongo cómo resolverlo y me encargo del resto, desde el primer boceto hasta que está en línea.',
       ctaPrimary: 'Ver proyectos',
       ctaSecondary: 'Hablemos',
       metrics: [
@@ -109,28 +112,28 @@ export const CONTENT = {
     },
     about: {
       eyebrow: 'Perfil',
-      title: 'Desarrollo a medida, de la base de datos al despliegue.',
+      title: 'Te acompaño desde la idea hasta la producción.',
       body: [
-        'Soy desarrollador full stack. Trabajo de punta a punta: interfaz, API, base de datos y despliegue. Mi especialidad no es una librería concreta, es traducir lo que el cliente necesita en un sistema que efectivamente lo resuelve.',
-        'Mi formación es formal, no solo autodidacta: aprobé el Programa de Especialización en Desarrollo Web Front End y Back End de la Pontificia Universidad Católica del Perú. Ciento ochenta horas sobre el ciclo completo —backend, frontend, pruebas, seguridad y DevOps— más metodologías ágiles y trato con el cliente.',
-        'Uso Claude Code como acelerador del trabajo, nunca como reemplazo del criterio. La IA escribe rápido; yo decido cómo se estructura el sistema, reviso cada cambio y respondo por el resultado. Esa supervisión es justamente lo que hace que la velocidad no cueste calidad.',
+        'Soy desarrollador full stack, y para ti eso significa una sola persona responsable de todo: la pantalla que ven tus clientes, la lógica que hay detrás, la base de datos y la puesta en línea. No tienes que coordinar tres proveedores ni traducir entre ellos.',
+        'Mi formación es formal, no solo autodidacta: aprobé el Programa de Especialización en Desarrollo Web Front End y Back End de la PUCP, 180 horas sobre el ciclo completo. Lo menciono porque cuando alguien te entrega un sistema, lo que importa es que sepa sostenerlo después.',
+        'Uso Claude Code para avanzar más rápido, siempre supervisando. La IA escribe veloz; yo decido cómo se estructura todo, reviso cada cambio y respondo por el resultado. Para ti se traduce en entregas más cortas sin que la calidad lo pague.',
       ],
       pillars: [
         {
-          title: 'Del requerimiento al sistema',
-          text: 'Primero entiendo el negocio y el problema. La solución técnica es consecuencia de eso, no al revés.',
+          title: 'Entiendo antes de proponer',
+          text: 'Primero conversamos sobre tu negocio y el problema concreto. La solución sale de ahí, no de un catálogo de servicios.',
         },
         {
-          title: 'Estructura antes que código',
-          text: 'Modelo de datos y capas definidos antes de la primera línea. Es lo que evita reescribir el proyecto a mitad de camino.',
+          title: 'Un solo responsable',
+          text: 'Frontend, backend, base de datos y despliegue en la misma persona. Menos coordinación para ti y menos cosas que se pierden en el camino.',
         },
         {
-          title: 'IA supervisada',
-          text: 'Claude Code para avanzar más rápido, con revisión humana en cada paso. Entrego código que entiendo y puedo defender.',
+          title: 'Entregas cortas, con criterio',
+          text: 'Claude Code para acelerar, revisión humana en cada paso. Te llega antes, y te llega código que puedo explicarte línea por línea.',
         },
         {
-          title: 'Entrega en producción',
-          text: 'El proyecto no termina en el repositorio: despliegue, dominio, panel de administración y soporte posterior.',
+          title: 'No te dejo solo al entregar',
+          text: 'Despliegue, dominio, capacitación de uso y un panel propio para que administres tu contenido sin depender de mí.',
         },
       ],
       education: {
@@ -234,8 +237,8 @@ export const CONTENT = {
     },
     contact: {
       eyebrow: 'Contacto',
-      title: '¿Tienes un requerimiento?',
-      body: 'Cuéntame qué necesitas resolver. Respondo con una propuesta concreta: alcance, enfoque técnico y tiempos, sin compromiso.',
+      title: 'Cuéntame qué necesitas.',
+      body: 'No hace falta que sepas cómo se resuelve técnicamente, para eso estoy yo. Descríbeme el problema y te respondo con una propuesta concreta: alcance, cómo lo abordaría y en cuánto tiempo. Sin compromiso.',
       emailLabel: 'Correo',
       linkedinLabel: 'LinkedIn',
       whatsappLabel: 'WhatsApp',
@@ -276,9 +279,10 @@ export const CONTENT = {
     },
     hero: {
       status: 'Available for new projects',
+      responseTime: 'I reply within 24 hours',
       role: 'Full Stack Developer',
       headline: ['Full Stack', 'Developer'],
-      lead: 'I build software that solves the actual problem. I do not start from the technology: I start from the client requirement, define how the system is structured, and only then write code.',
+      lead: 'Hi, I am Rubén. I help you turn what you need to solve into a system that actually works: I listen to the requirement, propose how to solve it and handle the rest, from the first sketch to going live.',
       ctaPrimary: 'View work',
       ctaSecondary: 'Let us talk',
       metrics: [
@@ -289,28 +293,28 @@ export const CONTENT = {
     },
     about: {
       eyebrow: 'About',
-      title: 'Custom development, from the database to the deployment.',
+      title: 'I walk with you from the idea to production.',
       body: [
-        'I am a full stack developer. I work end to end: interface, API, database and deployment. My specialty is not a particular library, it is translating what a client needs into a system that actually solves it.',
-        'My training is formal, not only self-taught: I completed the Front End and Back End Web Development Specialization Program at Pontificia Universidad Católica del Perú. One hundred and eighty hours across the full cycle — backend, frontend, testing, security and DevOps — plus agile methodologies and working with clients.',
-        'I use Claude Code to accelerate the work, never to replace judgment. AI writes fast; I decide how the system is structured, review every change and answer for the result. That supervision is exactly what keeps speed from costing quality.',
+        'I am a full stack developer, and for you that means one person accountable for everything: the screen your customers see, the logic behind it, the database and going live. No juggling three vendors, no translating between them.',
+        'My training is formal, not only self-taught: I completed the Front End and Back End Web Development Specialization Program at PUCP, 180 hours across the full cycle. I mention it because when someone hands you a system, what matters is that they can keep it running afterwards.',
+        'I use Claude Code to move faster, always supervising. AI writes quickly; I decide how everything is structured, review every change and answer for the result. For you that means shorter deliveries without quality paying the bill.',
       ],
       pillars: [
         {
-          title: 'From requirement to system',
-          text: 'I understand the business and the problem first. The technical solution follows from that, not the other way around.',
+          title: 'I understand before proposing',
+          text: 'We talk about your business and the concrete problem first. The solution comes from there, not from a service catalog.',
         },
         {
-          title: 'Structure before code',
-          text: 'Data model and layers defined before the first line. That is what keeps a project from being rewritten halfway through.',
+          title: 'One person accountable',
+          text: 'Frontend, backend, database and deployment in the same hands. Less coordination for you, fewer things lost along the way.',
         },
         {
-          title: 'Supervised AI',
-          text: 'Claude Code to move faster, with human review at every step. I ship code I understand and can defend.',
+          title: 'Short deliveries, with judgment',
+          text: 'Claude Code to accelerate, human review at every step. It reaches you sooner, and it is code I can walk you through line by line.',
         },
         {
-          title: 'Delivered in production',
-          text: 'The project does not end at the repository: deployment, domain, admin panel and ongoing support.',
+          title: 'I do not disappear at handoff',
+          text: 'Deployment, domain, training and your own admin panel so you manage your content without depending on me.',
         },
       ],
       education: {
@@ -414,8 +418,8 @@ export const CONTENT = {
     },
     contact: {
       eyebrow: 'Contact',
-      title: 'Have a requirement?',
-      body: 'Tell me what you need to solve. I reply with a concrete proposal: scope, technical approach and timeline, no strings attached.',
+      title: 'Tell me what you need.',
+      body: 'You do not need to know how it is solved technically — that is my job. Describe the problem and I reply with a concrete proposal: scope, how I would approach it and how long it takes. No strings attached.',
       emailLabel: 'Email',
       linkedinLabel: 'LinkedIn',
       whatsappLabel: 'WhatsApp',

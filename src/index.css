@@ -4,15 +4,20 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  /* Escala monocroma: el portafolio vive en negro. */
-  --color-ink: #000000;
-  --color-surface: #0b0b0d;
-  --color-raised: #131316;
-  --color-line: #1e1e22;
-  --color-line-strong: #303036;
-  --color-muted: #6b6b73;
-  --color-soft: #a4a4ad;
-  --color-bright: #fafafa;
+  /*
+   * Escala cálida: sigue leyéndose como negro, pero los grises tiran a
+   * tierra en vez de a azul. Es lo que hace que el sitio no se sienta frío.
+   * `muted` está calculado para superar 4.5:1 sobre `ink` (WCAG AA).
+   */
+  --color-ink: #0a0908;
+  --color-surface: #100e0c;
+  --color-raised: #171511;
+  --color-line: #221f1b;
+  --color-line-strong: #363129;
+  --color-muted: #837e73;
+  --color-soft: #aba69c;
+  --color-bright: #f7f4ef;
+  --color-cream: #e9dfce;
 
   --radius-card: 1.25rem;
   --radius-tile: 1rem;

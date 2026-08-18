@@ -2,7 +2,23 @@ import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, LinkedIn, Mail, WhatsApp } from './icons'
 import { Arc } from './ui'
 
+function Metrics({ metrics, className = '' }) {
+  return (
+    <dl className={`stagger grid gap-3 ${className}`}>
+      {metrics.map((metric) => (
+        <div key={metric.value} className="reveal card px-5 py-5">
+          <dt className="font-mono text-base text-bright">{metric.value}</dt>
+          <dd className="mt-1.5 text-sm leading-relaxed text-muted">{metric.label}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
 export default function Hero({ t }) {
+  // El retrato manda en el layout: sin foto, las métricas ocupan su columna.
+  const hasPhoto = Boolean(PROFILE.photo)
+
   return (
     <section
       id="top"
@@ -16,13 +32,17 @@ export default function Hero({ t }) {
       />
 
       <div className="shell relative">
-        <p className="reveal flex items-center gap-2.5 font-mono text-xs tracking-widest text-soft uppercase">
-          <span className="relative flex size-1.5">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-bright opacity-60" />
-            <span className="relative inline-flex size-1.5 rounded-full bg-bright" />
+        <div className="reveal flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs tracking-widest uppercase">
+          <span className="flex items-center gap-2.5 text-soft">
+            <span className="relative flex size-1.5">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-cream opacity-60" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-cream" />
+            </span>
+            {t.hero.status}
           </span>
-          {t.hero.status}
-        </p>
+          <span aria-hidden className="hidden h-3 w-px bg-line-strong sm:block" />
+          <span className="text-muted">{t.hero.responseTime}</span>
+        </div>
 
         <h1 className="reveal display mt-7 text-[2.25rem] text-balance sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem]">
           {t.hero.headline.map((line, i) => (
@@ -32,11 +52,15 @@ export default function Hero({ t }) {
           ))}
         </h1>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+        <div
+          className={`mt-12 grid gap-10 lg:gap-16 ${
+            hasPhoto
+              ? 'lg:grid-cols-[1.3fr_1fr] lg:items-center'
+              : 'lg:grid-cols-[1.15fr_1fr]'
+          }`}
+        >
           <div className="reveal">
-            <p className="max-w-lg leading-relaxed text-soft md:text-lg">
-              {t.hero.lead}
-            </p>
+            <p className="max-w-lg leading-relaxed text-soft md:text-lg">{t.hero.lead}</p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <a
@@ -80,22 +104,23 @@ export default function Hero({ t }) {
             </div>
           </div>
 
-          <dl className="stagger grid gap-3 self-end sm:grid-cols-3 lg:grid-cols-1">
-            {t.hero.metrics.map((metric) => (
-              <div
-                key={metric.value}
-                className="reveal card px-5 py-5 lg:flex lg:items-baseline lg:gap-4"
-              >
-                <dt className="font-mono text-base text-bright lg:w-28 lg:shrink-0">
-                  {metric.value}
-                </dt>
-                <dd className="mt-1.5 text-sm leading-relaxed text-muted lg:mt-0">
-                  {metric.label}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          {hasPhoto ? (
+            <figure className="reveal card overflow-hidden">
+              <img
+                src={PROFILE.photo}
+                alt={`${PROFILE.name} — ${t.footer.role}`}
+                width="800"
+                height="1000"
+                fetchPriority="high"
+                className="aspect-4/5 w-full rounded-[calc(var(--radius-card)-1px)] object-cover grayscale transition-transform duration-700 hover:scale-[1.03]"
+              />
+            </figure>
+          ) : (
+            <Metrics metrics={t.hero.metrics} className="self-end sm:grid-cols-3 lg:grid-cols-1" />
+          )}
         </div>
+
+        {hasPhoto && <Metrics metrics={t.hero.metrics} className="mt-10 sm:grid-cols-3" />}
       </div>
     </section>
   )
