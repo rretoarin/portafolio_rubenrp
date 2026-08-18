@@ -38,6 +38,22 @@ export const EDUCATION = {
   verifyCode: 'ALK6N6IV',
 }
 
+// Cinta en movimiento: sólo nombres propios, iguales en cualquier idioma.
+export const MARQUEE = [
+  'React',
+  'Node.js',
+  'Express',
+  'MongoDB',
+  'JavaScript',
+  'Vite',
+  'Tailwind CSS',
+  'REST API',
+  'JWT',
+  'Git',
+  'Netlify',
+  'Claude Code',
+]
+
 export const STACK = [
   {
     id: 'frontend',

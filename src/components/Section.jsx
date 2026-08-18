@@ -3,7 +3,7 @@ import { SectionLabel } from './ui'
 // Envoltorio común de sección: mismo ritmo vertical y mismo encabezado en todas.
 export default function Section({ id, eyebrow, title, subtitle, children }) {
   return (
-    <section id={id} className="relative scroll-mt-24 py-20 md:py-28">
+    <section id={id} className="relative scroll-mt-24 overflow-hidden py-20 md:py-28">
       <div className="shell">
         <SectionLabel className="reveal text-center">{eyebrow}</SectionLabel>
 

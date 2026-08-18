@@ -16,6 +16,8 @@
 
   --radius-card: 1.25rem;
   --radius-tile: 1rem;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -30,7 +32,11 @@
     font-family: var(--font-sans);
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
+    /* Sin destello azul al tocar en iOS/Android. */
+    -webkit-tap-highlight-color: transparent;
+    /* Evita el rebote lateral en iOS. */
+    overscroll-behavior-x: none;
   }
 
   ::selection {
@@ -41,6 +47,11 @@
   :focus-visible {
     outline: 1px solid var(--color-bright);
     outline-offset: 3px;
+  }
+
+  /* En táctil no hay foco de teclado: no ensuciar con outlines al tocar. */
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 
   ::-webkit-scrollbar {
@@ -57,17 +68,21 @@
 }
 
 @layer components {
-  /* Contenedor único para que todas las secciones compartan el mismo eje. */
+  /* Contenedor único; suma las safe areas del notch en horizontal. */
   .shell {
     width: 100%;
     max-width: 72rem;
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    padding-inline: calc(1.25rem + env(safe-area-inset-left)) calc(
+        1.25rem + env(safe-area-inset-right)
+      );
   }
 
   @media (min-width: 768px) {
     .shell {
-      padding-inline: 2.5rem;
+      padding-inline: calc(2.5rem + env(safe-area-inset-left)) calc(
+          2.5rem + env(safe-area-inset-right)
+        );
     }
   }
 
@@ -77,6 +92,8 @@
     font-weight: 500;
     letter-spacing: -0.045em;
     line-height: 1.02;
+    /* En móvil los títulos mono largos deben poder partirse. */
+    overflow-wrap: break-word;
   }
 
   /* Etiqueta de sección con forma de ruta: ... /Proyectos ... */
@@ -106,25 +123,91 @@
     padding: 0.4375rem 0.875rem;
     font-family: var(--font-mono);
     font-size: 0.75rem;
+    line-height: 1.4;
     color: var(--color-soft);
     transition:
-      border-color 0.2s ease,
-      color 0.2s ease,
-      background-color 0.2s ease;
+      border-color 0.25s var(--ease-out-soft),
+      color 0.25s var(--ease-out-soft),
+      background-color 0.25s var(--ease-out-soft);
   }
 
-  a.pill:hover,
-  button.pill:hover {
-    border-color: var(--color-bright);
-    color: var(--color-bright);
+  /* Objetivo táctil cómodo sólo en las píldoras que son accionables. */
+  a.pill,
+  button.pill {
+    min-height: 2.5rem;
+    padding-inline: 1rem;
+  }
+
+  @media (hover: hover) {
+    a.pill:hover,
+    button.pill:hover {
+      border-color: var(--color-bright);
+      color: var(--color-bright);
+      background-color: var(--color-raised);
+    }
+  }
+
+  a.pill:active,
+  button.pill:active {
     background-color: var(--color-raised);
+    border-color: var(--color-soft);
   }
 
-  /* Tarjeta base de todo el sitio. */
+  /*
+   * Tarjeta base. El degradado radial sigue al puntero mediante --mx/--my
+   * (ver useSpotlight). Va en background-image, no en un ::before, para no
+   * crear contextos de apilamiento que tapen el contenido.
+   */
   .card {
+    position: relative;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
     background-color: var(--color-surface);
+    background-image: radial-gradient(
+      16rem circle at var(--mx, 50%) var(--my, -30%),
+      rgba(255, 255, 255, 0.06),
+      transparent 65%
+    );
+    transition:
+      border-color 0.3s var(--ease-out-soft),
+      transform 0.3s var(--ease-out-soft),
+      background-color 0.3s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .card:hover {
+      border-color: var(--color-line-strong);
+      background-color: var(--color-raised);
+      transform: translateY(-2px);
+    }
+  }
+
+  /* CTA principal: píldora blanca con destello al pasar el puntero. */
+  .btn-primary {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      105deg,
+      transparent 42%,
+      rgba(0, 0, 0, 0.14) 50%,
+      transparent 58%
+    );
+    transform: translateX(-130%);
+  }
+
+  @media (hover: hover) {
+    .btn-primary:hover::after {
+      transform: translateX(130%);
+      transition: transform 0.75s var(--ease-out-soft);
+    }
   }
 
   /* Entrada al hacer scroll; se anula si el usuario pide menos movimiento. */
@@ -132,13 +215,66 @@
     opacity: 0;
     transform: translateY(18px);
     transition:
-      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 0.7s var(--ease-out-soft),
+      transform 0.7s var(--ease-out-soft);
   }
 
   .reveal[data-visible="true"] {
     opacity: 1;
     transform: none;
+  }
+
+  /* Cascada: los hijos de una rejilla entran escalonados. */
+  .stagger > .reveal:nth-child(2) {
+    transition-delay: 80ms;
+  }
+  .stagger > .reveal:nth-child(3) {
+    transition-delay: 160ms;
+  }
+  .stagger > .reveal:nth-child(4) {
+    transition-delay: 240ms;
+  }
+  .stagger > .reveal:nth-child(5) {
+    transition-delay: 320ms;
+  }
+
+  /* Cinta de tecnologías en movimiento continuo. */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 42s linear infinite;
+  }
+
+  @media (hover: hover) {
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
+  }
+
+  /* Grano: le da textura al negro para que no se vea plano. */
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* En pantallas cortas y apaisadas (iPhone de lado) el hero no debe estirarse. */
+@media (max-height: 34rem) {
+  .hero-fill {
+    min-height: 0;
   }
 }
 
@@ -150,6 +286,12 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  .card:hover {
+    transform: none;
   }
   *,
   *::before,

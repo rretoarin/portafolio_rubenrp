@@ -23,11 +23,11 @@ export default function About({ t }) {
           ))}
         </div>
 
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+        <ul className="stagger grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
           {t.about.pillars.map((pillar) => (
             <li
               key={pillar.title}
-              className="reveal card px-6 py-5 transition-colors hover:bg-raised"
+              className="reveal card px-6 py-5"
             >
               <h3 className="font-mono text-sm text-bright">{pillar.title}</h3>
               <p className="mt-2.5 text-sm leading-relaxed text-muted">{pillar.text}</p>

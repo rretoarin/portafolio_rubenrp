@@ -53,7 +53,7 @@ export default function Nav({ t, onToggleLang }) {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+        className={`fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] transition-colors duration-300 ${
           scrolled || open
             ? 'border-line bg-ink/80 backdrop-blur-xl'
             : 'border-transparent bg-transparent'
@@ -81,7 +81,7 @@ export default function Nav({ t, onToggleLang }) {
                     href={`#${id}`}
                     className={`rounded-full px-3.5 py-2 font-mono text-sm transition-colors ${
                       active === id
-                        ? 'text-bright'
+                        ? 'bg-raised text-bright'
                         : 'text-muted hover:text-bright'
                     }`}
                   >
@@ -95,7 +95,7 @@ export default function Nav({ t, onToggleLang }) {
               type="button"
               onClick={onToggleLang}
               aria-label={t.langAria}
-              className="ml-2 rounded-full border border-line-strong px-3 py-1.5 font-mono text-xs tracking-widest text-soft transition-colors hover:border-bright hover:text-bright"
+              className="ml-2 flex h-11 items-center rounded-full border border-line-strong px-4 font-mono text-xs tracking-widest text-soft transition-colors hover:border-bright hover:text-bright md:h-9"
             >
               {t.langLabel}
             </button>
@@ -105,7 +105,7 @@ export default function Nav({ t, onToggleLang }) {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? t.nav.close : t.nav.menu}
               aria-expanded={open}
-              className="ml-1 flex size-9 items-center justify-center rounded-full border border-line-strong text-soft transition-colors hover:border-bright hover:text-bright md:hidden"
+              className="ml-1 flex size-11 items-center justify-center rounded-full border border-line-strong text-soft transition-colors hover:border-bright hover:text-bright md:hidden"
             >
               {open ? <Close width={18} height={18} /> : <Menu width={18} height={18} />}
             </button>
@@ -119,7 +119,7 @@ export default function Nav({ t, onToggleLang }) {
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
-        <ul className="shell flex h-full flex-col justify-center gap-2">
+        <ul className="shell flex h-full flex-col justify-center gap-2 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
           {SECTIONS.map((id, i) => (
             <li key={id}>
               <a

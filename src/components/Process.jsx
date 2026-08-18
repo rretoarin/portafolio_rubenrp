@@ -11,11 +11,11 @@ export default function Process({ t }) {
     >
       <Arc className="-top-[30rem] -right-[32rem] size-[66rem]" />
 
-      <ol className="relative grid gap-3 md:grid-cols-2">
+      <ol className="stagger relative grid gap-3 md:grid-cols-2">
         {t.process.steps.map((step, i) => (
           <li
             key={step.title}
-            className="reveal card p-7 transition-colors hover:bg-raised md:p-9"
+            className="reveal card p-7 md:p-9"
           >
             <span className="display text-[2.5rem] text-line-strong">
               {String(i + 1).padStart(2, '0')}

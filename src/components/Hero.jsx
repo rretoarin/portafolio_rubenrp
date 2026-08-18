@@ -6,7 +6,7 @@ export default function Hero({ t }) {
   return (
     <section
       id="top"
-      className="relative flex min-h-svh items-center overflow-hidden pt-32 pb-20 md:pt-40"
+      className="hero-fill relative flex min-h-svh items-center overflow-hidden pt-32 pb-20 md:pt-40"
     >
       <Arc className="-top-[34rem] -right-[26rem] size-[62rem]" />
       <Arc className="-bottom-[46rem] -left-[30rem] size-[72rem]" />
@@ -41,7 +41,7 @@ export default function Hero({ t }) {
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <a
                 href="#projects"
-                className="group inline-flex items-center gap-3 rounded-full bg-bright py-3.5 pr-3.5 pl-7 font-mono text-sm text-ink transition-opacity hover:opacity-85"
+                className="btn-primary group inline-flex items-center gap-3 rounded-full bg-bright py-3.5 pr-3.5 pl-7 font-mono text-sm text-ink transition-opacity hover:opacity-85"
               >
                 {t.hero.ctaPrimary}
                 <span className="flex size-8 items-center justify-center rounded-full bg-ink text-bright">
@@ -71,11 +71,11 @@ export default function Hero({ t }) {
             </div>
           </div>
 
-          <dl className="grid gap-3 self-end sm:grid-cols-3 lg:grid-cols-1">
+          <dl className="stagger grid gap-3 self-end sm:grid-cols-3 lg:grid-cols-1">
             {t.hero.metrics.map((metric) => (
               <div
                 key={metric.value}
-                className="reveal card px-5 py-5 transition-colors hover:bg-raised lg:flex lg:items-baseline lg:gap-4"
+                className="reveal card px-5 py-5 lg:flex lg:items-baseline lg:gap-4"
               >
                 <dt className="font-mono text-base text-bright lg:w-28 lg:shrink-0">
                   {metric.value}

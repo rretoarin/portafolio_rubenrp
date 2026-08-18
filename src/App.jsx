@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { CONTENT, EDUCATION, PROFILE } from './data/content'
 import { useReveal } from './hooks/useReveal'
+import { useSpotlight } from './hooks/useSpotlight'
 import Nav from './components/Nav'
+import ScrollProgress from './components/ScrollProgress'
+import Marquee from './components/Marquee'
 import Hero from './components/Hero'
 import About from './components/About'
 import Projects from './components/Projects'
@@ -25,6 +28,7 @@ export default function App() {
   const t = CONTENT[lang]
 
   useReveal()
+  useSpotlight()
 
   useEffect(() => {
     document.documentElement.lang = lang
@@ -44,10 +48,14 @@ export default function App() {
         {lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}
       </a>
 
+      <ScrollProgress />
+      <div aria-hidden className="grain" />
+
       <Nav t={t} onToggleLang={toggleLang} />
 
       <main>
         <Hero t={t} />
+        <Marquee />
         <About t={t} />
         <Projects t={t} />
         <Process t={t} />

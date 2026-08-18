@@ -23,7 +23,7 @@ export default function Contact({ t }) {
   }
 
   return (
-    <section id="contact" className="relative scroll-mt-24 py-20 md:py-28">
+    <section id="contact" className="relative scroll-mt-24 overflow-hidden py-20 md:py-28">
       <Arc className="-top-[24rem] left-1/2 size-[68rem] -translate-x-1/2" />
 
       <div className="shell relative">
@@ -38,7 +38,7 @@ export default function Contact({ t }) {
 
             <a
               href={`mailto:${PROFILE.email}`}
-              className="group mt-9 inline-flex items-center gap-3 rounded-full bg-bright py-3.5 pr-3.5 pl-7 font-mono text-sm text-ink transition-opacity hover:opacity-85"
+              className="btn-primary group mt-9 inline-flex items-center gap-3 rounded-full bg-bright py-3.5 pr-3.5 pl-7 font-mono text-sm text-ink transition-opacity hover:opacity-85"
             >
               {t.contact.cta}
               <span className="flex size-8 items-center justify-center rounded-full bg-ink text-bright">

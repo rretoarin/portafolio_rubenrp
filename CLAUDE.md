@@ -66,6 +66,32 @@ Referencia: portafolio dark minimalista con monoespaciada de display.
   `relative overflow-hidden`, uno o dos por sección como máximo.
 - Rejillas tipo bento: `gap-3` y anchos alternados, no columnas iguales.
 
+## Móvil (iPhone y Android)
+
+El sitio se diseña primero para 375px. Reglas que no se negocian:
+
+- **Nada puede desbordar en horizontal.** Todo contenedor con un `<Arc>` dentro
+  necesita `relative overflow-hidden`. `<Section>` ya lo trae.
+- **Safe areas**: `index.html` usa `viewport-fit=cover`, así que los bordes se
+  manejan con `env(safe-area-inset-*)`. Ya están puestos en `.shell`, en la barra
+  fija, en el menú móvil y en el pie.
+- **Altura**: usar `svh`, nunca `vh` — en iOS la barra de Safari rompe `100vh`.
+- **Objetivo táctil de 44px** en todo lo accionable. Las `.pill` que son enlace o
+  botón ya llevan `min-height: 2.5rem`; los botones circulares van en `size-11`.
+- **Ningún efecto puede depender del hover**: todo lo que sea hover va dentro de
+  `@media (hover: hover)`, porque en táctil se queda pegado.
+
+## Efectos
+
+- `useSpotlight` mueve `--mx/--my` en la `.card` bajo el puntero; el degradado
+  vive en `background-image` para no crear contextos de apilamiento.
+- `.stagger` en una rejilla escalona la entrada de sus hijos `.reveal`.
+- `<Marquee>` duplica la lista y anima `translateX(-50%)`: por eso el bucle es
+  continuo. Si cambias `MARQUEE`, no toques ese 50%.
+- `<ScrollProgress>` anima `transform: scaleX`, nunca `width`.
+- `.grain` es una textura SVG fija; mantenerla por debajo de 0.04 de opacidad.
+- Todo movimiento se apaga en `prefers-reduced-motion`.
+
 ## Antes de dar algo por terminado
 
 - `npm run build` sin errores

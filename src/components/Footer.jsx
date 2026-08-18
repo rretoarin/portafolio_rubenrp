@@ -6,7 +6,7 @@ const LINKS = ['about', 'projects', 'process', 'stack', 'contact']
 
 export default function Footer({ t }) {
   return (
-    <footer className="relative overflow-hidden border-t border-line pt-20 pb-10 md:pt-28">
+    <footer className="relative overflow-hidden border-t border-line pt-20 pb-[calc(2.5rem+env(safe-area-inset-bottom))] md:pt-28">
       <Arc className="-bottom-[38rem] -left-[22rem] size-[60rem]" />
 
       <div className="shell relative">
