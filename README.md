@@ -65,7 +65,7 @@ Desde ahí, cada `git push` a `main` publica solo.
 ### Después del primer despliegue
 
 Actualiza la URL real en `index.html` — la etiqueta `<link rel="canonical">` y
-`og:url`. Ahora mismo apuntan a `https://rubenreto.vercel.app/`, que es un
+`og:url`. Ahora mismo apuntan a `https://portafolio-rubenrp.vercel.app/`, que es un
 marcador de posición.
 
 ## Estructura
