@@ -33,17 +33,40 @@ Todo el texto está en un solo archivo: **`src/data/content.js`**.
 Si el proyecto es interno y no tiene demo pública, deja `url: null` y el sitio
 mostrará la etiqueta de sistema privado automáticamente.
 
-## Desplegar en Netlify
+## Desplegar en Vercel
 
-1. Sube el repositorio a GitHub.
-2. En Netlify: *Add new site → Import an existing project* y elige el repo.
-3. Netlify lee `netlify.toml`, así que no hay que configurar nada a mano
-   (build `npm run build`, publish `dist`).
-4. Opcional: *Domain settings* para poner tu dominio o cambiar el subdominio
-   `.netlify.app`.
+`vercel.json` ya trae el build, el fallback de SPA y las cabeceras de caché y
+seguridad. No hay que configurar nada en el panel.
 
-Después del primer deploy, actualiza la URL real en `index.html`
-(`<link rel="canonical">` y las etiquetas `og:url`).
+### Opción A — desde esta carpeta (la más rápida, sin GitHub)
+
+```bash
+npx vercel login     # una sola vez
+npx vercel           # despliegue de prueba, te da una URL
+npx vercel --prod    # publica en la URL definitiva
+```
+
+### Opción B — conectado a GitHub (despliegue automático en cada push)
+
+1. Crea un repositorio vacío en GitHub.
+2. Conéctalo y sube el código:
+
+   ```bash
+   git remote add origin https://github.com/USUARIO/portafolio.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+3. En vercel.com: *Add New → Project → Import Git Repository*.
+4. Vercel detecta Vite y lee `vercel.json`. Sólo pulsa *Deploy*.
+
+Desde ahí, cada `git push` a `main` publica solo.
+
+### Después del primer despliegue
+
+Actualiza la URL real en `index.html` — la etiqueta `<link rel="canonical">` y
+`og:url`. Ahora mismo apuntan a `https://rubenreto.vercel.app/`, que es un
+marcador de posición.
 
 ## Estructura
 

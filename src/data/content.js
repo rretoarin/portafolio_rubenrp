@@ -50,7 +50,7 @@ export const MARQUEE = [
   'REST API',
   'JWT',
   'Git',
-  'Netlify',
+  'Vercel',
   'Claude Code',
 ]
 
@@ -69,7 +69,7 @@ export const STACK = [
   },
   {
     id: 'tools',
-    items: ['Git', 'Claude Code', 'Netlify', 'Postman', 'Figma'],
+    items: ['Git', 'Claude Code', 'Vercel', 'Netlify', 'Postman', 'Figma'],
   },
 ]
 
@@ -244,7 +244,7 @@ export const CONTENT = {
         lines: [
           'Diseñado y construido por mí',
           'React / Vite / Tailwind CSS',
-          'Desplegado en Netlify',
+          'Desplegado en Vercel',
         ],
       },
     },
@@ -420,7 +420,7 @@ export const CONTENT = {
         lines: [
           'Designed and built by me',
           'React / Vite / Tailwind CSS',
-          'Deployed on Netlify',
+          'Deployed on Vercel',
         ],
       },
     },

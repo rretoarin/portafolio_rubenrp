@@ -7,7 +7,7 @@ bilingüe (ES/EN), estética minimalista en negro.
 
 - React 19 + Vite 8
 - Tailwind CSS v4 (plugin `@tailwindcss/vite`, **sin** `tailwind.config.js`)
-- Deploy: Netlify (`netlify.toml` ya configurado)
+- Deploy: Vercel (`vercel.json` ya configurado)
 
 ## Comandos
 
