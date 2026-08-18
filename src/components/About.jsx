@@ -1,15 +1,13 @@
 import Education from './Education'
 import Section from './Section'
+import { Arc } from './ui'
 
 export default function About({ t }) {
   return (
-    <Section
-      id="about"
-      index="01"
-      eyebrow={t.about.eyebrow}
-      title={t.about.title}
-    >
-      <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
+    <Section id="about" eyebrow={t.about.eyebrow} title={t.about.title}>
+      <Arc className="-top-[20rem] -left-[34rem] size-[64rem]" />
+
+      <div className="relative grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
         <div className="reveal space-y-5">
           {t.about.body.map((paragraph, i) => (
             <p
@@ -25,16 +23,14 @@ export default function About({ t }) {
           ))}
         </div>
 
-        <ul className="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-1">
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
           {t.about.pillars.map((pillar) => (
             <li
               key={pillar.title}
-              className="reveal bg-ink px-6 py-6 transition-colors hover:bg-raised"
+              className="reveal card px-6 py-5 transition-colors hover:bg-raised"
             >
-              <h3 className="text-sm font-medium tracking-tight text-bright">
-                {pillar.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{pillar.text}</p>
+              <h3 className="font-mono text-sm text-bright">{pillar.title}</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-muted">{pillar.text}</p>
             </li>
           ))}
         </ul>

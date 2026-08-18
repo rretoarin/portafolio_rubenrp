@@ -6,13 +6,16 @@
 
   /* Escala monocroma: el portafolio vive en negro. */
   --color-ink: #000000;
-  --color-surface: #09090b;
-  --color-raised: #101012;
-  --color-line: #1c1c1f;
-  --color-line-strong: #2c2c31;
+  --color-surface: #0b0b0d;
+  --color-raised: #131316;
+  --color-line: #1e1e22;
+  --color-line-strong: #303036;
   --color-muted: #6b6b73;
-  --color-soft: #9d9da6;
+  --color-soft: #a4a4ad;
   --color-bright: #fafafa;
+
+  --radius-card: 1.25rem;
+  --radius-tile: 1rem;
 }
 
 @layer base {
@@ -57,9 +60,9 @@
   /* Contenedor único para que todas las secciones compartan el mismo eje. */
   .shell {
     width: 100%;
-    max-width: 68rem;
+    max-width: 72rem;
     margin-inline: auto;
-    padding-inline: 1.5rem;
+    padding-inline: 1.25rem;
   }
 
   @media (min-width: 768px) {
@@ -68,13 +71,60 @@
     }
   }
 
-  /* Etiqueta monoespaciada que numera y titula cada sección. */
+  /* Título de display: la monoespaciada es la firma del sitio. */
+  .display {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+  }
+
+  /* Etiqueta de sección con forma de ruta: ... /Proyectos ... */
+  .tag-label {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.02em;
+    color: var(--color-soft);
+  }
+
+  /* Etiqueta pequeña en versalitas para metadatos. */
   .eyebrow {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-muted);
+  }
+
+  /* Píldora con contorno: tecnologías, enlaces y metadatos. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    padding: 0.4375rem 0.875rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-soft);
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  a.pill:hover,
+  button.pill:hover {
+    border-color: var(--color-bright);
+    color: var(--color-bright);
+    background-color: var(--color-raised);
+  }
+
+  /* Tarjeta base de todo el sitio. */
+  .card {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background-color: var(--color-surface);
   }
 
   /* Entrada al hacer scroll; se anula si el usuario pide menos movimiento. */

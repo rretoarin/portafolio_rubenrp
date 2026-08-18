@@ -3,6 +3,7 @@
 
 export const PROFILE = {
   name: 'Rubén Reto Panta',
+  nameLines: ['Rubén Reto', 'Panta'], // Cierre a gran escala en el pie.
   initials: 'RR',
   email: 'rubenretopanta@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ruben-reto-panta-1580301a8/',
@@ -72,8 +73,8 @@ export const CONTENT = {
     hero: {
       status: 'Disponible para nuevos proyectos',
       role: 'Desarrollador Full Stack',
-      headline: ['Construyo software', 'que resuelve el', 'problema real.'],
-      lead: 'No empiezo por la tecnología, empiezo por el requerimiento. Escucho qué necesita el cliente, defino la arquitectura y recién ahí escribo código: React y Node.js sobre MongoDB, hecho para durar más que la entrega.',
+      headline: ['Desarrollador', 'Full Stack'],
+      lead: 'Construyo software que resuelve el problema real. No empiezo por la tecnología: empiezo por el requerimiento del cliente, defino cómo se estructura el sistema y recién ahí escribo código.',
       ctaPrimary: 'Ver proyectos',
       ctaSecondary: 'Hablemos',
       metrics: [
@@ -140,6 +141,7 @@ export const CONTENT = {
       viewLive: 'Ver sitio',
       privateLabel: 'Sistema interno · sin acceso público',
       clientLabel: 'Cliente',
+      highlightsLabel: 'Destacado',
       items: {
         'jm-consulting': {
           name: 'J&M Consulting Foods',
@@ -221,6 +223,14 @@ export const CONTENT = {
       built: 'Hecho con React, Vite y Tailwind CSS.',
       rights: 'Todos los derechos reservados.',
       top: 'Volver arriba',
+      site: {
+        label: 'Sitio',
+        lines: [
+          'Diseñado y construido por mí',
+          'React / Vite / Tailwind CSS',
+          'Desplegado en Netlify',
+        ],
+      },
     },
   },
 
@@ -239,8 +249,8 @@ export const CONTENT = {
     hero: {
       status: 'Available for new projects',
       role: 'Full Stack Developer',
-      headline: ['I build software', 'that solves the', 'actual problem.'],
-      lead: 'I do not start from the technology, I start from the requirement. I listen to what the client needs, define the architecture, and only then write code: React and Node.js on MongoDB, built to outlast the handoff.',
+      headline: ['Full Stack', 'Developer'],
+      lead: 'I build software that solves the actual problem. I do not start from the technology: I start from the client requirement, define how the system is structured, and only then write code.',
       ctaPrimary: 'View work',
       ctaSecondary: 'Let us talk',
       metrics: [
@@ -307,6 +317,7 @@ export const CONTENT = {
       viewLive: 'Visit site',
       privateLabel: 'Internal system · no public access',
       clientLabel: 'Client',
+      highlightsLabel: 'Highlights',
       items: {
         'jm-consulting': {
           name: 'J&M Consulting Foods',
@@ -388,6 +399,14 @@ export const CONTENT = {
       built: 'Built with React, Vite and Tailwind CSS.',
       rights: 'All rights reserved.',
       top: 'Back to top',
+      site: {
+        label: 'Site',
+        lines: [
+          'Designed and built by me',
+          'React / Vite / Tailwind CSS',
+          'Deployed on Netlify',
+        ],
+      },
     },
   },
 }

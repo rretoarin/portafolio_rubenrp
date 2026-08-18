@@ -68,7 +68,7 @@ export default function Nav({ t, onToggleLang }) {
             <span className="flex size-9 items-center justify-center rounded-md border border-line-strong font-mono text-xs tracking-widest text-bright transition-colors group-hover:border-bright">
               {PROFILE.initials}
             </span>
-            <span className="hidden text-sm font-medium tracking-tight sm:block">
+            <span className="hidden font-mono text-sm tracking-tight sm:block">
               {PROFILE.name}
             </span>
           </a>
@@ -79,7 +79,7 @@ export default function Nav({ t, onToggleLang }) {
                 <li key={id}>
                   <a
                     href={`#${id}`}
-                    className={`rounded-full px-3.5 py-2 text-sm transition-colors ${
+                    className={`rounded-full px-3.5 py-2 font-mono text-sm transition-colors ${
                       active === id
                         ? 'text-bright'
                         : 'text-muted hover:text-bright'
@@ -125,7 +125,7 @@ export default function Nav({ t, onToggleLang }) {
               <a
                 href={`#${id}`}
                 onClick={() => setOpen(false)}
-                className="flex items-baseline gap-4 border-b border-line py-5 text-3xl font-light tracking-tight text-bright"
+                className="display flex items-baseline gap-4 border-b border-line py-5 text-3xl text-bright"
               >
                 <span className="font-mono text-xs text-muted">
                   {String(i + 1).padStart(2, '0')}

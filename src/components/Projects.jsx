@@ -1,98 +1,95 @@
 import { PROJECTS } from '../data/content'
 import Section from './Section'
 import { ArrowUpRight, Lock } from './icons'
+import { Arc, CircleLink } from './ui'
 
 function Project({ project, copy, index, labels }) {
   const isLink = Boolean(project.url)
+  const flipped = index % 2 === 1
 
   return (
-    <article className="reveal group relative border-t border-line pt-8 md:pt-10">
-      <div className="grid gap-8 md:grid-cols-[auto_1fr] md:gap-12">
-        <div className="font-mono text-xs tracking-widest text-muted md:w-20">
-          <span className="text-bright">{index}</span>
-          <span className="mx-2 md:hidden">·</span>
-          <span className="md:mt-2 md:block">{project.year}</span>
+    <article className="reveal relative grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <div className={flipped ? 'lg:order-2' : ''}>
+        <p className="font-mono text-xs tracking-widest text-muted">
+          {String(index + 1).padStart(2, '0')} · {project.year}
+        </p>
+
+        <h3 className="display mt-4 text-[1.75rem] md:text-[2.25rem]">{copy.name}</h3>
+
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+          <span>{copy.tag}</span>
+          {project.client && (
+            <>
+              <span aria-hidden className="h-3 w-px bg-line-strong" />
+              <span>
+                <span className="sr-only">{labels.clientLabel}: </span>
+                <span className="text-soft">{project.client}</span>
+                {copy.sector && <span> · {copy.sector}</span>}
+              </span>
+            </>
+          )}
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-12">
-          <div>
-            <h3 className="text-2xl font-normal tracking-tight text-bright md:text-3xl">
-              {isLink ? (
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="inline-flex items-start gap-2 decoration-line-strong underline-offset-8 hover:underline"
-                >
-                  {copy.name}
-                  <ArrowUpRight
-                    width={18}
-                    height={18}
-                    className="mt-1.5 text-muted transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-bright"
-                  />
-                </a>
-              ) : (
-                copy.name
-              )}
-            </h3>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {project.stack.map((tech) => (
+            <span key={tech} className="pill">
+              {tech}
+            </span>
+          ))}
+        </div>
 
-            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
-              <span>{copy.tag}</span>
-              {project.client && (
-                <>
-                  <span aria-hidden className="h-3 w-px bg-line-strong" />
-                  <span>
-                    <span className="sr-only">{labels.clientLabel}: </span>
-                    <span className="text-soft">{project.client}</span>
-                    {copy.sector && <span> · {copy.sector}</span>}
-                  </span>
-                </>
-              )}
-            </div>
+        <p className="mt-7 leading-relaxed text-soft">{copy.summary}</p>
+        <p className="mt-4 text-sm leading-relaxed text-muted">{copy.detail}</p>
 
-            <p className="mt-5 leading-relaxed text-soft">{copy.summary}</p>
-            <p className="mt-4 text-sm leading-relaxed text-muted">{copy.detail}</p>
-
-            <div className="mt-6 flex flex-wrap items-center gap-2">
-              {project.stack.map((tech) => (
-                <span
-                  key={tech}
-                  className="rounded-full border border-line px-3 py-1 font-mono text-[0.6875rem] tracking-wide text-soft"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-7">
-              {isLink ? (
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="inline-flex items-center gap-2 border-b border-line-strong pb-1 text-sm text-bright transition-colors hover:border-bright"
-                >
+        <div className="mt-8 flex items-center gap-4">
+          {isLink ? (
+            <>
+              <CircleLink href={project.url} label={`${labels.viewLive} — ${copy.name}`} />
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="group inline-flex items-center gap-2 font-mono text-sm text-bright"
+              >
+                <span className="border-b border-line-strong pb-0.5 transition-colors group-hover:border-bright">
                   {labels.viewLive}
-                  <ArrowUpRight width={14} height={14} />
-                </a>
-              ) : (
-                <span className="inline-flex items-center gap-2 text-sm text-muted">
-                  <Lock width={14} height={14} />
-                  {labels.privateLabel}
                 </span>
-              )}
-            </div>
-          </div>
-
-          <ul className="space-y-3 self-start rounded-lg border border-line bg-surface p-6">
-            {copy.highlights.map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-relaxed text-soft">
-                <span aria-hidden className="mt-2 size-1 shrink-0 rounded-full bg-line-strong" />
-                {item}
-              </li>
-            ))}
-          </ul>
+                <ArrowUpRight width={14} height={14} className="text-muted" />
+              </a>
+            </>
+          ) : (
+            <span className="pill">
+              <Lock width={13} height={13} />
+              {labels.privateLabel}
+            </span>
+          )}
         </div>
+      </div>
+
+      {/* Panel derecho: si algún día hay captura, `cover` la reemplaza. */}
+      <div className={flipped ? 'lg:order-1' : ''}>
+        {project.cover ? (
+          <img
+            src={project.cover}
+            alt={copy.name}
+            loading="lazy"
+            className="w-full rounded-[var(--radius-card)] border border-line"
+          />
+        ) : (
+          <div className="card p-7 md:p-9">
+            <p className="eyebrow">{labels.highlightsLabel}</p>
+            <ul className="mt-6 space-y-4">
+              {copy.highlights.map((item, i) => (
+                <li key={item} className="flex gap-4 text-sm leading-relaxed text-soft">
+                  <span className="font-mono text-xs text-muted tabular-nums">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </article>
   )
@@ -102,18 +99,19 @@ export default function Projects({ t }) {
   return (
     <Section
       id="projects"
-      index="02"
       eyebrow={t.projects.eyebrow}
       title={t.projects.title}
       subtitle={t.projects.subtitle}
     >
-      <div className="space-y-14 md:space-y-20">
+      <Arc className="top-[10rem] -right-[38rem] size-[70rem]" />
+
+      <div className="relative space-y-20 md:space-y-28">
         {PROJECTS.map((project, i) => (
           <Project
             key={project.id}
             project={project}
             copy={t.projects.items[project.id]}
-            index={String(i + 1).padStart(2, '0')}
+            index={i}
             labels={t.projects}
           />
         ))}
