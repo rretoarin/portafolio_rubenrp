@@ -37,16 +37,8 @@ export const PROJECTS = [
   },
 ]
 
-// Certificado PUCP 2025. Datos verificables, iguales en ambos idiomas.
-export const EDUCATION = {
-  institution: 'Pontificia Universidad Católica del Perú',
-  short: 'PUCP',
-  hours: '180',
-  grade: '18 / 20',
-  period: 'Jun — Nov 2025',
-  verifyUrl: 'https://www.pucp.edu.pe/certificaciones',
-  verifyCode: 'ALK6N6IV',
-}
+// Sólo se nombra la institución; el detalle del certificado no va en el sitio.
+export const UNIVERSITY = 'Pontificia Universidad Católica del Perú'
 
 // Cinta en movimiento: sólo nombres propios, iguales en cualquier idioma.
 export const MARQUEE = [
@@ -107,7 +99,7 @@ export const CONTENT = {
       metrics: [
         { value: 'Full stack', label: 'Frontend, backend y base de datos' },
         { value: 'A medida', label: 'Cada solución nace del requerimiento' },
-        { value: '180 horas', label: 'Especialización full stack en la PUCP' },
+        { value: 'En producción', label: 'Dos sistemas entregados y funcionando' },
       ],
     },
     about: {
@@ -115,7 +107,7 @@ export const CONTENT = {
       title: 'Te acompaño desde la idea hasta la producción.',
       body: [
         'Soy desarrollador full stack, y para ti eso significa una sola persona responsable de todo: la pantalla que ven tus clientes, la lógica que hay detrás, la base de datos y la puesta en línea. No tienes que coordinar tres proveedores ni traducir entre ellos.',
-        'Mi formación es formal, no solo autodidacta: aprobé el Programa de Especialización en Desarrollo Web Front End y Back End de la PUCP, 180 horas sobre el ciclo completo. Lo menciono porque cuando alguien te entrega un sistema, lo que importa es que sepa sostenerlo después.',
+        'Hace poco terminé un curso de actualización full stack en la PUCP. Mantenerme al día es parte del trabajo: las herramientas cambian rápido y lo que te entrego tiene que envejecer bien.',
         'Uso Claude Code para avanzar más rápido, siempre supervisando. La IA escribe veloz; yo decido cómo se estructura todo, reviso cada cambio y respondo por el resultado. Para ti se traduce en entregas más cortas sin que la calidad lo pague.',
       ],
       pillars: [
@@ -136,30 +128,6 @@ export const CONTENT = {
           text: 'Despliegue, dominio, capacitación de uso y un panel propio para que administres tu contenido sin depender de mí.',
         },
       ],
-      education: {
-        label: 'Formación',
-        program: 'Programa de Especialización en Desarrollo Web Front End y Back End',
-        faculty: 'Facultad de Ciencias e Ingeniería',
-        hoursLabel: 'Horas',
-        gradeLabel: 'Calificativo',
-        periodLabel: 'Periodo',
-        modulesLabel: 'Plan de estudios',
-        verify: 'Verificar certificado',
-        codeLabel: 'Código',
-        modules: [
-          'Fundamentos del Diseño y Desarrollo de Proyectos',
-          'Taller de Gestión del Tiempo y Ceremonias Ágiles',
-          'Fundamentos de Desarrollo Web',
-          'Desarrollo Back End',
-          'Taller de Relationship Management',
-          'Desarrollo de Front End',
-          'Taller de Marca Personal para Desarrolladores',
-          'Pruebas, Seguridad y DevOps',
-          'Taller de Habilidades para Entrevistas y Estrategias de Carrera',
-          'Proyecto Web Full Stack',
-          'Taller de Preparación de un Portafolio de Proyectos',
-        ],
-      },
     },
     projects: {
       eyebrow: 'Proyectos',
@@ -288,7 +256,7 @@ export const CONTENT = {
       metrics: [
         { value: 'Full stack', label: 'Frontend, backend and database' },
         { value: 'Tailor-made', label: 'Every solution starts from the requirement' },
-        { value: '180 hours', label: 'Full stack web specialization at PUCP' },
+        { value: 'In production', label: 'Two systems delivered and running' },
       ],
     },
     about: {
@@ -296,7 +264,7 @@ export const CONTENT = {
       title: 'I walk with you from the idea to production.',
       body: [
         'I am a full stack developer, and for you that means one person accountable for everything: the screen your customers see, the logic behind it, the database and going live. No juggling three vendors, no translating between them.',
-        'My training is formal, not only self-taught: I completed the Front End and Back End Web Development Specialization Program at PUCP, 180 hours across the full cycle. I mention it because when someone hands you a system, what matters is that they can keep it running afterwards.',
+        'I recently finished a full stack refresher course at PUCP. Staying current is part of the job: tools move fast and what I hand you has to age well.',
         'I use Claude Code to move faster, always supervising. AI writes quickly; I decide how everything is structured, review every change and answer for the result. For you that means shorter deliveries without quality paying the bill.',
       ],
       pillars: [
@@ -317,30 +285,6 @@ export const CONTENT = {
           text: 'Deployment, domain, training and your own admin panel so you manage your content without depending on me.',
         },
       ],
-      education: {
-        label: 'Education',
-        program: 'Front End and Back End Web Development Specialization Program',
-        faculty: 'Faculty of Sciences and Engineering',
-        hoursLabel: 'Hours',
-        gradeLabel: 'Grade',
-        periodLabel: 'Period',
-        modulesLabel: 'Curriculum',
-        verify: 'Verify certificate',
-        codeLabel: 'Code',
-        modules: [
-          'Project Design and Development Fundamentals',
-          'Time Management and Agile Ceremonies Workshop',
-          'Web Development Fundamentals',
-          'Back End Development',
-          'Relationship Management Workshop',
-          'Front End Development',
-          'Personal Branding for Developers Workshop',
-          'Testing, Security and DevOps',
-          'Interview Skills and Career Strategy Workshop',
-          'Full Stack Web Project',
-          'Project Portfolio Preparation Workshop',
-        ],
-      },
     },
     projects: {
       eyebrow: 'Work',

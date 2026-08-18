@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { CONTENT, EDUCATION, PROFILE } from './data/content'
+import { CONTENT, PROFILE, UNIVERSITY } from './data/content'
 import { useReveal } from './hooks/useReveal'
 import { useSpotlight } from './hooks/useSpotlight'
 import Nav from './components/Nav'
@@ -82,16 +82,7 @@ export default function App() {
             knowsAbout: ['React', 'Node.js', 'MongoDB', 'Full stack web development'],
             alumniOf: {
               '@type': 'CollegeOrUniversity',
-              name: EDUCATION.institution,
-            },
-            hasCredential: {
-              '@type': 'EducationalOccupationalCredential',
-              name: t.about.education.program,
-              credentialCategory: 'certificate',
-              recognizedBy: {
-                '@type': 'CollegeOrUniversity',
-                name: EDUCATION.institution,
-              },
+              name: UNIVERSITY,
             },
           }),
         }}

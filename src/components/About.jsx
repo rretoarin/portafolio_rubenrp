@@ -1,4 +1,3 @@
-import Education from './Education'
 import Section from './Section'
 import { Arc } from './ui'
 
@@ -35,8 +34,6 @@ export default function About({ t }) {
           ))}
         </ul>
       </div>
-
-      <Education t={t} />
     </Section>
   )
 }

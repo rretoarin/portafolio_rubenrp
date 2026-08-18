@@ -13,19 +13,17 @@ convenciones en cada prompt**. Los prompts de abajo asumen eso.
 > Construye mi portafolio personal como desarrollador full stack. Soy Rubén Reto
 > Panta: trabajo de punta a punta (React, Node.js, Express, MongoDB) y me
 > especializo en traducir el requerimiento y la necesidad real del cliente en un
-> sistema que lo resuelve. Aprobé el Programa de Especialización en Desarrollo Web
-> Front End y Back End de la Pontificia Universidad Católica del Perú (180 horas,
-> nota 18/20), que cubrió el ciclo completo: backend, frontend, pruebas, seguridad
-> y DevOps. Uso Claude Code para acelerar el desarrollo, siempre supervisando cada
-> cambio.
+> sistema que lo resuelve. Hace poco terminé un curso de actualización full stack
+> en la PUCP. Uso Claude Code para acelerar el desarrollo, siempre supervisando
+> cada cambio.
 >
 > **Stack:** React + Vite + Tailwind CSS v4 (plugin de Vite, sin archivo de
 > config). Sin librerías de UI, animación ni iconos: SVG inline y CSS.
 >
-> **Diseño:** minimalista, fondo negro real (#000), jerarquía sólo por escala de
-> grises. Tipografía Inter para texto y JetBrains Mono para etiquetas y números.
-> Títulos en peso ligero con tracking negativo. Bordes de 1px, sin sombras ni
-> degradados llamativos. Que se sienta sobrio y caro, no oscuro y genérico.
+> **Diseño:** minimalista, fondo negro cálido (#0A0908), jerarquía sólo por escala
+> de grises. JetBrains Mono como tipografía de display (títulos, nav, botones) e
+> Inter para párrafos. Bordes de 1px, sin sombras ni degradados llamativos. Que se
+> sienta sobrio y caro, no oscuro y genérico.
 >
 > **Secciones:** hero, perfil, proyectos, proceso de trabajo, stack, contacto.
 >
@@ -44,7 +42,7 @@ convenciones en cada prompt**. Los prompts de abajo asumen eso.
 > **Requisitos:** bilingüe ES/EN con un toggle, con TODO el texto centralizado en
 > `src/data/content.js` (mismas claves en ambos idiomas). Responsive real desde
 > 375px. Accesible: navegación por teclado, foco visible y respeto a
-> `prefers-reduced-motion`. Meta tags y Open Graph completos. Listo para Netlify.
+> `prefers-reduced-motion`. Meta tags y Open Graph completos. Listo para Vercel.
 >
 > Antes de terminar corre `npm run build` y `npm run lint`, y arregla lo que salga.
 
@@ -90,7 +88,7 @@ Copia, ajusta y pega. Uno por vez: Claude Code trabaja mejor con un objetivo cla
 
 > Prepara el sitio para el deploy: actualiza la URL canónica y las etiquetas
 > Open Graph a **[mi dominio]**, verifica que `npm run build` y `npm run lint`
-> pasen limpio, y dime exactamente qué pasos me tocan a mí en Netlify.
+> pasen limpio, y dime exactamente qué pasos me tocan a mí en Vercel.
 
 ---
 
