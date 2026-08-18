@@ -1,0 +1,65 @@
+# Portafolio — Rubén Reto Panta
+
+Portafolio personal de un desarrollador full stack. Sitio de una sola página,
+bilingüe (ES/EN), estética minimalista en negro.
+
+## Stack
+
+- React 19 + Vite 8
+- Tailwind CSS v4 (plugin `@tailwindcss/vite`, **sin** `tailwind.config.js`)
+- Deploy: Netlify (`netlify.toml` ya configurado)
+
+## Comandos
+
+```bash
+npm run dev       # desarrollo en localhost:5173
+npm run build     # build de producción a dist/
+npm run preview   # sirve dist/ localmente
+npm run lint      # oxlint
+```
+
+## Arquitectura
+
+```
+src/
+├─ data/content.js     ← TODO el texto del sitio (es/en) + datos de proyectos
+├─ components/         ← un componente por sección, sin lógica de negocio
+│  ├─ Section.jsx      ← envoltorio común (numeración, título, espaciado)
+│  ├─ icons.jsx        ← SVG inline, sin librería de iconos
+│  └─ Nav | Hero | About | Projects | Process | Stack | Contact | Footer
+├─ hooks/useReveal.js  ← IntersectionObserver único para animaciones de entrada
+├─ index.css           ← tokens de color en @theme + estilos base
+└─ App.jsx             ← estado de idioma y composición de secciones
+```
+
+### Reglas que no se rompen
+
+1. **El texto vive en `src/data/content.js`, nunca en los componentes.**
+   `CONTENT.es` y `CONTENT.en` deben tener exactamente las mismas claves.
+   Si agregas texto en un idioma, agrégalo en el otro en el mismo commit.
+2. **El idioma se pasa por props** (`t`), no por contexto. Todas las secciones
+   son hijas directas de `App`; el contexto sería complejidad sin beneficio.
+3. **Nada de librerías nuevas** sin una razón concreta. Iconos, animaciones y
+   layout se resuelven con SVG inline, CSS y Tailwind.
+4. **Colores sólo desde los tokens** definidos en `@theme` (`ink`, `surface`,
+   `raised`, `line`, `line-strong`, `muted`, `soft`, `bright`). Nada de
+   `text-gray-400` ni hex sueltos: la paleta es monocroma a propósito.
+5. **Toda sección nueva** usa `<Section>`, lleva `id`, entra en el array
+   `SECTIONS` de `Nav.jsx` y suma su clave a `nav` en ambos idiomas.
+6. **Animaciones**: agregar la clase `reveal` al elemento. El hook global lo
+   detecta solo. Todo debe respetar `prefers-reduced-motion`.
+
+## Diseño
+
+- Negro real (`#000`) de fondo. Jerarquía por gris, no por color.
+- Tipografía: Inter (texto) + JetBrains Mono (etiquetas, números, badges).
+- Títulos en `font-light` con tracking negativo. Nada de negritas grandes.
+- Bordes de 1px y separadores; nada de sombras ni degradados llamativos.
+- Rejillas con `gap-px` sobre fondo `bg-line` para simular líneas divisorias.
+
+## Antes de dar algo por terminado
+
+- `npm run build` sin errores
+- `npm run lint` sin errores
+- Probar el toggle ES/EN en la sección tocada
+- Probar a 375px de ancho (móvil) y a 1440px
