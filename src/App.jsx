@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { CONTENT, PROFILE } from './data/content'
+import { CONTENT, EDUCATION, PROFILE } from './data/content'
 import { useReveal } from './hooks/useReveal'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
@@ -68,7 +68,20 @@ export default function App() {
             jobTitle: t.footer.role,
             email: `mailto:${PROFILE.email}`,
             sameAs: [PROFILE.linkedin],
-            knowsAbout: ['React', 'Node.js', 'MongoDB', 'Software architecture'],
+            knowsAbout: ['React', 'Node.js', 'MongoDB', 'Full stack web development'],
+            alumniOf: {
+              '@type': 'CollegeOrUniversity',
+              name: EDUCATION.institution,
+            },
+            hasCredential: {
+              '@type': 'EducationalOccupationalCredential',
+              name: t.about.education.program,
+              credentialCategory: 'certificate',
+              recognizedBy: {
+                '@type': 'CollegeOrUniversity',
+                name: EDUCATION.institution,
+              },
+            },
           }),
         }}
       />

@@ -13,10 +13,11 @@ convenciones en cada prompt**. Los prompts de abajo asumen eso.
 > Construye mi portafolio personal como desarrollador full stack. Soy Rubén Reto
 > Panta: trabajo de punta a punta (React, Node.js, Express, MongoDB) y me
 > especializo en traducir el requerimiento y la necesidad real del cliente en un
-> sistema que lo resuelve. Estudié arquitectura de software en la Universidad
-> Católica, y eso define cómo construyo: capas claras, datos bien modelados y
-> decisiones que aguantan el tiempo. Uso Claude Code para acelerar el desarrollo,
-> siempre supervisando cada cambio.
+> sistema que lo resuelve. Aprobé el Programa de Especialización en Desarrollo Web
+> Front End y Back End de la Pontificia Universidad Católica del Perú (180 horas,
+> nota 18/20), que cubrió el ciclo completo: backend, frontend, pruebas, seguridad
+> y DevOps. Uso Claude Code para acelerar el desarrollo, siempre supervisando cada
+> cambio.
 >
 > **Stack:** React + Vite + Tailwind CSS v4 (plugin de Vite, sin archivo de
 > config). Sin librerías de UI, animación ni iconos: SVG inline y CSS.

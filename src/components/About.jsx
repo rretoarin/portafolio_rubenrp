@@ -1,3 +1,4 @@
+import Education from './Education'
 import Section from './Section'
 
 export default function About({ t }) {
@@ -38,6 +39,8 @@ export default function About({ t }) {
           ))}
         </ul>
       </div>
+
+      <Education t={t} />
     </Section>
   )
 }

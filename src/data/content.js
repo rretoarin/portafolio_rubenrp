@@ -26,6 +26,17 @@ export const PROJECTS = [
   },
 ]
 
+// Certificado PUCP 2025. Datos verificables, iguales en ambos idiomas.
+export const EDUCATION = {
+  institution: 'Pontificia Universidad Católica del Perú',
+  short: 'PUCP',
+  hours: '180',
+  grade: '18 / 20',
+  period: 'Jun — Nov 2025',
+  verifyUrl: 'https://www.pucp.edu.pe/certificaciones',
+  verifyCode: 'ALK6N6IV',
+}
+
 export const STACK = [
   {
     id: 'frontend',
@@ -68,16 +79,16 @@ export const CONTENT = {
       metrics: [
         { value: 'Full stack', label: 'Frontend, backend y base de datos' },
         { value: 'A medida', label: 'Cada solución nace del requerimiento' },
-        { value: 'Arquitectura', label: 'Formación formal, no solo práctica' },
+        { value: '180 horas', label: 'Especialización full stack en la PUCP' },
       ],
     },
     about: {
       eyebrow: 'Perfil',
-      title: 'Desarrollo a medida, con criterio de arquitectura.',
+      title: 'Desarrollo a medida, de la base de datos al despliegue.',
       body: [
         'Soy desarrollador full stack. Trabajo de punta a punta: interfaz, API, base de datos y despliegue. Mi especialidad no es una librería concreta, es traducir lo que el cliente necesita en un sistema que efectivamente lo resuelve.',
-        'Estudié arquitectura de software en la Universidad Católica, y eso cambió cómo construyo: separo responsabilidades, pienso en cómo va a crecer el proyecto y evito soluciones que funcionan hoy y estorban en seis meses.',
-        'Uso Claude Code como acelerador del trabajo, nunca como reemplazo del criterio. La IA escribe rápido; yo decido la arquitectura, reviso cada cambio y respondo por el resultado. Esa supervisión es justamente lo que hace que la velocidad no cueste calidad.',
+        'Mi formación es formal, no solo autodidacta: aprobé el Programa de Especialización en Desarrollo Web Front End y Back End de la Pontificia Universidad Católica del Perú. Ciento ochenta horas sobre el ciclo completo —backend, frontend, pruebas, seguridad y DevOps— más metodologías ágiles y trato con el cliente.',
+        'Uso Claude Code como acelerador del trabajo, nunca como reemplazo del criterio. La IA escribe rápido; yo decido cómo se estructura el sistema, reviso cada cambio y respondo por el resultado. Esa supervisión es justamente lo que hace que la velocidad no cueste calidad.',
       ],
       pillars: [
         {
@@ -85,8 +96,8 @@ export const CONTENT = {
           text: 'Primero entiendo el negocio y el problema. La solución técnica es consecuencia de eso, no al revés.',
         },
         {
-          title: 'Arquitectura antes que código',
-          text: 'Formación en arquitectura de software: capas claras, datos bien modelados y decisiones que se sostienen con el tiempo.',
+          title: 'Estructura antes que código',
+          text: 'Modelo de datos y capas definidos antes de la primera línea. Es lo que evita reescribir el proyecto a mitad de camino.',
         },
         {
           title: 'IA supervisada',
@@ -97,6 +108,30 @@ export const CONTENT = {
           text: 'El proyecto no termina en el repositorio: despliegue, dominio, panel de administración y soporte posterior.',
         },
       ],
+      education: {
+        label: 'Formación',
+        program: 'Programa de Especialización en Desarrollo Web Front End y Back End',
+        faculty: 'Facultad de Ciencias e Ingeniería',
+        hoursLabel: 'Horas',
+        gradeLabel: 'Calificativo',
+        periodLabel: 'Periodo',
+        modulesLabel: 'Plan de estudios',
+        verify: 'Verificar certificado',
+        codeLabel: 'Código',
+        modules: [
+          'Fundamentos del Diseño y Desarrollo de Proyectos',
+          'Taller de Gestión del Tiempo y Ceremonias Ágiles',
+          'Fundamentos de Desarrollo Web',
+          'Desarrollo Back End',
+          'Taller de Relationship Management',
+          'Desarrollo de Front End',
+          'Taller de Marca Personal para Desarrolladores',
+          'Pruebas, Seguridad y DevOps',
+          'Taller de Habilidades para Entrevistas y Estrategias de Carrera',
+          'Proyecto Web Full Stack',
+          'Taller de Preparación de un Portafolio de Proyectos',
+        ],
+      },
     },
     projects: {
       eyebrow: 'Proyectos',
@@ -211,16 +246,16 @@ export const CONTENT = {
       metrics: [
         { value: 'Full stack', label: 'Frontend, backend and database' },
         { value: 'Tailor-made', label: 'Every solution starts from the requirement' },
-        { value: 'Architecture', label: 'Formal training, not just practice' },
+        { value: '180 hours', label: 'Full stack web specialization at PUCP' },
       ],
     },
     about: {
       eyebrow: 'About',
-      title: 'Custom development, with architectural judgment.',
+      title: 'Custom development, from the database to the deployment.',
       body: [
         'I am a full stack developer. I work end to end: interface, API, database and deployment. My specialty is not a particular library, it is translating what a client needs into a system that actually solves it.',
-        'I studied software architecture at Universidad Católica, and it changed how I build: clear separation of concerns, thinking about how the project will grow, and avoiding solutions that work today and get in the way six months later.',
-        'I use Claude Code to accelerate the work, never to replace judgment. AI writes fast; I decide the architecture, review every change and answer for the result. That supervision is exactly what keeps speed from costing quality.',
+        'My training is formal, not only self-taught: I completed the Front End and Back End Web Development Specialization Program at Pontificia Universidad Católica del Perú. One hundred and eighty hours across the full cycle — backend, frontend, testing, security and DevOps — plus agile methodologies and working with clients.',
+        'I use Claude Code to accelerate the work, never to replace judgment. AI writes fast; I decide how the system is structured, review every change and answer for the result. That supervision is exactly what keeps speed from costing quality.',
       ],
       pillars: [
         {
@@ -228,8 +263,8 @@ export const CONTENT = {
           text: 'I understand the business and the problem first. The technical solution follows from that, not the other way around.',
         },
         {
-          title: 'Architecture before code',
-          text: 'Training in software architecture: clear layers, well-modeled data and decisions that hold up over time.',
+          title: 'Structure before code',
+          text: 'Data model and layers defined before the first line. That is what keeps a project from being rewritten halfway through.',
         },
         {
           title: 'Supervised AI',
@@ -240,6 +275,30 @@ export const CONTENT = {
           text: 'The project does not end at the repository: deployment, domain, admin panel and ongoing support.',
         },
       ],
+      education: {
+        label: 'Education',
+        program: 'Front End and Back End Web Development Specialization Program',
+        faculty: 'Faculty of Sciences and Engineering',
+        hoursLabel: 'Hours',
+        gradeLabel: 'Grade',
+        periodLabel: 'Period',
+        modulesLabel: 'Curriculum',
+        verify: 'Verify certificate',
+        codeLabel: 'Code',
+        modules: [
+          'Project Design and Development Fundamentals',
+          'Time Management and Agile Ceremonies Workshop',
+          'Web Development Fundamentals',
+          'Back End Development',
+          'Relationship Management Workshop',
+          'Front End Development',
+          'Personal Branding for Developers Workshop',
+          'Testing, Security and DevOps',
+          'Interview Skills and Career Strategy Workshop',
+          'Full Stack Web Project',
+          'Project Portfolio Preparation Workshop',
+        ],
+      },
     },
     projects: {
       eyebrow: 'Work',
