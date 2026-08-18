@@ -8,8 +8,8 @@ export const PROFILE = {
   email: 'rubenretopanta@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ruben-reto-panta-1580301a8/',
   linkedinLabel: 'ruben-reto-panta',
-  // Retrato en /public. Con foto, el hero cambia de disposición solo.
-  photo: null,
+  // Avatar en /public. Si es null, la nav vuelve al monograma.
+  photo: '/ruben.webp',
   whatsapp: '51933214520', // Formato wa.me: sin +, espacios ni guiones.
   whatsappDisplay: '+51 933 214 520',
 }

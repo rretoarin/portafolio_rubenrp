@@ -65,9 +65,19 @@ export default function Nav({ t, onToggleLang }) {
             className="group flex items-center gap-3"
             aria-label={PROFILE.name}
           >
-            <span className="flex size-9 items-center justify-center rounded-md border border-line-strong font-mono text-xs tracking-widest text-bright transition-colors group-hover:border-bright">
-              {PROFILE.initials}
-            </span>
+            {PROFILE.photo ? (
+              <img
+                src={PROFILE.photo}
+                alt=""
+                width="275"
+                height="275"
+                className="size-9 rounded-full border border-line-strong object-cover grayscale transition-[filter,border-color] duration-300 group-hover:border-bright group-hover:grayscale-0"
+              />
+            ) : (
+              <span className="flex size-9 items-center justify-center rounded-md border border-line-strong font-mono text-xs tracking-widest text-bright transition-colors group-hover:border-bright">
+                {PROFILE.initials}
+              </span>
+            )}
             <span className="hidden font-mono text-sm tracking-tight sm:block">
               {PROFILE.name}
             </span>

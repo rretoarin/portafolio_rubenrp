@@ -16,9 +16,6 @@ function Metrics({ metrics, className = '' }) {
 }
 
 export default function Hero({ t }) {
-  // El retrato manda en el layout: sin foto, las métricas ocupan su columna.
-  const hasPhoto = Boolean(PROFILE.photo)
-
   return (
     <section
       id="top"
@@ -52,15 +49,21 @@ export default function Hero({ t }) {
           ))}
         </h1>
 
-        <div
-          className={`mt-12 grid gap-10 lg:gap-16 ${
-            hasPhoto
-              ? 'lg:grid-cols-[1.3fr_1fr] lg:items-center'
-              : 'lg:grid-cols-[1.15fr_1fr]'
-          }`}
-        >
+        <div className="mt-12 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
           <div className="reveal">
-            <p className="max-w-lg leading-relaxed text-soft md:text-lg">{t.hero.lead}</p>
+            <div className="flex items-start gap-5">
+              {PROFILE.photo && (
+                <img
+                  src={PROFILE.photo}
+                  alt={PROFILE.name}
+                  width="275"
+                  height="275"
+                  fetchPriority="high"
+                  className="size-16 shrink-0 rounded-full border border-line-strong object-cover grayscale transition-[filter,transform] duration-500 hover:scale-105 hover:grayscale-0 md:size-20"
+                />
+              )}
+              <p className="max-w-lg leading-relaxed text-soft md:text-lg">{t.hero.lead}</p>
+            </div>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <a
@@ -104,23 +107,11 @@ export default function Hero({ t }) {
             </div>
           </div>
 
-          {hasPhoto ? (
-            <figure className="reveal card overflow-hidden">
-              <img
-                src={PROFILE.photo}
-                alt={`${PROFILE.name} — ${t.footer.role}`}
-                width="800"
-                height="1000"
-                fetchPriority="high"
-                className="aspect-4/5 w-full rounded-[calc(var(--radius-card)-1px)] object-cover grayscale transition-transform duration-700 hover:scale-[1.03]"
-              />
-            </figure>
-          ) : (
-            <Metrics metrics={t.hero.metrics} className="self-end sm:grid-cols-3 lg:grid-cols-1" />
-          )}
+          <Metrics
+            metrics={t.hero.metrics}
+            className="self-end sm:grid-cols-3 lg:grid-cols-1"
+          />
         </div>
-
-        {hasPhoto && <Metrics metrics={t.hero.metrics} className="mt-10 sm:grid-cols-3" />}
       </div>
     </section>
   )
