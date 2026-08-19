@@ -27,6 +27,15 @@ export const PROJECTS = [
     year: '2026',
     url: 'https://jm-consulting-foods.netlify.app/',
     stack: ['React', 'Vite', 'Node.js', 'MongoDB', 'Netlify'],
+    // El orden manda: cada ruta se empareja por índice con `shots` del idioma.
+    shots: [
+      '/proyectos/jm-1.webp',
+      '/proyectos/jm-2.webp',
+      '/proyectos/jm-3.webp',
+      '/proyectos/jm-4.webp',
+      '/proyectos/jm-5.webp',
+      '/proyectos/jm-6.webp',
+    ],
   },
   {
     id: 'muestras',
@@ -34,6 +43,17 @@ export const PROJECTS = [
     client: 'Arin S.A.',
     url: null, // Sistema interno: no hay demo pública.
     stack: ['React', 'Node.js', 'Express', 'MongoDB', 'JWT'],
+    shots: [
+      '/proyectos/muestras-1.webp',
+      '/proyectos/muestras-2.webp',
+      '/proyectos/muestras-3.webp',
+      '/proyectos/muestras-4.webp',
+      '/proyectos/muestras-5.webp',
+      '/proyectos/muestras-6.webp',
+      '/proyectos/muestras-7.webp',
+      '/proyectos/muestras-8.webp',
+      '/proyectos/muestras-9.webp',
+    ],
   },
 ]
 
@@ -169,6 +189,10 @@ export const CONTENT = {
       privateLabel: 'Sistema interno · sin acceso público',
       clientLabel: 'Cliente',
       highlightsLabel: 'Destacado',
+      galleryLabel: 'Capturas',
+      prev: 'Captura anterior',
+      next: 'Captura siguiente',
+      shotOf: 'Captura {i} de {n}',
       items: {
         'jm-consulting': {
           name: 'J&M Consulting Foods',
@@ -182,6 +206,14 @@ export const CONTENT = {
             'Contenido editable por el cliente, sin tocar código',
             'Captación de contactos vía formulario y WhatsApp',
             'Desplegado en Netlify con dominio propio',
+          ],
+          shots: [
+            'Portada: la propuesta de valor y el paso directo a WhatsApp.',
+            'Catálogo de servicios con el detalle de cada trámite y certificación.',
+            'Quiénes somos: equipo, misión y datos verificables de la empresa.',
+            'Proceso en cuatro etapas y los sectores de alimentos que atienden.',
+            'Carrusel de las empresas que ya trabajaron con la consultora.',
+            'Contacto: el formulario arma el mensaje y lo abre en WhatsApp.',
           ],
         },
         muestras: {
@@ -197,6 +229,17 @@ export const CONTENT = {
             'Roles y permisos según el puesto de cada usuario',
             'Modelo de datos en MongoDB pensado para escalar',
             'API REST propia en Node.js y Express',
+          ],
+          shots: [
+            'Listado de productos: filtros combinados por estado, cliente, tipo y fecha, con exportación a Excel.',
+            'Ficha del producto con sus etapas: creación de código, impresión 3D y casting.',
+            'Historial: cada cambio queda firmado con autor, fecha y motivo.',
+            'Detalle de muestras: foto, kilataje, piezas y fechas de solicitud y entrega.',
+            'Calendario de cierres: el año completo, coloreado por muestras vencidas, por vencer y a tiempo.',
+            'Al abrir un día se listan las muestras que cierran esa fecha.',
+            'Reportes: por semana, por mes, por diseñador, reprogramaciones y vencimientos.',
+            'Reporte de vencimientos: indicadores, distribución por unidad de negocio y comparativo mensual.',
+            'Mantenimiento de feriados: un cambio acá recalcula los plazos de todo el sistema.',
           ],
         },
       },
@@ -358,6 +401,10 @@ export const CONTENT = {
       privateLabel: 'Internal system · no public access',
       clientLabel: 'Client',
       highlightsLabel: 'Highlights',
+      galleryLabel: 'Screens',
+      prev: 'Previous screen',
+      next: 'Next screen',
+      shotOf: 'Screen {i} of {n}',
       items: {
         'jm-consulting': {
           name: 'J&M Consulting Foods',
@@ -371,6 +418,14 @@ export const CONTENT = {
             'Client-editable content, no code required',
             'Lead capture via form and WhatsApp',
             'Deployed on Netlify with a custom domain',
+          ],
+          shots: [
+            'Home: the value proposition and a direct path to WhatsApp.',
+            'Service catalog detailing every procedure and certification.',
+            'About: team, mission and verifiable company records.',
+            'Four-stage process and the food sectors they serve.',
+            'Carousel of the companies that already worked with the consultancy.',
+            'Contact: the form composes the message and opens WhatsApp.',
           ],
         },
         muestras: {
@@ -386,6 +441,17 @@ export const CONTENT = {
             'Roles and permissions matched to each job',
             'MongoDB data model designed to scale',
             'Custom REST API in Node.js and Express',
+          ],
+          shots: [
+            'Product list: combined filters by status, client, type and date, with Excel export.',
+            'Product sheet and its stages: code creation, 3D printing and casting.',
+            'History: every change is signed with author, date and reason.',
+            'Sample detail: photo, karat, pieces and request and due dates.',
+            'Closing calendar: the full year, colored by overdue, due soon and on-time samples.',
+            'Opening a day lists the samples closing on that date.',
+            'Reports: by week, by month, by designer, reschedules and due dates.',
+            'Due-date report: indicators, distribution by business unit and month-over-month comparison.',
+            'Holiday maintenance: one change here recalculates deadlines across the whole system.',
           ],
         },
       },

@@ -1,4 +1,5 @@
 import { PROJECTS } from '../data/content'
+import Carousel from './Carousel'
 import Section from './Section'
 import { ArrowUpRight, Lock } from './icons'
 import { Arc, CircleLink } from './ui'
@@ -66,30 +67,30 @@ function Project({ project, copy, index, labels }) {
         </div>
       </div>
 
-      {/* Panel derecho: si algún día hay captura, `cover` la reemplaza. */}
       <div className={flipped ? 'lg:order-1' : ''}>
-        {project.cover ? (
-          <img
-            src={project.cover}
-            alt={copy.name}
-            loading="lazy"
-            className="w-full rounded-[var(--radius-card)] border border-line"
-          />
-        ) : (
-          <div className="card p-7 md:p-9">
-            <p className="eyebrow">{labels.highlightsLabel}</p>
-            <ul className="mt-6 space-y-4">
-              {copy.highlights.map((item, i) => (
-                <li key={item} className="flex gap-4 text-sm leading-relaxed text-soft">
-                  <span className="font-mono text-xs text-muted tabular-nums">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div className="card p-7 md:p-9">
+          <p className="eyebrow">{labels.highlightsLabel}</p>
+          <ul className="mt-6 space-y-4">
+            {copy.highlights.map((item, i) => (
+              <li key={item} className="flex gap-4 text-sm leading-relaxed text-soft">
+                <span className="font-mono text-xs text-muted tabular-nums">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Las capturas van a lo ancho: en media columna no se leería la interfaz. */}
+      <div className="lg:order-3 lg:col-span-2">
+        <Carousel
+          shots={project.shots}
+          captions={copy.shots}
+          labels={labels}
+          name={copy.name}
+        />
       </div>
     </article>
   )

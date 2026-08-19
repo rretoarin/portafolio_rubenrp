@@ -256,6 +256,52 @@
     }
   }
 
+  /*
+   * Cinta del carrusel: el scroll horizontal es el mecanismo, pero la barra
+   * sobra — el paso se indica con el contador y los puntos.
+   */
+  .gallery-track {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .gallery-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Botón de paso, encima de la propia captura. Siempre visible: en táctil
+     no hay hover que lo revele. */
+  .gallery-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    background-color: rgb(10 9 8 / 0.72);
+    color: var(--color-bright);
+    backdrop-filter: blur(6px);
+    transition:
+      background-color 0.25s var(--ease-out-soft),
+      border-color 0.25s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .gallery-btn:hover {
+      background-color: var(--color-ink);
+      border-color: var(--color-bright);
+    }
+  }
+
+  .gallery-btn:active {
+    background-color: var(--color-ink);
+    border-color: var(--color-soft);
+  }
+
   /* Grano: le da textura al negro para que no se vea plano. */
   .grain {
     position: fixed;

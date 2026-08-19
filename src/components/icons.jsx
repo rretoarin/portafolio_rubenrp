@@ -27,6 +27,22 @@ export function ArrowUpRight(props) {
   )
 }
 
+export function ChevronLeft(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m14.5 6-6 6 6 6" />
+    </svg>
+  )
+}
+
+export function ChevronRight(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m9.5 6 6 6-6 6" />
+    </svg>
+  )
+}
+
 export function ArrowUp(props) {
   return (
     <svg {...base} {...props}>
