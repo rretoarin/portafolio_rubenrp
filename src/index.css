@@ -280,11 +280,13 @@
     justify-content: center;
     width: 2.75rem;
     height: 2.75rem;
-    border: 1px solid var(--color-line-strong);
+    /* Contorno claro y fondo casi opaco: el botón cae tanto sobre la barra
+       oscura de la ventana como sobre una captura blanca. */
+    border: 1px solid rgb(247 244 239 / 0.3);
     border-radius: 999px;
-    background-color: rgb(10 9 8 / 0.72);
+    background-color: rgb(10 9 8 / 0.88);
     color: var(--color-bright);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
     transition:
       background-color 0.25s var(--ease-out-soft),
       border-color 0.25s var(--ease-out-soft);
@@ -292,8 +294,9 @@
 
   @media (hover: hover) {
     .gallery-btn:hover {
-      background-color: var(--color-ink);
+      background-color: var(--color-bright);
       border-color: var(--color-bright);
+      color: var(--color-ink);
     }
   }
 

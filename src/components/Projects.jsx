@@ -83,13 +83,18 @@ function Project({ project, copy, index, labels }) {
         </div>
       </div>
 
-      {/* Las capturas van a lo ancho: en media columna no se leería la interfaz. */}
-      <div className="lg:order-3 lg:col-span-2">
+      {/*
+        Las capturas van a lo ancho: en media columna no se leería la interfaz.
+        `min-w-0` es obligatorio: una celda de rejilla vale `min-width: auto` por
+        defecto y se estiraría para caber la cinta entera en vez de encogerse.
+      */}
+      <div className="min-w-0 lg:order-3 lg:col-span-2">
         <Carousel
           shots={project.shots}
           captions={copy.shots}
           labels={labels}
           name={copy.name}
+          frameLabel={project.frameLabel}
         />
       </div>
     </article>

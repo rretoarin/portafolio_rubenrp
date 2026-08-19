@@ -27,6 +27,8 @@ export const PROJECTS = [
     year: '2026',
     url: 'https://jm-consulting-foods.netlify.app/',
     stack: ['React', 'Vite', 'Node.js', 'MongoDB', 'Netlify'],
+    // Lo que se lee en la barra de la ventana que enmarca cada captura.
+    frameLabel: 'jm-consulting-foods.netlify.app',
     // El orden manda: cada ruta se empareja por índice con `shots` del idioma.
     shots: [
       '/proyectos/jm-1.webp',
@@ -43,6 +45,7 @@ export const PROJECTS = [
     client: 'Arin S.A.',
     url: null, // Sistema interno: no hay demo pública.
     stack: ['React', 'Node.js', 'Express', 'MongoDB', 'JWT'],
+    frameLabel: 'arin · desarrollo de muestras',
     shots: [
       '/proyectos/muestras-1.webp',
       '/proyectos/muestras-2.webp',
@@ -51,8 +54,6 @@ export const PROJECTS = [
       '/proyectos/muestras-5.webp',
       '/proyectos/muestras-6.webp',
       '/proyectos/muestras-7.webp',
-      '/proyectos/muestras-8.webp',
-      '/proyectos/muestras-9.webp',
     ],
   },
 ]
@@ -232,12 +233,10 @@ export const CONTENT = {
           ],
           shots: [
             'Listado de productos: filtros combinados por estado, cliente, tipo y fecha, con exportación a Excel.',
-            'Ficha del producto con sus etapas: creación de código, impresión 3D y casting.',
-            'Historial: cada cambio queda firmado con autor, fecha y motivo.',
+            'Ficha del producto y su historial: cada cambio queda firmado con autor, fecha y motivo.',
             'Detalle de muestras: foto, kilataje, piezas y fechas de solicitud y entrega.',
             'Calendario de cierres: el año completo, coloreado por muestras vencidas, por vencer y a tiempo.',
             'Al abrir un día se listan las muestras que cierran esa fecha.',
-            'Reportes: por semana, por mes, por diseñador, reprogramaciones y vencimientos.',
             'Reporte de vencimientos: indicadores, distribución por unidad de negocio y comparativo mensual.',
             'Mantenimiento de feriados: un cambio acá recalcula los plazos de todo el sistema.',
           ],
@@ -444,12 +443,10 @@ export const CONTENT = {
           ],
           shots: [
             'Product list: combined filters by status, client, type and date, with Excel export.',
-            'Product sheet and its stages: code creation, 3D printing and casting.',
-            'History: every change is signed with author, date and reason.',
+            'Product sheet and its history: every change is signed with author, date and reason.',
             'Sample detail: photo, karat, pieces and request and due dates.',
             'Closing calendar: the full year, colored by overdue, due soon and on-time samples.',
             'Opening a day lists the samples closing on that date.',
-            'Reports: by week, by month, by designer, reschedules and due dates.',
             'Due-date report: indicators, distribution by business unit and month-over-month comparison.',
             'Holiday maintenance: one change here recalculates deadlines across the whole system.',
           ],
