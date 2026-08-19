@@ -49,12 +49,12 @@ export default function Footer({ t }) {
 
           <div className="reveal">
             <nav aria-label={t.nav.menu}>
-              <ul className="flex flex-wrap gap-x-6 gap-y-3">
+              <ul className="flex flex-wrap gap-x-6">
                 {LINKS.map((id) => (
                   <li key={id}>
                     <a
                       href={`#${id}`}
-                      className="font-mono text-sm text-muted transition-colors hover:text-bright"
+                      className="flex min-h-11 items-center font-mono text-sm text-muted transition-colors hover:text-bright"
                     >
                       {t.nav[id]}
                     </a>
@@ -86,7 +86,7 @@ export default function Footer({ t }) {
           <a
             href="#top"
             aria-label={t.footer.top}
-            className="flex size-9 items-center justify-center rounded-full border border-line-strong text-muted transition-colors hover:border-bright hover:text-bright"
+            className="flex size-11 items-center justify-center rounded-full border border-line-strong text-muted transition-colors hover:border-bright hover:text-bright"
           >
             <ArrowUp width={15} height={15} />
           </a>

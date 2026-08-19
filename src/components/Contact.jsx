@@ -54,7 +54,7 @@ export default function Contact({ t }) {
                 href={whatsappUrl(t.contact.whatsappMessage)}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="group mt-2.5 inline-flex items-center gap-2.5 font-mono text-sm text-bright md:text-base"
+                className="tap group mt-2.5 inline-flex items-center gap-2.5 font-mono text-sm text-bright md:text-base"
               >
                 <WhatsApp width={15} height={15} className="text-muted" />
                 <span className="underline decoration-line-strong underline-offset-4 transition-colors group-hover:decoration-bright">
@@ -73,7 +73,7 @@ export default function Contact({ t }) {
                 <p className="eyebrow">{t.contact.emailLabel}</p>
                 <a
                   href={`mailto:${PROFILE.email}`}
-                  className="mt-2.5 block truncate font-mono text-sm text-bright underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-bright md:text-base"
+                  className="mt-1.5 block truncate py-3 font-mono text-sm text-bright underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-bright md:text-base"
                 >
                   {PROFILE.email}
                 </a>
@@ -82,7 +82,7 @@ export default function Contact({ t }) {
                 type="button"
                 onClick={copyEmail}
                 aria-label={t.contact.copy}
-                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-line-strong text-muted transition-colors hover:border-bright hover:text-bright"
+                className="flex size-11 shrink-0 items-center justify-center rounded-full border border-line-strong text-muted transition-colors hover:border-bright hover:text-bright"
               >
                 {copied ? <Check width={15} height={15} /> : <Copy width={15} height={15} />}
               </button>
@@ -97,7 +97,7 @@ export default function Contact({ t }) {
                 href={PROFILE.linkedin}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="group mt-2.5 inline-flex items-center gap-2.5 font-mono text-sm text-bright md:text-base"
+                className="tap group mt-2.5 inline-flex items-center gap-2.5 font-mono text-sm text-bright md:text-base"
               >
                 <LinkedIn width={15} height={15} className="text-muted" />
                 <span className="underline decoration-line-strong underline-offset-4 transition-colors group-hover:decoration-bright">

@@ -50,7 +50,7 @@ function Project({ project, copy, index, labels }) {
                 href={project.url}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="group inline-flex items-center gap-2 font-mono text-sm text-bright"
+                className="tap group inline-flex items-center gap-2 font-mono text-sm text-bright"
               >
                 <span className="border-b border-line-strong pb-0.5 transition-colors group-hover:border-bright">
                   {labels.viewLive}

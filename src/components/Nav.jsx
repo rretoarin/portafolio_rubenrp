@@ -62,7 +62,7 @@ export default function Nav({ t, onToggleLang }) {
         <nav className="shell flex h-16 items-center justify-between md:h-20">
           <a
             href="#top"
-            className="group flex items-center gap-3"
+            className="tap group flex items-center gap-3"
             aria-label={PROFILE.name}
           >
             {PROFILE.photo ? (

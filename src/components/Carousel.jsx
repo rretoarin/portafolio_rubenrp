@@ -207,7 +207,7 @@ export default function Carousel({ shots, captions, labels, name, frameLabel }) 
               }}
               aria-label={position(i)}
               aria-current={i === index}
-              className="group flex h-6 items-center px-0.5"
+              className="group flex h-11 w-6 items-center justify-center"
             >
               <span
                 className={`h-1 rounded-full transition-all duration-300 ${
