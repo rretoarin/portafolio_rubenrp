@@ -37,8 +37,6 @@ export default function Hero({ t }) {
             </span>
             {t.hero.status}
           </span>
-          <span aria-hidden className="hidden h-3 w-px bg-line-strong sm:block" />
-          <span className="text-muted">{t.hero.responseTime}</span>
         </div>
 
         <h1 className="reveal display mt-7 text-[2.25rem] text-balance sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem]">

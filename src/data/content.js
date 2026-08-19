@@ -112,7 +112,6 @@ export const CONTENT = {
     },
     hero: {
       status: 'Disponible para nuevos proyectos',
-      responseTime: 'Respondo en menos de 24 horas',
       role: 'Desarrollador Full Stack',
       headline: ['Desarrollador', 'Full Stack'],
       lead: 'Hola, soy Rubén. Te ayudo a convertir eso que necesitas resolver en un sistema que funciona de verdad: escucho el requerimiento, te propongo cómo resolverlo y me encargo del resto, desde el primer boceto hasta que está en línea.',
@@ -323,7 +322,6 @@ export const CONTENT = {
     },
     hero: {
       status: 'Available for new projects',
-      responseTime: 'I reply within 24 hours',
       role: 'Full Stack Developer',
       headline: ['Full Stack', 'Developer'],
       lead: 'Hi, I am Rubén. I help you turn what you need to solve into a system that actually works: I listen to the requirement, propose how to solve it and handle the rest, from the first sketch to going live.',
