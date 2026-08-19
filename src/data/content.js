@@ -142,7 +142,7 @@ export const CONTENT = {
         },
         {
           title: 'Entregas cortas, con criterio',
-          text: 'Claude Code para acelerar, revisión humana en cada paso. Te llega antes, y te llega código que puedo explicarte línea por línea.',
+          text: 'Claude Code para acelerar, revisión humana en cada paso.',
         },
         {
           title: 'No te dejo solo al entregar',
@@ -354,7 +354,7 @@ export const CONTENT = {
         },
         {
           title: 'Short deliveries, with judgment',
-          text: 'Claude Code to accelerate, human review at every step. It reaches you sooner, and it is code I can walk you through line by line.',
+          text: 'Claude Code to accelerate, human review at every step.',
         },
         {
           title: 'I do not disappear at handoff',
