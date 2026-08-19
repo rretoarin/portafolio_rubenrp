@@ -10,10 +10,17 @@ tarjeta generica.
 """
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import os
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTS = os.path.join(ROOT, "public", "fonts")
 OUT = os.path.join(ROOT, "public", "og.png")
+
+# Se le puede pasar otra ruta de salida para generar una variante y compararla
+# con la actual en scripts/preview-card.py.
+for arg in sys.argv[1:]:
+    if not arg.startswith("--"):
+        OUT = arg
 
 W, H = 1200, 630
 INK = (10, 9, 8)           # --color-ink
@@ -37,48 +44,31 @@ d = ImageDraw.Draw(img)
 for cx, cy, r in ((1180, 120, 470), (980, 700, 360)):
     d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=ARC, width=2)
 
-# Etiqueta de seccion: ... /Nombre ...
-label_font = mono(21, 400)
-y = MARGIN
-d.text((MARGIN, y), "... /", font=label_font, fill=MUTED)
-w1 = d.textlength("... /", font=label_font)
-d.text((MARGIN + w1, y), "Desarrollador Full Stack", font=label_font, fill=SOFT)
-w2 = d.textlength("Desarrollador Full Stack", font=label_font)
-d.text((MARGIN + w1 + w2, y), " ...", font=label_font, fill=MUTED)
+# Tres cosas y nada mas. La imagen se ve a unos 320px de ancho en una burbuja de
+# WhatsApp — un 27% de su tamano — asi que cualquier texto por debajo de 45px
+# aqui no se lee alli. La maqueta anterior tenia eyebrow, una linea de apoyo,
+# tres pildoras y la direccion: a tamano real todo eso era ruido gris de 5px.
+# La direccion, ademas, la escribe la propia plataforma debajo de la tarjeta.
 
-# Nombre a gran escala, como el cierre del pie del sitio.
-name_font = mono(92, 500)
-y = 176
+# 110 y no mas: a 118 la primera linea casi rozaba el retrato.
+name_font = mono(110, 500)
 for i, line in enumerate(("Rubén Reto", "Panta")):
-    d.text((MARGIN + (i * 26), y + i * 108), line, font=name_font, fill=BRIGHT)
+    d.text((MARGIN, 140 + i * 130), line, font=name_font, fill=BRIGHT)
 
-# Linea de apoyo.
-d.text((MARGIN, 424), "Webs y sistemas a medida del requerimiento real.",
-       font=sans(27), fill=SOFT)
-
-# Pildoras de tecnologias.
-x = MARGIN
-pill_font = mono(19, 400)
-for tech in ("React", "Node.js", "MongoDB"):
-    tw = d.textlength(tech, font=pill_font)
-    d.rounded_rectangle((x, 486, x + tw + 40, 486 + 46), radius=23, outline=LINE, width=1)
-    d.text((x + 20, 486 + 12), tech, font=pill_font, fill=SOFT)
-    x += tw + 40 + 12
+d.text((MARGIN, 428), "Desarrollador Full Stack", font=mono(50, 400), fill=SOFT)
+d.text((MARGIN, 510), "React · Node.js · MongoDB", font=sans(44), fill=MUTED)
 
 # Retrato en circulo, en gris como en la barra del sitio.
 photo_path = os.path.join(ROOT, "public", "ruben.jpg")
 if os.path.exists(photo_path):
-    size = 232
+    size = 300
     photo = ImageOps.fit(Image.open(photo_path).convert("L"), (size, size)).convert("RGB")
     mask = Image.new("L", (size * 4, size * 4), 0)
     ImageDraw.Draw(mask).ellipse((0, 0, size * 4, size * 4), fill=255)
     mask = mask.resize((size, size), Image.LANCZOS)
-    px, py = W - MARGIN - size, 176
+    px, py = W - MARGIN - size, 165
     img.paste(photo, (px, py), mask)
     d.ellipse((px, py, px + size, py + size), outline=LINE, width=2)
 
-# Direccion del sitio, abajo del todo.
-d.text((MARGIN, H - 74), "portafolio-rubenrp.vercel.app", font=mono(21, 400), fill=MUTED)
-
 img.save(OUT, "PNG", optimize=True)
-print(f"og.png  {os.path.getsize(OUT) / 1024:.0f} KB  {W}x{H}")
+print(f"{os.path.basename(OUT)}  {os.path.getsize(OUT) / 1024:.0f} KB  {W}x{H}")
