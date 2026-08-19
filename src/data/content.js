@@ -185,7 +185,8 @@ export const CONTENT = {
     projects: {
       eyebrow: 'Proyectos',
       title: 'Trabajo real, en producción.',
-      subtitle: 'Dos sistemas construidos de cero: uno público, uno interno.',
+      subtitle:
+        'Mis dos últimos proyectos, los dos de este año: uno público y uno interno. Ambos construidos de cero.',
       viewLive: 'Ver sitio',
       privateLabel: 'Sistema interno · sin acceso público',
       clientLabel: 'Cliente',
@@ -395,7 +396,8 @@ export const CONTENT = {
     projects: {
       eyebrow: 'Work',
       title: 'Real systems, in production.',
-      subtitle: 'Two products built from scratch: one public, one internal.',
+      subtitle:
+        'My two latest projects, both from this year: one public and one internal. Both built from scratch.',
       viewLive: 'Visit site',
       privateLabel: 'Internal system · no public access',
       clientLabel: 'Client',
