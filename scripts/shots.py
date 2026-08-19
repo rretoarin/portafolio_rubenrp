@@ -9,7 +9,8 @@ public/proyectos como WebP.
 
     python scripts/shots.py
 """
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageOps
+from collections import deque
 import os
 
 SRC = r"C:\Users\pruebas03\Desktop\claude"
@@ -46,7 +47,10 @@ BLUR = {
 # o zonas en blanco. Acercan la proporción de cada captura a la del marco, así
 # la banda oscura que queda alrededor es mínima.
 CROP = {
-    "jm-consulting.png": (0, 0, 1203, 676),      # 1.40 -> 1.78, la portada sola
+    "jm-consulting.png": (0, 8, 1203, 676),      # 1.40 -> 1.80, la portada sola.
+                                                 # Las 8 primeras filas son el
+                                                 # borde del navegador: al
+                                                 # invertir salían en blanco.
     "jm-consulting_1.png": (0, 0, 1130, 795),    # 1.23 -> 1.42, sin la fila cortada
     "jm-consulting_3.png": (0, 0, 1287, 800),    # 1.40 -> 1.61, sin los logos cortados
     "sistema_muestras_10.png": (445, 42, 1310, 428),  # 3.04 -> 2.24, sin el vacío
@@ -56,6 +60,33 @@ CROP = {
 # del marco; juntas dan 1.63, casi la proporción de la ventana.
 PAIR = ("sistema_muestras_5.png", "sistema_muestras_6.png")
 PAIR_GAP = 36
+
+# --- Fondo negro -------------------------------------------------------------
+# No basta con pintar el fondo: el texto es oscuro y desaparecería. Hay que
+# invertir la luminosidad y dejar el tono intacto, que es lo que convierte un
+# blanco en negro y un texto negro en blanco sin estropear los colores de marca.
+#
+# Lo único que no sobrevive a eso son las fotos: en negativo son horribles. Se
+# detectan solas (una casilla de foto tiene decenas de colores distintos; una de
+# texto, dos) y se vuelven a pegar en color original encima.
+# La sección de contacto de J&M ya es verde oscuro: invertirla entera la
+# aclararía, que es lo contrario de lo que se busca. Ahí sólo se invierten los
+# dos bloques claros — la barra de navegación y la tarjeta del formulario.
+INVERT_ONLY = {
+    "jm-consulting_6.png": [(0, 0, 1210, 58), (495, 221, 1011, 718)],
+}
+
+# Fotos que el detector no pilla: la de equipo tiene fondo blanco entre persona
+# y persona, y las miniaturas de joyería son pequeñas. Coordenadas del PNG ya
+# recortado.
+KEEP = {
+    "jm-consulting_2.png": [(12, 94, 484, 412)],       # foto del equipo
+    "sistema_muestras_7.png": [(1300, 162, 1398, 750)],  # columna "Foto"
+}
+
+TILE = 16
+MIN_COLORS = 26            # colores distintos en una casilla para ser foto
+MIN_TILES = 12             # casillas seguidas para que cuente como foto
 
 JM = [
     ("jm-consulting.png",   "jm-1"),
@@ -89,13 +120,81 @@ def redact(im, boxes):
     return im
 
 
+def photo_boxes(im):
+    """Rectángulos que parecen foto, por variedad de color en cada casilla."""
+    w, h = im.width // TILE, im.height // TILE
+    px = im.load()
+    rich = [[0] * w for _ in range(h)]
+    for ty in range(h):
+        for tx in range(w):
+            seen = set()
+            for y in range(ty * TILE, ty * TILE + TILE, 2):
+                for x in range(tx * TILE, tx * TILE + TILE, 2):
+                    r, g, b = px[x, y]
+                    seen.add((r >> 3, g >> 3, b >> 3))
+            rich[ty][tx] = 1 if len(seen) >= MIN_COLORS else 0
+
+    boxes, visited = [], [[False] * w for _ in range(h)]
+    for ty in range(h):
+        for tx in range(w):
+            if not rich[ty][tx] or visited[ty][tx]:
+                continue
+            queue = deque([(tx, ty)])
+            visited[ty][tx] = True
+            x0 = x1 = tx
+            y0 = y1 = ty
+            n = 0
+            while queue:
+                cx, cy = queue.popleft()
+                n += 1
+                x0, x1 = min(x0, cx), max(x1, cx)
+                y0, y1 = min(y0, cy), max(y1, cy)
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1),
+                               (1, 1), (-1, -1), (1, -1), (-1, 1)):
+                    nx, ny = cx + dx, cy + dy
+                    if 0 <= nx < w and 0 <= ny < h and not visited[ny][nx] and rich[ny][nx]:
+                        visited[ny][nx] = True
+                        queue.append((nx, ny))
+            if n >= MIN_TILES:
+                boxes.append((x0 * TILE, y0 * TILE,
+                              min(im.width, (x1 + 1) * TILE),
+                              min(im.height, (y1 + 1) * TILE)))
+    return boxes
+
+
+def darken(im, src):
+    """
+    Pone el fondo en negro. Negativo y luego el tono girado media vuelta: el
+    negativo convierte el blanco en negro y el texto oscuro en claro, y el giro
+    del tono deshace el cambio de color que el negativo provoca. Un naranja de
+    marca sigue siendo naranja; sólo cambia de lado la luminosidad.
+
+    Invertir sólo el brillo (HSV) parecía equivalente y no lo es: apaga los
+    acentos: un botón naranja acaba marrón y los gráficos se vuelven barro.
+    """
+    hue, sat, val = ImageOps.invert(im).convert("HSV").split()
+    flipped = Image.merge("HSV", (hue.point(lambda p: (p + 128) % 256), sat, val)).convert("RGB")
+
+    if src in INVERT_ONLY:
+        out = im.copy()
+        for box in INVERT_ONLY[src]:
+            out.paste(flipped.crop(box), box[:2])
+        return out
+
+    out = flipped
+    for box in photo_boxes(im) + KEEP.get(src, []):
+        out.paste(im.crop(box), box[:2])
+    return out
+
+
 def load(src):
-    """Abre un PNG, le aplica el difuminado y el recorte que le tocan."""
+    """Abre un PNG y le aplica difuminado, recorte y fondo negro."""
     im = Image.open(os.path.join(SRC, src)).convert("RGB")
     if src in BLUR:
         im = redact(im, BLUR[src])
     if src in CROP:
         im = im.crop(CROP[src])
+    im = darken(im, src)
     return im
 
 
