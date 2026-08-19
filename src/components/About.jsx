@@ -23,9 +23,9 @@ export default function About({ t }) {
         </div>
 
         <ul className="stagger grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-          {t.about.pillars.map((pillar) => (
+          {t.about.pillars.map((pillar, i) => (
             <li
-              key={pillar.title}
+              key={i}
               className="reveal card px-6 py-5"
             >
               <h3 className="font-mono text-sm text-bright">{pillar.title}</h3>

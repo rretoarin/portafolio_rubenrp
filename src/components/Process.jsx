@@ -14,7 +14,7 @@ export default function Process({ t }) {
       <ol className="stagger relative grid gap-3 md:grid-cols-2">
         {t.process.steps.map((step, i) => (
           <li
-            key={step.title}
+            key={i}
             className="reveal card p-7 md:p-9"
           >
             <span className="display text-[2.5rem] text-line-strong">

@@ -5,8 +5,8 @@ import { Arc } from './ui'
 function Metrics({ metrics, className = '' }) {
   return (
     <dl className={`stagger grid gap-3 ${className}`}>
-      {metrics.map((metric) => (
-        <div key={metric.value} className="reveal card px-5 py-5">
+      {metrics.map((metric, i) => (
+        <div key={i} className="reveal card px-5 py-5">
           <dt className="font-mono text-base text-bright">{metric.value}</dt>
           <dd className="mt-1.5 text-sm leading-relaxed text-muted">{metric.label}</dd>
         </div>

@@ -14,7 +14,7 @@ export default function Services({ t }) {
 
       <div className="stagger relative grid gap-3 md:grid-cols-3">
         {t.services.items.map((item, i) => (
-          <article key={item.title} className="reveal card flex flex-col p-7 md:p-8">
+          <article key={i} className="reveal card flex flex-col p-7 md:p-8">
             <span className="font-mono text-xs tracking-widest text-muted">
               {String(i + 1).padStart(2, '0')}
             </span>
