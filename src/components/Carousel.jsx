@@ -6,7 +6,9 @@ const AUTOPLAY_MS = 5000
 /*
  * Carrusel de capturas. Cada captura va dentro de una ventana oscura: sin ella
  * una captura clara flota sobre el negro y no se entiende que hay una tira.
- * Por eso también asoma la siguiente por el borde.
+ * En pantalla grande asoma la siguiente por el borde; en móvil no: ahí una
+ * diapositiva ocupa el ancho completo, porque a 375px un 88% deja un recorte
+ * de la vecina que parece un fallo de centrado.
  *
  * El desplazamiento real lo hace el navegador con scroll-snap — el gesto táctil
  * es nativo y no hay que emular arrastre. El índice se lee del scroll, nunca al
@@ -19,8 +21,8 @@ export default function Carousel({ shots, captions, labels, name, frameLabel }) 
   const count = shots.length
 
   // Posición de scroll en la que cada captura queda encajada. Se calcula del
-  // DOM y no del ancho del contenedor, porque las diapositivas no ocupan el
-  // 100%: hay que dejar asomar la siguiente.
+  // DOM y no del ancho del contenedor, porque el ancho de la diapositiva
+  // cambia con la pantalla (100% en móvil, 91% en escritorio).
   const targetFor = (track, i) => {
     const slide = track.children[i]
     return Math.min(slide.offsetLeft, track.scrollWidth - track.clientWidth)
@@ -136,8 +138,8 @@ export default function Carousel({ shots, captions, labels, name, frameLabel }) 
             <figure
               key={src}
               aria-label={position(i)}
-              className={`w-[88%] shrink-0 snap-start transition-opacity duration-500 md:w-[91%] ${
-                i === index ? 'opacity-100' : 'opacity-40'
+              className={`w-full shrink-0 snap-start transition-opacity duration-500 md:w-[91%] ${
+                i === index ? 'opacity-100' : 'md:opacity-40'
               }`}
             >
               <div className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface">
