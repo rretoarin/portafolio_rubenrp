@@ -96,6 +96,19 @@ export const STACK = [
   },
 ]
 
+// Tecnologías fuera del uso diario que el proyecto puede pedir. Nombres
+// propios: no se traducen, por eso viven aquí y no en CONTENT.
+export const STACK_OPEN = [
+  'Astro',
+  'Next.js',
+  'TypeScript',
+  'Supabase',
+  'PostgreSQL',
+  'Firebase',
+  'WordPress',
+  'Python',
+]
+
 export const CONTENT = {
   es: {
     langLabel: 'EN',
@@ -275,6 +288,12 @@ export const CONTENT = {
         backend: 'Backend',
         data: 'Datos',
         tools: 'Herramientas',
+      },
+      open: {
+        title: 'Y si tu proyecto pide otra cosa, se hace.',
+        body: 'Esta es mi caja de herramientas del día a día, pero no es un límite. Trabajo con Claude Code como asistente de desarrollo, y eso me deja entrar en tecnologías que no uso todas las semanas sin que tu proyecto pague ese aprendizaje en tiempo ni en calidad. La tecnología se elige por lo que tú necesitas, no por lo que a mí me resulte cómodo.',
+        listLabel: 'También sobre la mesa',
+        note: 'Con una condición que no negocio: la IA no decide sola. Yo elijo la tecnología, yo reviso el código que entra al proyecto y yo respondo por lo que se entrega.',
       },
     },
     contact: {
@@ -485,6 +504,12 @@ export const CONTENT = {
         backend: 'Backend',
         data: 'Data',
         tools: 'Tooling',
+      },
+      open: {
+        title: 'And if your project calls for something else, it gets built.',
+        body: 'This is my day-to-day toolbox, but it is not a limit. I work with Claude Code as a development assistant, which lets me move into technologies I do not use every week without your project paying for that learning in time or in quality. The technology is picked for what you need, not for what happens to be comfortable for me.',
+        listLabel: 'Also on the table',
+        note: 'With one condition I do not negotiate: the AI does not decide on its own. I choose the technology, I review the code that goes into the project and I answer for what is delivered.',
       },
     },
     contact: {
