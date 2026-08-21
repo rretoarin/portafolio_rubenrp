@@ -69,9 +69,9 @@ export default function Nav({ t, onToggleLang }) {
               <img
                 src={PROFILE.photo}
                 alt=""
-                width="275"
-                height="275"
-                className="size-9 rounded-full border border-line-strong object-cover grayscale transition-[filter,border-color] duration-300 group-hover:border-bright group-hover:grayscale-0"
+                width="400"
+                height="400"
+                className="size-9 rounded-full border border-line-strong object-cover transition-colors duration-300 group-hover:border-bright"
               />
             ) : (
               <span className="flex size-9 items-center justify-center rounded-md border border-line-strong font-mono text-xs tracking-widest text-bright transition-colors group-hover:border-bright">

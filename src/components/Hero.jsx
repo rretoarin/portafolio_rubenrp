@@ -54,10 +54,10 @@ export default function Hero({ t }) {
                 <img
                   src={PROFILE.photo}
                   alt={PROFILE.name}
-                  width="275"
-                  height="275"
+                  width="400"
+                  height="400"
                   fetchPriority="high"
-                  className="size-16 shrink-0 rounded-full border border-line-strong object-cover grayscale transition-[filter,transform] duration-500 hover:scale-105 hover:grayscale-0 md:size-20"
+                  className="size-16 shrink-0 rounded-full border border-line-strong object-cover transition-transform duration-500 hover:scale-105 md:size-20"
                 />
               )}
               <p className="max-w-lg leading-relaxed text-soft md:text-lg">{t.hero.lead}</p>
