@@ -21,7 +21,7 @@ export default function Hero({ t }) {
   return (
     <section
       id="top"
-      className="hero-fill relative flex min-h-svh items-center overflow-hidden pt-32 pb-20 md:pt-40"
+      className="hero-fill relative flex min-h-svh items-center overflow-hidden pt-28 pb-16 md:pt-32"
     >
       <Arc className="-top-[34rem] -right-[26rem] size-[62rem]" />
       <Arc className="-bottom-[46rem] -left-[30rem] size-[72rem]" />

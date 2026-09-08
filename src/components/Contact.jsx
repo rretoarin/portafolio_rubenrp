@@ -23,13 +23,13 @@ export default function Contact({ t }) {
   }
 
   return (
-    <section id="contact" className="relative scroll-mt-24 overflow-hidden py-20 md:py-28">
+    <section id="contact" className="relative scroll-mt-20 overflow-hidden py-16 md:py-20">
       <Arc className="-top-[24rem] left-1/2 size-[68rem] -translate-x-1/2" />
 
       <div className="shell relative">
         <SectionLabel className="reveal text-center">{t.contact.eyebrow}</SectionLabel>
 
-        <div className="mt-10 grid gap-12 md:mt-14 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+        <div className="mt-6 grid gap-12 md:mt-8 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div className="reveal">
             <h2 className="display text-[2rem] text-balance sm:text-[2.75rem] md:text-[3rem] lg:text-[3.25rem]">
               {t.contact.title}
