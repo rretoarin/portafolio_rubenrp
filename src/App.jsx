@@ -44,7 +44,7 @@ export default function App() {
   return (
     <>
       <a
-        href="#about"
+        href="#top"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-full focus:bg-bright focus:px-4 focus:py-2 focus:text-sm focus:text-ink"
       >
         {lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}
@@ -55,13 +55,19 @@ export default function App() {
 
       <Nav t={t} onToggleLang={toggleLang} />
 
+      {/*
+        Orden del recorrido: propuesta de valor, que problemas resuelvo, trabajo
+        real, como lo hago, quien responde, con que herramientas y como contactar.
+        La cinta de tecnologias entra recien antes del stack: es soporte tecnico,
+        no la primera cosa que tiene que leer un cliente.
+      */}
       <main>
         <Hero t={t} />
-        <Marquee />
         <Services t={t} />
-        <About t={t} />
-        <Projects t={t} />
+        <Projects t={t} lang={lang} />
         <Process t={t} />
+        <About t={t} />
+        <Marquee />
         <Stack t={t} />
         <Contact t={t} />
       </main>
@@ -79,9 +85,24 @@ export default function App() {
             '@type': 'Person',
             name: PROFILE.name,
             jobTitle: t.footer.role,
+            url: PROFILE.site,
+            image: `${PROFILE.site}${PROFILE.photo.slice(1)}`,
             email: `mailto:${PROFILE.email}`,
+            telephone: `+${PROFILE.whatsapp}`,
             sameAs: [PROFILE.linkedin],
-            knowsAbout: ['React', 'Node.js', 'MongoDB', 'Full stack web development'],
+            description: t.hero.lead,
+            knowsAbout: [
+              'Desarrollo web',
+              'Desarrollo full stack',
+              'Software a medida',
+              'Sistemas de gestion',
+              'Paneles de administracion',
+              'Automatizacion de procesos',
+              'Integracion de APIs',
+              'React',
+              'Node.js',
+              'MongoDB',
+            ],
             alumniOf: {
               '@type': 'CollegeOrUniversity',
               name: UNIVERSITY,

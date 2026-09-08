@@ -7,7 +7,9 @@ function Metrics({ metrics, className = '' }) {
     <dl className={`stagger grid gap-3 ${className}`}>
       {metrics.map((metric, i) => (
         <div key={i} className="reveal card px-5 py-5">
-          <dt className="font-mono text-base text-bright">{metric.value}</dt>
+          <dt className="font-mono text-[0.9375rem] leading-snug text-bright">
+            {metric.value}
+          </dt>
           <dd className="mt-1.5 text-sm leading-relaxed text-muted">{metric.label}</dd>
         </div>
       ))}
@@ -39,7 +41,7 @@ export default function Hero({ t }) {
           </span>
         </div>
 
-        <h1 className="reveal display mt-7 text-[2.25rem] text-balance sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem]">
+        <h1 className="reveal display mt-7 text-[1.625rem] text-balance sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4.5rem] xl:text-[5rem]">
           {t.hero.headline.map((line, i) => (
             <span key={line} className="block" style={{ transitionDelay: `${i * 90}ms` }}>
               {line}
@@ -49,7 +51,7 @@ export default function Hero({ t }) {
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
           <div className="reveal">
-            <div className="flex items-start gap-5">
+            <div className="flex items-center gap-5">
               {PROFILE.photo && (
                 <img
                   src={PROFILE.photo}
@@ -60,12 +62,24 @@ export default function Hero({ t }) {
                   className="size-16 shrink-0 rounded-full border border-line-strong object-cover transition-transform duration-500 hover:scale-105 md:size-20"
                 />
               )}
-              <p className="max-w-lg leading-relaxed text-soft md:text-lg">{t.hero.lead}</p>
+              <div className="min-w-0">
+                <p className="font-mono text-base text-bright md:text-lg">
+                  {PROFILE.name}
+                </p>
+                <p className="eyebrow mt-1.5">{t.hero.role}</p>
+              </div>
+            </div>
+
+            <div className="mt-7 max-w-lg">
+              <p className="leading-relaxed text-soft md:text-lg">{t.hero.lead}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted">
+                {t.hero.leadSecondary}
+              </p>
             </div>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <a
-                href="#projects"
+                href="#contact"
                 className="btn-primary group inline-flex items-center gap-3 rounded-full bg-bright py-3.5 pr-3.5 pl-7 font-mono text-sm text-ink transition-opacity hover:opacity-85"
               >
                 {t.hero.ctaPrimary}
@@ -74,24 +88,25 @@ export default function Hero({ t }) {
                 </span>
               </a>
 
-              <a href={`mailto:${PROFILE.email}`} className="pill py-3.5 pr-7 pl-7 text-sm">
+              <a href="#projects" className="pill py-3.5 pr-7 pl-7 text-sm">
                 {t.hero.ctaSecondary}
               </a>
             </div>
 
+            {/* WhatsApp va primero y con contorno más claro: es el canal directo. */}
             <div className="mt-7 flex flex-wrap items-center gap-2.5">
-              <a href={`mailto:${PROFILE.email}`} className="pill">
-                <Mail width={14} height={14} />
-                Email
-              </a>
               <a
                 href={whatsappUrl(t.contact.whatsappMessage)}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="pill"
+                className="pill pill-strong"
               >
                 <WhatsApp width={14} height={14} />
                 WhatsApp
+              </a>
+              <a href={`mailto:${PROFILE.email}`} className="pill">
+                <Mail width={14} height={14} />
+                Email
               </a>
               <a
                 href={PROFILE.linkedin}

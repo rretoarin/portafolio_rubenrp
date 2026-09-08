@@ -196,6 +196,23 @@
       background-color 0.25s var(--ease-out-soft);
   }
 
+  /*
+   * Variante con más presencia, sin salirse de la paleta: el contorno sube a
+   * `soft` y el texto a `bright`. Se usa donde una opción tiene que pesar más
+   * que sus vecinas — WhatsApp frente a los otros canales de contacto.
+   */
+  .pill-strong {
+    border-color: var(--color-muted);
+    color: var(--color-bright);
+    background-color: var(--color-surface);
+  }
+
+  @media (hover: hover) {
+    a.pill-strong:hover {
+      border-color: var(--color-bright);
+    }
+  }
+
   /* Objetivo táctil cómodo sólo en las píldoras que son accionables. */
   a.pill,
   button.pill {
@@ -267,6 +284,12 @@
       background-color: var(--color-raised);
       transform: translateY(-2px);
     }
+  }
+
+  /* Tarjeta con jerarquía superior: mismo lenguaje, un escalón más de contraste. */
+  .card-strong {
+    border-color: var(--color-line-strong);
+    background-color: var(--color-raised);
   }
 
   /* CTA principal: píldora blanca con destello al pasar el puntero. */

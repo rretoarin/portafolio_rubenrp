@@ -12,6 +12,7 @@ export const PROFILE = {
   photo: '/ruben.webp',
   whatsapp: '51933214520', // Formato wa.me: sin +, espacios ni guiones.
   whatsappDisplay: '+51 933 214 520',
+  site: 'https://portafolio-rubenrp.vercel.app/',
 }
 
 // wa.me abre la conversación en app o en web según el dispositivo.
@@ -58,6 +59,13 @@ export const PROJECTS = [
   },
 ]
 
+/*
+ * Testimonios reales de clientes. Vacío a propósito: aquí no se inventa nada.
+ * Cuando haya uno, se agrega { id, quote: { es, en }, author, role } y la
+ * sección aparece sola bajo los proyectos. Mientras esté vacío no se renderiza.
+ */
+export const TESTIMONIALS = []
+
 // Sólo se nombra la institución; el detalle del certificado no va en el sitio.
 export const UNIVERSITY = 'Pontificia Universidad Católica del Perú'
 
@@ -74,7 +82,6 @@ export const MARQUEE = [
   'JWT',
   'Git',
   'Vercel',
-  'Claude Code',
 ]
 
 export const STACK = [
@@ -92,7 +99,7 @@ export const STACK = [
   },
   {
     id: 'tools',
-    items: ['Git', 'Claude Code', 'Vercel', 'Netlify', 'Postman', 'Figma'],
+    items: ['Git', 'Vercel', 'Netlify', 'Postman', 'Figma', 'Claude Code'],
   },
 ]
 
@@ -114,10 +121,10 @@ export const CONTENT = {
     langLabel: 'EN',
     langAria: 'Cambiar idioma a inglés',
     nav: {
-      about: 'Perfil',
       services: 'Servicios',
       projects: 'Proyectos',
-      process: 'Proceso',
+      process: 'Cómo trabajo',
+      about: 'Perfil',
       stack: 'Stack',
       contact: 'Contacto',
       menu: 'Menú',
@@ -126,95 +133,111 @@ export const CONTENT = {
     hero: {
       status: 'Disponible para nuevos proyectos',
       role: 'Desarrollador Full Stack',
-      headline: ['Desarrollador', 'Full Stack'],
-      lead: 'Hola, soy Rubén. Te ayudo a convertir eso que necesitas resolver en un sistema que funciona de verdad: escucho el requerimiento, te propongo cómo resolverlo y me encargo del resto, desde el primer boceto hasta que está en línea.',
-      ctaPrimary: 'Ver proyectos',
-      ctaSecondary: 'Hablemos',
+      headline: ['Construyo la solución', 'digital que necesitas.'],
+      lead: 'Desde una página web hasta un sistema a medida. Escucho tu idea, entiendo el problema y construyo una solución que funcione de verdad.',
+      leadSecondary:
+        'Trabajas directamente conmigo, de la primera conversación hasta que está en producción.',
+      ctaPrimary: 'Hablemos de tu proyecto',
+      ctaSecondary: 'Ver proyectos',
       metrics: [
-        { value: 'Full stack', label: 'Frontend, backend y base de datos' },
-        { value: 'A medida', label: 'Cada solución nace del requerimiento' },
-        { value: 'En producción', label: 'Dos sistemas entregados y funcionando' },
-      ],
-    },
-    about: {
-      eyebrow: 'Perfil',
-      title: 'Te acompaño desde la idea hasta la producción.',
-      body: [
-        'Soy desarrollador full stack, y para ti eso significa una sola persona responsable de todo: la pantalla que ven tus clientes, la lógica que hay detrás, la base de datos y la puesta en línea. No tienes que coordinar tres proveedores ni traducir entre ellos.',
-        'Hace poco terminé un curso de actualización full stack en la PUCP. Mantenerme al día es parte del trabajo: las herramientas cambian rápido y lo que te entrego tiene que envejecer bien.',
-        'Uso Claude Code para avanzar más rápido, siempre supervisando. La IA escribe veloz; yo decido cómo se estructura todo, reviso cada cambio y respondo por el resultado. Para ti se traduce en entregas más cortas sin que la calidad lo pague.',
-      ],
-      pillars: [
         {
-          title: 'Entiendo antes de proponer',
-          text: 'Primero conversamos sobre tu negocio y el problema concreto. La solución sale de ahí, no de un catálogo de servicios.',
+          value: 'Trabajas conmigo',
+          label: 'Sin intermediarios: hablas con la persona que construye.',
         },
         {
-          title: 'Un solo responsable',
-          text: 'Frontend, backend, base de datos y despliegue en la misma persona. Menos coordinación para ti y menos cosas que se pierden en el camino.',
+          value: 'De la idea a producción',
+          label: 'Diseño, desarrollo, despliegue y puesta en marcha.',
         },
         {
-          title: 'Entregas cortas, con criterio',
-          text: 'Claude Code para acelerar, revisión humana en cada paso.',
-        },
-        {
-          title: 'No te dejo solo al entregar',
-          text: 'Despliegue, dominio, capacitación de uso y un panel propio para que administres tu contenido sin depender de mí.',
+          value: 'Una web o un sistema',
+          label: 'Desde algo sencillo hasta una herramienta hecha a tu medida.',
         },
       ],
     },
     services: {
       eyebrow: 'Servicios',
-      title: 'Tu negocio necesita una página web.',
+      title: '¿Qué puedo construir contigo?',
       subtitle:
-        'Hoy tu cliente busca en internet antes de decidir. Si no te encuentra, o solo encuentra un perfil de redes sin información, termina comprándole a otro. Una página propia le muestra tu producto en detalle, le responde las dudas antes de que las pregunte y te deja el contacto a un clic.',
-      sectorsLabel: 'Trabajo con cualquier rubro',
+        'No hace falta que sepas qué tecnología necesitas. Cuéntame qué quieres resolver y te digo qué se puede construir: a veces basta con algo sencillo, y a veces hace falta una herramienta hecha entera a tu medida.',
+      sectorsLabel: 'Trabajo con proyectos de cualquier tamaño',
       sectors: [
-        'Restaurantes',
-        'Consultoras',
-        'Talleres',
-        'Joyerías',
-        'Tiendas',
-        'Clínicas',
+        'Emprendedores',
+        'Negocios locales',
         'Profesionales independientes',
+        'Restaurantes',
+        'Tiendas',
+        'Talleres',
+        'Consultoras',
+        'Clínicas',
+        'Empresas',
       ],
-      cta: 'Conversemos sobre tu negocio',
+      cta: 'Cuéntame tu idea',
       items: [
         {
-          title: 'Página web para tu negocio',
-          text: 'Catálogo de productos o servicios con fotos y descripciones, quiénes son, dónde están y contacto directo por WhatsApp. Todo lo que tu cliente necesita saber antes de escribirte, sin que se lo tengas que explicar una por una.',
+          title: 'Una web',
+          text: 'Para presentar tu negocio, tu servicio, tu producto o tu marca profesional. Con un panel propio para que cambies textos, fotos y precios sin tener que llamar a nadie.',
         },
         {
-          title: 'Un panel para administrarla tú',
-          text: 'Cambias textos, fotos, precios o publicaciones desde tu propio panel, sin llamarme ni pagar por cada ajuste. Tu página deja de depender de mí el día que te la entrego.',
+          title: 'Una herramienta',
+          text: 'Para administrar clientes, productos, pedidos o información. Lo que hoy vive en un cuaderno y en veinte hojas de cálculo, reunido en un solo lugar.',
         },
         {
-          title: 'Sistemas a medida',
-          text: 'Cuando el negocio necesita más que una web: control de inventario, seguimiento de pedidos o muestras, usuarios con distintos permisos y reportes de lo que pasa adentro.',
+          title: 'Una automatización',
+          text: 'Para dejar de repetir a mano lo mismo cada semana: cálculos, plazos, avisos y reportes que se generan solos y no se equivocan al copiar.',
+        },
+        {
+          title: 'Un sistema',
+          text: 'Cuando necesitas algo adaptado por completo a tu forma de trabajar, porque ninguna herramienta genérica termina de encajar.',
+        },
+        {
+          title: 'Una integración',
+          text: 'Para conectar lo que ya usas: APIs, bases de datos y servicios que hoy no se hablan entre sí y te obligan a cargar la misma información dos veces.',
         },
       ],
     },
     projects: {
       eyebrow: 'Proyectos',
-      title: 'Trabajo real, en producción.',
+      title: 'Lo que ya construí, funcionando.',
       subtitle:
-        'Mis dos últimos proyectos, los dos de este año: uno público y uno interno. Ambos construidos de cero.',
+        'Dos proyectos de este año, los dos hechos de cero: uno público y uno interno. En ambos empecé por el problema, no por la tecnología.',
       viewLive: 'Ver sitio',
       privateLabel: 'Sistema interno · sin acceso público',
       clientLabel: 'Cliente',
-      highlightsLabel: 'Destacado',
+      problemLabel: 'Problema',
+      solutionLabel: 'Solución',
+      resultLabel: 'Resultado',
+      highlightsLabel: 'Qué incluye',
       galleryLabel: 'Capturas',
       prev: 'Captura anterior',
       next: 'Captura siguiente',
       shotOf: 'Captura {i} de {n}',
+      trustLabel: 'Qué puedes esperar',
+      trust: [
+        {
+          title: 'Cosas en uso, no maquetas',
+          text: 'Los dos proyectos están desplegados y funcionando: uno público en internet y otro dentro de la operación diaria de una empresa.',
+        },
+        {
+          title: 'Hablas conmigo',
+          text: 'No hay ejecutivo de cuenta ni intermediario. Lo que me cuentas lo construyo yo, y a mí me preguntas cuando algo no te cuadra.',
+        },
+        {
+          title: 'El control queda contigo',
+          text: 'Panel de administración propio y código documentado. Puedes seguir con otra persona el día que quieras, sin quedar atado a mí.',
+        },
+      ],
       items: {
         'jm-consulting': {
           name: 'J&M Consulting Foods',
           tag: 'Sitio corporativo + panel de administración',
           summary:
             'Plataforma web para una consultora peruana de inocuidad alimentaria que gestiona registros sanitarios, HACCP, BPM y normas ISO.',
-          detail:
-            'Construí el sitio completo: catálogo de servicios, secciones de proceso y sectores, portafolio de clientes, blog y múltiples vías de contacto con integración directa a WhatsApp. Detrás hay un panel de administración con login, para que el propio cliente publique contenido sin depender de mí.',
+          problem:
+            'Una consultora con un servicio técnico y difícil de explicar en pocas líneas necesitaba presentar su catálogo de trámites y certificaciones en detalle, y recibir consultas ordenadas — sin depender de un desarrollador cada vez que hubiera que cambiar un texto o publicar algo nuevo.',
+          solution:
+            'Construí el sitio completo: catálogo de servicios, proceso, sectores atendidos, portafolio de clientes, blog y varias vías de contacto con paso directo a WhatsApp. Detrás va un panel de administración con acceso autenticado, para que el propio cliente publique y edite contenido.',
+          result:
+            'Sitio desplegado en Netlify con dominio propio y en funcionamiento. El equipo de la consultora gestiona su contenido sin tocar código y recibe las consultas por formulario y por WhatsApp.',
           highlights: [
             'Panel de administración con acceso autenticado',
             'Contenido editable por el cliente, sin tocar código',
@@ -236,13 +259,17 @@ export const CONTENT = {
           sector: 'Joyería',
           summary:
             'Sistema interno para Arin S.A. que reemplazó el control manual en hojas de cálculo por un flujo digital con trazabilidad completa de cada muestra.',
-          detail:
-            'Diseñé el modelo de datos y la aplicación completa: registro de muestras, seguimiento por estados, historial de cada movimiento y accesos diferenciados por rol. En joyería cada muestra que sale es un activo de valor, así que el requerimiento era saber en todo momento dónde está y quién la manipuló. La arquitectura se armó alrededor de esa necesidad.',
+          problem:
+            'El control de muestras se llevaba a mano en hojas de cálculo. En joyería cada muestra que sale es un activo de valor, y no había una forma confiable de saber en todo momento dónde estaba, en qué estado y quién la había manipulado.',
+          solution:
+            'Diseñé el modelo de datos y la aplicación completa: registro de muestras, seguimiento por estados, historial firmado de cada movimiento, calendario de cierres con feriados, reportes de vencimientos y accesos diferenciados por rol.',
+          result:
+            'Sistema en producción como herramienta interna de la empresa. Cada movimiento queda registrado con autor, fecha y motivo, y los plazos se recalculan solos en todo el sistema.',
           highlights: [
             'Trazabilidad completa: cada cambio queda registrado',
             'Roles y permisos según el puesto de cada usuario',
-            'Modelo de datos en MongoDB pensado para escalar',
-            'API REST propia en Node.js y Express',
+            'Reportes y exportación de la información a Excel',
+            'Modelo de datos y API REST propios, pensados para escalar',
           ],
           shots: [
             'Listado de productos: filtros combinados por estado, cliente, tipo y fecha, con exportación a Excel.',
@@ -257,32 +284,64 @@ export const CONTENT = {
       },
     },
     process: {
-      eyebrow: 'Proceso',
-      title: 'Cómo trabajo un proyecto.',
-      subtitle: 'El mismo camino en todos los casos. Es lo que evita sorpresas al final.',
+      eyebrow: 'Cómo trabajo',
+      title: 'De la idea a producción.',
+      subtitle:
+        'Cuatro pasos, siempre los mismos. Nada complicado: es lo que hace que sepas en todo momento en qué punto va tu proyecto.',
       steps: [
         {
-          title: 'Entender el requerimiento',
-          text: 'Conversamos sobre el negocio y el problema concreto. Salgo de ahí con el alcance escrito y priorizado, no con una lista de deseos.',
+          title: 'Entendemos',
+          text: 'Me cuentas tu idea, tu negocio o el problema que tienes. Pregunto hasta entenderlo de verdad, no solamente la pantalla que te estás imaginando.',
         },
         {
-          title: 'Definir la arquitectura',
-          text: 'Modelo de datos, estructura del backend y flujo de la interfaz. Las decisiones difíciles se toman acá, no a mitad del desarrollo.',
+          title: 'Proponemos',
+          text: 'Definimos juntos la solución que más te conviene y hasta dónde llega. Sabes qué incluye antes de que yo empiece a construir.',
         },
         {
-          title: 'Construir y validar',
-          text: 'Desarrollo por entregas revisables. Uso Claude Code para acelerar, superviso cada cambio y muestro avances para corregir a tiempo.',
+          title: 'Construyo',
+          text: 'Desarrollo la solución y te voy mostrando avances. Si algo no era lo que tenías en la cabeza, lo corregimos ahí y no al final.',
         },
         {
-          title: 'Desplegar y acompañar',
-          text: 'Puesta en producción, capacitación de uso y soporte. Te entrego además el control: panel propio y código documentado.',
+          title: 'Producción',
+          text: 'Pongo la solución en funcionamiento, te enseño a usarla y queda en tus manos. Si más adelante hace falta crecer, seguimos desde ahí.',
         },
       ],
     },
+    about: {
+      eyebrow: 'Perfil',
+      title: 'Soy Rubén. Trabajas directamente conmigo.',
+      quote: 'No tienes que coordinar tres proveedores ni traducir entre ellos.',
+      body: [
+        'Me interesa entender cómo funcionan las cosas: por qué un proceso se traba, por qué algo se rehace tres veces a mano, qué es lo que de verdad hace falta. Casi nunca el problema es exactamente el que se cuenta al principio, y encontrar el verdadero ya es la mitad del trabajo.',
+        'La otra mitad es construirlo. Soy desarrollador full stack, así que la pantalla que ven tus clientes, la lógica que hay detrás, la base de datos y la puesta en línea salen de la misma persona. Hablas conmigo de principio a fin, y respondo yo por el resultado.',
+      ],
+      scopeLabel: 'De principio a fin',
+      scope: ['Frontend', 'Backend', 'Base de datos', 'Despliegue', 'Mantenimiento'],
+      pillars: [
+        {
+          title: 'Pregunto antes de proponer',
+          text: 'Primero quiero entender tu negocio y el problema concreto. La solución sale de ahí, no de un catálogo de servicios.',
+        },
+        {
+          title: 'Te digo qué incluye',
+          text: 'Antes de escribir código queda claro el alcance. Lo que se agrega después se conversa, no aparece al final.',
+        },
+        {
+          title: 'Ves los avances',
+          text: 'Te muestro cómo va mientras se construye. Corregir a tiempo cuesta mucho menos que corregir el día de la entrega.',
+        },
+        {
+          title: 'No desaparezco al entregar',
+          text: 'Despliegue, dominio, capacitación de uso y un panel propio para que puedas seguir sin depender de mí.',
+        },
+      ],
+      note: 'Trabajo con herramientas modernas de desarrollo, asistencia de IA incluida, para entregar en menos tiempo; y me mantengo al día con formación continua, lo último un curso de actualización full stack en la PUCP. Lo que no delego es el criterio: la arquitectura, las decisiones técnicas y la responsabilidad por lo que se entrega son mías.',
+    },
     stack: {
       eyebrow: 'Stack',
-      title: 'Con qué construyo.',
-      subtitle: 'Herramientas que uso a diario. La elección final siempre depende del proyecto.',
+      title: 'Con qué lo construyo.',
+      subtitle:
+        'La parte técnica, por si te interesa verla. Son las herramientas que uso a diario, pero la elección final depende siempre de lo que tu proyecto necesita.',
       groups: {
         frontend: 'Frontend',
         backend: 'Backend',
@@ -291,27 +350,32 @@ export const CONTENT = {
       },
       open: {
         title: 'Y si tu proyecto pide otra cosa, se hace.',
-        body: 'Esta es mi caja de herramientas del día a día, pero no es un límite. Trabajo con Claude Code como asistente de desarrollo, y eso me deja entrar en tecnologías que no uso todas las semanas sin que tu proyecto pague ese aprendizaje en tiempo ni en calidad. La tecnología se elige por lo que tú necesitas, no por lo que a mí me resulte cómodo.',
+        body: 'Esta es mi caja de herramientas del día a día, pero no es un límite. La tecnología se elige por lo que el proyecto necesita —cómo va a crecer, quién lo va a mantener y cuánto tiene que durar—, no por lo que a mí me resulte cómodo. Entrar en algo que no uso todas las semanas es parte de mi trabajo y no lo paga tu proyecto ni en tiempo ni en calidad.',
         listLabel: 'También sobre la mesa',
-        note: 'Con una condición que no negocio: la IA no decide sola. Yo elijo la tecnología, yo reviso el código que entra al proyecto y yo respondo por lo que se entrega.',
+        note: 'Uso asistentes de IA como herramienta de desarrollo, nunca como sustituto del criterio: yo defino la arquitectura, reviso cada cambio que entra al proyecto y respondo por lo que se entrega.',
       },
     },
     contact: {
       eyebrow: 'Contacto',
-      title: 'Cuéntame qué necesitas.',
-      body: 'No hace falta que sepas cómo se resuelve técnicamente, para eso estoy yo. Descríbeme el problema y te respondo con una propuesta concreta: alcance, cómo lo abordaría y en cuánto tiempo. Sin compromiso.',
+      title: 'Cuéntame tu idea.',
+      body: 'No necesitas tener los detalles técnicos ni saber qué tecnología hace falta. Explícame el problema o la idea que tienes en la cabeza y vemos juntos cuál puede ser la mejor solución.',
+      bodySecondary:
+        'Te respondo yo con una propuesta concreta: qué haría, hasta dónde llegaría y en cuánto tiempo. Sin compromiso.',
       emailLabel: 'Correo',
       linkedinLabel: 'LinkedIn',
       whatsappLabel: 'WhatsApp',
       whatsappAria: 'Escribirme por WhatsApp',
+      whatsappHint: 'La vía más rápida',
       whatsappMessage:
-        'Hola Rubén, vi tu portafolio y quiero conversar sobre un proyecto.',
-      cta: 'Escríbeme',
+        'Hola Rubén, vi tu sitio y quisiera conversar sobre un proyecto.',
+      cta: 'Hablemos de tu proyecto',
+      ctaNote: 'Te contesto yo, no un formulario automático.',
       copy: 'Copiar correo',
       copied: 'Copiado',
     },
     footer: {
       role: 'Desarrollador Full Stack',
+      tagline: 'Construyo la solución digital que necesitas.',
       built: 'Hecho con React, Vite y Tailwind CSS.',
       rights: 'Todos los derechos reservados.',
       top: 'Volver arriba',
@@ -330,10 +394,10 @@ export const CONTENT = {
     langLabel: 'ES',
     langAria: 'Switch language to Spanish',
     nav: {
-      about: 'About',
       services: 'Services',
       projects: 'Work',
-      process: 'Process',
+      process: 'How I work',
+      about: 'About',
       stack: 'Stack',
       contact: 'Contact',
       menu: 'Menu',
@@ -342,95 +406,111 @@ export const CONTENT = {
     hero: {
       status: 'Available for new projects',
       role: 'Full Stack Developer',
-      headline: ['Full Stack', 'Developer'],
-      lead: 'Hi, I am Rubén. I help you turn what you need to solve into a system that actually works: I listen to the requirement, propose how to solve it and handle the rest, from the first sketch to going live.',
-      ctaPrimary: 'View work',
-      ctaSecondary: 'Let us talk',
+      headline: ['I build the digital', 'solution you need.'],
+      lead: 'From a website to a fully custom system. I listen to your idea, understand the problem and build something that actually works.',
+      leadSecondary:
+        'You work directly with me, from the first conversation to the day it goes live.',
+      ctaPrimary: 'Let us talk about your project',
+      ctaSecondary: 'View work',
       metrics: [
-        { value: 'Full stack', label: 'Frontend, backend and database' },
-        { value: 'Tailor-made', label: 'Every solution starts from the requirement' },
-        { value: 'In production', label: 'Two systems delivered and running' },
-      ],
-    },
-    about: {
-      eyebrow: 'About',
-      title: 'I walk with you from the idea to production.',
-      body: [
-        'I am a full stack developer, and for you that means one person accountable for everything: the screen your customers see, the logic behind it, the database and going live. No juggling three vendors, no translating between them.',
-        'I recently finished a full stack refresher course at PUCP. Staying current is part of the job: tools move fast and what I hand you has to age well.',
-        'I use Claude Code to move faster, always supervising. AI writes quickly; I decide how everything is structured, review every change and answer for the result. For you that means shorter deliveries without quality paying the bill.',
-      ],
-      pillars: [
         {
-          title: 'I understand before proposing',
-          text: 'We talk about your business and the concrete problem first. The solution comes from there, not from a service catalog.',
+          value: 'You work with me',
+          label: 'No middlemen: you talk to the person who builds it.',
         },
         {
-          title: 'One person accountable',
-          text: 'Frontend, backend, database and deployment in the same hands. Less coordination for you, fewer things lost along the way.',
+          value: 'Idea to production',
+          label: 'Design, development, deployment and going live.',
         },
         {
-          title: 'Short deliveries, with judgment',
-          text: 'Claude Code to accelerate, human review at every step.',
-        },
-        {
-          title: 'I do not disappear at handoff',
-          text: 'Deployment, domain, training and your own admin panel so you manage your content without depending on me.',
+          value: 'A site or a system',
+          label: 'From something simple to a tool built entirely around you.',
         },
       ],
     },
     services: {
       eyebrow: 'Services',
-      title: 'Your business needs a website.',
+      title: 'What can I build with you?',
       subtitle:
-        'Your customer searches online before deciding. If they cannot find you, or only find a social profile with no information, they end up buying from someone else. Your own site shows your product in detail, answers their questions before they ask, and puts your contact one click away.',
-      sectorsLabel: 'I work with any industry',
+        'You do not need to know which technology you need. Tell me what you want to solve and I will tell you what can be built: sometimes something simple is enough, sometimes it takes a tool made entirely to measure.',
+      sectorsLabel: 'I work with projects of any size',
       sectors: [
-        'Restaurants',
-        'Consultancies',
-        'Workshops',
-        'Jewelry',
-        'Retail',
-        'Clinics',
+        'Founders',
+        'Local businesses',
         'Independent professionals',
+        'Restaurants',
+        'Retail',
+        'Workshops',
+        'Consultancies',
+        'Clinics',
+        'Companies',
       ],
-      cta: 'Let us talk about your business',
+      cta: 'Tell me your idea',
       items: [
         {
-          title: 'A website for your business',
-          text: 'A catalog of products or services with photos and descriptions, who you are, where you are and direct WhatsApp contact. Everything your customer needs to know before writing to you, without you explaining it one by one.',
+          title: 'A website',
+          text: 'To present your business, your service, your product or your professional brand. With your own panel to change text, photos and prices without having to call anyone.',
         },
         {
-          title: 'An admin panel you control',
-          text: 'You change text, photos, prices or posts from your own panel, without calling me or paying for every tweak. Your site stops depending on me the day I hand it over.',
+          title: 'A tool',
+          text: 'To manage clients, products, orders or information. What lives today in a notebook and twenty spreadsheets, gathered in a single place.',
         },
         {
-          title: 'Custom systems',
-          text: 'When the business needs more than a website: inventory control, order or sample tracking, users with different permissions and reports on what is happening inside.',
+          title: 'An automation',
+          text: 'To stop repeating the same thing by hand every week: calculations, deadlines, alerts and reports that generate themselves and never mistype.',
+        },
+        {
+          title: 'A system',
+          text: 'When you need something shaped entirely around the way you work, because no generic tool quite fits.',
+        },
+        {
+          title: 'An integration',
+          text: 'To connect what you already use: APIs, databases and services that today do not talk to each other and force you to enter the same data twice.',
         },
       ],
     },
     projects: {
       eyebrow: 'Work',
-      title: 'Real systems, in production.',
+      title: 'What I have built, running.',
       subtitle:
-        'My two latest projects, both from this year: one public and one internal. Both built from scratch.',
+        'Two projects from this year, both built from scratch: one public and one internal. In both I started from the problem, not from the technology.',
       viewLive: 'Visit site',
       privateLabel: 'Internal system · no public access',
       clientLabel: 'Client',
-      highlightsLabel: 'Highlights',
+      problemLabel: 'Problem',
+      solutionLabel: 'Solution',
+      resultLabel: 'Result',
+      highlightsLabel: 'What it includes',
       galleryLabel: 'Screens',
       prev: 'Previous screen',
       next: 'Next screen',
       shotOf: 'Screen {i} of {n}',
+      trustLabel: 'What you can expect',
+      trust: [
+        {
+          title: 'Things in use, not mockups',
+          text: 'Both projects are deployed and running: one public on the internet, the other inside a company’s daily operation.',
+        },
+        {
+          title: 'You talk to me',
+          text: 'No account manager, no middleman. What you tell me I build myself, and I am the one you ask when something does not add up.',
+        },
+        {
+          title: 'You keep control',
+          text: 'Your own admin panel and documented code. You can continue with someone else whenever you want, with nothing tying you to me.',
+        },
+      ],
       items: {
         'jm-consulting': {
           name: 'J&M Consulting Foods',
           tag: 'Corporate site + admin panel',
           summary:
             'Web platform for a Peruvian food-safety consultancy handling sanitary registrations, HACCP, GMP and ISO standards.',
-          detail:
-            'I built the full site: service catalog, process and sector sections, client portfolio, blog and multiple contact paths with direct WhatsApp integration. Behind it sits an authenticated admin panel so the client publishes content without depending on me.',
+          problem:
+            'A consultancy with a technical service that is hard to explain in a few lines needed to present its catalog of procedures and certifications in detail, and receive enquiries in an orderly way — without depending on a developer every time a text had to change or something new had to be published.',
+          solution:
+            'I built the full site: service catalog, process, sectors served, client portfolio, blog and several contact paths with a direct step into WhatsApp. Behind it sits an admin panel with authenticated access so the client publishes and edits content directly.',
+          result:
+            'Site deployed on Netlify with a custom domain and running. The consultancy manages its own content without touching code and receives enquiries through the form and WhatsApp.',
           highlights: [
             'Admin panel with authenticated access',
             'Client-editable content, no code required',
@@ -452,13 +532,17 @@ export const CONTENT = {
           sector: 'Jewelry',
           summary:
             'Internal system for Arin S.A. that replaced manual spreadsheet tracking with a digital flow giving full traceability over every sample.',
-          detail:
-            'I designed the data model and the whole application: sample registration, status tracking, a full history of every movement and role-based access. In jewelry every sample that leaves the building is a valuable asset, so the requirement was knowing where it is and who handled it at any moment. The architecture was built around that need.',
+          problem:
+            'Sample tracking was handled by hand in spreadsheets. In jewelry every sample that leaves the building is a valuable asset, and there was no reliable way to know at any moment where it was, in what state and who had handled it.',
+          solution:
+            'I designed the data model and the whole application: sample registration, status tracking, a signed history of every movement, a closing calendar with holidays, due-date reports and role-based access.',
+          result:
+            'System in production as an internal company tool. Every movement is recorded with author, date and reason, and deadlines recalculate themselves across the whole system.',
           highlights: [
             'Full traceability: every change is recorded',
             'Roles and permissions matched to each job',
-            'MongoDB data model designed to scale',
-            'Custom REST API in Node.js and Express',
+            'Reports and export of the information to Excel',
+            'Custom data model and REST API, designed to scale',
           ],
           shots: [
             'Product list: combined filters by status, client, type and date, with Excel export.',
@@ -473,32 +557,64 @@ export const CONTENT = {
       },
     },
     process: {
-      eyebrow: 'Process',
-      title: 'How I run a project.',
-      subtitle: 'The same path every time. That is what prevents surprises at the end.',
+      eyebrow: 'How I work',
+      title: 'From the idea to production.',
+      subtitle:
+        'Four steps, always the same ones. Nothing complicated: it is what keeps you knowing exactly where your project stands.',
       steps: [
         {
-          title: 'Understand the requirement',
-          text: 'We talk through the business and the concrete problem. I leave with a written, prioritized scope, not a wish list.',
+          title: 'We understand',
+          text: 'You tell me your idea, your business or the problem you have. I ask until I really get it, not just the screen you are picturing.',
         },
         {
-          title: 'Define the architecture',
-          text: 'Data model, backend structure and interface flow. The hard calls happen here, not halfway through development.',
+          title: 'We propose',
+          text: 'Together we define the solution that suits you and how far it goes. You know what is included before I start building.',
         },
         {
-          title: 'Build and validate',
-          text: 'Development in reviewable increments. I use Claude Code to move faster, supervise every change and show progress early enough to correct.',
+          title: 'I build',
+          text: 'I develop the solution and keep showing you progress. If something was not what you had in mind, we fix it there and not at the end.',
         },
         {
-          title: 'Deploy and support',
-          text: 'Production rollout, training and support. You also get the controls: your own admin panel and documented code.',
+          title: 'Production',
+          text: 'I put the solution live, show you how to use it and hand it over. If it needs to grow later, we carry on from there.',
         },
       ],
     },
+    about: {
+      eyebrow: 'About',
+      title: 'I am Rubén. You work directly with me.',
+      quote: 'No juggling three vendors, no translating between them.',
+      body: [
+        'I like understanding how things work: why a process gets stuck, why something gets redone three times by hand, what is actually needed. The problem is almost never exactly the one described at the start, and finding the real one is already half the job.',
+        'The other half is building it. I am a full stack developer, so the screen your customers see, the logic behind it, the database and going live all come from the same person. You talk to me from start to finish, and I answer for the result.',
+      ],
+      scopeLabel: 'Start to finish',
+      scope: ['Frontend', 'Backend', 'Database', 'Deployment', 'Maintenance'],
+      pillars: [
+        {
+          title: 'I ask before proposing',
+          text: 'First I want to understand your business and the concrete problem. The solution comes from there, not from a service catalog.',
+        },
+        {
+          title: 'I tell you what is included',
+          text: 'Before any code the scope is clear. Anything added later gets discussed, it does not turn up at the end.',
+        },
+        {
+          title: 'You see the progress',
+          text: 'I show you how it is going while it is built. Correcting in time costs far less than correcting on delivery day.',
+        },
+        {
+          title: 'I do not disappear at handoff',
+          text: 'Deployment, domain, training and your own admin panel so you can carry on without depending on me.',
+        },
+      ],
+      note: 'I work with modern development tooling, AI assistance included, to deliver in less time; and I keep current with continuous training, most recently a full stack refresher course at PUCP. What I do not delegate is judgment: the architecture, the technical decisions and the accountability for what is delivered are mine.',
+    },
     stack: {
       eyebrow: 'Stack',
-      title: 'What I build with.',
-      subtitle: 'Tools I use daily. The final choice always depends on the project.',
+      title: 'What I build it with.',
+      subtitle:
+        'The technical part, in case you want to see it. These are the tools I use daily, but the final choice always depends on what your project needs.',
       groups: {
         frontend: 'Frontend',
         backend: 'Backend',
@@ -507,27 +623,32 @@ export const CONTENT = {
       },
       open: {
         title: 'And if your project calls for something else, it gets built.',
-        body: 'This is my day-to-day toolbox, but it is not a limit. I work with Claude Code as a development assistant, which lets me move into technologies I do not use every week without your project paying for that learning in time or in quality. The technology is picked for what you need, not for what happens to be comfortable for me.',
+        body: 'This is my day-to-day toolbox, but it is not a limit. The technology is chosen for what the project needs — how it will grow, who will maintain it and how long it has to last — not for what happens to be comfortable for me. Moving into something I do not use every week is part of my job, and your project pays for it neither in time nor in quality.',
         listLabel: 'Also on the table',
-        note: 'With one condition I do not negotiate: the AI does not decide on its own. I choose the technology, I review the code that goes into the project and I answer for what is delivered.',
+        note: 'I use AI assistants as a development tool, never as a substitute for judgment: I define the architecture, review every change that enters the project and answer for what is delivered.',
       },
     },
     contact: {
       eyebrow: 'Contact',
-      title: 'Tell me what you need.',
-      body: 'You do not need to know how it is solved technically — that is my job. Describe the problem and I reply with a concrete proposal: scope, how I would approach it and how long it takes. No strings attached.',
+      title: 'Tell me your idea.',
+      body: 'You do not need the technical details or to know which technology it takes. Describe the problem or the idea you have in mind and we will work out the best solution together.',
+      bodySecondary:
+        'I reply myself with a concrete proposal: what I would do, how far it would go and how long it takes. No strings attached.',
       emailLabel: 'Email',
       linkedinLabel: 'LinkedIn',
       whatsappLabel: 'WhatsApp',
       whatsappAria: 'Message me on WhatsApp',
+      whatsappHint: 'Fastest way to reach me',
       whatsappMessage:
-        'Hi Rubén, I saw your portfolio and would like to discuss a project.',
-      cta: 'Get in touch',
+        'Hi Rubén, I saw your site and would like to discuss a project.',
+      cta: 'Let us talk about your project',
+      ctaNote: 'You get me, not an automated form.',
       copy: 'Copy email',
       copied: 'Copied',
     },
     footer: {
       role: 'Full Stack Developer',
+      tagline: 'I build the digital solution you need.',
       built: 'Built with React, Vite and Tailwind CSS.',
       rights: 'All rights reserved.',
       top: 'Back to top',

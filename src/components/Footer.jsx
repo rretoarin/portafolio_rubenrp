@@ -2,7 +2,7 @@ import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowUp, LinkedIn, Mail, WhatsApp } from './icons'
 import { Arc } from './ui'
 
-const LINKS = ['services', 'about', 'projects', 'process', 'stack', 'contact']
+const LINKS = ['services', 'projects', 'process', 'about', 'stack', 'contact']
 
 export default function Footer({ t }) {
   return (
@@ -19,21 +19,25 @@ export default function Footer({ t }) {
                 </span>
               ))}
             </h2>
-            <p className="mt-6 font-mono text-sm text-muted">{t.footer.role}</p>
+            <p className="mt-6 font-mono text-sm text-soft">{t.footer.role}</p>
+            <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted">
+              {t.footer.tagline}
+            </p>
 
+            {/* Mismo orden y misma jerarquía que en el hero: WhatsApp primero. */}
             <div className="mt-8 flex flex-wrap gap-2.5">
-              <a href={`mailto:${PROFILE.email}`} className="pill">
-                <Mail width={14} height={14} />
-                Email
-              </a>
               <a
                 href={whatsappUrl(t.contact.whatsappMessage)}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="pill"
+                className="pill pill-strong"
               >
                 <WhatsApp width={14} height={14} />
                 WhatsApp
+              </a>
+              <a href={`mailto:${PROFILE.email}`} className="pill">
+                <Mail width={14} height={14} />
+                Email
               </a>
               <a
                 href={PROFILE.linkedin}

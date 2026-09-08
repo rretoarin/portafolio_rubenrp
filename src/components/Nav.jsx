@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { PROFILE } from '../data/content'
 import { Close, Menu } from './icons'
 
-const SECTIONS = ['services', 'about', 'projects', 'process', 'stack', 'contact']
+// Orden del recorrido de conversion: que puedo hacer, que he hecho, como lo
+// hago, quien soy, con que, y como me contactas.
+const SECTIONS = ['services', 'projects', 'process', 'about', 'stack', 'contact']
 
 export default function Nav({ t, onToggleLang }) {
   const [scrolled, setScrolled] = useState(false)
@@ -90,9 +92,11 @@ export default function Nav({ t, onToggleLang }) {
                   <a
                     href={`#${id}`}
                     className={`rounded-full px-3.5 py-2 font-mono text-sm transition-colors ${
-                      active === id
-                        ? 'bg-raised text-bright'
-                        : 'text-muted hover:text-bright'
+                      id === 'contact'
+                        ? 'ml-1 border border-line-strong text-bright hover:border-bright'
+                        : active === id
+                          ? 'bg-raised text-bright'
+                          : 'text-muted hover:text-bright'
                     }`}
                   >
                     {t.nav[id]}

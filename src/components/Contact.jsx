@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { PROFILE, whatsappUrl } from '../data/content'
-import { ArrowUpRight, Check, Copy, LinkedIn, Mail, WhatsApp } from './icons'
+import { ArrowUpRight, Check, Copy, LinkedIn, WhatsApp } from './icons'
 import { Arc, SectionLabel } from './ui'
 
 export default function Contact({ t }) {
@@ -31,32 +31,47 @@ export default function Contact({ t }) {
 
         <div className="mt-10 grid gap-12 md:mt-14 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div className="reveal">
-            <h2 className="display text-[2rem] text-balance sm:text-[2.75rem] md:text-[3.5rem]">
+            <h2 className="display text-[2rem] text-balance sm:text-[2.75rem] md:text-[3rem] lg:text-[3.25rem]">
               {t.contact.title}
             </h2>
             <p className="mt-6 max-w-md leading-relaxed text-soft">{t.contact.body}</p>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-muted">
+              {t.contact.bodySecondary}
+            </p>
 
+            {/* El CTA final abre WhatsApp: es el canal que más convierte acá. */}
             <a
-              href={`mailto:${PROFILE.email}`}
+              href={whatsappUrl(t.contact.whatsappMessage)}
+              target="_blank"
+              rel="noreferrer noopener"
               className="btn-primary group mt-9 inline-flex items-center gap-3 rounded-full bg-bright py-3.5 pr-3.5 pl-7 font-mono text-sm text-ink transition-opacity hover:opacity-85"
             >
               {t.contact.cta}
               <span className="flex size-8 items-center justify-center rounded-full bg-ink text-bright">
-                <Mail width={14} height={14} />
+                <WhatsApp width={15} height={15} />
               </span>
             </a>
+
+            <p className="mt-4 font-mono text-xs text-muted">{t.contact.ctaNote}</p>
           </div>
 
           <ul className="reveal grid gap-3 self-start">
-            <li className="card px-6 py-6">
-              <p className="eyebrow">{t.contact.whatsappLabel}</p>
+            {/* WhatsApp con contorno más claro: jerarquía por encima del resto. */}
+            <li className="card card-strong px-6 py-6">
+              <div className="flex items-center justify-between gap-4">
+                {/* Sobre `raised` el gris `muted` queda en 4.51:1; `soft` da aire. */}
+                <p className="eyebrow text-soft">{t.contact.whatsappLabel}</p>
+                <span className="font-mono text-[0.6875rem] text-soft">
+                  {t.contact.whatsappHint}
+                </span>
+              </div>
               <a
                 href={whatsappUrl(t.contact.whatsappMessage)}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="tap group mt-2.5 inline-flex items-center gap-2.5 font-mono text-sm text-bright md:text-base"
+                className="tap group mt-2.5 inline-flex items-center gap-2.5 font-mono text-base text-bright md:text-lg"
               >
-                <WhatsApp width={15} height={15} className="text-muted" />
+                <WhatsApp width={17} height={17} className="text-soft" />
                 <span className="underline decoration-line-strong underline-offset-4 transition-colors group-hover:decoration-bright">
                   {PROFILE.whatsappDisplay}
                 </span>

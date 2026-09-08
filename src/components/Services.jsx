@@ -2,6 +2,13 @@ import Section from './Section'
 import { ArrowRight } from './icons'
 import { Arc } from './ui'
 
+/*
+ * Cinco servicios en una rejilla de seis columnas: tres de dos columnas arriba
+ * y dos de tres abajo. Evita la fila huérfana que dejaría un 3+2 en columnas
+ * iguales y mantiene el reparto alternado del resto del sitio.
+ */
+const SPAN = ['lg:col-span-2', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-3', 'lg:col-span-3']
+
 export default function Services({ t }) {
   return (
     <Section
@@ -12,9 +19,9 @@ export default function Services({ t }) {
     >
       <Arc className="-top-[28rem] -right-[30rem] size-[64rem]" />
 
-      <div className="stagger relative grid gap-3 md:grid-cols-3">
+      <div className="stagger relative grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
         {t.services.items.map((item, i) => (
-          <article key={i} className="reveal card flex flex-col p-7 md:p-8">
+          <article key={i} className={`reveal card flex flex-col p-7 md:p-8 ${SPAN[i]}`}>
             <span className="font-mono text-xs tracking-widest text-muted">
               {String(i + 1).padStart(2, '0')}
             </span>
