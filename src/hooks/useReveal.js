@@ -6,7 +6,7 @@ export function useReveal() {
   useEffect(() => {
     if (!('IntersectionObserver' in window)) {
       document
-        .querySelectorAll('.reveal')
+        .querySelectorAll('.reveal, .reveal-words')
         .forEach((node) => node.setAttribute('data-visible', 'true'))
       return
     }
@@ -24,8 +24,9 @@ export function useReveal() {
 
     // Observa el nodo y todo `.reveal` que cuelgue de él.
     const observe = (node) => {
-      if (node.classList.contains('reveal')) observer.observe(node)
-      node.querySelectorAll('.reveal').forEach((child) => observer.observe(child))
+      if (node.classList.contains('reveal') || node.classList.contains('reveal-words'))
+        observer.observe(node)
+      node.querySelectorAll('.reveal, .reveal-words').forEach((child) => observer.observe(child))
     }
 
     observe(document.body)

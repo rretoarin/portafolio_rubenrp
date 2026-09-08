@@ -22,7 +22,7 @@ export default function WhatsAppButton({ t }) {
       aria-label={t.contact.whatsappAria}
       tabIndex={visible ? 0 : -1}
       aria-hidden={!visible}
-      className={`fixed right-[calc(1.25rem+env(safe-area-inset-right))] bottom-[calc(1.25rem+env(safe-area-inset-bottom))] z-50 flex size-14 items-center justify-center rounded-full bg-bright text-ink shadow-[0_8px_30px_rgba(0,0,0,0.6)] transition-all duration-300 md:right-8 md:bottom-8 ${
+      className={`fixed right-[calc(1.25rem+env(safe-area-inset-right))] bottom-[calc(1.25rem+env(safe-area-inset-bottom))] z-50 flex size-14 items-center justify-center rounded-full bg-ink text-page shadow-[0_8px_28px_rgba(36,37,34,0.22)] transition-all duration-300 hover:bg-ink md:right-8 md:bottom-8 ${
         visible
           ? 'translate-y-0 scale-100 opacity-100'
           : 'pointer-events-none translate-y-3 scale-90 opacity-0'

@@ -1,86 +1,48 @@
 @import "tailwindcss";
 
 /*
- * Tipografias autoalojadas. Antes venian de Google Fonts: una peticion a un
- * tercero que tardaba mas de un segundo en responder y bloqueaba el pintado
- * del texto. Solo se descargan los subconjuntos latinos que la pagina usa,
- * y solo los tres pesos que existen de verdad en el diseno.
+ * Sin fuentes web. La referencia (taap.bio) tampoco carga ninguna: su titular
+ * usa la pila del sistema, que en Windows resuelve a Segoe UI, en macOS a SF Pro
+ * y en Android a Roboto. Todas son grotescas geométricas con un bold sólido, así
+ * que el titular se lee contundente en cualquier equipo.
+ *
+ * Se ganan tres cosas: cero peticiones de fuente, cero salto de texto al cargar
+ * (FOUT) y ~129 kB menos de descarga. Si algún día se añade una fuente propia,
+ * hay que volver a autoalojarla en public/fonts, nunca por <link> a un tercero.
  */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/inter-400-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/inter-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/jetbrains-mono-400-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/jetbrains-mono-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/jetbrains-mono-500-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/jetbrains-mono-500-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-mono: ui-monospace, "SFMono-Regular", "Segoe UI Mono", Menlo, monospace;
 
   /*
-   * Escala cálida: sigue leyéndose como negro, pero los grises tiran a
-   * tierra en vez de a azul. Es lo que hace que el sitio no se sienta frío.
-   * `muted` está calculado para superar 4.5:1 sobre `ink` (WCAG AA).
+   * Shell en blanco y gris de alto contraste. El color vivo no lo pone la
+   * marca: lo ponen las capturas de los proyectos. El ámbar es el único acento
+   * y aparece como mucho una vez por sección.
+   *
+   * Contraste medido (AA: 4.5:1 en texto, 3:1 en bordes de control):
+   *   ink 19.43 · ink-soft 6.13 sobre blanco · 5.71 sobre page-soft
+   *   page sobre ink 19.43 (texto del CTA)
+   *   edge 3.33 → bordes de control. line 1.24 → sólo divisores,
+   *   NUNCA texto ni contorno de algo pulsable.
+   * Si se toca cualquiera de estos, hay que recalcular.
    */
-  --color-ink: #0a0908;
-  --color-surface: #100e0c;
-  --color-raised: #171511;
-  --color-line: #221f1b;
-  --color-line-strong: #363129;
-  --color-muted: #837e73;
-  --color-soft: #aba69c;
-  --color-bright: #f7f4ef;
-  --color-cream: #e9dfce;
+  --color-page: #ffffff; /* fondo */
+  --color-page-soft: #f7f7f5; /* sólo estados hover; ningún fondo de sección */
+  --color-surface: #ffffff; /* tarjetas: se distinguen por borde y sombra */
+  --color-line: #e5e7eb; /* divisores decorativos */
+  --color-edge: #868d9b; /* borde de control */
+  --color-ink: #0b0d12; /* texto principal y relleno del CTA */
+  --color-ink-soft: #5b6270; /* texto secundario */
 
-  --radius-card: 1.25rem;
-  --radius-tile: 1rem;
+  /* Ventana de las capturas: blanca; la define el borde, no un fondo gris. */
+  --color-frame: #f7f7f5;
+  --color-frame-line: #e5e7eb;
+
+  --radius-card: 1rem;
+  --radius-tile: 0.625rem;
 
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -92,29 +54,25 @@
   }
 
   body {
-    background-color: var(--color-ink);
-    color: var(--color-bright);
+    background-color: var(--color-page);
+    color: var(--color-ink);
     font-family: var(--font-sans);
-    font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
-    /* Sin destello azul al tocar en iOS/Android. */
     -webkit-tap-highlight-color: transparent;
-    /* Evita el rebote lateral en iOS. */
     overscroll-behavior-x: none;
   }
 
   ::selection {
-    background-color: var(--color-bright);
-    color: var(--color-ink);
+    background-color: var(--color-ink);
+    color: var(--color-page);
   }
 
   :focus-visible {
-    outline: 1px solid var(--color-bright);
+    outline: 2px solid var(--color-ink);
     outline-offset: 3px;
   }
 
-  /* En táctil no hay foco de teclado: no ensuciar con outlines al tocar. */
   :focus:not(:focus-visible) {
     outline: none;
   }
@@ -123,20 +81,19 @@
     width: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-ink);
+    background: var(--color-page);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-line-strong);
-    border: 3px solid var(--color-ink);
+    background: var(--color-edge);
+    border: 3px solid var(--color-page);
     border-radius: 999px;
   }
 }
 
 @layer components {
-  /* Contenedor único; suma las safe areas del notch en horizontal. */
   .shell {
     width: 100%;
-    max-width: 72rem;
+    max-width: 78rem;
     margin-inline: auto;
     padding-inline: calc(1.25rem + env(safe-area-inset-left)) calc(
         1.25rem + env(safe-area-inset-right)
@@ -151,86 +108,119 @@
     }
   }
 
-  /* Título de display: la monoespaciada es la firma del sitio. */
+  /*
+   * Titulares en Fraunces. `font-optical-sizing: auto` es lo que hace que a
+   * tamaño grande el serif abra las astas: es media personalidad de la fuente.
+   */
+  /*
+   * Titular. El peso 700 y el tracking cerrado son lo que le dan el golpe: una
+   * grotesca del sistema a cuerpo grande y bien apretada se lee tan contundente
+   * como una fuente de pago, y aquí no cuesta ni un byte.
+   */
   .display {
-    font-family: var(--font-mono);
-    font-weight: 500;
-    letter-spacing: -0.045em;
-    line-height: 1.02;
-    /* En móvil los títulos mono largos deben poder partirse. */
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.034em;
+    line-height: 1.03;
+    text-wrap: balance;
     overflow-wrap: break-word;
   }
 
-  /* Etiqueta de sección con forma de ruta: ... /Proyectos ... */
-  .tag-label {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    letter-spacing: 0.02em;
-    color: var(--color-soft);
+  /* Segundo nivel: mismo carácter, un peso menos y algo más de aire. */
+  .display-light {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.022em;
+    line-height: 1.18;
+    text-wrap: balance;
+    overflow-wrap: break-word;
   }
 
-  /* Etiqueta pequeña en versalitas para metadatos. */
+  /* Microetiqueta: el único guiño monoespaciado del sistema. */
   .eyebrow {
-    font-family: var(--font-mono);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.6875rem;
-    letter-spacing: 0.18em;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: var(--color-ink-soft);
   }
 
-  /* Píldora con contorno: tecnologías, enlaces y metadatos. */
+  /* Punto de salvia que abre cada etiqueta de sección. */
+  .eyebrow::before {
+    content: "";
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 999px;
+    background-color: var(--color-ink);
+  }
+
+  .eyebrow-plain::before {
+    display: none;
+  }
+
+  /*
+   * Píldora. El borde va en `edge` (3.24:1) y no en `sand` (1.25): un contorno
+   * de control necesita 3:1 y la arena no llega.
+   */
   .pill {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    border: 1px solid var(--color-line-strong);
+    border: 1px solid var(--color-edge);
     border-radius: 999px;
     padding: 0.4375rem 0.875rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     line-height: 1.4;
-    color: var(--color-soft);
+    color: var(--color-ink-soft);
     transition:
-      border-color 0.25s var(--ease-out-soft),
-      color 0.25s var(--ease-out-soft),
-      background-color 0.25s var(--ease-out-soft);
+      border-color 0.2s var(--ease-out-soft),
+      color 0.2s var(--ease-out-soft),
+      background-color 0.2s var(--ease-out-soft);
   }
 
-  /*
-   * Variante con más presencia, sin salirse de la paleta: el contorno sube a
-   * `soft` y el texto a `bright`. Se usa donde una opción tiene que pesar más
-   * que sus vecinas — WhatsApp frente a los otros canales de contacto.
-   */
-  .pill-strong {
-    border-color: var(--color-muted);
-    color: var(--color-bright);
-    background-color: var(--color-surface);
-  }
-
-  @media (hover: hover) {
-    a.pill-strong:hover {
-      border-color: var(--color-bright);
-    }
-  }
-
-  /* Objetivo táctil cómodo sólo en las píldoras que son accionables. */
   a.pill,
   button.pill {
     min-height: 2.75rem;
     padding-inline: 1rem;
   }
 
+  @media (hover: hover) {
+    a.pill:hover,
+    button.pill:hover {
+      border-color: var(--color-ink);
+      color: var(--color-ink);
+      background-color: var(--color-page-soft);
+    }
+  }
+
+  /* Etiqueta estática, sin contorno: metadatos que no se pulsan. */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4375rem;
+    border-radius: 999px;
+    background-color: var(--color-page-soft);
+    padding: 0.3125rem 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+
   /*
-   * Extiende el área de toque a 44px sin mover ni agrandar nada de lo que se
-   * ve: el rectángulo va en un ::after invisible, centrado sobre el elemento.
-   * Es para los enlaces y botones pequeños — texto subrayado, enlaces del pie,
-   * puntos del carrusel — donde crecer de verdad rompería el diseño.
+   * Extiende el área de toque a 44px sin mover nada de lo que se ve. Va en
+   * ::before porque `.link` ocupa el ::after con su subrayado y un elemento
+   * sólo tiene uno de cada. No sirve para elementos pegados entre sí.
    */
   .tap {
     position: relative;
   }
 
-  .tap::after {
+  .tap::before {
     content: "";
     position: absolute;
     top: 50%;
@@ -242,91 +232,293 @@
     min-height: 2.75rem;
   }
 
-  @media (hover: hover) {
-    a.pill:hover,
-    button.pill:hover {
-      border-color: var(--color-bright);
-      color: var(--color-bright);
-      background-color: var(--color-raised);
-    }
-  }
-
-  a.pill:active,
-  button.pill:active {
-    background-color: var(--color-raised);
-    border-color: var(--color-soft);
-  }
-
-  /*
-   * Tarjeta base. El degradado radial sigue al puntero mediante --mx/--my
-   * (ver useSpotlight). Va en background-image, no en un ::before, para no
-   * crear contextos de apilamiento que tapen el contenido.
-   */
+  /* Bloque elevado. Se usa poco: la composición se apoya en filete y espacio. */
   .card {
     position: relative;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
     background-color: var(--color-surface);
-    background-image: radial-gradient(
-      16rem circle at var(--mx, 50%) var(--my, -30%),
-      rgba(255, 255, 255, 0.06),
-      transparent 65%
-    );
+    box-shadow: 0 1px 2px rgb(11 13 18 / 0.04), 0 8px 24px -16px rgb(11 13 18 / 0.12);
     transition:
       border-color 0.3s var(--ease-out-soft),
-      transform 0.3s var(--ease-out-soft),
-      background-color 0.3s var(--ease-out-soft);
+      box-shadow 0.3s var(--ease-out-soft),
+      transform 0.3s var(--ease-out-soft);
   }
 
   @media (hover: hover) {
     .card:hover {
-      border-color: var(--color-line-strong);
-      background-color: var(--color-raised);
-      transform: translateY(-2px);
+      border-color: var(--color-edge);
+      transform: translateY(-3px);
+      box-shadow: 0 2px 4px rgb(11 13 18 / 0.05), 0 20px 44px -22px rgb(11 13 18 / 0.22);
     }
   }
 
-  /* Tarjeta con jerarquía superior: mismo lenguaje, un escalón más de contraste. */
-  .card-strong {
-    border-color: var(--color-line-strong);
-    background-color: var(--color-raised);
-  }
-
-  /* CTA principal: píldora blanca con destello al pasar el puntero. */
+  /* CTA principal: relleno salvia profundo, texto crema. 6.29:1. */
   .btn-primary {
     position: relative;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .btn-primary::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      105deg,
-      transparent 42%,
-      rgba(0, 0, 0, 0.14) 50%,
-      transparent 58%
-    );
-    transform: translateX(-130%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3rem;
+    border-radius: 999px;
+    background-color: var(--color-ink);
+    color: var(--color-page);
+    font-weight: 500;
+    transition:
+      background-color 0.2s var(--ease-out-soft),
+      transform 0.2s var(--ease-out-soft);
   }
 
   @media (hover: hover) {
-    .btn-primary:hover::after {
-      transform: translateX(130%);
-      transition: transform 0.75s var(--ease-out-soft);
+    .btn-primary:hover {
+      background-color: #23262f;
+      transform: translateY(-1px);
     }
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* CTA secundario: mismo tamaño, sólo contorno. */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 3rem;
+    border: 1px solid var(--color-edge);
+    border-radius: 999px;
+    padding-inline: 1.5rem;
+    color: var(--color-ink);
+    font-weight: 500;
+    transition:
+      border-color 0.2s var(--ease-out-soft),
+      background-color 0.2s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .btn-ghost:hover {
+      border-color: var(--color-ink);
+      background-color: var(--color-page-soft);
+    }
+  }
+
+  /* Enlace de texto: el subrayado engorda y pasa al acento. */
+  .link {
+    position: relative;
+    color: var(--color-ink);
+    transition: color 0.2s var(--ease-out-soft);
+  }
+
+  .link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.15em;
+    height: 1px;
+    background-color: var(--color-edge);
+    transition:
+      background-color 0.2s var(--ease-out-soft),
+      height 0.2s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .link:hover {
+      color: var(--color-ink);
+    }
+    .link:hover::after {
+      background-color: var(--color-ink);
+      height: 2px;
+    }
+  }
+
+  /*
+   * ---- Interacción: enlaces de menú ----
+   * Subrayado que se dibuja de izquierda a derecha. Va en un ::after con
+   * `scaleX`, no animando el ancho, para que lo resuelva la GPU. El estado
+   * activo deja la línea puesta: el mismo lenguaje sirve para hover y para
+   * "estás aquí", y así el menú no necesita dos señales distintas.
+   */
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0.875rem;
+    right: 0.875rem;
+    bottom: 0.375rem;
+    height: 1.5px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.32s var(--ease-out-soft);
+  }
+
+  .nav-link[data-active="true"]::after {
+    transform: scaleX(1);
+  }
+
+  @media (hover: hover) {
+    .nav-link:hover::after {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Enlaces sin caja (pie, menú móvil): el subrayado ocupa todo el ancho. */
+  .nav-link-plain::after {
+    left: 0;
+    right: 0;
+    bottom: 0.5rem;
+  }
+
+  /*
+   * ---- Interacción: bloques editoriales ----
+   * Cada bloque tiene un filete arriba. Al pasar el cursor, ese filete se
+   * repinta en tinta de izquierda a derecha, el título se desplaza cuatro
+   * píxeles y el número pasa de gris a negro. Son tres señales pequeñas que
+   * suceden a la vez: se nota que el bloque responde sin que nada salte.
+   *
+   * `.block-rule` es para los bloques que ya traen el filete como <span>;
+   * `.block-top` dibuja el suyo sobre un `border-t` existente.
+   */
+  .block-rule {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .block-rule::after,
+  .block-top::before {
+    content: "";
+    position: absolute;
+    background-color: var(--color-ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s var(--ease-out-soft);
+  }
+
+  .block-rule::after {
+    inset: 0;
+  }
+
+  .block-top {
+    position: relative;
+  }
+
+  .block-top::before {
+    top: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+  }
+
+  .block-title {
+    transition: translate 0.35s var(--ease-out-soft);
+  }
+
+  /*
+   * El color en reposo va aquí y no en una utilidad `text-ink-soft`: las
+   * utilidades de Tailwind se declaran después de esta capa y ganarían a la
+   * regla de hover, dejando el número siempre gris.
+   */
+  .block-num {
+    color: var(--color-ink-soft);
+    transition: color 0.3s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .block:hover .block-rule::after,
+    .block-top:hover::before {
+      transform: scaleX(1);
+    }
+
+    .block:hover .block-title,
+    .block-top:hover .block-title {
+      translate: 4px 0;
+    }
+
+    .block:hover .block-num,
+    .block-top:hover .block-num {
+      color: var(--color-ink);
+    }
+  }
+
+  /* Teclado: el foco dentro del bloque enciende lo mismo que el puntero. */
+  .block:focus-within .block-rule::after,
+  .block-top:focus-within::before {
+    transform: scaleX(1);
+  }
+
+  /*
+   * Titular que entra palabra a palabra. El retardo lo pone `<Words>` en línea,
+   * así que el escalonado no depende de un nth-child que se rompa al traducir.
+   */
+  .reveal-words > span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.42em);
+    transition:
+      opacity 0.7s var(--ease-out-soft),
+      transform 0.7s var(--ease-out-soft);
+  }
+
+  .reveal-words[data-visible="true"] > span {
+    opacity: 1;
+    transform: none;
+  }
+
+  /*
+   * Captura del bento. La imagen crece dentro de un marco que no se mueve —el
+   * recorte lo hace el contenedor— y la leyenda sube desde abajo. En táctil no
+   * se dispara nada: la leyenda vive en el `alt` y en el visor.
+   */
+  .shot {
+    transition:
+      transform 0.35s var(--ease-out-soft),
+      box-shadow 0.35s var(--ease-out-soft),
+      border-color 0.35s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .shot:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-edge);
+      box-shadow: 0 24px 48px -24px rgb(11 13 18 / 0.28);
+    }
+
+    .shot:hover .shot-caption {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .shot:focus-visible .shot-caption {
+    opacity: 1;
+    transform: none;
+  }
+
+  /*
+   * Atracción magnética. El desplazamiento lo escribe `useMagnetic` en línea;
+   * esta transición sólo suaviza el regreso cuando el puntero se va.
+   */
+  .magnetic {
+    transition: translate 0.28s var(--ease-out-soft);
+  }
+
+  /* Visor a pantalla completa: entra con un fundido corto, sin rebote. */
+  .lightbox {
+    animation: lightbox-in 0.25s var(--ease-out-soft);
   }
 
   /* Entrada al hacer scroll; se anula si el usuario pide menos movimiento. */
   .reveal {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(16px);
     transition:
-      opacity 0.7s var(--ease-out-soft),
-      transform 0.7s var(--ease-out-soft);
+      opacity 0.6s var(--ease-out-soft),
+      transform 0.6s var(--ease-out-soft);
   }
 
   .reveal[data-visible="true"] {
@@ -334,31 +526,20 @@
     transform: none;
   }
 
-  /* Cascada: los hijos de una rejilla entran escalonados. */
   .stagger > .reveal:nth-child(2) {
-    transition-delay: 80ms;
+    transition-delay: 70ms;
   }
   .stagger > .reveal:nth-child(3) {
-    transition-delay: 160ms;
+    transition-delay: 140ms;
   }
   .stagger > .reveal:nth-child(4) {
-    transition-delay: 240ms;
+    transition-delay: 210ms;
   }
   .stagger > .reveal:nth-child(5) {
-    transition-delay: 320ms;
+    transition-delay: 280ms;
   }
-
-  /* Cinta de tecnologías en movimiento continuo. */
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 42s linear infinite;
-  }
-
-  @media (hover: hover) {
-    .marquee:hover .marquee-track {
-      animation-play-state: paused;
-    }
+  .stagger > .reveal:nth-child(6) {
+    transition-delay: 350ms;
   }
 
   /*
@@ -374,8 +555,6 @@
     display: none;
   }
 
-  /* Botón de paso, encima de la propia captura. Siempre visible: en táctil
-     no hay hover que lo revele. */
   .gallery-btn {
     position: absolute;
     top: 50%;
@@ -385,48 +564,32 @@
     justify-content: center;
     width: 2.75rem;
     height: 2.75rem;
-    /* Contorno claro y fondo casi opaco: el botón cae tanto sobre la barra
-       oscura de la ventana como sobre una captura blanca. */
-    border: 1px solid rgb(247 244 239 / 0.3);
+    border: 1px solid var(--color-frame-line);
     border-radius: 999px;
-    background-color: rgb(10 9 8 / 0.88);
-    color: var(--color-bright);
+    background-color: rgb(255 255 255 / 0.94);
+    color: var(--color-ink);
     backdrop-filter: blur(8px);
     transition:
-      background-color 0.25s var(--ease-out-soft),
-      border-color 0.25s var(--ease-out-soft);
+      background-color 0.2s var(--ease-out-soft),
+      border-color 0.2s var(--ease-out-soft);
   }
 
   @media (hover: hover) {
     .gallery-btn:hover {
-      background-color: var(--color-bright);
-      border-color: var(--color-bright);
-      color: var(--color-ink);
+      background-color: var(--color-ink);
+      border-color: var(--color-ink);
+      color: var(--color-page);
     }
   }
 
-  .gallery-btn:active {
-    background-color: var(--color-ink);
-    border-color: var(--color-soft);
-  }
-
-  /* Grano: le da textura al negro para que no se vea plano. */
+  /* Grano: textura de papel para que la crema no se vea plástica. */
   .grain {
     position: fixed;
     inset: 0;
     z-index: 60;
     pointer-events: none;
-    opacity: 0.032;
+    opacity: 0.03;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
   }
 }
 
@@ -434,6 +597,15 @@
 @media (max-height: 34rem) {
   .hero-fill {
     min-height: 0;
+  }
+}
+
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -446,11 +618,25 @@
     transform: none;
     transition: none;
   }
-  .marquee-track {
-    animation: none;
-  }
-  .card:hover {
+  .reveal-words > span {
+    opacity: 1;
     transform: none;
+    transition: none;
+  }
+  .shot:hover {
+    transform: none;
+  }
+  .shot-caption {
+    transition: none;
+  }
+  .nav-link::after,
+  .block-rule::after,
+  .block-top::before {
+    transition: none;
+  }
+  .block:hover .block-title,
+  .block-top:hover .block-title {
+    translate: none;
   }
   *,
   *::before,

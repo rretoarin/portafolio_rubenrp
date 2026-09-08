@@ -1,123 +1,131 @@
+import { useState } from 'react'
 import { PROJECTS, TESTIMONIALS } from '../data/content'
-import Carousel from './Carousel'
+import Bento from './Bento'
 import Section from './Section'
 import { ArrowUpRight, Lock } from './icons'
-import { Arc, CircleLink } from './ui'
+import { Arc } from './ui'
 
-// Bloque del caso: etiqueta arriba, texto debajo, separados por filete.
-function CaseBlock({ label, text, first = false }) {
+function CaseBlock({ label, text, index }) {
   return (
-    <div className={first ? '' : 'mt-6 border-t border-line pt-6'}>
-      <p className="eyebrow">{label}</p>
-      <p className="mt-3 text-sm leading-relaxed text-soft">{text}</p>
+    <div className="block-top border-t border-line pt-5">
+      <p className="eyebrow eyebrow-plain">
+        <span className="block-num mr-2 tabular-nums">
+          {String(index).padStart(2, '0')}
+        </span>
+        <span className="block-title">{label}</span>
+      </p>
+      <p className="mt-3 leading-relaxed text-ink-soft">{text}</p>
     </div>
   )
 }
 
+/*
+ * Un caso no es una ficha de proyecto: abre con la frase de impacto —qué
+ * cambió en el negocio— y sólo después aparecen problema, solución y
+ * resultado. La tecnología queda al final, como pie de página del caso.
+ *
+ * Las capturas ocupan el ancho completo porque son la evidencia: en media
+ * columna no se leería la interfaz, que es justo lo que hay que poder leer.
+ */
 function Project({ project, copy, index, labels }) {
   const isLink = Boolean(project.url)
-  const flipped = index % 2 === 1
+
+  /*
+   * En móvil el caso completo son casi tres pantallas por proyecto. Lo que
+   * vende —la frase de impacto y las capturas— queda siempre visible; el
+   * detalle de problema, solución y resultado se pliega detrás de un botón.
+   *
+   * A partir de `lg` no hay botón ni pliegue: en escritorio el texto no estorba
+   * y esconderlo sólo añadiría un clic para leer lo que ya cabe en pantalla.
+   */
+  const [abierto, setAbierto] = useState(false)
+  const detalleId = `caso-${project.id}-detalle`
 
   return (
-    <article className="reveal relative grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
-      <div className={flipped ? 'lg:order-2' : ''}>
-        <p className="font-mono text-xs tracking-widest text-muted">
-          {String(index + 1).padStart(2, '0')} · {project.year}
-        </p>
-
-        <h3 className="display mt-4 text-[1.75rem] md:text-[2.25rem]">{copy.name}</h3>
-
-        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
-          <span>{copy.tag}</span>
-          {project.client && (
-            <>
-              <span aria-hidden className="h-3 w-px bg-line-strong" />
-              <span>
-                <span className="sr-only">{labels.clientLabel}: </span>
-                <span className="text-soft">{project.client}</span>
-                {copy.sector && <span> · {copy.sector}</span>}
-              </span>
-            </>
-          )}
-        </div>
-
-        <p className="mt-7 leading-relaxed text-soft">{copy.summary}</p>
-
-        {/* El stack queda por debajo del relato: soporta, no encabeza. */}
-        <div className="mt-7 flex flex-wrap gap-2">
-          {project.stack.map((tech) => (
-            <span key={tech} className="pill">
-              {tech}
+    <article className="reveal relative">
+      <div className="grid gap-x-10 gap-y-6 lg:grid-cols-12 lg:items-end">
+        <header className="lg:col-span-7">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="tag">
+              {String(index + 1).padStart(2, '0')} · {project.year}
             </span>
-          ))}
-        </div>
+            {project.client && (
+              <span className="tag">
+                <span className="sr-only">{labels.clientLabel}: </span>
+                {project.client}
+              </span>
+            )}
+            {project.sectorKey && <span className="tag">{labels.sectors[project.sectorKey]}</span>}
+          </div>
 
-        <div className="mt-8 flex items-center gap-4">
+          <h3 className="display mt-6 text-[1.75rem] md:text-[2.25rem]">{copy.name}</h3>
+          <p className="mt-2 text-ink-soft">{copy.tag}</p>
+        </header>
+
+        <div className="lg:col-span-4 lg:col-start-9 lg:justify-self-end lg:pb-2">
           {isLink ? (
-            <>
-              <CircleLink href={project.url} label={`${labels.viewLive} — ${copy.name}`} />
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="tap group inline-flex items-center gap-2 font-mono text-sm text-bright"
-              >
-                <span className="border-b border-line-strong pb-0.5 transition-colors group-hover:border-bright">
-                  {labels.viewLive}
-                </span>
-                <ArrowUpRight width={14} height={14} className="text-muted" />
-              </a>
-            </>
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="tap link group inline-flex items-center gap-2 font-medium"
+            >
+              {labels.viewLive}
+              <ArrowUpRight
+                width={15}
+                height={15}
+                className="text-ink-soft transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </a>
           ) : (
-            <span className="pill">
-              <Lock width={13} height={13} />
+            <span className="tag">
+              <Lock width={12} height={12} />
               {labels.privateLabel}
             </span>
           )}
         </div>
       </div>
 
-      {/* El caso, que es lo que le importa a un cliente: qué dolía y qué quedó. */}
-      <div className={flipped ? 'lg:order-1' : ''}>
-        <div className="card p-7 md:p-9">
-          <CaseBlock first label={labels.problemLabel} text={copy.problem} />
-          <CaseBlock label={labels.solutionLabel} text={copy.solution} />
-          <CaseBlock label={labels.resultLabel} text={copy.result} />
-        </div>
-      </div>
+      {/* La frase de impacto: lo único que hay que retener de este caso. */}
+      <p className="display-light mt-10 max-w-3xl text-[1.375rem] sm:text-[1.75rem]">
+        {copy.impact}
+      </p>
 
-      {/*
-        Las capturas van a lo ancho: en media columna no se leería la interfaz.
-        `min-w-0` es obligatorio: una celda de rejilla vale `min-width: auto` por
-        defecto y se estiraría para caber la cinta entera en vez de encogerse.
-      */}
-      <div className="min-w-0 lg:order-3 lg:col-span-2">
-        <Carousel
+      {/* La evidencia, visible de golpe: no depende de pulsar una flecha. */}
+      <div className="mt-12 min-w-0">
+        <Bento
           shots={project.shots}
           captions={copy.shots}
           labels={labels}
           name={copy.name}
-          frameLabel={project.frameLabel}
         />
+        <p className="mt-4 text-sm text-ink-soft">{labels.evidenceNote}</p>
       </div>
 
-      {/* Detalle técnico al cierre, sin tarjeta: informa sin competir. */}
-      <div className="lg:order-4 lg:col-span-2">
-        <p className="eyebrow">{labels.highlightsLabel}</p>
-        <ul className="mt-5 grid gap-x-10 gap-y-3 sm:grid-cols-2">
-          {copy.highlights.map((item, i) => (
-            <li
-              key={item}
-              className="flex gap-4 border-t border-line pt-3 text-sm leading-relaxed text-muted"
-            >
-              <span className="font-mono text-xs text-line-strong tabular-nums">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              {item}
-            </li>
-          ))}
-        </ul>
+      <button
+        type="button"
+        onClick={() => setAbierto((v) => !v)}
+        aria-expanded={abierto}
+        aria-controls={detalleId}
+        className="btn-ghost mt-8 w-full justify-center lg:hidden"
+      >
+        {abierto ? labels.detailClose : labels.detailOpen}
+      </button>
+
+      <div id={detalleId} className={abierto ? '' : 'hidden lg:block'}>
+        <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-3 lg:mt-14">
+          <CaseBlock index={1} label={labels.problemLabel} text={copy.problem} />
+          <CaseBlock index={2} label={labels.solutionLabel} text={copy.solution} />
+          <CaseBlock index={3} label={labels.resultLabel} text={copy.result} />
+        </div>
+
+        {/* La tecnología, al pie y en pequeño: es soporte, no argumento. */}
+        <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line pt-6">
+          <span className="eyebrow eyebrow-plain">{labels.toolsLabel}</span>
+          <span className="text-sm text-ink-soft">{project.stack.join(' · ')}</span>
+        </div>
       </div>
+
     </article>
   )
 }
@@ -130,9 +138,9 @@ export default function Projects({ t, lang }) {
       title={t.projects.title}
       subtitle={t.projects.subtitle}
     >
-      <Arc className="top-[10rem] -right-[38rem] size-[70rem]" />
+      <Arc className="top-[20rem] -right-[32rem] size-[60rem]" />
 
-      <div className="relative space-y-20 md:space-y-28">
+      <div className="relative space-y-24 md:space-y-32">
         {PROJECTS.map((project, i) => (
           <Project
             key={project.id}
@@ -144,14 +152,13 @@ export default function Projects({ t, lang }) {
         ))}
       </div>
 
-      {/* Confianza: sólo lo que se puede sostener con los proyectos de arriba. */}
-      <div className="reveal relative mt-20 border-t border-line pt-10 md:mt-28">
-        <p className="eyebrow">{t.projects.trustLabel}</p>
-        <ul className="mt-8 grid gap-x-10 gap-y-8 md:grid-cols-3">
-          {t.projects.trust.map((item) => (
-            <li key={item.title}>
-              <h3 className="font-mono text-sm text-bright">{item.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{item.text}</p>
+      <div className="reveal relative mt-24 border-t border-line pt-10 md:mt-32">
+        <p className="eyebrow eyebrow-plain">{t.projects.trustLabel}</p>
+        <ul className="stagger mt-8 grid gap-x-12 gap-y-10 md:grid-cols-3">
+          {t.projects.trust.map((item, i) => (
+            <li key={item.title} className={`reveal block-top border-t border-line pt-5 ${i === 1 ? 'md:mt-8' : ''}`}>
+              <h3 className="block-title display-light text-xl">{item.title}</h3>
+              <p className="mt-3 leading-relaxed text-ink-soft">{item.text}</p>
             </li>
           ))}
         </ul>
@@ -159,11 +166,11 @@ export default function Projects({ t, lang }) {
 
       {/* Aparece sola el día que haya testimonios reales que publicar. */}
       {TESTIMONIALS.length > 0 && (
-        <ul className="stagger relative mt-3 grid gap-3 md:grid-cols-2">
+        <ul className="stagger relative mt-14 grid gap-x-12 gap-y-10 md:grid-cols-2">
           {TESTIMONIALS.map((item) => (
-            <li key={item.id} className="reveal card p-7 md:p-8">
-              <p className="leading-relaxed text-soft">{item.quote[lang]}</p>
-              <p className="mt-5 font-mono text-xs text-muted">
+            <li key={item.id} className="reveal border-t border-line pt-6">
+              <p className="display-light text-xl">{item.quote[lang]}</p>
+              <p className="eyebrow eyebrow-plain mt-5">
                 {item.author} · {item.role}
               </p>
             </li>

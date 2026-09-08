@@ -1,13 +1,15 @@
 import Section from './Section'
 import { ArrowRight } from './icons'
-import { Arc } from './ui'
+import { Arc, Check } from './ui'
 
 /*
- * Cinco servicios en una rejilla de seis columnas: tres de dos columnas arriba
- * y dos de tres abajo. Evita la fila huérfana que dejaría un 3+2 en columnas
- * iguales y mantiene el reparto alternado del resto del sitio.
+ * Cuatro formas que suele tomar la solución. Cada una cierra con la línea de
+ * ganancia (`gain`): es lo que convierte una descripción técnica en un motivo
+ * de negocio, y va marcada con un check para que se lea de un vistazo.
+ *
+ * Dos columnas y nada más. Antes eran seis entradas en una rejilla de anchos
+ * alternos, y con tanto reparto el ojo no sabía por dónde empezar.
  */
-const SPAN = ['lg:col-span-2', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-3', 'lg:col-span-3']
 
 export default function Services({ t }) {
   return (
@@ -17,42 +19,34 @@ export default function Services({ t }) {
       title={t.services.title}
       subtitle={t.services.subtitle}
     >
-      <Arc className="-top-[28rem] -right-[30rem] size-[64rem]" />
+      <Arc className="-top-[30rem] -right-[30rem] size-[56rem]" />
 
-      <div className="stagger relative grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="stagger relative grid max-w-5xl gap-x-16 gap-y-12 sm:grid-cols-2">
         {t.services.items.map((item, i) => (
-          <article key={i} className={`reveal card flex flex-col p-7 md:p-8 ${SPAN[i]}`}>
-            <span className="font-mono text-xs tracking-widest text-muted">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <h3 className="mt-5 font-mono text-base leading-snug text-bright">
-              {item.title}
-            </h3>
-            <p className="mt-4 text-sm leading-relaxed text-muted">{item.text}</p>
+          <article key={i} className="reveal block">
+            <div className="flex items-baseline gap-4">
+              <span className="block-num text-xs font-semibold tracking-widest">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span aria-hidden className="block-rule h-px flex-1 bg-line" />
+            </div>
+
+            <h3 className="block-title display-light mt-5 text-xl md:text-2xl">{item.title}</h3>
+            <p className="mt-3 max-w-lg leading-relaxed text-ink-soft">{item.text}</p>
+
+            <p className="mt-4 flex max-w-lg items-start gap-2.5 text-sm leading-relaxed text-ink">
+              <Check className="mt-px text-ink" />
+              {item.gain}
+            </p>
           </article>
         ))}
       </div>
 
-      {/* La lista de rubros es la prueba de "para cualquier tipo de negocio". */}
-      <div className="reveal relative mt-12">
-        <p className="eyebrow">{t.services.sectorsLabel}</p>
-        <ul className="mt-5 flex flex-wrap gap-2">
-          {t.services.sectors.map((sector) => (
-            <li key={sector} className="pill">
-              {sector}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="reveal relative mt-10">
-        <a
-          href="#contact"
-          className="btn-primary group inline-flex items-center gap-3 rounded-full bg-bright py-3.5 pr-3.5 pl-7 font-mono text-sm text-ink transition-opacity hover:opacity-85"
-        >
+      <div className="reveal relative mt-16 border-t border-line pt-8 md:mt-20">
+        <a href="#contact" className="btn-primary magnetic group pr-3 pl-7">
           {t.services.cta}
-          <span className="flex size-8 items-center justify-center rounded-full bg-ink text-bright">
-            <ArrowRight width={15} height={15} />
+          <span className="flex size-9 items-center justify-center rounded-full bg-page text-ink transition-transform group-hover:translate-x-0.5">
+            <ArrowRight width={16} height={16} />
           </span>
         </a>
       </div>

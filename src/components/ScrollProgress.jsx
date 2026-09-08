@@ -34,7 +34,7 @@ export default function ScrollProgress() {
     <div aria-hidden className="fixed inset-x-0 top-0 z-60 h-0.5 bg-transparent">
       <div
         ref={bar}
-        className="h-full origin-left scale-x-0 bg-bright"
+        className="h-full origin-left scale-x-0 bg-ink"
         style={{ willChange: 'transform' }}
       />
     </div>
