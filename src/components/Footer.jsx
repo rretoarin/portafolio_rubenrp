@@ -52,22 +52,7 @@ export default function Footer({ t }) {
           </div>
 
           <div className="reveal">
-            <nav aria-label={t.nav.menu}>
-              <ul className="flex flex-wrap gap-x-6">
-                {LINKS.map((id) => (
-                  <li key={id}>
-                    <a
-                      href={`#${id}`}
-                      className="flex min-h-11 items-center font-mono text-sm text-muted transition-colors hover:text-bright"
-                    >
-                      {t.nav[id]}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-            <div className="card mt-7 px-6 py-6">
+            <div className="card px-6 py-6">
               <p className="font-mono text-sm text-bright">{t.footer.site.label}</p>
               <ul className="mt-4 space-y-1.5">
                 {t.footer.site.lines.map((line, i) => (
@@ -83,17 +68,40 @@ export default function Footer({ t }) {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono text-xs text-muted">
-            © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}
-          </p>
-          <a
-            href="#top"
-            aria-label={t.footer.top}
-            className="flex size-11 items-center justify-center rounded-full border border-line-strong text-muted transition-colors hover:border-bright hover:text-bright"
-          >
-            <ArrowUp width={15} height={15} />
-          </a>
+        {/*
+          Cierre del pie: primero los atajos a todas las secciones, debajo el
+          aviso legal y el botón de volver arriba. Los enlaces llevan altura
+          real de 44px y no la utilidad `.tap`: pegados entre sí, los
+          pseudo-elementos de `.tap` se solapan y el toque cae en el vecino.
+        */}
+        <div className="reveal mt-16 border-t border-line pt-6">
+          <nav aria-label={t.nav.menu}>
+            <ul className="flex flex-wrap gap-x-7 gap-y-1">
+              {LINKS.map((id) => (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    className="flex min-h-11 items-center font-mono text-sm text-muted transition-colors hover:text-bright"
+                  >
+                    {t.nav[id]}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="mt-4 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-mono text-xs text-muted">
+              © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}
+            </p>
+            <a
+              href="#top"
+              aria-label={t.footer.top}
+              className="flex size-11 items-center justify-center rounded-full border border-line-strong text-muted transition-colors hover:border-bright hover:text-bright"
+            >
+              <ArrowUp width={15} height={15} />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
