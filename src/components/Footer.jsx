@@ -12,10 +12,14 @@ export default function Footer({ t }) {
         {/*
           Sin nombre gigante. El cierre de marca ya lo hace la sección de
           contacto; repetirlo aquí sólo añadía media pantalla de altura.
+
+          En móvil son dos columnas: los enlaces a lo ancho arriba y contacto y
+          sitio emparejados debajo. Los enlaces en una columna propia dejaban un
+          agujero, porque son más cortos que los otros dos juntos.
         */}
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:gap-x-10 lg:grid-cols-3">
-          <nav className="reveal row-span-2 lg:row-span-1" aria-label={t.nav.menu}>
-            <ul>
+          <nav className="reveal col-span-2 lg:col-span-1" aria-label={t.nav.menu}>
+            <ul className="flex flex-wrap gap-x-7 lg:block">
               {LINKS.map((id) => (
                 <li key={id}>
                   <a
@@ -49,7 +53,10 @@ export default function Footer({ t }) {
                   className="flex min-h-11 items-start gap-2.5 py-2 text-sm text-ink-soft transition-colors hover:text-ink"
                 >
                   <Mail width={15} height={15} className="text-ink-soft" />
-                  <span className="break-all">{PROFILE.email}</span>
+                  <span className="break-words">
+                    {PROFILE.email.split('@')[0]}@<wbr />
+                    {PROFILE.email.split('@')[1]}
+                  </span>
                 </a>
               </li>
               <li>

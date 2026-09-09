@@ -272,9 +272,13 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
 - **El menú a pantalla completa arranca justo bajo la barra**, no centrado: con
   `justify-center` dejaba más de cien píxeles muertos antes del primer enlace.
 - **El pie va a dos columnas desde 375px**, no desde `sm`: apilado dejaba media
-  pantalla vacía a la derecha. Los enlaces ocupan la columna izquierda entera
-  (`row-span-2`) y contacto y sitio se reparten la derecha. Ojo con el correo:
-  en media columna no cabe y `truncate` lo dejaba cortado — va con `break-all`.
+  pantalla vacía a la derecha. Los **enlaces van en fila fluida a lo ancho** y
+  contacto y sitio se emparejan debajo, que tienen alto parecido. En una columna
+  propia los enlaces dejaban un agujero de 176px —son más cortos que los otros
+  dos juntos— y en dos subcolumnas quedaba una celda suelta.
+- **El correo no cabe en media columna.** `truncate` lo dejaba cortado y
+  `break-all` lo partía por donde tocase («rubenretopanta@g / mail.com»): va con
+  un `<wbr>` después de la arroba, así que parte por donde se lee bien.
 - **Ningún efecto puede depender del hover**: todo lo que sea hover va dentro de
   `@media (hover: hover)`, porque en táctil se queda pegado.
 - **Ni del teclado.** El visor tenía las flechas en `hidden sm:flex` y en el
