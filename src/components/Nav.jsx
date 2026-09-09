@@ -58,7 +58,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
       <header
         className={`barra-fija fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] transition-colors duration-300 ${
           scrolled || open
-            ? 'border-line bg-[var(--glass)] backdrop-blur-xl'
+            ? 'border-line bg-page md:bg-[var(--glass)] md:backdrop-blur-xl'
             : 'border-transparent bg-transparent'
         }`}
       >

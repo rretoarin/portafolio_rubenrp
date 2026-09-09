@@ -12,6 +12,12 @@ import { useEffect } from 'react'
 export function useParallax() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    /*
+     * Ni en táctil. El efecto apenas se aprecia en una pantalla de móvil y
+     * cuesta un relayout por fotograma mientras se hace scroll, que es
+     * justamente cuando el navegador tiene que recolocar la barra fija.
+     */
+    if (window.matchMedia('(pointer: coarse)').matches) return
 
     const nodes = new Set()
     let frame = 0
