@@ -95,6 +95,13 @@ Proyectos → CTA intermedio → Proceso → Sobre mí → Tecnologías → Cont
 **Una sola marca, cuatro expresiones visuales.** No son cuatro páginas ni cuatro
 rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
 
+- **Sólo hay dos fondos, y los eligió Rubén**: `#F8F9FA` (Seasalt) para claro,
+  azul y verde, y `#020202` para oscuro. **Los tres claros comparten base a
+  propósito**: lo único que los separa es el color de la marca. No cambiarlos sin
+  preguntar.
+- Por eso el acento de **claro es terracota y no salvia**: con la misma base que
+  verde, un acento verdoso hacía que las dos muestras del selector se
+  confundieran, que es justo donde el visitante elige.
 - Los tokens por defecto van en `@theme` (= estilo claro) sólo para que Tailwind
   genere las utilidades. Los cuatro estilos se declaran después **fuera de toda
   `@layer`**, porque una regla sin capa gana a `@theme`.
@@ -103,7 +110,7 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
   previsualización de la sección Estilos, que enseñan colores reales sin repetir
   la paleta en JavaScript.
 - **Cada paleta se mide antes de darla por buena**: `python scripts/contraste.py`
-  comprueba doce pares por estilo (texto ≥ 4.5:1, bordes de control ≥ 3:1). Si
+  comprueba diecisiete pares por estilo (texto ≥ 4.5:1, controles ≥ 3:1). Si
   se toca un color, hay que volver a pasarlo y anotar el número en el CSS.
 - **`--color-heading` y `--color-eyebrow` son lo que separa azul y verde del
   claro.** Con el acento sólo en el botón y en detalles, los tres claros se
@@ -177,8 +184,12 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
   de `.tap` y parece que no funciona. `.tap` **no sirve para elementos pegados
   entre sí**: los pseudo-elementos se solapan y el toque cae en el vecino. Ahí
   hay que dar altura real (los atajos del pie y el menú móvil van así).
-- **El selector de estilos también va en el menú móvil**: en la barra no cabe y
-  es justo donde más se agradece poder probar los cuatro.
+- **El selector de estilos está en la barra también en móvil.** Las cuatro
+  muestras no caben junto al logo, el idioma y el menú (ni siquiera a 320px), así
+  que se dibuja una sola —la del estilo puesto— y abre un desplegable con las
+  cuatro, con su nombre y sus 44px. El corte es en `md`. Está además dentro del
+  menú a pantalla completa, que es otra vía, no la única: la primera versión sólo
+  lo tenía ahí y Rubén no lo encontraba.
 - **Ningún efecto puede depender del hover**: todo lo que sea hover va dentro de
   `@media (hover: hover)`, porque en táctil se queda pegado.
 

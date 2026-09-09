@@ -21,10 +21,16 @@ export function Swatch({ theme, className = '' }) {
  * tabulador y las flechas mueven la selección, que es lo que espera quien
  * navega con teclado. La etiqueta la pone quien lo usa.
  *
- * Dos tamaños, el mismo componente: `compact` para la barra y el menú móvil,
- * `full` para la sección Estilos, donde cada opción lleva su nombre.
+ * Tres presentaciones, un solo componente:
+ *   compact → fila de cuatro muestras (barra de escritorio y menú móvil)
+ *   panel   → rejilla de 2×2 con el nombre (desplegable de la barra en móvil)
+ *   full    → tarjetas con nombre y descripción (sección Estilos)
+ *
+ * Todas mantienen los 44px de objetivo táctil: los botones van pegados entre sí
+ * y `.tap` no sirve ahí — los pseudo-elementos se solapan y el toque cae en el
+ * vecino.
  */
-export default function ThemeSwitch({ theme, onChange, labels, variant = 'compact' }) {
+export default function ThemeSwitch({ theme, onChange, labels, variant = 'compact', onPick }) {
   const grupo = useRef(null)
 
   // Flechas: mueven la selección en círculo y dejan el foco donde corresponde.
@@ -38,7 +44,11 @@ export default function ThemeSwitch({ theme, onChange, labels, variant = 'compac
     grupo.current?.querySelector(`[data-theme-option="${siguiente}"]`)?.focus()
   }
 
-  const completo = variant === 'full'
+  const contenedor = {
+    compact: 'flex items-center gap-1',
+    panel: 'grid grid-cols-2 gap-1',
+    full: 'grid gap-3 sm:grid-cols-2',
+  }[variant]
 
   return (
     <div
@@ -46,10 +56,22 @@ export default function ThemeSwitch({ theme, onChange, labels, variant = 'compac
       role="radiogroup"
       aria-label={labels.aria}
       onKeyDown={onKeyDown}
-      className={completo ? 'grid gap-3 sm:grid-cols-2' : 'flex items-center gap-1'}
+      className={contenedor}
     >
       {THEMES.map((id) => {
         const activo = id === theme
+        const clase = {
+          compact: `flex size-11 items-center justify-center rounded-full transition-colors ${
+            activo ? 'bg-page-soft' : ''
+          }`,
+          panel: `flex min-h-11 items-center gap-2.5 rounded-full px-3 text-left text-sm transition-colors ${
+            activo ? 'bg-page-soft font-semibold' : 'text-ink-soft'
+          }`,
+          full: `flex items-center gap-4 rounded-[var(--radius-card)] border p-4 text-left transition-colors ${
+            activo ? 'border-ink bg-surface-2' : 'border-line hover:border-edge'
+          }`,
+        }[variant]
+
         return (
           <button
             key={id}
@@ -58,28 +80,28 @@ export default function ThemeSwitch({ theme, onChange, labels, variant = 'compac
             aria-checked={activo}
             data-theme-option={id}
             tabIndex={activo ? 0 : -1}
-            onClick={() => onChange(id)}
-            className={
-              completo
-                ? `style-option flex items-center gap-4 rounded-[var(--radius-card)] border p-4 text-left transition-colors ${
-                    activo
-                      ? 'border-ink bg-surface-2'
-                      : 'border-line hover:border-edge'
-                  }`
-                : `style-option flex size-11 items-center justify-center rounded-full transition-colors ${
-                    activo ? 'bg-page-soft' : ''
-                  }`
-            }
+            onClick={() => {
+              onChange(id)
+              onPick?.(id)
+            }}
+            className={`style-option ${clase}`}
           >
-            <Swatch theme={id} className={completo ? 'size-9 shrink-0' : 'size-5'} />
+            <Swatch
+              theme={id}
+              className={
+                { compact: 'size-5', panel: 'size-5 shrink-0', full: 'size-9 shrink-0' }[variant]
+              }
+            />
 
-            {completo ? (
+            {variant === 'compact' && <span className="sr-only">{labels.names[id]}</span>}
+
+            {variant === 'panel' && <span className="truncate">{labels.names[id]}</span>}
+
+            {variant === 'full' && (
               <span className="min-w-0">
                 <span className="block font-semibold">{labels.names[id]}</span>
                 <span className="mt-0.5 block text-sm text-ink-soft">{labels.moods[id]}</span>
               </span>
-            ) : (
-              <span className="sr-only">{labels.names[id]}</span>
             )}
           </button>
         )

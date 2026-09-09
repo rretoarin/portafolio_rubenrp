@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Marca de RubenDev: la R en crema sobre tinta, con el punto de salvia del
+  <!-- Marca de RubenDev: la R en crema sobre tinta, con el punto de terracota del
        eyebrow. A 16px lo único que se distingue es la letra y el contraste, así
        que no lleva nada más. -->
-  <rect width="64" height="64" rx="14" fill="#17150f"/>
-  <text x="30" y="45" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="36" font-weight="800" fill="#fbfaf7" text-anchor="middle">R</text>
-  <circle cx="50" cy="41" r="4" fill="#8fa77f"/>
+  <rect width="64" height="64" rx="14" fill="#101317"/>
+  <text x="30" y="45" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="36" font-weight="800" fill="#f8f9fa" text-anchor="middle">R</text>
+  <circle cx="50" cy="41" r="4" fill="#9a5638"/>
 </svg>

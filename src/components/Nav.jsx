@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
-import ThemeSwitch from './ThemeSwitch'
+import ThemeSwitch, { Swatch } from './ThemeSwitch'
 
 // Cinco destinos en escritorio: el recorrido de decisión, nada más. El resto
 // vive en el menú a pantalla completa y en el pie.
@@ -13,7 +13,9 @@ const MENU = ['problems', 'services', 'styles', 'projects', 'process', 'about', 
 export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [estilos, setEstilos] = useState(false)
   const [active, setActive] = useState('')
+  const cajaEstilos = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -48,8 +50,23 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
     }
   }, [open])
 
+  // El desplegable de estilos se cierra al pulsar fuera. `pointerdown` y no
+  // `click`: en táctil el click llega tarde y el panel parpadea.
   useEffect(() => {
-    const onKey = (e) => e.key === 'Escape' && setOpen(false)
+    if (!estilos) return
+    const fuera = (e) => {
+      if (!cajaEstilos.current?.contains(e.target)) setEstilos(false)
+    }
+    document.addEventListener('pointerdown', fuera)
+    return () => document.removeEventListener('pointerdown', fuera)
+  }, [estilos])
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      setEstilos(false)
+    }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
@@ -96,6 +113,38 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
               <ThemeSwitch theme={theme} onChange={onThemeChange} labels={t.theme} />
             </div>
 
+            {/*
+              En móvil las cuatro muestras no caben junto al logo, el idioma y el
+              menú, así que una sola —la del estilo puesto— abre las otras tres.
+              Sigue estando en la cabecera, que es donde se busca.
+            */}
+            <div ref={cajaEstilos} className="relative md:hidden">
+              <button
+                type="button"
+                onClick={() => setEstilos((v) => !v)}
+                aria-label={t.theme.aria}
+                aria-expanded={estilos}
+                className={`flex size-11 items-center justify-center rounded-full transition-colors ${
+                  estilos ? 'bg-page-soft' : ''
+                }`}
+              >
+                <Swatch theme={theme} className="size-5" />
+              </button>
+
+              {estilos && (
+                <div className="absolute right-0 top-full z-50 mt-2 w-60 rounded-[var(--radius-card)] border border-line bg-page p-2 shadow-[var(--shadow-card-hover)]">
+                  <p className="eyebrow eyebrow-plain px-3 pt-1 pb-2">{t.theme.label}</p>
+                  <ThemeSwitch
+                    theme={theme}
+                    onChange={onThemeChange}
+                    labels={t.theme}
+                    variant="panel"
+                    onPick={() => setEstilos(false)}
+                  />
+                </div>
+              )}
+            </div>
+
             <button
               type="button"
               onClick={onToggleLang}
@@ -119,7 +168,10 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
 
             <button
               type="button"
-              onClick={() => setOpen((v) => !v)}
+              onClick={() => {
+                setOpen((v) => !v)
+                setEstilos(false)
+              }}
               aria-label={open ? t.nav.close : t.nav.menu}
               aria-expanded={open}
               className="ml-1 flex size-11 items-center justify-center rounded-full border border-edge text-ink-soft transition-colors hover:border-ink hover:text-ink lg:hidden"

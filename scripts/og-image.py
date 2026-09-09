@@ -30,12 +30,12 @@ W, H = 1200, 630
 MARGEN = 88
 
 # Paleta del estilo claro, la identidad por defecto (ver src/index.css).
-PAGE = (251, 250, 247)      # --color-page
-INK = (23, 21, 15)          # --color-ink
-INK_SOFT = (90, 85, 70)     # --color-ink-soft
-ACCENT = (79, 93, 70)       # --color-accent (salvia)
-ACCENT_2 = (156, 91, 65)    # --color-accent-2 (terracota)
-LINE = (228, 224, 214)      # --color-line
+PAGE = (248, 249, 250)      # --color-page (#F8F9FA, el que eligió Rubén)
+INK = (16, 19, 23)          # --color-ink
+INK_SOFT = (83, 90, 99)     # --color-ink-soft
+ACCENT = (154, 86, 56)      # --color-accent (terracota)
+ACCENT_2 = (79, 93, 70)     # --color-accent-2 (salvia)
+LINE = (225, 229, 234)      # --color-line
 
 
 def manrope(tam, peso):

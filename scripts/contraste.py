@@ -15,29 +15,32 @@ def ratio(a, b):
 
 
 TEMAS = {
+    # Base clara: #F8F9FA (Seasalt), la que eligió Rubén. La comparten claro,
+    # azul y verde: lo único que los separa es el color de la marca.
     'claro': dict(
-        page='#FBFAF7', page_soft='#F2F0EA', surface='#FFFFFF', surface2='#F6F4EF',
-        line='#E4E0D6', edge='#87826F', ink='#17150F', ink_soft='#5A5546',
-        btn='#17150F', on_btn='#FBFAF7', heading='#17150F', eyebrow='#5A5546',
-        accent='#4F5D46', accent_soft='#E7EBE1', on_accent='#FBFAF7', accent2='#9C5B41',
+        page='#F8F9FA', page_soft='#ECEFF2', surface='#FFFFFF', surface2='#F1F3F6',
+        line='#E1E5EA', edge='#767D86', ink='#101317', ink_soft='#535A63',
+        btn='#101317', on_btn='#F8F9FA', heading='#101317', eyebrow='#535A63',
+        accent='#9A5638', accent_soft='#F3E9E4', on_accent='#F8F9FA', accent2='#4F5D46',
     ),
+    # Base oscura: #020202, negro puro.
     'oscuro': dict(
-        page='#0E1013', page_soft='#171A1F', surface='#14171B', surface2='#1B1F25',
-        line='#262B33', edge='#767E8B', ink='#ECEDEF', ink_soft='#A3AAB5',
-        btn='#ECEDEF', on_btn='#0E1013', heading='#ECEDEF', eyebrow='#A3AAB5',
-        accent='#CBB894', accent_soft='#23272E', on_accent='#14171B', accent2='#8FA8A0',
+        page='#020202', page_soft='#0E0F11', surface='#0A0B0C', surface2='#121416',
+        line='#1F2225', edge='#6E747C', ink='#F4F5F6', ink_soft='#A5ABB3',
+        btn='#F4F5F6', on_btn='#020202', heading='#F4F5F6', eyebrow='#A5ABB3',
+        accent='#CBB894', accent_soft='#16181B', on_accent='#0A0B0C', accent2='#8FA8A0',
     ),
     'azul': dict(
-        page='#F6F9FC', page_soft='#EAF0F8', surface='#FFFFFF', surface2='#F1F6FC',
-        line='#D9E3F0', edge='#78859A', ink='#0C1725', ink_soft='#4C5A6D',
+        page='#F8F9FA', page_soft='#E9EEF6', surface='#FFFFFF', surface2='#F0F4FA',
+        line='#DCE3EC', edge='#78828F', ink='#0C1725', ink_soft='#4C5A6D',
         btn='#17539E', on_btn='#FFFFFF', heading='#123F78', eyebrow='#17539E',
-        accent='#17539E', accent_soft='#E3EDFA', on_accent='#F6F9FC', accent2='#0F7480',
+        accent='#17539E', accent_soft='#E4EDF9', on_accent='#FFFFFF', accent2='#0F7480',
     ),
     'verde': dict(
-        page='#F6FAF8', page_soft='#E9F1EC', surface='#FFFFFF', surface2='#F0F6F2',
-        line='#D8E5DE', edge='#788A80', ink='#0D1913', ink_soft='#485950',
+        page='#F8F9FA', page_soft='#E9F1EC', surface='#FFFFFF', surface2='#F0F6F2',
+        line='#DDE5E0', edge='#79837C', ink='#0D1913', ink_soft='#485950',
         btn='#245C41', on_btn='#FFFFFF', heading='#1B4A33', eyebrow='#245C41',
-        accent='#245C41', accent_soft='#E0EDE6', on_accent='#F6FAF8', accent2='#8A6A2E',
+        accent='#245C41', accent_soft='#E1EDE6', on_accent='#FFFFFF', accent2='#8A6A2E',
     ),
 }
 

@@ -51,24 +51,24 @@
   --font-display: var(--font-sans);
   --font-mono: ui-monospace, "SFMono-Regular", "Segoe UI Mono", Menlo, monospace;
 
-  --color-page: #fbfaf7;
-  --color-page-soft: #f2f0ea;
+  --color-page: #f8f9fa;
+  --color-page-soft: #eceff2;
   --color-surface: #ffffff;
-  --color-surface-2: #f6f4ef;
-  --color-line: #e4e0d6;
-  --color-edge: #87826f;
-  --color-ink: #17150f;
-  --color-ink-soft: #5a5546;
-  --color-accent: #4f5d46;
-  --color-accent-soft: #e7ebe1;
-  --color-accent-2: #9c5b41;
-  --color-on-accent: #fbfaf7;
-  --color-frame: #f6f4ef;
-  --color-frame-line: #e4e0d6;
-  --color-btn: #17150f;
-  --color-on-btn: #fbfaf7;
-  --color-heading: #17150f;
-  --color-eyebrow: #5a5546;
+  --color-surface-2: #f1f3f6;
+  --color-line: #e1e5ea;
+  --color-edge: #767d86;
+  --color-ink: #101317;
+  --color-ink-soft: #535a63;
+  --color-accent: #9a5638;
+  --color-accent-soft: #f3e9e4;
+  --color-accent-2: #4f5d46;
+  --color-on-accent: #f8f9fa;
+  --color-frame: #f1f3f6;
+  --color-frame-line: #e1e5ea;
+  --color-btn: #101317;
+  --color-on-btn: #f8f9fa;
+  --color-heading: #101317;
+  --color-eyebrow: #535a63;
 
   --radius-card: 1.25rem;
   --radius-tile: 0.75rem;
@@ -100,140 +100,149 @@
  * color, hay que volver a pasarlo.
  */
 
-/* Claro — crema, negro cálido, salvia y terracota apagado. Editorial. */
+/*
+ * Claro — la base la eligió Rubén: #F8F9FA (Seasalt), un blanco frío. El acento
+ * es terracota apagado, no el salvia de antes: azul y verde comparten esta misma
+ * base, así que un acento verdoso aquí haría que claro y verde se confundieran
+ * en el selector, que es justo donde se elige.
+ */
 :root,
 [data-theme="claro"] {
   color-scheme: light;
 
-  --color-page: #fbfaf7;
-  --color-page-soft: #f2f0ea;
+  --color-page: #f8f9fa;
+  --color-page-soft: #eceff2;
   --color-surface: #ffffff;
-  --color-surface-2: #f6f4ef;
-  --color-line: #e4e0d6;
-  --color-edge: #87826f; /* 3.69:1 */
-  --color-ink: #17150f; /* 17.49:1 */
-  --color-ink-soft: #5a5546; /* 7.13:1 */
-  --color-accent: #4f5d46; /* 6.74:1 */
-  --color-accent-soft: #e7ebe1;
-  --color-accent-2: #9c5b41; /* 5.05:1 */
-  --color-on-accent: #fbfaf7;
-  --color-frame: #f6f4ef;
-  --color-frame-line: #e4e0d6;
+  --color-surface-2: #f1f3f6;
+  --color-line: #e1e5ea;
+  --color-edge: #767d86; /* 3.95:1 */
+  --color-ink: #101317; /* 17.67:1 */
+  --color-ink-soft: #535a63; /* 6.62:1 */
+  --color-accent: #9a5638; /* 5.30:1 */
+  --color-accent-soft: #f3e9e4;
+  --color-accent-2: #4f5d46; /* 6.67:1 */
+  --color-on-accent: #f8f9fa;
+  --color-frame: #f1f3f6;
+  --color-frame-line: #e1e5ea;
+  --color-btn: #101317; /* texto encima: 17.67:1 */
+  --color-on-btn: #f8f9fa;
+  --color-heading: #101317; /* 17.67:1 */
+  --color-eyebrow: #535a63; /* 6.62:1 */
 
-  --color-btn: #17150f; /* texto encima: 17.49:1 */
-  --color-on-btn: #fbfaf7;
-  --color-heading: #17150f; /* 17.49:1 */
-  --color-eyebrow: #5a5546; /* 7.13:1 */
-  --color-btn-hover: #2f2b20;
-  --shadow-card: 0 1px 2px rgb(23 21 15 / 0.04), 0 10px 30px -18px rgb(23 21 15 / 0.16);
-  --shadow-card-hover: 0 2px 4px rgb(23 21 15 / 0.05), 0 24px 50px -24px rgb(23 21 15 / 0.24);
-  --shadow-shot: 0 26px 52px -26px rgb(23 21 15 / 0.3);
-  --shadow-float: 0 10px 30px -8px rgb(23 21 15 / 0.24);
-  --glass: rgb(251 250 247 / 0.86);
-  --grain-opacity: 0.03;
+  --color-btn-hover: #262b31;
+  --shadow-card: 0 1px 2px rgb(16 19 23 / 0.04), 0 10px 30px -18px rgb(16 19 23 / 0.16);
+  --shadow-card-hover: 0 2px 4px rgb(16 19 23 / 0.05), 0 24px 50px -24px rgb(16 19 23 / 0.24);
+  --shadow-shot: 0 26px 52px -26px rgb(16 19 23 / 0.3);
+  --shadow-float: 0 10px 30px -8px rgb(16 19 23 / 0.24);
+  --glass: rgb(248 249 250 / 0.86);
+  --grain-opacity: 0.025;
   --grain-blend: normal;
   --shot-filter: none;
 }
 
-/* Oscuro — premium y sobrio. Acento arena, nada de neón. */
+/*
+ * Oscuro — negro puro #020202, el que eligió Rubén. Toda la escala se construye
+ * desde ahí: `surface` apenas se separa del fondo y lo que da profundidad es el
+ * filete, no un gris de relleno.
+ */
 [data-theme="oscuro"] {
   color-scheme: dark;
 
-  --color-page: #0e1013;
-  --color-page-soft: #171a1f;
-  --color-surface: #14171b;
-  --color-surface-2: #1b1f25;
-  --color-line: #262b33;
-  --color-edge: #767e8b; /* 4.65:1 */
-  --color-ink: #ecedef; /* 16.26:1 */
-  --color-ink-soft: #a3aab5; /* 8.14:1 */
-  --color-accent: #cbb894; /* 9.82:1 */
-  --color-accent-soft: #23272e;
-  --color-accent-2: #8fa8a0; /* 7.51:1 */
-  --color-on-accent: #14171b;
-  --color-frame: #1b1f25;
-  --color-frame-line: #2d333c;
+  --color-page: #020202;
+  --color-page-soft: #0e0f11;
+  --color-surface: #0a0b0c;
+  --color-surface-2: #121416;
+  --color-line: #1f2225;
+  --color-edge: #6e747c; /* 4.40:1 */
+  --color-ink: #f4f5f6; /* 19.01:1 */
+  --color-ink-soft: #a5abb3; /* 8.97:1 */
+  --color-accent: #cbb894; /* 10.69:1 */
+  --color-accent-soft: #16181b;
+  --color-accent-2: #8fa8a0; /* 8.18:1 */
+  --color-on-accent: #0a0b0c;
+  --color-frame: #121416;
+  --color-frame-line: #262a2e;
+  --color-btn: #f4f5f6; /* texto encima: 19.01:1 */
+  --color-on-btn: #020202;
+  --color-heading: #f4f5f6; /* 19.01:1 */
+  --color-eyebrow: #a5abb3; /* 8.97:1 */
 
-  --color-btn: #ecedef; /* texto encima: 16.26:1 */
-  --color-on-btn: #0e1013;
-  --color-heading: #ecedef; /* 16.26:1 */
-  --color-eyebrow: #a3aab5; /* 8.14:1 */
   --color-btn-hover: #ffffff;
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 34px -20px rgb(0 0 0 / 0.7);
-  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.45), 0 28px 56px -26px rgb(0 0 0 / 0.8);
-  --shadow-shot: 0 30px 60px -28px rgb(0 0 0 / 0.85);
-  --shadow-float: 0 12px 32px -8px rgb(0 0 0 / 0.6);
-  --glass: rgb(14 16 19 / 0.86);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.6), 0 12px 34px -20px rgb(0 0 0 / 0.9);
+  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.7), 0 28px 56px -26px rgb(0 0 0 / 1);
+  --shadow-shot: 0 30px 60px -28px rgb(0 0 0 / 1);
+  --shadow-float: 0 12px 32px -8px rgb(0 0 0 / 0.8);
+  --glass: rgb(2 2 2 / 0.88);
   --grain-opacity: 0.05;
   --grain-blend: screen;
-  /* Las capturas son claras: sin esto deslumbran sobre el fondo oscuro. */
-  --shot-filter: brightness(0.93) contrast(1.03);
+  /* Sobre negro puro las capturas claras deslumbran más que sobre gris. */
+  --shot-filter: brightness(0.9) contrast(1.04);
 }
 
-/* Azul — confianza y tecnología. El acento es azul; la composición, editorial. */
+/* Azul — misma base clara. Lo que cambia es la marca: acento, CTA y titulares. */
 [data-theme="azul"] {
   color-scheme: light;
 
-  --color-page: #f6f9fc;
-  --color-page-soft: #eaf0f8;
+  --color-page: #f8f9fa;
+  --color-page-soft: #e9eef6;
   --color-surface: #ffffff;
-  --color-surface-2: #f1f6fc;
-  --color-line: #d9e3f0;
-  --color-edge: #78859a; /* 3.54:1 */
-  --color-ink: #0c1725; /* 17.06:1 */
-  --color-ink-soft: #4c5a6d; /* 6.65:1 */
-  --color-accent: #17539e; /* 7.18:1 */
-  --color-accent-soft: #e3edfa;
-  --color-accent-2: #0f7480; /* 5.19:1 */
-  --color-on-accent: #f6f9fc;
-  --color-frame: #f1f6fc;
-  --color-frame-line: #d9e3f0;
-
+  --color-surface-2: #f0f4fa;
+  --color-line: #dce3ec;
+  --color-edge: #78828f; /* 3.70:1 */
+  --color-ink: #0c1725; /* 17.10:1 */
+  --color-ink-soft: #4c5a6d; /* 6.66:1 */
+  --color-accent: #17539e; /* 7.20:1 */
+  --color-accent-soft: #e4edf9;
+  --color-accent-2: #0f7480; /* 5.20:1 */
+  --color-on-accent: #ffffff;
+  --color-frame: #f0f4fa;
+  --color-frame-line: #dce3ec;
   --color-btn: #17539e; /* texto encima: 7.59:1 */
   --color-on-btn: #ffffff;
-  --color-heading: #123f78; /* 9.90:1 */
-  --color-eyebrow: #17539e; /* 7.18:1 */
-  --color-btn-hover: #1d2c40;
+  --color-heading: #123f78; /* 9.92:1 */
+  --color-eyebrow: #17539e; /* 7.20:1 */
+
+  --color-btn-hover: #113f79;
   --shadow-card: 0 1px 2px rgb(12 23 37 / 0.04), 0 10px 30px -18px rgb(12 23 37 / 0.18);
   --shadow-card-hover: 0 2px 4px rgb(12 23 37 / 0.05), 0 24px 50px -24px rgb(12 23 37 / 0.26);
   --shadow-shot: 0 26px 52px -26px rgb(12 23 37 / 0.32);
   --shadow-float: 0 10px 30px -8px rgb(12 23 37 / 0.26);
-  --glass: rgb(246 249 252 / 0.86);
+  --glass: rgb(248 249 250 / 0.86);
   --grain-opacity: 0.02;
   --grain-blend: normal;
   --shot-filter: none;
 }
 
-/* Verde — crecimiento y equilibrio. Verde bosque, no verde ecológico. */
+/* Verde — misma base clara. Verde bosque, no verde ecológico. */
 [data-theme="verde"] {
   color-scheme: light;
 
-  --color-page: #f6faf8;
+  --color-page: #f8f9fa;
   --color-page-soft: #e9f1ec;
   --color-surface: #ffffff;
   --color-surface-2: #f0f6f2;
-  --color-line: #d8e5de;
-  --color-edge: #788a80; /* 3.47:1 */
-  --color-ink: #0d1913; /* 17.11:1 */
-  --color-ink-soft: #485950; /* 7.07:1 */
-  --color-accent: #245c41; /* 7.44:1 */
-  --color-accent-soft: #e0ede6;
-  --color-accent-2: #8a6a2e; /* 4.77:1 */
-  --color-on-accent: #f6faf8;
+  --color-line: #dde5e0;
+  --color-edge: #79837c; /* 3.72:1 */
+  --color-ink: #0d1913; /* 17.09:1 */
+  --color-ink-soft: #485950; /* 7.06:1 */
+  --color-accent: #245c41; /* 7.43:1 */
+  --color-accent-soft: #e1ede6;
+  --color-accent-2: #8a6a2e; /* 4.76:1 */
+  --color-on-accent: #ffffff;
   --color-frame: #f0f6f2;
-  --color-frame-line: #d8e5de;
-
+  --color-frame-line: #dde5e0;
   --color-btn: #245c41; /* texto encima: 7.83:1 */
   --color-on-btn: #ffffff;
-  --color-heading: #1b4a33; /* 9.62:1 */
-  --color-eyebrow: #245c41; /* 7.44:1 */
-  --color-btn-hover: #1e3128;
+  --color-heading: #1b4a33; /* 9.61:1 */
+  --color-eyebrow: #245c41; /* 7.43:1 */
+
+  --color-btn-hover: #1a4630;
   --shadow-card: 0 1px 2px rgb(13 25 19 / 0.04), 0 10px 30px -18px rgb(13 25 19 / 0.18);
   --shadow-card-hover: 0 2px 4px rgb(13 25 19 / 0.05), 0 24px 50px -24px rgb(13 25 19 / 0.26);
   --shadow-shot: 0 26px 52px -26px rgb(13 25 19 / 0.32);
   --shadow-float: 0 10px 30px -8px rgb(13 25 19 / 0.26);
-  --glass: rgb(246 250 248 / 0.86);
-  --grain-opacity: 0.025;
+  --glass: rgb(248 249 250 / 0.86);
+  --grain-opacity: 0.02;
   --grain-blend: normal;
   --shot-filter: none;
 }
