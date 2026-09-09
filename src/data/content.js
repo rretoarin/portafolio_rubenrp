@@ -2,6 +2,9 @@
 // nunca los componentes. Cada idioma tiene exactamente las mismas claves.
 
 export const PROFILE = {
+  // La marca comercial. La persona detrás sigue teniendo nombre y cara: eso es
+  // lo que separa una marca personal de una agencia sin rostro.
+  brand: 'RubenDev',
   name: 'Rubén Reto Panta',
   initials: 'RR',
   email: 'rubenretopanta@gmail.com',
@@ -64,6 +67,23 @@ export const PROJECTS = [
 ]
 
 /*
+ * Tecnologías reales, las que están en los dos casos y en el propio sitio.
+ * Aquí no se rellena con lo que quedaría bien: si algo no se ha usado en un
+ * proyecto entregado, no entra.
+ */
+export const STACK = [
+  'JavaScript',
+  'React',
+  'Node.js',
+  'Express',
+  'MongoDB',
+  'APIs REST',
+  'Vite',
+  'Tailwind CSS',
+  'Git',
+]
+
+/*
  * Testimonios reales de clientes. Vacío a propósito: aquí no se inventa nada.
  * Cuando haya uno, se agrega { id, quote: { es, en }, author, role } y la
  * sección aparece sola bajo los casos. Mientras esté vacío no se renderiza.
@@ -78,11 +98,34 @@ export const CONTENT = {
   es: {
     langLabel: 'EN',
     langAria: 'Cambiar idioma a inglés',
+
+    /*
+     * Los cuatro estilos. El identificador vive en `hooks/useTheme.js` y el
+     * color en `index.css`: aquí sólo están los nombres que ve el visitante.
+     */
+    theme: {
+      aria: 'Elegir el estilo visual del sitio',
+      label: 'Estilo',
+      names: {
+        claro: 'Claro',
+        oscuro: 'Oscuro',
+        azul: 'Azul',
+        verde: 'Verde',
+      },
+      moods: {
+        claro: 'Cálido, editorial, cercano',
+        oscuro: 'Premium, tecnológico, sobrio',
+        azul: 'Confianza, empresa, seguridad',
+        verde: 'Crecimiento, equilibrio, calma',
+      },
+    },
+
     nav: {
       problems: 'El problema',
       services: 'Soluciones',
-      projects: 'Casos',
-      process: 'Cómo trabajo',
+      styles: 'Estilos',
+      projects: 'Proyectos',
+      process: 'Proceso',
       about: 'Sobre mí',
       contact: 'Contacto',
       talk: 'Hablemos',
@@ -91,14 +134,14 @@ export const CONTENT = {
     },
 
     hero: {
-      status: 'Disponible para nuevos proyectos',
-      kicker: 'Diseño y desarrollo web · Software a medida',
-      headline: 'Webs que traen clientes. Sistemas que ordenan el trabajo.',
-      lead: 'Diseño y construyo las dos caras de un negocio: el sitio con el que te encuentran y te escriben, y las herramientas internas con las que tu equipo trabaja cada día.',
+      kicker: 'Diseño y desarrollo de soluciones digitales',
+      headline: 'Transformo procesos complejos en sistemas digitales simples.',
+      lead: 'Diseño y desarrollo soluciones digitales adaptadas a las necesidades reales de tu negocio: la web con la que te encuentran y las herramientas con las que trabajas por dentro.',
       leadSecondary:
-        'En ambos casos el orden es el mismo: primero entiendo qué necesitas resolver, después lo construyo. Y respondo yo por el resultado.',
-      ctaPrimary: 'Hablemos de tu proceso',
-      ctaSecondary: 'Ver casos reales',
+        'El orden es siempre el mismo: primero entiendo qué necesitas resolver, después lo construyo. Y respondo yo por el resultado.',
+      ctaPrimary: 'Hablemos de tu proyecto',
+      ctaSecondary: 'Ver cómo puedo ayudarte',
+      ctaNote: 'Te contesto yo, no un formulario automático.',
       sectorsLabel: 'Trabajo con proyectos de cualquier tamaño',
       sectors: [
         'Emprendedores',
@@ -108,33 +151,44 @@ export const CONTENT = {
         'Consultoras',
         'Empresas',
       ],
-      ctaNote: 'Te contesto yo, no un formulario automático.',
-      // Se leen como evidencia, no como métricas: cada una es verificable
-      // con los dos casos que se muestran más abajo.
+      // Se leen como evidencia, no como métricas: cada una es verificable con
+      // los dos casos que se muestran más abajo.
       proof: [
         { value: 'En producción', label: 'Una web y un sistema funcionando hoy, no maquetas.' },
         { value: 'De principio a fin', label: 'Del primer boceto al despliegue, sin intermediarios.' },
-        { value: 'Trato directo', label: 'Hablas con quien lo construye, sin intermediarios.' },
+        { value: 'Trato directo', label: 'Hablas con quien lo construye.' },
       ],
+      mock: {
+        laptopAlt: 'Panel del sistema de gestión de muestras, en producción',
+        phoneAlt: 'Sitio de J&M Consulting Foods visto en un móvil',
+      },
     },
 
     problems: {
       eyebrow: 'El problema',
-      title: '¿Algo de esto te suena?',
+      title: '¿Qué está frenando a tu negocio?',
       subtitle:
-        'Casi ningún negocio se atasca por falta de esfuerzo. Se atasca porque por fuera no lo encuentran, o porque por dentro la información vive en sitios distintos y el control depende de que alguien se acuerde.',
+        'Casi ningún negocio se atasca por falta de esfuerzo. Se atasca porque por fuera no lo encuentran, o porque por dentro cada cosa vive en un sitio distinto.',
       items: [
         {
-          title: 'Tu cliente te busca y no te encuentra',
-          text: 'Te busca en Google o preguntando. Si lo que encuentra es un perfil sin información o una web que no explica lo que haces, se va con el siguiente.',
+          title: 'Procesos que todavía se hacen a mano',
+          text: 'Lo que se anota en una hoja, se copia a otra y se confirma por mensaje. Funciona hasta que alguien falta o el volumen sube.',
         },
         {
-          title: 'Nadie sabe con certeza en qué estado está cada cosa',
-          text: 'Para saber dónde está un pedido o un trámite hay que preguntar. Y la respuesta depende de a quién le preguntes, porque el control vive en un archivo que entiende una sola persona.',
+          title: 'Información repartida en sitios distintos',
+          text: 'Un dato en Excel, otro en el correo y otro en la cabeza de alguien. Para responder una pregunta simple hay que reunir tres fuentes.',
         },
         {
-          title: 'Se va el tiempo en tareas que podrían hacerse solas',
-          text: 'Recalcular plazos, avisar de vencimientos, rehacer el mismo reporte cada mes, escribir el mismo dato en dos sitios. Horas que no dejan nada nuevo.',
+          title: 'Tareas que se repiten cada semana',
+          text: 'Recalcular plazos, avisar de vencimientos, rehacer el mismo reporte. Horas que se van y no dejan nada nuevo.',
+        },
+        {
+          title: 'Sistemas que no se hablan entre ellos',
+          text: 'Dos herramientas que hacen bien su parte y ningún puente entre ellas, así que el puente lo pone una persona escribiendo lo mismo dos veces.',
+        },
+        {
+          title: 'Una web que no representa lo que haces',
+          text: 'Te buscan en Google o preguntando. Si lo que encuentran no explica a qué te dedicas, se van con el siguiente.',
         },
       ],
       closing:
@@ -144,36 +198,64 @@ export const CONTENT = {
 
     services: {
       eyebrow: 'Soluciones',
-      title: 'Lo que puedo diseñar y construir para tu negocio.',
+      title: 'Soluciones digitales para tu negocio.',
       subtitle:
-        'Por fuera y por dentro. No trabajo con un catálogo cerrado: estas son las formas que suele tomar la solución, pero primero está el problema y después la etiqueta.',
+        'No trabajo con un catálogo cerrado: estas son las formas que suele tomar la solución, pero primero está el problema y después la etiqueta.',
       items: [
         {
-          title: 'Diseño y desarrollo web',
-          text: 'Diseño el sitio y lo construyo: sitios corporativos, landings y catálogos. Con un panel para que cambies el contenido tú mismo, sin llamar a nadie.',
+          title: 'Páginas web',
+          text: 'Sitios corporativos, landings y catálogos, con un panel para que cambies el contenido tú mismo sin llamar a nadie.',
           gain: 'Te encuentran, entienden qué haces y te escriben.',
         },
         {
-          title: 'Sistemas internos a medida',
-          text: 'Herramientas construidas alrededor de cómo trabaja tu empresa de verdad. Con permisos por persona y el rastro de cada cambio.',
+          title: 'Sistemas web',
+          text: 'Aplicaciones y herramientas internas construidas alrededor de cómo trabaja tu empresa de verdad, con permisos por persona y el rastro de cada cambio.',
           gain: 'Tu proceso deja de depender de la memoria de alguien.',
         },
         {
-          title: 'Automatización de procesos',
-          text: 'Lo que hoy se repite a mano cada semana pasa a hacerlo el sistema: plazos, avisos de vencimiento y reportes que se generan solos.',
-          gain: 'Menos horas perdidas y menos errores.',
+          title: 'Integraciones',
+          text: 'Puentes entre lo que ya usas y lo nuevo: APIs, servicios externos y sistemas que hasta hoy no se hablaban.',
+          gain: 'El mismo dato deja de escribirse dos veces.',
         },
         {
-          title: 'Información centralizada y a la vista',
-          text: 'Lo que vive repartido entre archivos y correos, reunido en un solo lugar y convertido en indicadores que se leen de un vistazo.',
-          gain: 'Decides mirando datos, no intuición.',
+          title: 'Automatización',
+          text: 'Lo que hoy se repite a mano cada semana pasa a hacerlo el sistema: plazos, avisos de vencimiento y reportes que se generan solos.',
+          gain: 'Menos horas perdidas y menos errores.',
         },
       ],
       cta: 'Hablemos de tu proyecto',
     },
 
+    styles: {
+      eyebrow: 'Estilos',
+      title: 'Un mismo objetivo. Diferentes estilos.',
+      subtitle:
+        'Cada negocio tiene una identidad diferente. Tu experiencia digital también debería tenerla.',
+      lead: 'Esto no es un modo oscuro. Es el mismo sitio —el mismo contenido, la misma estructura, la misma navegación— vestido de cuatro maneras. Pruébalo: elige un estilo y mira cómo cambia todo lo que estás viendo.',
+      hint: 'Elige el estilo que mejor representa a tu negocio',
+      previewLabel: 'Así se ve ahora mismo',
+      previewNote:
+        'La página entera cambia contigo. Ninguna de las cuatro es una plantilla distinta: es el mismo código con otra identidad visual.',
+    },
+
+    outcomes: {
+      eyebrow: 'Resultados',
+      title: 'Lo que cambia cuando el proceso se ordena.',
+      subtitle:
+        'Sin números inventados. Esto es lo que se mueve de verdad cuando una operación pasa del papel al sistema.',
+      fromLabel: 'Antes',
+      toLabel: 'Después',
+      items: [
+        { from: 'Procesos manuales', to: 'Procesos digitales' },
+        { from: 'Información dispersa', to: 'Información centralizada' },
+        { from: 'Tareas repetitivas', to: 'Tareas automatizadas' },
+        { from: 'Una web genérica', to: 'Una experiencia con tu identidad' },
+        { from: 'Sistemas aislados', to: 'Sistemas conectados' },
+      ],
+    },
+
     projects: {
-      eyebrow: 'Casos',
+      eyebrow: 'Proyectos',
       title: 'Problemas reales, resueltos.',
       subtitle:
         'Dos sistemas construidos de cero este año y funcionando hoy. En los dos empecé por entender el proceso, no por elegir la tecnología.',
@@ -182,8 +264,8 @@ export const CONTENT = {
       clientLabel: 'Cliente',
       sectorLabel: 'Sector',
       problemLabel: 'El problema',
-      solutionLabel: 'Lo que construí',
-      resultLabel: 'Qué cambió',
+      solutionLabel: 'La solución',
+      resultLabel: 'El resultado',
       toolsLabel: 'Construido con',
       detailOpen: 'Ver el detalle del caso',
       detailClose: 'Ocultar el detalle',
@@ -259,27 +341,37 @@ export const CONTENT = {
       },
     },
 
+    cta: {
+      title: '¿Tienes una idea o un problema que quieres resolver?',
+      text: 'Cuéntame qué necesitas y encontremos juntos la mejor solución.',
+      button: 'Hablemos de tu proyecto',
+    },
+
     process: {
-      eyebrow: 'Cómo trabajo',
+      eyebrow: 'Proceso',
       title: 'Primero entiendo el proceso. Después escribo código.',
       subtitle:
-        'Cuatro pasos, siempre los mismos. No es un método con nombre propio: es lo que evita construir la solución correcta al problema equivocado.',
+        'Cinco pasos, siempre los mismos. No es un método con nombre propio: es lo que evita construir la solución correcta al problema equivocado.',
       steps: [
         {
-          title: 'Entendemos el problema',
-          text: 'Me cuentas cómo funciona hoy el proceso, con sus atajos y sus excepciones. Pregunto hasta entenderlo de verdad, porque casi nunca el problema es exactamente el que se cuenta al principio.',
+          title: 'Conversamos',
+          text: 'Me cuentas cómo funciona hoy tu negocio, con sus atajos y sus excepciones. Sin tecnicismos: hablamos de cómo se hace, quién lo hace y dónde se traba.',
         },
         {
-          title: 'Diseñamos la solución',
-          text: 'Defino qué debe mejorar, qué forma tiene la solución y hasta dónde llega el proyecto. Sabes qué incluye y qué no antes de que yo empiece a construir.',
+          title: 'Analizamos',
+          text: 'Identifico dónde está el problema de verdad y qué se puede mejorar. Casi nunca es exactamente el que se cuenta al principio, y encontrar el verdadero ya es la mitad del trabajo.',
         },
         {
-          title: 'Construimos',
-          text: 'Desarrollo el sistema por entregas revisables y te voy mostrando avances. Si algo no era lo que tenías en la cabeza, lo corregimos ahí y no al final.',
+          title: 'Diseñamos',
+          text: 'Defino qué forma tiene la solución, cómo se va a usar y hasta dónde llega el proyecto. Sabes qué incluye y qué no antes de que yo empiece a construir.',
         },
         {
-          title: 'Ponemos en marcha y ajustamos',
-          text: 'Despliego la solución, capacito a quien la va a usar y acompaño los primeros días reales. Con el sistema en uso siempre aparecen ajustes: ahí es donde se termina de afinar.',
+          title: 'Desarrollamos',
+          text: 'Construyo el sistema por entregas revisables y te voy mostrando avances. Si algo no era lo que tenías en la cabeza, lo corregimos ahí y no al final.',
+        },
+        {
+          title: 'Lanzamos',
+          text: 'Despliego la solución, capacito a quien la va a usar y acompaño los primeros días reales. Con el sistema en uso siempre aparecen ajustes: ahí se termina de afinar.',
         },
       ],
     },
@@ -287,28 +379,21 @@ export const CONTENT = {
     about: {
       eyebrow: 'Sobre mí',
       title: 'Soy Rubén. Trabajas directamente conmigo.',
-      quote: 'No tienes que coordinar tres proveedores ni traducir entre ellos.',
+      quote:
+        'Soy desarrollador full stack y me especializo en crear soluciones digitales para negocios.',
       body: [
         'Lo que de verdad me interesa es entender por qué algo funciona mal: por qué un proceso se traba, por qué un dato se escribe tres veces. Casi nunca el problema es el que se cuenta al principio, y encontrar el verdadero ya es la mitad del trabajo.',
         'La otra mitad es construirlo. El diseño, la lógica, la base de datos y la puesta en marcha salen de la misma persona: hablas conmigo de principio a fin, y respondo yo por el resultado.',
       ],
-      pillars: [
-        {
-          title: 'Pregunto antes de proponer',
-          text: 'Primero entiendo tu negocio y el problema concreto. La solución sale de ahí, no de un catálogo.',
-        },
-        {
-          title: 'Entrego más rápido',
-          text: 'Me apoyo en inteligencia artificial para acelerar el desarrollo. Yo decido cómo se estructura todo y reviso cada cambio: la velocidad no la paga la calidad.',
-        },
-        {
-          title: 'No desaparezco al entregar',
-          text: 'Despliegue, dominio, capacitación y un panel propio para que sigas sin depender de mí.',
-        },
-      ],
-      note: 'Construyo con React, Node.js y MongoDB, y elijo la tecnología por lo que el proyecto necesita —cómo va a crecer y cuánto tiene que durar—, no por lo que a mí me resulte cómodo.',
+      note: 'No tienes que coordinar tres proveedores ni traducir entre ellos.',
     },
 
+    stack: {
+      eyebrow: 'Tecnologías',
+      title: 'Con qué está construido.',
+      text: 'Elijo la tecnología por lo que el proyecto necesita —cómo va a crecer y cuánto tiene que durar—, no por lo que a mí me resulte cómodo. Va al final porque es soporte: lo que importa es el problema que resuelve.',
+      note: 'Todas están en los dos casos de arriba o en este mismo sitio.',
+    },
 
     contact: {
       eyebrow: 'Contacto',
@@ -358,11 +443,30 @@ export const CONTENT = {
   en: {
     langLabel: 'ES',
     langAria: 'Switch language to Spanish',
+
+    theme: {
+      aria: 'Choose the visual style of the site',
+      label: 'Style',
+      names: {
+        claro: 'Light',
+        oscuro: 'Dark',
+        azul: 'Blue',
+        verde: 'Green',
+      },
+      moods: {
+        claro: 'Warm, editorial, close',
+        oscuro: 'Premium, technical, restrained',
+        azul: 'Trust, enterprise, security',
+        verde: 'Growth, balance, calm',
+      },
+    },
+
     nav: {
       problems: 'The problem',
       services: 'Solutions',
-      projects: 'Cases',
-      process: 'How I work',
+      styles: 'Styles',
+      projects: 'Projects',
+      process: 'Process',
       about: 'About',
       contact: 'Contact',
       talk: 'Let us talk',
@@ -371,14 +475,14 @@ export const CONTENT = {
     },
 
     hero: {
-      status: 'Available for new projects',
-      kicker: 'Web design and development · Custom software',
-      headline: 'Websites that bring clients. Systems that organise the work.',
-      lead: 'I design and build both sides of a business: the site people find you through and write to you from, and the internal tools your team works with every day.',
+      kicker: 'Design and development of digital solutions',
+      headline: 'I turn complex processes into simple digital systems.',
+      lead: 'I design and build digital solutions shaped around what your business actually needs: the website that gets you found and the tools you work with inside.',
       leadSecondary:
-        'In both cases the order is the same: first I understand what needs solving, then I build it. And I answer for the result.',
-      ctaPrimary: 'Let us talk about your process',
-      ctaSecondary: 'See real cases',
+        'The order is always the same: first I understand what you need to solve, then I build it. And I answer for the result.',
+      ctaPrimary: 'Let us talk about your project',
+      ctaSecondary: 'See how I can help',
+      ctaNote: 'You get me, not an automated form.',
       sectorsLabel: 'I work with projects of any size',
       sectors: [
         'Founders',
@@ -388,31 +492,42 @@ export const CONTENT = {
         'Consultancies',
         'Companies',
       ],
-      ctaNote: 'You get me, not an automated form.',
       proof: [
         { value: 'In production', label: 'A website and a system running today, not mockups.' },
         { value: 'Start to finish', label: 'From the first sketch to deployment, no middlemen.' },
         { value: 'Direct contact', label: 'You talk to the person who builds it.' },
       ],
+      mock: {
+        laptopAlt: 'Dashboard of the sample management system, in production',
+        phoneAlt: 'J&M Consulting Foods site seen on a phone',
+      },
     },
 
     problems: {
       eyebrow: 'The problem',
-      title: 'Does any of this sound familiar?',
+      title: 'What is holding your business back?',
       subtitle:
-        'Almost no business gets stuck for lack of effort. It gets stuck because nobody finds it from the outside, or because inside the information lives in different places and control depends on someone remembering.',
+        'Almost no business gets stuck for lack of effort. It gets stuck because nobody finds it from the outside, or because inside every piece lives somewhere different.',
       items: [
         {
-          title: 'Your client looks for you and cannot find you',
-          text: 'They search Google or ask around. If what they find is a profile with no information or a site that does not explain what you do, they move on to the next one.',
+          title: 'Processes still done by hand',
+          text: 'What gets written on one sheet, copied to another and confirmed over chat. It works until someone is away or the volume goes up.',
         },
         {
-          title: 'Nobody knows for certain what state anything is in',
-          text: 'To find out where an order or a filing stands, you have to ask. And the answer depends on who you ask, because control lives in a file only one person understands.',
+          title: 'Information spread across places',
+          text: 'One figure in a spreadsheet, another in an inbox and another in someone’s head. Answering a simple question means gathering three sources.',
         },
         {
-          title: 'Time goes into tasks that could run themselves',
-          text: 'Recalculating deadlines, chasing due dates, rebuilding the same report every month, typing the same data in two places. Hours that leave nothing behind.',
+          title: 'Tasks that repeat every week',
+          text: 'Recalculating deadlines, chasing due dates, rebuilding the same report. Hours that go by and leave nothing new behind.',
+        },
+        {
+          title: 'Systems that do not talk to each other',
+          text: 'Two tools that each do their part well and no bridge between them, so the bridge is a person typing the same thing twice.',
+        },
+        {
+          title: 'A website that does not represent you',
+          text: 'People search for you or ask around. If what they find does not explain what you do, they move on to the next one.',
         },
       ],
       closing:
@@ -422,36 +537,64 @@ export const CONTENT = {
 
     services: {
       eyebrow: 'Solutions',
-      title: 'What I can design and build for your business.',
+      title: 'Digital solutions for your business.',
       subtitle:
-        'Outside and inside. I do not work from a fixed catalog: these are the shapes the solution usually takes, but the problem comes first and the label second.',
+        'I do not work from a closed catalogue: these are the shapes the solution usually takes, but the problem comes first and the label second.',
       items: [
         {
-          title: 'Web design and development',
-          text: 'I design the site and build it: corporate sites, landing pages and catalogues. With a panel so you change the content yourself without calling anyone.',
-          gain: 'People find you, understand what you do, and write to you.',
+          title: 'Websites',
+          text: 'Corporate sites, landing pages and catalogues, with a panel so you change the content yourself without calling anyone.',
+          gain: 'People find you, understand what you do and get in touch.',
         },
         {
-          title: 'Custom internal systems',
-          text: 'Tools built around how your company actually works. With per-person permissions and a trace of every change.',
+          title: 'Web systems',
+          text: 'Applications and internal tools built around how your company actually works, with per-person permissions and a trail of every change.',
           gain: 'Your process stops depending on someone’s memory.',
         },
         {
-          title: 'Process automation',
-          text: 'What is repeated by hand every week becomes the system’s job: deadlines, due-date alerts and reports that build themselves.',
-          gain: 'Fewer hours lost and fewer mistakes.',
+          title: 'Integrations',
+          text: 'Bridges between what you already use and what is new: APIs, external services and systems that until now did not talk to each other.',
+          gain: 'The same data stops being typed twice.',
         },
         {
-          title: 'Information centralised and visible',
-          text: 'What lives scattered across files and emails, gathered in one place and turned into indicators you read at a glance.',
-          gain: 'You decide looking at data, not intuition.',
+          title: 'Automation',
+          text: 'What is repeated by hand every week becomes the system’s job: deadlines, due-date alerts and reports that generate themselves.',
+          gain: 'Fewer lost hours and fewer mistakes.',
         },
       ],
       cta: 'Let us talk about your project',
     },
 
+    styles: {
+      eyebrow: 'Styles',
+      title: 'One goal. Different styles.',
+      subtitle:
+        'Every business has a different identity. Your digital experience should have one too.',
+      lead: 'This is not a dark mode. It is the same site — same content, same structure, same navigation — dressed four different ways. Try it: pick a style and watch everything you are looking at change.',
+      hint: 'Pick the style that best represents your business',
+      previewLabel: 'How it looks right now',
+      previewNote:
+        'The whole page changes with you. None of the four is a different template: it is the same code with another visual identity.',
+    },
+
+    outcomes: {
+      eyebrow: 'Outcomes',
+      title: 'What changes once the process is in order.',
+      subtitle:
+        'No invented numbers. This is what actually moves when an operation goes from paper to a system.',
+      fromLabel: 'Before',
+      toLabel: 'After',
+      items: [
+        { from: 'Manual processes', to: 'Digital processes' },
+        { from: 'Scattered information', to: 'Centralised information' },
+        { from: 'Repetitive tasks', to: 'Automated tasks' },
+        { from: 'A generic website', to: 'An experience with your identity' },
+        { from: 'Isolated systems', to: 'Connected systems' },
+      ],
+    },
+
     projects: {
-      eyebrow: 'Cases',
+      eyebrow: 'Projects',
       title: 'Real problems, solved.',
       subtitle:
         'Two systems built from scratch this year and running today. In both I started by understanding the process, not by picking the technology.',
@@ -460,11 +603,11 @@ export const CONTENT = {
       clientLabel: 'Client',
       sectorLabel: 'Sector',
       problemLabel: 'The problem',
-      solutionLabel: 'What I built',
-      resultLabel: 'What changed',
+      solutionLabel: 'The solution',
+      resultLabel: 'The result',
       toolsLabel: 'Built with',
       detailOpen: 'See the full case',
-      detailClose: 'Hide the detail',
+      detailClose: 'Hide the details',
       galleryLabel: 'System screens',
       openShot: 'View the screen full size',
       moreShots: '+{n} more screens',
@@ -476,11 +619,11 @@ export const CONTENT = {
       trust: [
         {
           title: 'Systems in use, not demos',
-          text: 'Both cases are deployed and running: one inside a company’s daily operation, the other public on the internet.',
+          text: 'Both cases are deployed and running: one inside a company’s daily operation and one public on the internet.',
         },
         {
           title: 'You talk to me',
-          text: 'No account manager. What you tell me I build myself, and I am the one you ask when something does not add up.',
+          text: 'There is no account manager. What you tell me, I build, and you ask me when something does not add up.',
         },
         {
           title: 'You keep control',
@@ -537,26 +680,36 @@ export const CONTENT = {
       },
     },
 
+    cta: {
+      title: 'Have an idea or a problem you want solved?',
+      text: 'Tell me what you need and let us find the best solution together.',
+      button: 'Let us talk about your project',
+    },
+
     process: {
-      eyebrow: 'How I work',
+      eyebrow: 'Process',
       title: 'First I understand the process. Then I write code.',
       subtitle:
-        'Four steps, always the same ones. It is not a method with a brand name: it is what stops you building the right solution to the wrong problem.',
+        'Five steps, always the same ones. It is not a method with a brand name: it is what stops you building the right solution to the wrong problem.',
       steps: [
         {
-          title: 'We understand the problem',
-          text: 'You show me how the process works today, shortcuts and exceptions included. I ask until I really get it, because the problem is almost never exactly the one described at the start.',
+          title: 'We talk',
+          text: 'You show me how your business works today, shortcuts and exceptions included. No jargon: we talk about how it is done, who does it and where it gets stuck.',
         },
         {
-          title: 'We design the solution',
-          text: 'I define what has to improve, what shape the solution takes and how far the project goes. You know what is included and what is not before I start building.',
+          title: 'We analyse',
+          text: 'I find where the real problem is and what can be improved. It is almost never exactly the one described at the start, and finding the real one is already half the work.',
+        },
+        {
+          title: 'We design',
+          text: 'I define what shape the solution takes, how it will be used and how far the project goes. You know what is included and what is not before I start building.',
         },
         {
           title: 'We build',
           text: 'I develop the system in reviewable increments and keep showing you progress. If something was not what you had in mind, we fix it there and not at the end.',
         },
         {
-          title: 'We go live and adjust',
+          title: 'We launch',
           text: 'I deploy the solution, train whoever will use it and stay close through the first real days. With a system in use adjustments always appear: that is where it gets finished properly.',
         },
       ],
@@ -565,28 +718,21 @@ export const CONTENT = {
     about: {
       eyebrow: 'About',
       title: 'I am Rubén. You work directly with me.',
-      quote: 'No juggling three vendors, no translating between them.',
+      quote:
+        'I am a full stack developer and I specialise in building digital solutions for businesses.',
       body: [
-        'What actually interests me is understanding why something works badly: why a process gets stuck, why a piece of data gets typed three times. The problem is almost never the one described at the start, and finding the real one is already half the job.',
-        'The other half is building it. The design, the logic, the database and going live all come from the same person: you talk to me from start to finish, and I answer for the result.',
+        'What really interests me is understanding why something works badly: why a process jams, why a piece of data gets typed three times. The problem is almost never the one described at the start, and finding the real one is already half the work.',
+        'The other half is building it. The design, the logic, the database and the rollout come from the same person: you talk to me from start to finish, and I answer for the result.',
       ],
-      pillars: [
-        {
-          title: 'I ask before proposing',
-          text: 'First I understand your business and the concrete problem. The solution comes from there, not from a catalog.',
-        },
-        {
-          title: 'I deliver faster',
-          text: 'I lean on artificial intelligence to speed up development. I decide how everything is structured and review every change: speed does not come out of quality.',
-        },
-        {
-          title: 'I do not disappear at handoff',
-          text: 'Deployment, domain, training and your own panel so you can carry on without depending on me.',
-        },
-      ],
-      note: 'I build with React, Node.js and MongoDB, and I choose the technology for what the project needs — how it will grow and how long it has to last — not for what suits me.',
+      note: 'No juggling three vendors, no translating between them.',
     },
 
+    stack: {
+      eyebrow: 'Technology',
+      title: 'What it is built with.',
+      text: 'I pick the technology for what the project needs — how it will grow and how long it has to last — not for what is comfortable for me. It comes last because it is support: what matters is the problem it solves.',
+      note: 'All of them are in the two cases above or in this very site.',
+    },
 
     contact: {
       eyebrow: 'Contact',

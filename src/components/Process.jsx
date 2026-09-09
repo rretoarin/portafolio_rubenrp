@@ -2,12 +2,13 @@ import Section from './Section'
 import { Arc } from './ui'
 
 /*
- * Cuatro pasos con sangría creciente: el bloque desciende en diagonal en vez de
- * formar una lista alineada. La sección existe para bajar la incertidumbre del
- * cliente, así que cada paso dice qué pasa y qué recibe, no cómo se programa.
+ * Cinco pasos. La sección existe para bajar la incertidumbre de quien nunca ha
+ * encargado software: cada paso dice qué pasa y qué recibe, no cómo se programa.
+ *
+ * El número va grande y en el filete, a la izquierda; el texto ocupa una columna
+ * cómoda de lectura. Antes iban en diagonal con sangría creciente, y con cinco
+ * pasos el último acababa demasiado a la derecha.
  */
-const INDENT = ['lg:pl-0', 'lg:pl-12', 'lg:pl-24', 'lg:pl-36']
-
 export default function Process({ t }) {
   return (
     <Section
@@ -22,19 +23,21 @@ export default function Process({ t }) {
         {t.process.steps.map((step, i) => (
           <li
             key={i}
-            className={`reveal border-t border-line py-9 md:py-12 ${INDENT[i]} ${
+            className={`reveal block-top border-t border-line py-7 md:py-9 ${
               i === t.process.steps.length - 1 ? 'border-b' : ''
             }`}
           >
-            <div className="grid gap-x-10 gap-y-3 md:grid-cols-[6rem_1fr]">
+            <div className="grid gap-x-10 gap-y-2 md:grid-cols-[5rem_1fr]">
               <span
                 aria-hidden
-                className="display text-[2.5rem] leading-none text-edge md:text-[3.25rem]"
+                className="display text-[2rem] leading-none text-accent/45 md:text-[2.75rem]"
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className="max-w-2xl">
-                <h3 className="display-light text-2xl md:text-[1.75rem]">{step.title}</h3>
+                <h3 className="block-title display-light text-xl md:text-[1.625rem]">
+                  {step.title}
+                </h3>
                 <p className="mt-3 leading-relaxed text-ink-soft">{step.text}</p>
               </div>
             </div>

@@ -27,13 +27,19 @@ export function Eyebrow({ children, className = '' }) {
 }
 
 /*
- * Ventana neutra que enmarca una captura. Es lo que hace que una captura se lea
- * como "esto es un sistema de verdad" y no como una imagen pegada: la barra
- * superior le da contexto de pantalla sin imitar ningún navegador concreto.
+ * Ventana neutra. Es lo que hace que una captura se lea como "esto es un sistema
+ * de verdad" y no como una imagen pegada: la barra superior le da contexto de
+ * pantalla sin imitar ningún navegador concreto.
+ *
+ * También es lo que ancla las capturas —que son claras— cuando el sitio está en
+ * el estilo oscuro. Sin ella, la imagen flota y deslumbra.
+ *
+ * La usan la maqueta del hero, las capturas de los casos y la previsualización
+ * de la sección Estilos: una sola barra de ventana en todo el proyecto.
  */
-export function Frame({ label, children, className = '' }) {
+export function Frame({ label, as: Tag = 'figure', children, className = '' }) {
   return (
-    <figure
+    <Tag
       className={`overflow-hidden rounded-[var(--radius-card)] border border-frame-line bg-frame ${className}`}
     >
       <div className="flex items-center gap-3 border-b border-frame-line px-4 py-2.5">
@@ -43,23 +49,23 @@ export function Frame({ label, children, className = '' }) {
           <span className="size-2 rounded-full bg-edge/60" />
         </span>
         {label && (
-          <span className="truncate text-[0.6875rem] font-medium text-ink-soft">{label}</span>
+          <span className="truncate text-[0.6875rem] font-semibold text-ink-soft">{label}</span>
         )}
       </div>
       {children}
-    </figure>
+    </Tag>
   )
 }
 
 /*
- * Arco de trazo salvia. Va detrás del contenido, dentro de un contenedor con
- * `relative overflow-hidden`, uno por sección como máximo.
+ * Arco teñido con el acento del estilo activo. Va detrás del contenido, dentro
+ * de un contenedor con `relative overflow-hidden`, uno por sección como máximo.
  */
 export function Arc({ className = '' }) {
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute rounded-full border border-line/25 ${className}`}
+      className={`pointer-events-none absolute rounded-full border border-accent/20 ${className}`}
     />
   )
 }

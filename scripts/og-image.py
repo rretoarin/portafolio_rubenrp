@@ -2,73 +2,82 @@
 """
 Genera la imagen que se ve al compartir el enlace (Open Graph, 1200x630).
 
-Usa las mismas tipografias, colores y motivos del sitio, para que el enlace en
-WhatsApp o LinkedIn se lea como una pieza mas del portafolio y no como una
-tarjeta generica.
+Usa la tipografía y los colores del sitio para que la tarjeta se lea como una
+pieza más de RubenDev y no como una miniatura genérica.
 
-    python scripts/og-image.py
+La regla que costó una tarde aprender: **en una burbuja de WhatsApp la tarjeta
+mide unos 320 px**, un 27% de esta imagen. Todo lo que aquí baje de 44 px de
+alto allí queda en 12 y no se lee. Por eso sólo hay tres cosas —marca, promesa y
+oficio— y nada más. No volver a meter texto pequeño.
+
+    python scripts/og-image.py [salida.png]
 """
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont
 import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FONTS = os.path.join(ROOT, "public", "fonts")
+FUENTE = os.path.join(ROOT, "public", "fonts", "manrope-latin.woff2")
 OUT = os.path.join(ROOT, "public", "og.png")
 
-# Se le puede pasar otra ruta de salida para generar una variante y compararla
-# con la actual en scripts/preview-card.py.
+# Se le puede pasar otra ruta de salida para comparar variantes con
+# scripts/preview-card.py.
 for arg in sys.argv[1:]:
     if not arg.startswith("--"):
         OUT = arg
 
 W, H = 1200, 630
-INK = (10, 9, 8)           # --color-ink
-BRIGHT = (247, 244, 239)   # --color-bright
-MUTED = (131, 126, 115)    # --color-muted
-SOFT = (171, 166, 156)     # --color-soft
-LINE = (54, 49, 41)        # --color-line-strong
-ARC = (21, 20, 19)         # el blanco al 4.5% sobre ink, ya mezclado
+MARGEN = 88
 
-MARGIN = 88
+# Paleta del estilo claro, la identidad por defecto (ver src/index.css).
+PAGE = (251, 250, 247)      # --color-page
+INK = (23, 21, 15)          # --color-ink
+INK_SOFT = (90, 85, 70)     # --color-ink-soft
+ACCENT = (79, 93, 70)       # --color-accent (salvia)
+ACCENT_2 = (156, 91, 65)    # --color-accent-2 (terracota)
+LINE = (228, 224, 214)      # --color-line
 
-mono = lambda size, weight=500: ImageFont.truetype(
-    os.path.join(FONTS, f"jetbrains-mono-{weight}-latin.woff2"), size
-)
-sans = lambda size: ImageFont.truetype(os.path.join(FONTS, "inter-400-latin.woff2"), size)
 
-img = Image.new("RGB", (W, H), INK)
+def manrope(tam, peso):
+    """Manrope es variable (200–800): se instancia el peso que haga falta."""
+    f = ImageFont.truetype(FUENTE, tam)
+    f.set_variation_by_axes([peso])
+    return f
+
+
+img = Image.new("RGB", (W, H), PAGE)
 d = ImageDraw.Draw(img)
 
-# Arcos de fondo: los mismos circulos gigantes de trazo casi invisible.
-for cx, cy, r in ((1180, 120, 470), (980, 700, 360)):
-    d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=ARC, width=2)
+# Los mismos arcos de trazo casi invisible que hay detrás de cada sección.
+for cx, cy, r in ((1150, 90, 430), (120, 620, 300)):
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=LINE, width=2)
 
-# Tres cosas y nada mas. La imagen se ve a unos 320px de ancho en una burbuja de
-# WhatsApp — un 27% de su tamano — asi que cualquier texto por debajo de 45px
-# aqui no se lee alli. La maqueta anterior tenia eyebrow, una linea de apoyo,
-# tres pildoras y la direccion: a tamano real todo eso era ruido gris de 5px.
-# La direccion, ademas, la escribe la propia plataforma debajo de la tarjeta.
+y = MARGEN
 
-# 110 y no mas: a 118 la primera linea casi rozaba el retrato.
-name_font = mono(110, 500)
-for i, line in enumerate(("Rubén Reto", "Panta")):
-    d.text((MARGIN, 140 + i * 130), line, font=name_font, fill=BRIGHT)
+# 1) La marca. Dos pesos en la misma palabra, como en la barra del sitio.
+marca_a, marca_b = "Ruben", "Dev"
+f_marca = manrope(44, 800)
+d.text((MARGEN, y), marca_a, font=f_marca, fill=INK)
+ancho_a = d.textlength(marca_a, font=f_marca)
+d.text((MARGEN + ancho_a, y), marca_b, font=f_marca, fill=ACCENT)
 
-d.text((MARGIN, 428), "Desarrollador Full Stack", font=mono(50, 400), fill=SOFT)
-d.text((MARGIN, 510), "React · Node.js · MongoDB", font=sans(44), fill=MUTED)
+# 2) La promesa. Es lo único que tiene que leerse sí o sí.
+y += 132
+f_titular = manrope(76, 800)
+for linea in ("Transformo procesos", "complejos en sistemas", "digitales simples."):
+    d.text((MARGEN, y), linea, font=f_titular, fill=INK)
+    y += 92
 
-# Retrato en circulo, en gris como en la barra del sitio.
-photo_path = os.path.join(ROOT, "public", "ruben.jpg")
-if os.path.exists(photo_path):
-    size = 300
-    photo = ImageOps.fit(Image.open(photo_path).convert("L"), (size, size)).convert("RGB")
-    mask = Image.new("L", (size * 4, size * 4), 0)
-    ImageDraw.Draw(mask).ellipse((0, 0, size * 4, size * 4), fill=255)
-    mask = mask.resize((size, size), Image.LANCZOS)
-    px, py = W - MARGIN - size, 165
-    img.paste(photo, (px, py), mask)
-    d.ellipse((px, py, px + size, py + size), outline=LINE, width=2)
+# 3) El oficio, en versalitas anchas. Precedido del punto de terracota.
+y += 40
+d.ellipse((MARGEN, y + 11, MARGEN + 13, y + 24), fill=ACCENT_2)
+f_pie = manrope(27, 700)
+d.text(
+    (MARGEN + 30, y),
+    "DISEÑO Y DESARROLLO DE SOLUCIONES DIGITALES",
+    font=f_pie,
+    fill=INK_SOFT,
+)
 
 img.save(OUT, "PNG", optimize=True)
-print(f"{os.path.basename(OUT)}  {os.path.getsize(OUT) / 1024:.0f} KB  {W}x{H}")
+print(f"{OUT}  {img.width}x{img.height}  {os.path.getsize(OUT) // 1024} kB")

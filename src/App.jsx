@@ -1,16 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
-import { CONTENT, PROFILE, UNIVERSITY } from './data/content'
+import { CONTENT, PROFILE, STACK, UNIVERSITY } from './data/content'
 import { useReveal } from './hooks/useReveal'
 import { useParallax } from './hooks/useParallax'
 import { useMagnetic } from './hooks/useMagnetic'
+import { useTheme } from './hooks/useTheme'
 import Nav from './components/Nav'
 import ScrollProgress from './components/ScrollProgress'
-import Problems from './components/Problems'
 import Hero from './components/Hero'
+import Problems from './components/Problems'
 import Services from './components/Services'
-import About from './components/About'
+import Styles from './components/Styles'
+import Outcomes from './components/Outcomes'
 import Projects from './components/Projects'
+import CtaBand from './components/CtaBand'
 import Process from './components/Process'
+import About from './components/About'
+import Stack from './components/Stack'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
@@ -20,13 +25,18 @@ const STORAGE_KEY = 'portfolio-lang'
 // Español por defecto; si el navegador no es hispanohablante, arranca en inglés.
 function initialLang() {
   if (typeof window === 'undefined') return 'es'
-  const saved = window.localStorage.getItem(STORAGE_KEY)
-  if (saved === 'es' || saved === 'en') return saved
+  try {
+    const saved = window.localStorage.getItem(STORAGE_KEY)
+    if (saved === 'es' || saved === 'en') return saved
+  } catch {
+    // Sin almacenamiento se decide por el idioma del navegador.
+  }
   return navigator.language?.toLowerCase().startsWith('es') ? 'es' : 'en'
 }
 
 export default function App() {
   const [lang, setLang] = useState(initialLang)
+  const [theme, setTheme] = useTheme()
   const t = CONTENT[lang]
 
   useReveal()
@@ -35,7 +45,11 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.lang = lang
-    window.localStorage.setItem(STORAGE_KEY, lang)
+    try {
+      window.localStorage.setItem(STORAGE_KEY, lang)
+    } catch {
+      // El idioma simplemente no sobrevive a la recarga.
+    }
   }, [lang])
 
   const toggleLang = useCallback(() => {
@@ -54,26 +68,29 @@ export default function App() {
       <ScrollProgress />
       <div aria-hidden className="grain" />
 
-      <Nav t={t} onToggleLang={toggleLang} />
+      <Nav t={t} onToggleLang={toggleLang} theme={theme} onThemeChange={setTheme} />
 
       {/*
-        Orden del recorrido: propuesta de valor, que problemas resuelvo, trabajo
-        real, como lo hago, quien responde, con que herramientas y como contactar.
-        La cinta de tecnologias entra recien antes del stack: es soporte tecnico,
-        no la primera cosa que tiene que leer un cliente.
-      */}
-      {/*
-        Recorrido de decisión: qué gano → me reconozco en el problema → puedes
-        resolverlo → ya lo has hecho → cómo trabajas → quién eres → con qué →
-        cómo empiezo. La tecnología entra la penúltima a propósito.
+        Recorrido de decisión, de arriba abajo: qué hago por ti → me reconozco en
+        el problema → esto es lo que puedes encargarme → el diseño se adapta a mi
+        marca → qué gano → ya lo has hecho antes → hablemos → cómo trabajas →
+        quién eres → con qué → cómo empiezo.
+
+        La tecnología entra la penúltima a propósito: es soporte, no argumento de
+        venta. Y el CTA aparece tres veces —hero, banda intermedia y cierre—
+        porque nadie está obligado a leerlo todo para decidirse.
       */}
       <main>
         <Hero t={t} />
         <Problems t={t} />
         <Services t={t} />
+        <Styles t={t} theme={theme} onThemeChange={setTheme} />
+        <Outcomes t={t} />
         <Projects t={t} lang={lang} />
+        <CtaBand t={t} />
         <Process t={t} />
         <About t={t} />
+        <Stack t={t} />
         <Contact t={t} />
       </main>
 
@@ -89,6 +106,7 @@ export default function App() {
             '@context': 'https://schema.org',
             '@type': 'Person',
             name: PROFILE.name,
+            alternateName: PROFILE.brand,
             jobTitle: t.footer.role,
             url: PROFILE.site,
             image: `${PROFILE.site}${PROFILE.photo.slice(1)}`,
@@ -98,17 +116,24 @@ export default function App() {
             description: t.hero.lead,
             knowsAbout: [
               'Diseno y desarrollo web',
-              'Digitalizacion de procesos',
+              'Sistemas web a medida',
               'Automatizacion de procesos',
-              'Sistemas internos a medida',
               'Integracion de sistemas',
+              'Aplicaciones web',
               'Paneles de control y reportes',
-              'Desarrollo web a medida',
+              'Digitalizacion de procesos',
             ],
+            knowsLanguage: ['es', 'en'],
             alumniOf: {
               '@type': 'CollegeOrUniversity',
               name: UNIVERSITY,
             },
+            makesOffer: t.services.items.map((item) => ({
+              '@type': 'Offer',
+              itemOffered: { '@type': 'Service', name: item.title, description: item.text },
+            })),
+            // Sólo lo que de verdad se usa en los casos y en este sitio.
+            skills: STACK.join(', '),
           }),
         }}
       />

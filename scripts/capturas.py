@@ -89,6 +89,13 @@ SALIDA = [
     ("pagina web/imagen 6.png",    "jm-6"),        # clientes
 ]
 
+# `jm-movil.webp` NO sale de aquí: es una captura en vivo de
+# https://jm-consulting-foods.netlify.app/ a 390 px y densidad 2, hecha con
+# Chrome headless y con las animaciones congeladas (si no, el carrusel sale a
+# medio fundir). Es la que va en el móvil de la maqueta del hero. Para
+# rehacerla, emular un iPhone, inyectar
+# `*{animation:none!important;transition:none!important}` y capturar.
+
 
 def redact(im, cajas):
     """Pixela y desenfoca: el texto no se reconstruye ni ampliando la imagen."""

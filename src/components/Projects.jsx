@@ -83,17 +83,17 @@ function Project({ project, copy, index, labels }) {
           )}
         </div>
 
-        <h3 className="display mt-6 text-[1.75rem] md:text-[2.25rem]">{copy.name}</h3>
+        <h3 className="display mt-6 text-[2rem] md:text-[2.5rem]">{copy.name}</h3>
         <p className="mt-2 text-ink-soft">{copy.tag}</p>
       </header>
 
       {/* La frase de impacto: lo único que hay que retener de este caso. */}
-      <p className="display-light mt-10 max-w-3xl text-[1.375rem] sm:text-[1.75rem]">
+      <p className="display-light mt-8 max-w-3xl text-[1.5rem] text-ink sm:text-[1.875rem]">
         {copy.impact}
       </p>
 
       {/* La evidencia, visible de golpe: no depende de pulsar una flecha. */}
-      <div className="mt-12 min-w-0">
+      <div className="mt-12 min-w-0 md:mt-14">
         <Bento
           shots={project.shots}
           captions={copy.shots}

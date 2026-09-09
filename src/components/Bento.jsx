@@ -51,7 +51,7 @@ export default function Bento({ shots, captions, labels, name }) {
                     height={1000}
                     loading="lazy"
                     decoding="async"
-                    className={`block w-full object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] ${
+                    className={`shot-img block w-full object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] ${
                       grande ? 'aspect-[16/10] sm:h-full sm:aspect-auto' : 'aspect-[16/10]'
                     }`}
                   />

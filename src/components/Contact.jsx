@@ -94,7 +94,7 @@ export default function Contact({ t }) {
               className="btn-primary magnetic group mt-8 pr-3 pl-7"
             >
               {t.contact.cta}
-              <span className="flex size-9 items-center justify-center rounded-full bg-page text-ink">
+              <span className="flex size-9 items-center justify-center rounded-full btn-badge">
                 <WhatsApp width={16} height={16} />
               </span>
             </a>

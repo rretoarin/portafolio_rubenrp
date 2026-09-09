@@ -1,50 +1,248 @@
 @import "tailwindcss";
 
 /*
- * Sin fuentes web. La referencia (taap.bio) tampoco carga ninguna: su titular
- * usa la pila del sistema, que en Windows resuelve a Segoe UI, en macOS a SF Pro
- * y en Android a Roboto. Todas son grotescas geométricas con un bold sólido, así
- * que el titular se lee contundente en cualquier equipo.
+ * ============================================================================
+ * TIPOGRAFÍA
+ * ============================================================================
+ * Manrope, autoalojada. Un solo archivo variable por subconjunto (400–800), así
+ * que todos los pesos que usa el sitio son reales y no sintetizados: 24,8 kB
+ * para latin y 15,1 kB para latin-ext, que sólo baja si hace falta.
  *
- * Se ganan tres cosas: cero peticiones de fuente, cero salto de texto al cargar
- * (FOUT) y ~129 kB menos de descarga. Si algún día se añade una fuente propia,
- * hay que volver a autoalojarla en public/fonts, nunca por <link> a un tercero.
+ * Nunca por <link> a un tercero: esa petición ya bloqueó el pintado una vez.
  */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/manrope-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/*
+ * ============================================================================
+ * TOKENS
+ * ============================================================================
+ * Los valores de `@theme` son los del tema claro y existen para que Tailwind
+ * genere las utilidades (`bg-page`, `text-ink-soft`, `border-line`…). Tailwind
+ * las compila a `var(--color-*)` —incluidas las variantes con alfa, que salen
+ * como `color-mix(in oklab, var(--color-x) 88%, transparent)`—, así que
+ * redefinir estas mismas variables más abajo retiñe el sitio entero.
+ *
+ * NINGÚN componente debe llevar un color escrito a mano. Si hace falta un color
+ * nuevo, se le da nombre aquí primero.
+ */
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-display: var(--font-sans);
   --font-mono: ui-monospace, "SFMono-Regular", "Segoe UI Mono", Menlo, monospace;
 
-  /*
-   * Shell en blanco y gris de alto contraste. El color vivo no lo pone la
-   * marca: lo ponen las capturas de los proyectos. El ámbar es el único acento
-   * y aparece como mucho una vez por sección.
-   *
-   * Contraste medido (AA: 4.5:1 en texto, 3:1 en bordes de control):
-   *   ink 19.43 · ink-soft 6.13 sobre blanco · 5.71 sobre page-soft
-   *   page sobre ink 19.43 (texto del CTA)
-   *   edge 3.33 → bordes de control. line 1.24 → sólo divisores,
-   *   NUNCA texto ni contorno de algo pulsable.
-   * Si se toca cualquiera de estos, hay que recalcular.
-   */
-  --color-page: #ffffff; /* fondo */
-  --color-page-soft: #f7f7f5; /* sólo estados hover; ningún fondo de sección */
-  --color-surface: #ffffff; /* tarjetas: se distinguen por borde y sombra */
-  --color-line: #e5e7eb; /* divisores decorativos */
-  --color-edge: #868d9b; /* borde de control */
-  --color-ink: #0b0d12; /* texto principal y relleno del CTA */
-  --color-ink-soft: #5b6270; /* texto secundario */
+  --color-page: #fbfaf7;
+  --color-page-soft: #f2f0ea;
+  --color-surface: #ffffff;
+  --color-surface-2: #f6f4ef;
+  --color-line: #e4e0d6;
+  --color-edge: #87826f;
+  --color-ink: #17150f;
+  --color-ink-soft: #5a5546;
+  --color-accent: #4f5d46;
+  --color-accent-soft: #e7ebe1;
+  --color-accent-2: #9c5b41;
+  --color-on-accent: #fbfaf7;
+  --color-frame: #f6f4ef;
+  --color-frame-line: #e4e0d6;
+  --color-btn: #17150f;
+  --color-on-btn: #fbfaf7;
 
-  /* Ventana de las capturas: blanca; la define el borde, no un fondo gris. */
-  --color-frame: #f7f7f5;
-  --color-frame-line: #e5e7eb;
-
-  --radius-card: 1rem;
-  --radius-tile: 0.625rem;
+  --radius-card: 1.25rem;
+  --radius-tile: 0.75rem;
 
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/*
+ * ============================================================================
+ * LOS CUATRO ESTILOS
+ * ============================================================================
+ * Van FUERA de toda `@layer`: `@theme` declara sus variables dentro de
+ * `@layer theme`, y una regla sin capa gana siempre a una con capa. Por eso
+ * basta con repetir aquí los mismos nombres.
+ *
+ * Es la única diferencia entre los cuatro estilos. Mismo HTML, mismos
+ * componentes, mismo contenido: un componente + variables = cuatro
+ * experiencias. No hay ni un `if (tema === 'oscuro')` en todo el proyecto.
+ *
+ * El selector es `[data-theme]` a secas y no `html[data-theme]` a propósito:
+ * así CUALQUIER elemento puede adoptar un estilo. De eso viven las muestras del
+ * selector y la previsualización de la sección Estilos, que enseñan los colores
+ * de verdad de otro tema sin tener que repetir la paleta en JavaScript. El
+ * subárbol que lo use tiene que pintar su propio fondo (`bg-page`), porque el
+ * del <body> lo pone el tema de la página.
+ *
+ * Contraste medido con `python scripts/contraste.py` (AA: 4.5 en texto, 3 en
+ * bordes de control). Los cuatro pasan las doce comprobaciones. Si se toca un
+ * color, hay que volver a pasarlo.
+ */
+
+/* Claro — crema, negro cálido, salvia y terracota apagado. Editorial. */
+:root,
+[data-theme="claro"] {
+  color-scheme: light;
+
+  --color-page: #fbfaf7;
+  --color-page-soft: #f2f0ea;
+  --color-surface: #ffffff;
+  --color-surface-2: #f6f4ef;
+  --color-line: #e4e0d6;
+  --color-edge: #87826f; /* 3.69:1 */
+  --color-ink: #17150f; /* 17.49:1 */
+  --color-ink-soft: #5a5546; /* 7.13:1 */
+  --color-accent: #4f5d46; /* 6.74:1 */
+  --color-accent-soft: #e7ebe1;
+  --color-accent-2: #9c5b41; /* 5.05:1 */
+  --color-on-accent: #fbfaf7;
+  --color-frame: #f6f4ef;
+  --color-frame-line: #e4e0d6;
+
+  --color-btn: #17150f; /* texto encima: 17.49:1 */
+  --color-on-btn: #fbfaf7;
+  --color-btn-hover: #2f2b20;
+  --shadow-card: 0 1px 2px rgb(23 21 15 / 0.04), 0 10px 30px -18px rgb(23 21 15 / 0.16);
+  --shadow-card-hover: 0 2px 4px rgb(23 21 15 / 0.05), 0 24px 50px -24px rgb(23 21 15 / 0.24);
+  --shadow-shot: 0 26px 52px -26px rgb(23 21 15 / 0.3);
+  --shadow-float: 0 10px 30px -8px rgb(23 21 15 / 0.24);
+  --glass: rgb(251 250 247 / 0.86);
+  --grain-opacity: 0.03;
+  --grain-blend: normal;
+  --shot-filter: none;
+}
+
+/* Oscuro — premium y sobrio. Acento arena, nada de neón. */
+[data-theme="oscuro"] {
+  color-scheme: dark;
+
+  --color-page: #0e1013;
+  --color-page-soft: #171a1f;
+  --color-surface: #14171b;
+  --color-surface-2: #1b1f25;
+  --color-line: #262b33;
+  --color-edge: #767e8b; /* 4.65:1 */
+  --color-ink: #ecedef; /* 16.26:1 */
+  --color-ink-soft: #a3aab5; /* 8.14:1 */
+  --color-accent: #cbb894; /* 9.82:1 */
+  --color-accent-soft: #23272e;
+  --color-accent-2: #8fa8a0; /* 7.51:1 */
+  --color-on-accent: #14171b;
+  --color-frame: #1b1f25;
+  --color-frame-line: #2d333c;
+
+  --color-btn: #ecedef; /* texto encima: 16.26:1 */
+  --color-on-btn: #0e1013;
+  --color-btn-hover: #ffffff;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 34px -20px rgb(0 0 0 / 0.7);
+  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.45), 0 28px 56px -26px rgb(0 0 0 / 0.8);
+  --shadow-shot: 0 30px 60px -28px rgb(0 0 0 / 0.85);
+  --shadow-float: 0 12px 32px -8px rgb(0 0 0 / 0.6);
+  --glass: rgb(14 16 19 / 0.86);
+  --grain-opacity: 0.05;
+  --grain-blend: screen;
+  /* Las capturas son claras: sin esto deslumbran sobre el fondo oscuro. */
+  --shot-filter: brightness(0.93) contrast(1.03);
+}
+
+/* Azul — confianza y tecnología. El acento es azul; la composición, editorial. */
+[data-theme="azul"] {
+  color-scheme: light;
+
+  --color-page: #f6f9fc;
+  --color-page-soft: #eaf0f8;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1f6fc;
+  --color-line: #d9e3f0;
+  --color-edge: #78859a; /* 3.54:1 */
+  --color-ink: #0c1725; /* 17.06:1 */
+  --color-ink-soft: #4c5a6d; /* 6.65:1 */
+  --color-accent: #17539e; /* 7.18:1 */
+  --color-accent-soft: #e3edfa;
+  --color-accent-2: #0f7480; /* 5.19:1 */
+  --color-on-accent: #f6f9fc;
+  --color-frame: #f1f6fc;
+  --color-frame-line: #d9e3f0;
+
+  --color-btn: #17539e; /* texto encima: 7.59:1 */
+  --color-on-btn: #ffffff;
+  --color-btn-hover: #1d2c40;
+  --shadow-card: 0 1px 2px rgb(12 23 37 / 0.04), 0 10px 30px -18px rgb(12 23 37 / 0.18);
+  --shadow-card-hover: 0 2px 4px rgb(12 23 37 / 0.05), 0 24px 50px -24px rgb(12 23 37 / 0.26);
+  --shadow-shot: 0 26px 52px -26px rgb(12 23 37 / 0.32);
+  --shadow-float: 0 10px 30px -8px rgb(12 23 37 / 0.26);
+  --glass: rgb(246 249 252 / 0.86);
+  --grain-opacity: 0.02;
+  --grain-blend: normal;
+  --shot-filter: none;
+}
+
+/* Verde — crecimiento y equilibrio. Verde bosque, no verde ecológico. */
+[data-theme="verde"] {
+  color-scheme: light;
+
+  --color-page: #f6faf8;
+  --color-page-soft: #e9f1ec;
+  --color-surface: #ffffff;
+  --color-surface-2: #f0f6f2;
+  --color-line: #d8e5de;
+  --color-edge: #788a80; /* 3.47:1 */
+  --color-ink: #0d1913; /* 17.11:1 */
+  --color-ink-soft: #485950; /* 7.07:1 */
+  --color-accent: #245c41; /* 7.44:1 */
+  --color-accent-soft: #e0ede6;
+  --color-accent-2: #8a6a2e; /* 4.77:1 */
+  --color-on-accent: #f6faf8;
+  --color-frame: #f0f6f2;
+  --color-frame-line: #d8e5de;
+
+  --color-btn: #245c41; /* texto encima: 7.83:1 */
+  --color-on-btn: #ffffff;
+  --color-btn-hover: #1e3128;
+  --shadow-card: 0 1px 2px rgb(13 25 19 / 0.04), 0 10px 30px -18px rgb(13 25 19 / 0.18);
+  --shadow-card-hover: 0 2px 4px rgb(13 25 19 / 0.05), 0 24px 50px -24px rgb(13 25 19 / 0.26);
+  --shadow-shot: 0 26px 52px -26px rgb(13 25 19 / 0.32);
+  --shadow-float: 0 10px 30px -8px rgb(13 25 19 / 0.26);
+  --glass: rgb(246 250 248 / 0.86);
+  --grain-opacity: 0.025;
+  --grain-blend: normal;
+  --shot-filter: none;
+}
+
+/*
+ * El cambio de estilo. La transición se enciende sólo durante el cambio (400 ms
+ * y fuera): dejarla puesta siempre haría que cada hover arrastrase medio
+ * segundo de color y el sitio se sentiría pastoso.
+ */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition:
+    background-color 0.4s var(--ease-out-soft),
+    border-color 0.4s var(--ease-out-soft),
+    color 0.4s var(--ease-out-soft),
+    fill 0.4s var(--ease-out-soft),
+    box-shadow 0.4s var(--ease-out-soft) !important;
 }
 
 @layer base {
@@ -69,7 +267,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
   }
 
@@ -109,62 +307,54 @@
   }
 
   /*
-   * Titulares en Fraunces. `font-optical-sizing: auto` es lo que hace que a
-   * tamaño grande el serif abra las astas: es media personalidad de la fuente.
-   */
-  /*
-   * Titular. El peso 700 y el tracking cerrado son lo que le dan el golpe: una
-   * grotesca del sistema a cuerpo grande y bien apretada se lee tan contundente
-   * como una fuente de pago, y aquí no cuesta ni un byte.
+   * Titular. Manrope a peso 800 con el tracking muy cerrado: a cuerpo grande es
+   * lo que da el golpe editorial. `text-wrap: balance` evita la línea huérfana
+   * de una palabra, que en titulares de tres líneas se nota mucho.
    */
   .display {
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.034em;
-    line-height: 1.03;
+    font-weight: 800;
+    letter-spacing: -0.038em;
+    line-height: 1.02;
     text-wrap: balance;
     overflow-wrap: break-word;
   }
 
-  /* Segundo nivel: mismo carácter, un peso menos y algo más de aire. */
+  /* Segundo nivel: mismo carácter, dos pesos menos y algo más de aire. */
   .display-light {
     font-family: var(--font-display);
     font-weight: 600;
-    letter-spacing: -0.022em;
-    line-height: 1.18;
+    letter-spacing: -0.02em;
+    line-height: 1.16;
     text-wrap: balance;
     overflow-wrap: break-word;
   }
 
-  /* Microetiqueta: el único guiño monoespaciado del sistema. */
+  /* Microetiqueta de sección: versalitas anchas, sin monoespaciada. */
   .eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.6875rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-ink-soft);
   }
 
-  /* Punto de salvia que abre cada etiqueta de sección. */
+  /* El punto es el único color gratuito del sistema: marca dónde empieza algo. */
   .eyebrow::before {
     content: "";
     width: 0.375rem;
     height: 0.375rem;
     border-radius: 999px;
-    background-color: var(--color-ink);
+    background-color: var(--color-accent-2);
   }
 
   .eyebrow-plain::before {
     display: none;
   }
 
-  /*
-   * Píldora. El borde va en `edge` (3.24:1) y no en `sand` (1.25): un contorno
-   * de control necesita 3:1 y la arena no llega.
-   */
   .pill {
     display: inline-flex;
     align-items: center;
@@ -205,7 +395,7 @@
     background-color: var(--color-page-soft);
     padding: 0.3125rem 0.75rem;
     font-size: 0.6875rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-ink-soft);
@@ -214,7 +404,8 @@
   /*
    * Extiende el área de toque a 44px sin mover nada de lo que se ve. Va en
    * ::before porque `.link` ocupa el ::after con su subrayado y un elemento
-   * sólo tiene uno de cada. No sirve para elementos pegados entre sí.
+   * sólo tiene uno de cada. No sirve para elementos pegados entre sí: los
+   * pseudo-elementos se solapan y el toque cae en el vecino.
    */
   .tap {
     position: relative;
@@ -238,7 +429,7 @@
     border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
     background-color: var(--color-surface);
-    box-shadow: 0 1px 2px rgb(11 13 18 / 0.04), 0 8px 24px -16px rgb(11 13 18 / 0.12);
+    box-shadow: var(--shadow-card);
     transition:
       border-color 0.3s var(--ease-out-soft),
       box-shadow 0.3s var(--ease-out-soft),
@@ -246,24 +437,24 @@
   }
 
   @media (hover: hover) {
-    .card:hover {
+    .card-hover:hover {
       border-color: var(--color-edge);
       transform: translateY(-3px);
-      box-shadow: 0 2px 4px rgb(11 13 18 / 0.05), 0 20px 44px -22px rgb(11 13 18 / 0.22);
+      box-shadow: var(--shadow-card-hover);
     }
   }
 
-  /* CTA principal: relleno salvia profundo, texto crema. 6.29:1. */
+  /* CTA principal. En claro es tinta sobre crema; en oscuro se invierte solo. */
   .btn-primary {
     position: relative;
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    min-height: 3rem;
+    min-height: 3.25rem;
     border-radius: 999px;
-    background-color: var(--color-ink);
-    color: var(--color-page);
-    font-weight: 500;
+    background-color: var(--color-btn);
+    color: var(--color-on-btn);
+    font-weight: 600;
     transition:
       background-color 0.2s var(--ease-out-soft),
       transform 0.2s var(--ease-out-soft);
@@ -271,7 +462,7 @@
 
   @media (hover: hover) {
     .btn-primary:hover {
-      background-color: #23262f;
+      background-color: var(--color-btn-hover);
       transform: translateY(-1px);
     }
   }
@@ -280,17 +471,23 @@
     transform: translateY(0);
   }
 
+  /* La chapa con la flecha que va dentro del CTA: colores invertidos. */
+  .btn-badge {
+    background-color: var(--color-on-btn);
+    color: var(--color-btn);
+  }
+
   /* CTA secundario: mismo tamaño, sólo contorno. */
   .btn-ghost {
     display: inline-flex;
     align-items: center;
     gap: 0.625rem;
-    min-height: 3rem;
+    min-height: 3.25rem;
     border: 1px solid var(--color-edge);
     border-radius: 999px;
     padding-inline: 1.5rem;
     color: var(--color-ink);
-    font-weight: 500;
+    font-weight: 600;
     transition:
       border-color 0.2s var(--ease-out-soft),
       background-color 0.2s var(--ease-out-soft);
@@ -325,20 +522,19 @@
 
   @media (hover: hover) {
     .link:hover {
-      color: var(--color-ink);
+      color: var(--color-accent);
     }
     .link:hover::after {
-      background-color: var(--color-ink);
+      background-color: var(--color-accent);
       height: 2px;
     }
   }
 
   /*
    * ---- Interacción: enlaces de menú ----
-   * Subrayado que se dibuja de izquierda a derecha. Va en un ::after con
-   * `scaleX`, no animando el ancho, para que lo resuelva la GPU. El estado
-   * activo deja la línea puesta: el mismo lenguaje sirve para hover y para
-   * "estás aquí", y así el menú no necesita dos señales distintas.
+   * Subrayado que se dibuja de izquierda a derecha con `scaleX`, no animando el
+   * ancho, para que lo resuelva la GPU. El estado activo deja la línea puesta:
+   * hover y "estás aquí" hablan el mismo idioma.
    */
   .nav-link {
     position: relative;
@@ -376,13 +572,9 @@
 
   /*
    * ---- Interacción: bloques editoriales ----
-   * Cada bloque tiene un filete arriba. Al pasar el cursor, ese filete se
-   * repinta en tinta de izquierda a derecha, el título se desplaza cuatro
-   * píxeles y el número pasa de gris a negro. Son tres señales pequeñas que
-   * suceden a la vez: se nota que el bloque responde sin que nada salte.
-   *
-   * `.block-rule` es para los bloques que ya traen el filete como <span>;
-   * `.block-top` dibuja el suyo sobre un `border-t` existente.
+   * Al pasar el cursor, el filete se repinta de izquierda a derecha, el título
+   * se desplaza cuatro píxeles y el número se enciende. Tres señales pequeñas a
+   * la vez: el bloque responde sin que nada salte.
    */
   .block-rule {
     position: relative;
@@ -393,7 +585,7 @@
   .block-top::before {
     content: "";
     position: absolute;
-    background-color: var(--color-ink);
+    background-color: var(--color-accent);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.45s var(--ease-out-soft);
@@ -441,7 +633,7 @@
 
     .block:hover .block-num,
     .block-top:hover .block-num {
-      color: var(--color-ink);
+      color: var(--color-accent);
     }
   }
 
@@ -452,27 +644,63 @@
   }
 
   /*
-   * Titular que entra palabra a palabra. El retardo lo pone `<Words>` en línea,
-   * así que el escalonado no depende de un nth-child que se rompa al traducir.
+   * ---- Selector de estilos ----
+   * No es un interruptor de tema: es la demostración de que el mismo sitio
+   * admite cuatro identidades. Cada muestra pinta los colores REALES del tema
+   * al que lleva, así que la decisión se toma mirando, no leyendo.
    */
-  .reveal-words > span {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(0.42em);
+  .swatch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid var(--color-edge);
+    overflow: hidden;
     transition:
-      opacity 0.7s var(--ease-out-soft),
-      transform 0.7s var(--ease-out-soft);
+      transform 0.25s var(--ease-out-soft),
+      border-color 0.25s var(--ease-out-soft);
   }
 
-  .reveal-words[data-visible="true"] > span {
-    opacity: 1;
-    transform: none;
+  .swatch-half {
+    width: 50%;
+    height: 100%;
+  }
+
+  @media (hover: hover) {
+    .style-option:hover .swatch {
+      transform: scale(1.06);
+    }
+  }
+
+  .style-option[aria-checked="true"] .swatch {
+    border-color: var(--color-ink);
+    box-shadow: 0 0 0 2px var(--color-page), 0 0 0 4px var(--color-ink);
   }
 
   /*
-   * Captura del bento. La imagen crece dentro de un marco que no se mueve —el
-   * recorte lo hace el contenedor— y la leyenda sube desde abajo. En táctil no
-   * se dispara nada: la leyenda vive en el `alt` y en el visor.
+   * ---- Capturas ----
+   * Todas las capturas del sitio son claras porque los sistemas que enseñan lo
+   * son. En el estilo oscuro eso deslumbra, así que pasan por un filtro mínimo
+   * que define el propio tema. Va en su propia clase y no en `.shot img`
+   * porque en la maqueta del hero la imagen ES el elemento, no una hija.
+   */
+  .shot-img {
+    filter: var(--shot-filter);
+  }
+
+  /* La peana del portátil: un filete más estrecho que la pantalla. */
+  .laptop-base {
+    height: 0.75rem;
+    border-radius: 0 0 0.75rem 0.75rem;
+    background-color: var(--color-page-soft);
+    border: 1px solid var(--color-frame-line);
+    border-top: 0;
+  }
+
+  /*
+   * Captura del bento. La imagen crece dentro de un marco que no se mueve y la
+   * leyenda sube desde abajo. En táctil no se dispara nada: la leyenda vive en
+   * el `alt` y en el visor.
    */
   .shot {
     transition:
@@ -485,7 +713,7 @@
     .shot:hover {
       transform: translateY(-4px);
       border-color: var(--color-edge);
-      box-shadow: 0 24px 48px -24px rgb(11 13 18 / 0.28);
+      box-shadow: var(--shadow-shot);
     }
 
     .shot:hover .shot-caption {
@@ -526,6 +754,24 @@
     transform: none;
   }
 
+  /*
+   * Titular que entra palabra a palabra. El retardo lo pone `<Words>` en línea,
+   * así que el escalonado no depende de un nth-child que se rompa al traducir.
+   */
+  .reveal-words > span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.42em);
+    transition:
+      opacity 0.7s var(--ease-out-soft),
+      transform 0.7s var(--ease-out-soft);
+  }
+
+  .reveal-words[data-visible="true"] > span {
+    opacity: 1;
+    transform: none;
+  }
+
   .stagger > .reveal:nth-child(2) {
     transition-delay: 70ms;
   }
@@ -542,53 +788,14 @@
     transition-delay: 350ms;
   }
 
-  /*
-   * Cinta del carrusel: el scroll horizontal es el mecanismo, pero la barra
-   * sobra — el paso se indica con el contador y los puntos.
-   */
-  .gallery-track {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .gallery-track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .gallery-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border: 1px solid var(--color-frame-line);
-    border-radius: 999px;
-    background-color: rgb(255 255 255 / 0.94);
-    color: var(--color-ink);
-    backdrop-filter: blur(8px);
-    transition:
-      background-color 0.2s var(--ease-out-soft),
-      border-color 0.2s var(--ease-out-soft);
-  }
-
-  @media (hover: hover) {
-    .gallery-btn:hover {
-      background-color: var(--color-ink);
-      border-color: var(--color-ink);
-      color: var(--color-page);
-    }
-  }
-
-  /* Grano: textura de papel para que la crema no se vea plástica. */
+  /* Grano: textura de papel para que el fondo no se vea plástico. */
   .grain {
     position: fixed;
     inset: 0;
     z-index: 60;
     pointer-events: none;
-    opacity: 0.03;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: var(--grain-blend);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
@@ -612,6 +819,12 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  html.theme-switching,
+  html.theme-switching *,
+  html.theme-switching *::before,
+  html.theme-switching *::after {
+    transition: none !important;
   }
   .reveal {
     opacity: 1;

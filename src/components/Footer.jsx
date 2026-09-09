@@ -80,8 +80,14 @@ export default function Footer({ t }) {
         </div>
 
         <div className="reveal mt-10 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs font-semibold text-ink-soft">
-            © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}
+          {/*
+            El cierre de marca es esta línea y nada más. El nombre a gran escala
+            que había aquí ocupaba media pantalla sin decir nada nuevo.
+          */}
+          <p className="text-xs text-ink-soft">
+            <span className="font-bold text-ink">Ruben</span>
+            <span className="font-bold text-accent">Dev</span>
+            <span> · © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}</span>
           </p>
           <a
             href="#top"

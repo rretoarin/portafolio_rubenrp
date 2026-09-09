@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="claro">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -7,34 +7,64 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#fbfaf7" />
 
-    <title>Rubén Reto Panta — Diseño web y software a medida</title>
+    <!--
+      El estilo elegido se aplica ANTES de pintar. Si esperase a que React
+      monte, quien tenga puesto el oscuro vería un fogonazo claro en cada carga.
+      Es la misma lectura que hace `readTheme()` en src/hooks/useTheme.js.
+    -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('rubendev-theme')
+          if (['claro', 'oscuro', 'azul', 'verde'].indexOf(t) !== -1) {
+            document.documentElement.dataset.theme = t
+          }
+        } catch (e) {
+          /* Modo privado: se queda el estilo por defecto del atributo. */
+        }
+      })()
+    </script>
+
+    <!-- Manrope, autoalojada. El subconjunto latino es el que necesita el texto. -->
+    <link
+      rel="preload"
+      href="/fonts/manrope-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <title>RubenDev — Soluciones digitales a medida para tu negocio</title>
     <meta
       name="description"
-      content="Diseño y desarrollo webs y software a medida para empresas y negocios en Perú: sitios corporativos, sistemas internos, automatización de procesos y paneles de control. Trabajas directamente conmigo, del primer boceto al despliegue."
+      content="Transformo procesos complejos en sistemas digitales simples. Diseño y desarrollo páginas web, sistemas web a medida, integraciones y automatización de procesos para empresas y negocios en Perú. Trabajas directamente conmigo, del primer boceto al despliegue."
     />
     <link rel="canonical" href="https://portafolio-rubenrp.vercel.app/" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Rubén Reto Panta — Diseño web y software a medida" />
+    <meta
+      property="og:title"
+      content="RubenDev — Soluciones digitales a medida para tu negocio"
+    />
     <meta
       property="og:description"
-      content="Webs que traen clientes y sistemas que ordenan el trabajo. Diseño y construyo las dos caras de un negocio, sin intermediarios."
+      content="Transformo procesos complejos en sistemas digitales simples. Páginas web, sistemas a medida, integraciones y automatización, sin intermediarios."
     />
     <meta property="og:url" content="https://portafolio-rubenrp.vercel.app/" />
-    <meta property="og:site_name" content="Rubén Reto Panta" />
+    <meta property="og:site_name" content="RubenDev" />
     <meta property="og:locale" content="es_PE" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:image" content="https://portafolio-rubenrp.vercel.app/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Rubén Reto Panta — diseño web y software a medida."
+      content="RubenDev — soluciones digitales a medida para tu negocio."
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://portafolio-rubenrp.vercel.app/og.png" />
-
   </head>
   <body>
     <div id="root"></div>
