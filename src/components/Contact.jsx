@@ -46,7 +46,7 @@ export default function Contact({ t }) {
   return (
     <section
       id="contact"
-      className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
+      className="relative scroll-mt-20 overflow-hidden py-14 md:py-20"
     >
       <Arc className="-top-[28rem] left-1/2 size-[60rem] -translate-x-1/2" />
 
@@ -102,7 +102,7 @@ export default function Contact({ t }) {
             <p className="mt-4 text-sm text-ink-soft">{t.contact.ctaNote}</p>
           </div>
 
-          <div className="reveal lg:col-span-4 lg:col-start-9 lg:mt-16">
+          <div className="reveal lg:col-span-4 lg:col-start-9">
             <form onSubmit={enviar} className="card p-6">
               <p className="eyebrow eyebrow-plain">{t.contact.formLabel}</p>
 

@@ -42,7 +42,7 @@ export default function Services({ t }) {
         ))}
       </div>
 
-      <div className="reveal relative mt-16 border-t border-line pt-8 md:mt-20">
+      <div className="reveal relative mt-12 border-t border-line pt-8">
         <a href="#contact" className="btn-primary magnetic group pr-3 pl-7">
           {t.services.cta}
           <span className="flex size-9 items-center justify-center rounded-full bg-page text-ink transition-transform group-hover:translate-x-0.5">

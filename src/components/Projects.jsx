@@ -43,32 +43,30 @@ function Project({ project, copy, index, labels }) {
 
   return (
     <article className="reveal relative">
-      <div className="grid gap-x-10 gap-y-6 lg:grid-cols-12 lg:items-end">
-        <header className="lg:col-span-7">
-          <div className="flex flex-wrap items-center gap-3">
+      {/*
+        Cabecera en un solo flujo. El enlace al sitio (o la etiqueta de sistema
+        interno) iba en una columna aparte a la derecha y dejaba un hueco
+        enorme: ahora acompaña a las demás etiquetas.
+      */}
+      <header className="reveal">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="tag">
+            {String(index + 1).padStart(2, '0')} · {project.year}
+          </span>
+          {project.client && (
             <span className="tag">
-              {String(index + 1).padStart(2, '0')} · {project.year}
+              <span className="sr-only">{labels.clientLabel}: </span>
+              {project.client}
             </span>
-            {project.client && (
-              <span className="tag">
-                <span className="sr-only">{labels.clientLabel}: </span>
-                {project.client}
-              </span>
-            )}
-            {project.sectorKey && <span className="tag">{labels.sectors[project.sectorKey]}</span>}
-          </div>
+          )}
+          {project.sectorKey && <span className="tag">{labels.sectors[project.sectorKey]}</span>}
 
-          <h3 className="display mt-6 text-[1.75rem] md:text-[2.25rem]">{copy.name}</h3>
-          <p className="mt-2 text-ink-soft">{copy.tag}</p>
-        </header>
-
-        <div className="lg:col-span-4 lg:col-start-9 lg:justify-self-end lg:pb-2">
           {isLink ? (
             <a
               href={project.url}
               target="_blank"
               rel="noreferrer noopener"
-              className="tap link group inline-flex items-center gap-2 font-medium"
+              className="tap link group ml-1 inline-flex items-center gap-2 text-sm font-medium"
             >
               {labels.viewLive}
               <ArrowUpRight
@@ -84,7 +82,10 @@ function Project({ project, copy, index, labels }) {
             </span>
           )}
         </div>
-      </div>
+
+        <h3 className="display mt-6 text-[1.75rem] md:text-[2.25rem]">{copy.name}</h3>
+        <p className="mt-2 text-ink-soft">{copy.tag}</p>
+      </header>
 
       {/* La frase de impacto: lo único que hay que retener de este caso. */}
       <p className="display-light mt-10 max-w-3xl text-[1.375rem] sm:text-[1.75rem]">
@@ -99,7 +100,7 @@ function Project({ project, copy, index, labels }) {
           labels={labels}
           name={copy.name}
         />
-        <p className="mt-4 text-sm text-ink-soft">{labels.evidenceNote}</p>
+        <p className="mt-4 text-sm text-ink-soft">{copy.evidenceNote}</p>
       </div>
 
       <button
@@ -113,7 +114,7 @@ function Project({ project, copy, index, labels }) {
       </button>
 
       <div id={detalleId} className={abierto ? '' : 'hidden lg:block'}>
-        <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-3 lg:mt-14">
+        <div className="mt-10 grid gap-x-10 gap-y-8 md:grid-cols-3">
           <CaseBlock index={1} label={labels.problemLabel} text={copy.problem} />
           <CaseBlock index={2} label={labels.solutionLabel} text={copy.solution} />
           <CaseBlock index={3} label={labels.resultLabel} text={copy.result} />
@@ -140,7 +141,7 @@ export default function Projects({ t, lang }) {
     >
       <Arc className="top-[20rem] -right-[32rem] size-[60rem]" />
 
-      <div className="relative space-y-24 md:space-y-32">
+      <div className="relative space-y-16 md:space-y-24">
         {PROJECTS.map((project, i) => (
           <Project
             key={project.id}
@@ -152,11 +153,11 @@ export default function Projects({ t, lang }) {
         ))}
       </div>
 
-      <div className="reveal relative mt-24 border-t border-line pt-10 md:mt-32">
+      <div className="reveal relative mt-16 border-t border-line pt-8 md:mt-20">
         <p className="eyebrow eyebrow-plain">{t.projects.trustLabel}</p>
-        <ul className="stagger mt-8 grid gap-x-12 gap-y-10 md:grid-cols-3">
-          {t.projects.trust.map((item, i) => (
-            <li key={item.title} className={`reveal block-top border-t border-line pt-5 ${i === 1 ? 'md:mt-8' : ''}`}>
+        <ul className="stagger mt-6 grid gap-x-12 gap-y-8 md:grid-cols-3">
+          {t.projects.trust.map((item) => (
+            <li key={item.title} className="reveal block-top border-t border-line pt-5">
               <h3 className="block-title display-light text-xl">{item.title}</h3>
               <p className="mt-3 leading-relaxed text-ink-soft">{item.text}</p>
             </li>

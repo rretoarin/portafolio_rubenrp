@@ -7,23 +7,14 @@ const LINKS = ['problems', 'services', 'projects', 'process', 'about', 'contact'
 
 export default function Footer({ t }) {
   return (
-    <footer className="relative overflow-hidden border-t border-line pt-16 pb-[calc(2.5rem+env(safe-area-inset-bottom))] md:pt-24">
+    <footer className="relative overflow-hidden border-t border-line pt-12 pb-[calc(2.5rem+env(safe-area-inset-bottom))] md:pt-16">
       <div className="shell relative">
-        <div className="grid gap-x-10 gap-y-12 lg:grid-cols-12">
-          <div className="reveal lg:col-span-5">
-            {/* La segunda línea sangra: el nombre entra en diagonal, no en bloque. */}
-            <h2 className="display text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem]">
-              {PROFILE.nameLines.map((line, i) => (
-                <span key={line} className={i === 1 ? 'block pl-[0.4em]' : 'block'}>
-                  {line}
-                </span>
-              ))}
-            </h2>
-            <p className="eyebrow eyebrow-plain mt-6">{t.footer.role}</p>
-            <p className="mt-3 max-w-sm leading-relaxed text-ink-soft">{t.footer.tagline}</p>
-          </div>
-
-          <nav className="reveal lg:col-span-3" aria-label={t.nav.menu}>
+        {/*
+          Sin nombre gigante. El cierre de marca ya lo hace la sección de
+          contacto; repetirlo aquí sólo añadía media pantalla de altura.
+        */}
+        <div className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          <nav className="reveal" aria-label={t.nav.menu}>
             <ul>
               {LINKS.map((id) => (
                 <li key={id}>
@@ -38,7 +29,7 @@ export default function Footer({ t }) {
             </ul>
           </nav>
 
-          <div className="reveal lg:col-span-4">
+          <div className="reveal">
             <p className="eyebrow eyebrow-plain">{t.nav.contact}</p>
             <ul className="mt-4 space-y-2.5">
               <li>
@@ -74,9 +65,13 @@ export default function Footer({ t }) {
               </li>
             </ul>
 
-            <ul className="mt-6 space-y-1">
+          </div>
+
+          <div className="reveal">
+            <p className="eyebrow eyebrow-plain">{t.footer.site.label}</p>
+            <ul className="mt-4 space-y-1.5">
               {t.footer.site.lines.map((line) => (
-                <li key={line} className="text-xs text-ink-soft">
+                <li key={line} className="text-sm text-ink-soft">
                   {line}
                 </li>
               ))}
@@ -84,7 +79,7 @@ export default function Footer({ t }) {
           </div>
         </div>
 
-        <div className="reveal mt-16 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="reveal mt-10 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-semibold text-ink-soft">
             © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}
           </p>

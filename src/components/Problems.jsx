@@ -13,7 +13,7 @@ export default function Problems({ t }) {
   return (
     <section
       id="problems"
-      className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
+      className="relative scroll-mt-20 overflow-hidden py-14 md:py-20"
     >
       <Arc className="-bottom-[32rem] -left-[24rem] size-[54rem]" />
 
@@ -30,7 +30,7 @@ export default function Problems({ t }) {
           </p>
         </div>
 
-        <ul className="stagger mt-14 max-w-3xl space-y-10 md:mt-20">
+        <ul className="stagger mt-10 space-y-10 md:mt-12">
           {t.problems.items.map((item, i) => (
             <li key={i} className="reveal block">
               <div className="flex items-baseline gap-4">
@@ -39,8 +39,15 @@ export default function Problems({ t }) {
                 </span>
                 <span aria-hidden className="block-rule h-px flex-1 bg-line" />
               </div>
-              <h3 className="block-title display-light mt-5 text-xl md:text-2xl">{item.title}</h3>
-              <p className="mt-3 max-w-lg leading-relaxed text-ink-soft">{item.text}</p>
+              {/*
+                Título a la izquierda y explicación a la derecha, a ancho
+                completo. Antes la lista iba en una columna estrecha y dejaba
+                media página en blanco a la derecha.
+              */}
+              <div className="mt-5 grid gap-x-12 gap-y-3 md:grid-cols-2">
+                <h3 className="block-title display-light text-xl md:text-2xl">{item.title}</h3>
+                <p className="leading-relaxed text-ink-soft">{item.text}</p>
+              </div>
             </li>
           ))}
         </ul>
@@ -49,7 +56,7 @@ export default function Problems({ t }) {
           El puente hacia las soluciones. Es la única frase de la sección con
           fondo propio: cierra el diagnóstico y abre la conversación.
         */}
-        <div className="reveal card mt-16 p-8 md:mt-20 md:p-12">
+        <div className="reveal card mt-12 p-8 md:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.4fr_auto] lg:items-center">
             <p className="display-light text-xl text-ink sm:text-2xl">{t.problems.closing}</p>
             <a

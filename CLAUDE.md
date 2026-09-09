@@ -114,9 +114,12 @@ Cada cambio lo pidió Rubén; no revertir sin preguntar.
   La asimetría **tiene que sostenerse a 375px**.
 - **Casi nada de tarjetas**: el recurso por defecto es un bloque abierto bajo
   `border-t border-sand`. `.card` queda para agrupar de verdad.
-- **Las capturas son la evidencia**, no ilustración. Van claras (ver
-  `scripts/aclarar.py`) dentro de `<Frame>`, a ancho completo, con los datos de
-  cliente difuminados. Una aparece ya en el hero.
+- **Las capturas son la evidencia**, no ilustración. Van claras, tal como salen
+  del navegador, dentro de `<Frame>` y a ancho completo; una aparece ya en el
+  hero. Las prepara **`scripts/capturas.py`**: difumina los datos de cliente del
+  sistema de Arin (interno; el sitio de J&M es público y no lleva nada),
+  recorta el espacio muerto y exporta a WebP. `shots.py` y `aclarar.py` son de
+  la etapa negra del sitio y ya no se usan.
 - `.link` lleva el subrayado en `::after` y `.tap` el área de toque en
   `::before`. **Nunca al revés**: si ambos usan el mismo pseudo-elemento se
   funden en una caja gris visible.

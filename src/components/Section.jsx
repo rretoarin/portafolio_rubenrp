@@ -12,7 +12,7 @@ export default function Section({ id, eyebrow, title, subtitle, children }) {
   return (
     <section
       id={id}
-      className="relative scroll-mt-20 overflow-hidden py-20 md:py-28"
+      className="relative scroll-mt-20 overflow-hidden py-14 md:py-20"
     >
       <div className="shell">
         <div className="grid gap-x-10 gap-y-6 lg:grid-cols-12 lg:items-end">
@@ -30,7 +30,7 @@ export default function Section({ id, eyebrow, title, subtitle, children }) {
           )}
         </div>
 
-        <div className="mt-14 md:mt-20">{children}</div>
+        <div className="mt-10 md:mt-12">{children}</div>
       </div>
     </section>
   )

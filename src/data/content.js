@@ -3,7 +3,6 @@
 
 export const PROFILE = {
   name: 'Rubén Reto Panta',
-  nameLines: ['Rubén Reto', 'Panta'], // Cierre a gran escala en el pie.
   initials: 'RR',
   email: 'rubenretopanta@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ruben-reto-panta-1580301a8/',
@@ -22,9 +21,10 @@ export function whatsappUrl(message) {
 }
 
 /*
- * Casos. `shots` son capturas reales del sistema en producción, con los datos
- * de cliente difuminados. El orden manda: cada ruta se empareja por índice con
- * `shots` del idioma.
+ * Casos. `shots` son capturas reales en producción; las del sistema de Arin
+ * llevan los datos de cliente difuminados (el sitio de J&M es público y no
+ * necesita nada). Las genera `scripts/capturas.py`. El orden manda: cada ruta
+ * se empareja por índice con `shots` del idioma.
  */
 export const PROJECTS = [
   {
@@ -38,11 +38,12 @@ export const PROJECTS = [
     shots: [
       '/proyectos/muestras-1.webp',
       '/proyectos/muestras-2.webp',
+      '/proyectos/muestras-3.webp',
       '/proyectos/muestras-4.webp',
+      '/proyectos/muestras-5.webp',
       '/proyectos/muestras-6.webp',
       '/proyectos/muestras-7.webp',
-      '/proyectos/muestras-3.webp',
-      '/proyectos/muestras-5.webp',
+      '/proyectos/muestras-8.webp',
     ],
   },
   {
@@ -54,10 +55,10 @@ export const PROJECTS = [
     shots: [
       '/proyectos/jm-1.webp',
       '/proyectos/jm-2.webp',
-      '/proyectos/jm-4.webp',
-      '/proyectos/jm-6.webp',
       '/proyectos/jm-3.webp',
+      '/proyectos/jm-4.webp',
       '/proyectos/jm-5.webp',
+      '/proyectos/jm-6.webp',
     ],
   },
 ]
@@ -193,7 +194,6 @@ export const CONTENT = {
       prev: 'Captura anterior',
       next: 'Captura siguiente',
       shotOf: 'Captura {i} de {n}',
-      evidenceNote: 'Capturas reales del sistema. Los datos de cliente van difuminados.',
       trustLabel: 'Qué puedes esperar',
       trust: [
         {
@@ -214,6 +214,8 @@ export const CONTENT = {
         muestras: {
           name: 'Sistema de Gestión de Muestras',
           tag: 'Herramienta interna de operación',
+          evidenceNote:
+            'Capturas reales del sistema en producción. Los datos de cliente van difuminados.',
           impact:
             'Un control que vivía en hojas de cálculo pasó a gestionarse desde una sola plataforma, con la trazabilidad de cada muestra al día.',
           problem:
@@ -223,18 +225,20 @@ export const CONTENT = {
           result:
             'En producción como herramienta interna. Cada movimiento queda firmado con autor, fecha y motivo, y cambiar un feriado recalcula los plazos de todo el sistema.',
           shots: [
-            'Listado de productos: filtros combinados por estado, cliente, tipo y fecha, con exportación a Excel.',
-            'Ficha del producto y su historial: cada cambio queda firmado con autor, fecha y motivo.',
+            'Panel de control: pendientes, finalizados y aprobados, con la carga de cada proceso al día.',
+            'Listado de diseños: filtros combinados por estado y categoría, con exportación a Excel.',
             'Calendario de cierres: el año completo, coloreado por muestras vencidas, por vencer y a tiempo.',
-            'Reporte de vencimientos: indicadores, distribución por unidad de negocio y comparativo mensual.',
+            'Ficha del diseño: las aprobaciones quedan firmadas con nombre y fecha, y el historial guarda cada cambio.',
+            'Reporte de vencimientos: porcentaje por estado, distribución por unidad de negocio y piezas por kilataje.',
+            'Reporte de muestras: curva de cierres, estados del periodo y tiempo promedio de entrega.',
             'Mantenimiento de feriados: un cambio acá recalcula los plazos de todo el sistema.',
-            'Detalle de muestras: foto, kilataje, piezas y fechas de solicitud y entrega.',
-            'Al abrir un día del calendario se listan las muestras que cierran esa fecha.',
+            'Los reportes del sistema, agrupados: por semana, por mes, por diseñador y por vencimiento.',
           ],
         },
         'jm-consulting': {
           name: 'J&M Consulting Foods',
           tag: 'Sitio corporativo + panel de administración',
+          evidenceNote: 'Capturas reales del sitio publicado, tal como se ve hoy.',
           impact:
             'Una consultora que dependía de terceros para publicar ahora edita su propio contenido y recibe las consultas ordenadas.',
           problem:
@@ -246,9 +250,9 @@ export const CONTENT = {
           shots: [
             'Portada: la propuesta de valor y el paso directo a WhatsApp.',
             'Catálogo de servicios con el detalle de cada trámite y certificación.',
-            'Proceso en cuatro etapas y los sectores de alimentos que atienden.',
-            'Contacto: el formulario arma el mensaje y lo abre en WhatsApp.',
-            'Quiénes somos: equipo, misión y datos verificables de la empresa.',
+            'Capacitaciones: fotos reales de los talleres, cada una con su pie de foto.',
+            'El proceso en cuatro etapas, para que el cliente sepa en todo momento dónde está.',
+            'Los sectores de alimentos que atienden, listados uno a uno.',
             'Carrusel de las empresas que ya trabajaron con la consultora.',
           ],
         },
@@ -341,8 +345,7 @@ export const CONTENT = {
     },
 
     footer: {
-      role: 'Software a medida para empresas',
-      tagline: 'Menos trabajo manual. Más control sobre tu operación.',
+      role: 'Diseño web y software a medida',
       rights: 'Todos los derechos reservados.',
       top: 'Volver arriba',
       site: {
@@ -469,7 +472,6 @@ export const CONTENT = {
       prev: 'Previous screen',
       next: 'Next screen',
       shotOf: 'Screen {i} of {n}',
-      evidenceNote: 'Real screens from the system. Client data is blurred out.',
       trustLabel: 'What you can expect',
       trust: [
         {
@@ -490,6 +492,8 @@ export const CONTENT = {
         muestras: {
           name: 'Sample Management System',
           tag: 'Internal operations tool',
+          evidenceNote:
+            'Real screens from the system in production. Client data is blurred out.',
           impact:
             'Control that lived in spreadsheets moved to a single platform, with the traceability of every sample up to date.',
           problem:
@@ -499,18 +503,20 @@ export const CONTENT = {
           result:
             'In production as an internal tool. Every movement is signed with author, date and reason, and changing one holiday recalculates deadlines across the whole system.',
           shots: [
-            'Product list: combined filters by status, client, type and date, with Excel export.',
-            'Product sheet and its history: every change is signed with author, date and reason.',
+            'Dashboard: pending, finished and approved work, with the load of every process up to date.',
+            'Design list: combined filters by status and category, with Excel export.',
             'Closing calendar: the full year, colored by overdue, due soon and on-time samples.',
-            'Due-date report: indicators, distribution by business unit and month-over-month comparison.',
+            'Design sheet: approvals are signed with name and date, and the history keeps every change.',
+            'Due-date report: percentage by status, distribution by business unit and pieces by karat.',
+            'Sample report: closing curve, statuses for the period and average lead time.',
             'Holiday maintenance: one change here recalculates deadlines across the whole system.',
-            'Sample detail: photo, karat, pieces and request and due dates.',
-            'Opening a day in the calendar lists the samples closing on that date.',
+            'The reports of the system, grouped: by week, by month, by designer and by due date.',
           ],
         },
         'jm-consulting': {
           name: 'J&M Consulting Foods',
           tag: 'Corporate site + admin panel',
+          evidenceNote: 'Real screens of the published site, exactly as it looks today.',
           impact:
             'A consultancy that depended on others to publish now edits its own content and receives enquiries in order.',
           problem:
@@ -522,9 +528,9 @@ export const CONTENT = {
           shots: [
             'Home: the value proposition and a direct path to WhatsApp.',
             'Service catalog detailing every procedure and certification.',
-            'Four-stage process and the food sectors they serve.',
-            'Contact: the form composes the message and opens WhatsApp.',
-            'About: team, mission and verifiable company records.',
+            'Training: real photos from the workshops, each one with its caption.',
+            'The four-stage process, so the client always knows where they stand.',
+            'The food sectors they serve, listed one by one.',
             'Carousel of the companies that already worked with the consultancy.',
           ],
         },
@@ -617,8 +623,7 @@ export const CONTENT = {
     },
 
     footer: {
-      role: 'Custom software for businesses',
-      tagline: 'Less manual work. More control over your operation.',
+      role: 'Web design and custom software',
       rights: 'All rights reserved.',
       top: 'Back to top',
       site: {

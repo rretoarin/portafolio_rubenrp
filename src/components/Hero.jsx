@@ -57,7 +57,7 @@ export default function Hero({ t }) {
             <Frame label="arin · desarrollo de muestras" className="shadow-[0_18px_50px_-24px_rgba(11,13,18,0.28)]">
               <img
                 src="/proyectos/muestras-1.webp"
-                alt={`${PROFILE.name} — listado de productos del sistema de gestión de muestras`}
+                alt={`${PROFILE.name} — ${t.projects.items.muestras.shots[0]}`}
                 width={1600}
                 height={900}
                 fetchPriority="high"
@@ -72,7 +72,7 @@ export default function Hero({ t }) {
           Para quién es esto, antes de que haya que bajar tres pantallas: alguien
           con una tienda de barrio necesita saber que también le hablo a él.
         */}
-        <div className="reveal mt-14 flex flex-wrap items-center gap-x-3 gap-y-2 md:mt-16">
+        <div className="reveal mt-10 flex flex-wrap items-center gap-x-3 gap-y-2">
           <span className="eyebrow eyebrow-plain">{t.hero.sectorsLabel}</span>
           {t.hero.sectors.map((sector) => (
             <span key={sector} className="tag">
@@ -82,7 +82,7 @@ export default function Hero({ t }) {
         </div>
 
         {/* Tres afirmaciones verificables con los casos de más abajo. */}
-        <dl className="stagger mt-10 grid gap-x-10 gap-y-8 border-t border-line pt-8 sm:grid-cols-3">
+        <dl className="stagger mt-8 grid gap-x-10 gap-y-8 border-t border-line pt-8 sm:grid-cols-3">
           {t.hero.proof.map((item, i) => (
             <div key={i} className="reveal">
               <dt className="font-medium text-ink">{item.value}</dt>
