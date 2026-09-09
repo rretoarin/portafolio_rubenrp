@@ -70,7 +70,7 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
 
   return (
     <div
-      className="lightbox fixed inset-0 z-[70] flex flex-col bg-ink/92 p-4 backdrop-blur-sm md:p-8"
+      className="lightbox fixed inset-0 z-[70] flex flex-col bg-scrim/92 p-4 backdrop-blur-sm md:p-8"
       onClick={onClose}
     >
       <div
@@ -83,15 +83,15 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
         className="mx-auto flex h-full w-full max-w-6xl flex-col outline-none"
       >
         <div className="flex items-center justify-between gap-4 pb-4">
-          <p className="text-sm font-medium text-page">
+          <p className="text-sm font-medium text-on-scrim">
             <span className="tabular-nums">{String(index + 1).padStart(2, '0')}</span>
-            <span className="text-page/50"> / {String(shots.length).padStart(2, '0')}</span>
+            <span className="text-on-scrim/50"> / {String(shots.length).padStart(2, '0')}</span>
           </p>
           <button
             type="button"
             onClick={onClose}
             aria-label={labels.closeShot}
-            className="flex size-11 items-center justify-center rounded-full border border-page/25 text-page transition-colors hover:bg-page hover:text-ink"
+            className="flex size-11 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim hover:text-scrim"
           >
             <Close width={18} height={18} />
           </button>
@@ -102,7 +102,7 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
             type="button"
             onClick={() => mover(-1)}
             aria-label={labels.prev}
-            className="hidden size-11 shrink-0 rotate-180 items-center justify-center rounded-full border border-page/25 text-page transition-colors hover:bg-page hover:text-ink sm:flex"
+            className="hidden size-11 shrink-0 rotate-180 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim hover:text-scrim sm:flex"
           >
             <ArrowRight width={18} height={18} />
           </button>
@@ -117,13 +117,13 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
             type="button"
             onClick={() => mover(1)}
             aria-label={labels.next}
-            className="hidden size-11 shrink-0 items-center justify-center rounded-full border border-page/25 text-page transition-colors hover:bg-page hover:text-ink sm:flex"
+            className="hidden size-11 shrink-0 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim hover:text-scrim sm:flex"
           >
             <ArrowRight width={18} height={18} />
           </button>
         </div>
 
-        <p aria-live="polite" className="mx-auto max-w-2xl pt-4 text-center text-sm text-page/80">
+        <p aria-live="polite" className="mx-auto max-w-2xl pt-4 text-center text-sm text-on-scrim/80">
           {captions[index]}
         </p>
       </div>

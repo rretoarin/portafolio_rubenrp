@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { CONTENT, PROFILE, STACK, UNIVERSITY } from './data/content'
+import { CONTENT, PROFILE, UNIVERSITY } from './data/content'
 import { useReveal } from './hooks/useReveal'
 import { useParallax } from './hooks/useParallax'
 import { useMagnetic } from './hooks/useMagnetic'
@@ -7,15 +7,10 @@ import { useTheme } from './hooks/useTheme'
 import Nav from './components/Nav'
 import ScrollProgress from './components/ScrollProgress'
 import Hero from './components/Hero'
-import Problems from './components/Problems'
 import Services from './components/Services'
 import Styles from './components/Styles'
-import Outcomes from './components/Outcomes'
-import Projects from './components/Projects'
-import CtaBand from './components/CtaBand'
 import Process from './components/Process'
-import About from './components/About'
-import Stack from './components/Stack'
+import Projects from './components/Projects'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
@@ -71,26 +66,20 @@ export default function App() {
       <Nav t={t} onToggleLang={toggleLang} theme={theme} onThemeChange={setTheme} />
 
       {/*
-        Recorrido de decisión, de arriba abajo: qué hago por ti → me reconozco en
-        el problema → esto es lo que puedes encargarme → el diseño se adapta a mi
-        marca → qué gano → ya lo has hecho antes → hablemos → cómo trabajas →
-        quién eres → con qué → cómo empiezo.
+        Seis secciones y ninguna más. La historia es: qué resuelvo → qué puedes
+        encargarme → cómo se vería tu marca → cómo trabajo y hasta dónde te
+        acompaño → ya lo he hecho → hablemos.
 
-        La tecnología entra la penúltima a propósito: es soporte, no argumento de
-        venta. Y el CTA aparece tres veces —hero, banda intermedia y cierre—
-        porque nadie está obligado a leerlo todo para decidirse.
+        Lo que se quitó de aquí —el problema, los resultados, las tecnologías,
+        un CTA intermedio y una sección entera sobre mí— no se sustituyó por
+        nada: la home tenía demasiado contenido, no poco.
       */}
       <main>
-        <Hero t={t} />
-        <Problems t={t} />
+        <Hero t={t} theme={theme} />
         <Services t={t} />
         <Styles t={t} theme={theme} onThemeChange={setTheme} />
-        <Outcomes t={t} />
-        <Projects t={t} lang={lang} />
-        <CtaBand t={t} />
         <Process t={t} />
-        <About t={t} />
-        <Stack t={t} />
+        <Projects t={t} theme={theme} />
         <Contact t={t} />
       </main>
 
@@ -121,7 +110,6 @@ export default function App() {
               'Integracion de sistemas',
               'Aplicaciones web',
               'Paneles de control y reportes',
-              'Digitalizacion de procesos',
             ],
             knowsLanguage: ['es', 'en'],
             alumniOf: {
@@ -132,8 +120,6 @@ export default function App() {
               '@type': 'Offer',
               itemOffered: { '@type': 'Service', name: item.title, description: item.text },
             })),
-            // Sólo lo que de verdad se usa en los casos y en este sitio.
-            skills: STACK.join(', '),
           }),
         }}
       />

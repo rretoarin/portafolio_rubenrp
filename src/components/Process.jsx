@@ -2,14 +2,16 @@ import Section from './Section'
 import { Arc } from './ui'
 
 /*
- * Cinco pasos. La sección existe para bajar la incertidumbre de quien nunca ha
- * encargado software: cada paso dice qué pasa y qué recibe, no cómo se programa.
+ * Proceso y acompañamiento en una sola sección, no en dos. Cinco pasos en una
+ * fila: el recorrido completo se lee de un vistazo, sin scroll.
  *
- * El número va grande y en el filete, a la izquierda; el texto ocupa una columna
- * cómoda de lectura. Antes iban en diagonal con sangría creciente, y con cinco
- * pasos el último acababa demasiado a la derecha.
+ * El quinto va destacado a propósito. "No te dejamos solo después del
+ * lanzamiento" es el argumento comercial que más separa a RubenDev de quien
+ * entrega un proyecto y desaparece, así que no puede parecer un paso más.
  */
 export default function Process({ t }) {
+  const ultimo = t.process.steps.length - 1
+
   return (
     <Section
       id="process"
@@ -17,32 +19,37 @@ export default function Process({ t }) {
       title={t.process.title}
       subtitle={t.process.subtitle}
     >
-      <Arc className="-top-[26rem] -left-[28rem] size-[54rem]" />
+      <Arc className="-top-[24rem] -left-[26rem] size-[50rem]" />
 
-      <ol className="stagger relative">
-        {t.process.steps.map((step, i) => (
-          <li
-            key={i}
-            className={`reveal block-top border-t border-line py-7 md:py-9 ${
-              i === t.process.steps.length - 1 ? 'border-b' : ''
-            }`}
-          >
-            <div className="grid gap-x-10 gap-y-2 md:grid-cols-[5rem_1fr]">
+      <ol className="stagger relative grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
+        {t.process.steps.map((step, i) => {
+          const destacado = i === ultimo
+          return (
+            <li
+              key={i}
+              className={`reveal block-top border-t pt-5 ${
+                destacado ? 'border-accent' : 'border-line'
+              }`}
+            >
               <span
                 aria-hidden
-                className="display text-[2rem] leading-none text-accent/45 md:text-[2.75rem]"
+                className={`display text-[1.75rem] leading-none ${
+                  destacado ? 'text-accent' : 'text-accent/40'
+                }`}
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <div className="max-w-2xl">
-                <h3 className="block-title display-light text-xl md:text-[1.625rem]">
-                  {step.title}
-                </h3>
-                <p className="mt-3 leading-relaxed text-ink-soft">{step.text}</p>
-              </div>
-            </div>
-          </li>
-        ))}
+              <h3 className="block-title eyebrow eyebrow-plain mt-4 block">{step.title}</h3>
+              <p
+                className={`mt-2.5 text-sm leading-relaxed ${
+                  destacado ? 'text-ink' : 'text-ink-soft'
+                }`}
+              >
+                {step.text}
+              </p>
+            </li>
+          )
+        })}
       </ol>
     </Section>
   )

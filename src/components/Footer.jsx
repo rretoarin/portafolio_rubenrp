@@ -3,7 +3,7 @@ import { ArrowUp, LinkedIn, Mail, WhatsApp } from './icons'
 
 // Una sola columna de atajos: seis enlaces en dos columnas de tres eran más
 // rejilla que ayuda, y el pie de una marca personal no es un mapa del sitio.
-const LINKS = ['problems', 'services', 'projects', 'process', 'about', 'contact']
+const LINKS = ['services', 'styles', 'projects', 'process', 'contact']
 
 export default function Footer({ t }) {
   return (
@@ -30,7 +30,7 @@ export default function Footer({ t }) {
           </nav>
 
           <div className="reveal">
-            <p className="eyebrow eyebrow-plain">{t.nav.contact}</p>
+            <p className="eyebrow eyebrow-plain">{t.footer.contact}</p>
             <ul className="mt-4 space-y-2.5">
               <li>
                 <a

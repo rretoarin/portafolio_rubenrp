@@ -21,6 +21,7 @@ npm run lint      # oxlint
 
 python scripts/contraste.py   # mide el contraste de las cuatro paletas
 python scripts/capturas.py    # regenera las capturas de los casos
+python scripts/oscurecer.py   # y su variante para el estilo oscuro
 python scripts/og-image.py    # regenera la imagen de compartir
 ```
 
@@ -35,9 +36,8 @@ src/
 │  ├─ icons.jsx        ← SVG inline, sin librería de iconos
 │  ├─ ThemeSwitch.jsx  ← selector de estilo (compacto y completo)
 │  ├─ DeviceMock.jsx   ← portátil + móvil del hero, dibujados en CSS
-│  ├─ Bento + Lightbox ← rejilla de capturas y visor accesible
-│  └─ Nav | Hero | Problems | Services | Styles | Outcomes | Projects
-│     | CtaBand | Process | About | Stack | Contact | Footer
+│  ├─ Lightbox.jsx     ← visor de capturas, accesible
+│  └─ Nav | Hero | Services | Styles | Process | Projects | Contact | Footer
 ├─ hooks/
 │  ├─ useTheme.js      ← estilo activo: localStorage + data-theme + theme-color
 │  ├─ useReveal.js     ← IntersectionObserver único para las entradas
@@ -68,27 +68,56 @@ src/
 ## Posicionamiento
 
 **No es un portafolio.** Es una marca personal comercial cuyo único objetivo es
-captar clientes: 80% cliente, 20% él. El visitante tiene que pensar «esta
-persona entiende los problemas de un negocio y puede resolver el mío», no «este
-es programador y estas son sus tecnologías».
+captar clientes: 80% cliente, 20% él. El visitante tiene que pensar «esta persona
+entiende los problemas de un negocio y puede resolver el mío», no «este es
+programador y estas son sus tecnologías».
 
-Idea central: **«Transformo procesos complejos en sistemas digitales simples.»**
+Tres frases sostienen toda la comunicación:
 
-Orden de secciones: hero → El problema → Soluciones → **Estilos** → Resultados →
-Proyectos → CTA intermedio → Proceso → Sobre mí → Tecnologías → Contacto.
+1. **«Transformo procesos complejos en soluciones digitales simples.»**
+2. **«El diseño cambia. La calidad no.»** — la sección Estilos.
+3. **«No te dejo solo después del lanzamiento.»** — el paso 05 del proceso, que
+   es el argumento que más separa a RubenDev de quien entrega y desaparece.
+
+### Seis secciones. Ni una más
+
+`hero → Soluciones → Estilos → Proceso → Casos → CTA final`
+
+La home se recorre en menos de un minuto y mide **unas seis pantallas**. Llegó a
+tener once secciones y quince pantallas, y el problema nunca fue que el diseño
+fuera malo: era que había demasiado contenido. **Antes de añadir una sección hay
+que quitar otra**, y antes de añadir cualquier cosa: *¿ayuda a que un cliente
+confíe y quiera escribir?* Si no, fuera.
+
+Lo que se quitó en el recorte del 2026-09-09 y **no debe volver**:
+
+- **El problema** como sección propia — el diagnóstico ya lo hace el subtítulo de
+  Soluciones.
+- **Resultados** («de procesos manuales a procesos digitales») — decía lo mismo
+  que las soluciones con otras palabras.
+- **Tecnologías** como sección — sale al pie de cada caso y nada más. Ver abajo.
+- **Un CTA intermedio** — con tres CTA (hero, barra y cierre) sobra.
+- **Sobre mí** como sección — queda una frase con la foto dentro del cierre, que
+  es donde se decide. El cliente no necesita la trayectoria para entender qué
+  gana.
+- **Las píldoras de tipos de cliente y el trío de prueba del hero** — empujaban
+  la maqueta fuera de la primera pantalla.
+
+### Densidad
+
+4 soluciones · 4 estilos · 5 pasos · 2 casos. Cada caso es **una tarjeta con una
+captura y tres líneas** (problema, solución, resultado); las demás capturas viven
+en el visor, a un clic. Antes cada caso ocupaba tres pantallas.
 
 - **RubenDev es la marca comercial** (logo, navegación, `<title>`, OG). *Rubén
-  Reto Panta* se mantiene en Sobre mí, el pie y el JSON-LD: la persona real
+  Reto Panta* se mantiene en el cierre, el pie y el JSON-LD: la persona real
   detrás es lo que separa esto de una agencia sin rostro.
-- Densidad: 5 problemas, 4 soluciones, 5 resultados, 5 pasos, 3 pilares de
-  confianza. Si algo crece por encima de eso, hay que quitar otra cosa.
-- **Las tecnologías van al final y en pequeño**, como banda de texto en `Stack`.
-  Sin logotipos y sin rejilla — eso es lo que devolvería el aire de portafolio.
-  Y **sólo las que están de verdad** en los dos casos o en este sitio: el array
-  `STACK` de `content.js`. Nunca rellenar con lo que quedaría bien.
-- El CTA aparece tres veces: hero, `CtaBand` a media página y contacto.
+- **Las tecnologías no son protagonistas.** Una línea al pie de cada caso
+  («Construido con…») y se acabó. El cliente compra el resultado.
 - El formulario de contacto **no tiene backend**: compone el mensaje y abre
   WhatsApp. Si algún día se envía a un servidor, hay que añadir aviso de datos.
+- Los canales (WhatsApp, correo, LinkedIn) van **sólo en el pie**. Estuvieron
+  duplicados en Contacto y en el pie.
 
 ## Los cuatro estilos
 
@@ -106,9 +135,11 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
   genere las utilidades. Los cuatro estilos se declaran después **fuera de toda
   `@layer`**, porque una regla sin capa gana a `@theme`.
 - El selector es `[data-theme]` a secas, no `html[data-theme]`: así cualquier
-  subárbol adopta un estilo. De eso viven las muestras del selector y la
-  previsualización de la sección Estilos, que enseñan colores reales sin repetir
-  la paleta en JavaScript.
+  subárbol adopta un estilo. De eso viven las muestras de la barra y **las cuatro
+  miniaturas de la sección Estilos**, que se ven a la vez con sus colores reales
+  sin repetir la paleta en JavaScript. Esas miniaturas SON el selector: ver y
+  elegir es el mismo gesto, y demuestran la capacidad de adaptación mejor que
+  cualquier párrafo.
 - **Cada paleta se mide antes de darla por buena**: `python scripts/contraste.py`
   comprueba diecisiete pares por estilo (texto ≥ 4.5:1, controles ≥ 3:1). Si
   se toca un color, hay que volver a pasarlo y anotar el número en el CSS.
@@ -146,13 +177,27 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
 - El ritmo entre secciones lo marca el espacio vertical (`py-16 md:py-24`), no
   franjas de color. `<Section muted>` pinta `surface-2` y se usa **como mucho en
   dos secciones** de toda la página.
-- **Las capturas son la evidencia**, no ilustración. Van claras, tal como salen
-  del navegador, dentro de `<Frame>` —la ventana es lo que las ancla cuando el
-  sitio está en oscuro— y pasan por `--shot-filter`. Las prepara
-  `scripts/capturas.py`: difumina los datos de cliente del sistema de Arin
-  (interno; la web de J&M es pública y no lleva nada), recorta el espacio muerto
-  y exporta a WebP. `shots.py` y `aclarar.py` son de la etapa negra del sitio y
-  ya no se usan.
+- **Las capturas son la evidencia**, no ilustración. Van dentro de `<Frame>` y a
+  ancho completo. Las prepara `scripts/capturas.py`: difumina los datos de
+  cliente del sistema de Arin (interno; la web de J&M es pública y no lleva
+  nada), recorta el espacio muerto y exporta a WebP. `shots.py` y `aclarar.py`
+  son de la etapa negra del sitio y ya no se usan.
+- **El estilo oscuro tiene su propio juego de capturas**, en
+  `public/proyectos/oscuro/`, que genera `scripts/oscurecer.py` desde los WebP ya
+  terminados. **Un filtro CSS no sirve** y está probado: `invert()` apaga los
+  colores de marca y deja las FOTOS en negativo — la gente de los talleres de
+  J&M salía con la piel invertida, y el pie del caso dice "tal como se ve hoy".
+  La receta que funciona es negativo + giro de tono de media vuelta, y después
+  **repegar las zonas de foto en color original**; se detectan solas por variedad
+  de color por casilla, y las que se escapen van a mano en el dict `KEEP`.
+  La ruta la resuelve `shotFor()` de `content.js` en `Hero` y en `Projects`, y de
+  ahí para abajo todos reciben rutas ya resueltas. **Es la única excepción** a
+  que el estilo no cambie más que variables: cambia un archivo, no cómo se pinta
+  un componente.
+- **`scrim` y `on-scrim` son los únicos colores que NO cambian con el estilo.**
+  Velan una captura —leyenda del bento, contador de capturas, fondo del visor— y
+  tienen que ser oscuros en los cuatro. Con `ink`/`page` se invertían y en oscuro
+  aparecía un bloque blanco encima de la imagen.
 - **Interacción, toda en CSS.** `.nav-link` dibuja un subrayado con `scaleX` (el
   estado activo lo deja puesto). Los bloques editoriales llevan `.block` +
   `.block-rule` —cuando el filete ya es un `<span>`— o `.block-top` —cuando lo

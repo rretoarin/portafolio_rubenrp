@@ -21,10 +21,12 @@ export function Swatch({ theme, className = '' }) {
  * tabulador y las flechas mueven la selección, que es lo que espera quien
  * navega con teclado. La etiqueta la pone quien lo usa.
  *
- * Tres presentaciones, un solo componente:
+ * Dos presentaciones, un solo componente:
  *   compact → fila de cuatro muestras (barra de escritorio y menú móvil)
  *   panel   → rejilla de 2×2 con el nombre (desplegable de la barra en móvil)
- *   full    → tarjetas con nombre y descripción (sección Estilos)
+ *
+ * En la sección Estilos el selector son las cuatro miniaturas del sitio, que
+ * viven en `Styles.jsx`: ahí ver y elegir tienen que ser el mismo gesto.
  *
  * Todas mantienen los 44px de objetivo táctil: los botones van pegados entre sí
  * y `.tap` no sirve ahí — los pseudo-elementos se solapan y el toque cae en el
@@ -47,7 +49,6 @@ export default function ThemeSwitch({ theme, onChange, labels, variant = 'compac
   const contenedor = {
     compact: 'flex items-center gap-1',
     panel: 'grid grid-cols-2 gap-1',
-    full: 'grid gap-3 sm:grid-cols-2',
   }[variant]
 
   return (
@@ -66,9 +67,6 @@ export default function ThemeSwitch({ theme, onChange, labels, variant = 'compac
           }`,
           panel: `flex min-h-11 items-center gap-2.5 rounded-full px-3 text-left text-sm transition-colors ${
             activo ? 'bg-page-soft font-semibold' : 'text-ink-soft'
-          }`,
-          full: `flex items-center gap-4 rounded-[var(--radius-card)] border p-4 text-left transition-colors ${
-            activo ? 'border-ink bg-surface-2' : 'border-line hover:border-edge'
           }`,
         }[variant]
 
@@ -89,20 +87,13 @@ export default function ThemeSwitch({ theme, onChange, labels, variant = 'compac
             <Swatch
               theme={id}
               className={
-                { compact: 'size-5', panel: 'size-5 shrink-0', full: 'size-9 shrink-0' }[variant]
+                { compact: 'size-5', panel: 'size-5 shrink-0' }[variant]
               }
             />
 
             {variant === 'compact' && <span className="sr-only">{labels.names[id]}</span>}
 
             {variant === 'panel' && <span className="truncate">{labels.names[id]}</span>}
-
-            {variant === 'full' && (
-              <span className="min-w-0">
-                <span className="block font-semibold">{labels.names[id]}</span>
-                <span className="mt-0.5 block text-sm text-ink-soft">{labels.moods[id]}</span>
-              </span>
-            )}
           </button>
         )
       })}

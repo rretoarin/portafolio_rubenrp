@@ -3,12 +3,11 @@ import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
 import ThemeSwitch, { Swatch } from './ThemeSwitch'
 
-// Cinco destinos en escritorio: el recorrido de decisión, nada más. El resto
-// vive en el menú a pantalla completa y en el pie.
-const SECTIONS = ['services', 'styles', 'projects', 'process', 'about']
+// Cinco destinos, los mismos en escritorio y en móvil: son todas las secciones
+// que hay. La home ya no tiene nada que esconder detrás de un menú más largo.
+const SECTIONS = ['services', 'styles', 'projects', 'process', 'contact']
 
-// En el menú móvil sí caben todos: ahí no hay que economizar espacio.
-const MENU = ['problems', 'services', 'styles', 'projects', 'process', 'about', 'contact']
+const MENU = ['services', 'styles', 'projects', 'process', 'contact']
 
 export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
   const [scrolled, setScrolled] = useState(false)

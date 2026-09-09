@@ -70,6 +70,15 @@
   --color-heading: #101317;
   --color-eyebrow: #535a63;
 
+  /*
+   * Velo sobre imágenes: la leyenda del bento, el contador de capturas y el
+   * fondo del visor. Son los ÚNICOS colores que no cambian con el estilo, y a
+   * propósito: van encima de una captura, así que tienen que ser oscuros en los
+   * cuatro. Con `ink`/`page` se invertían y en oscuro salía un bloque blanco.
+   */
+  --color-scrim: #05070a;
+  --color-on-scrim: #ffffff;
+
   --radius-card: 1.25rem;
   --radius-tile: 0.75rem;
 
@@ -175,8 +184,8 @@
   --glass: rgb(2 2 2 / 0.88);
   --grain-opacity: 0.05;
   --grain-blend: screen;
-  /* Sobre negro puro las capturas claras deslumbran más que sobre gris. */
-  --shot-filter: brightness(0.9) contrast(1.04);
+  /* Las capturas ya vienen invertidas de `proyectos/oscuro/`: nada que filtrar. */
+  --shot-filter: none;
 }
 
 /* Azul — misma base clara. Lo que cambia es la marca: acento, CTA y titulares. */
