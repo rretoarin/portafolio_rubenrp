@@ -25,7 +25,7 @@ export default function Hero({ t }) {
           <div className="lg:col-span-7">
             <p className="reveal eyebrow">{t.hero.kicker}</p>
 
-            <h1 className="reveal-words display mt-6 text-[2.75rem] sm:text-[3.75rem] lg:text-[4.5rem] xl:text-[5rem]">
+            <h1 className="reveal-words display mt-6 text-[2.75rem] text-heading sm:text-[3.75rem] lg:text-[4.5rem] xl:text-[5rem]">
               <Words text={t.hero.headline} />
             </h1>
           </div>

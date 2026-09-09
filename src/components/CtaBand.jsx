@@ -16,7 +16,7 @@ export default function CtaBand({ t }) {
         <div className="reveal card overflow-hidden p-8 md:p-14">
           <div className="grid gap-8 lg:grid-cols-[1.4fr_auto] lg:items-center">
             <div>
-              <h2 className="display text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem]">
+              <h2 className="display text-[1.75rem] text-heading sm:text-[2.25rem] lg:text-[2.75rem]">
                 {t.cta.title}
               </h2>
               <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink-soft">{t.cta.text}</p>

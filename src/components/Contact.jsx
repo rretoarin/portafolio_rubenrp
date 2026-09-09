@@ -55,7 +55,7 @@ export default function Contact({ t }) {
           <div className="reveal lg:col-span-7">
             <Eyebrow>{t.contact.eyebrow}</Eyebrow>
 
-            <h2 className="display mt-5 text-[2.125rem] sm:text-[2.75rem] lg:text-[3.5rem]">
+            <h2 className="display mt-5 text-[2.125rem] text-heading sm:text-[2.75rem] lg:text-[3.5rem]">
               {t.contact.title}
             </h2>
 

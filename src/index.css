@@ -67,6 +67,8 @@
   --color-frame-line: #e4e0d6;
   --color-btn: #17150f;
   --color-on-btn: #fbfaf7;
+  --color-heading: #17150f;
+  --color-eyebrow: #5a5546;
 
   --radius-card: 1.25rem;
   --radius-tile: 0.75rem;
@@ -120,6 +122,8 @@
 
   --color-btn: #17150f; /* texto encima: 17.49:1 */
   --color-on-btn: #fbfaf7;
+  --color-heading: #17150f; /* 17.49:1 */
+  --color-eyebrow: #5a5546; /* 7.13:1 */
   --color-btn-hover: #2f2b20;
   --shadow-card: 0 1px 2px rgb(23 21 15 / 0.04), 0 10px 30px -18px rgb(23 21 15 / 0.16);
   --shadow-card-hover: 0 2px 4px rgb(23 21 15 / 0.05), 0 24px 50px -24px rgb(23 21 15 / 0.24);
@@ -152,6 +156,8 @@
 
   --color-btn: #ecedef; /* texto encima: 16.26:1 */
   --color-on-btn: #0e1013;
+  --color-heading: #ecedef; /* 16.26:1 */
+  --color-eyebrow: #a3aab5; /* 8.14:1 */
   --color-btn-hover: #ffffff;
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 34px -20px rgb(0 0 0 / 0.7);
   --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.45), 0 28px 56px -26px rgb(0 0 0 / 0.8);
@@ -185,6 +191,8 @@
 
   --color-btn: #17539e; /* texto encima: 7.59:1 */
   --color-on-btn: #ffffff;
+  --color-heading: #123f78; /* 9.90:1 */
+  --color-eyebrow: #17539e; /* 7.18:1 */
   --color-btn-hover: #1d2c40;
   --shadow-card: 0 1px 2px rgb(12 23 37 / 0.04), 0 10px 30px -18px rgb(12 23 37 / 0.18);
   --shadow-card-hover: 0 2px 4px rgb(12 23 37 / 0.05), 0 24px 50px -24px rgb(12 23 37 / 0.26);
@@ -217,6 +225,8 @@
 
   --color-btn: #245c41; /* texto encima: 7.83:1 */
   --color-on-btn: #ffffff;
+  --color-heading: #1b4a33; /* 9.62:1 */
+  --color-eyebrow: #245c41; /* 7.44:1 */
   --color-btn-hover: #1e3128;
   --shadow-card: 0 1px 2px rgb(13 25 19 / 0.04), 0 10px 30px -18px rgb(13 25 19 / 0.18);
   --shadow-card-hover: 0 2px 4px rgb(13 25 19 / 0.05), 0 24px 50px -24px rgb(13 25 19 / 0.26);
@@ -339,7 +349,7 @@ html.theme-switching *::after {
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-ink-soft);
+    color: var(--color-eyebrow);
   }
 
   /* El punto es el único color gratuito del sistema: marca dónde empieza algo. */

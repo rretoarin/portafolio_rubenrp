@@ -18,25 +18,25 @@ TEMAS = {
     'claro': dict(
         page='#FBFAF7', page_soft='#F2F0EA', surface='#FFFFFF', surface2='#F6F4EF',
         line='#E4E0D6', edge='#87826F', ink='#17150F', ink_soft='#5A5546',
-        btn='#17150F', on_btn='#FBFAF7',
+        btn='#17150F', on_btn='#FBFAF7', heading='#17150F', eyebrow='#5A5546',
         accent='#4F5D46', accent_soft='#E7EBE1', on_accent='#FBFAF7', accent2='#9C5B41',
     ),
     'oscuro': dict(
         page='#0E1013', page_soft='#171A1F', surface='#14171B', surface2='#1B1F25',
         line='#262B33', edge='#767E8B', ink='#ECEDEF', ink_soft='#A3AAB5',
-        btn='#ECEDEF', on_btn='#0E1013',
+        btn='#ECEDEF', on_btn='#0E1013', heading='#ECEDEF', eyebrow='#A3AAB5',
         accent='#CBB894', accent_soft='#23272E', on_accent='#14171B', accent2='#8FA8A0',
     ),
     'azul': dict(
         page='#F6F9FC', page_soft='#EAF0F8', surface='#FFFFFF', surface2='#F1F6FC',
         line='#D9E3F0', edge='#78859A', ink='#0C1725', ink_soft='#4C5A6D',
-        btn='#17539E', on_btn='#FFFFFF',
+        btn='#17539E', on_btn='#FFFFFF', heading='#123F78', eyebrow='#17539E',
         accent='#17539E', accent_soft='#E3EDFA', on_accent='#F6F9FC', accent2='#0F7480',
     ),
     'verde': dict(
         page='#F6FAF8', page_soft='#E9F1EC', surface='#FFFFFF', surface2='#F0F6F2',
         line='#D8E5DE', edge='#788A80', ink='#0D1913', ink_soft='#485950',
-        btn='#245C41', on_btn='#FFFFFF',
+        btn='#245C41', on_btn='#FFFFFF', heading='#1B4A33', eyebrow='#245C41',
         accent='#245C41', accent_soft='#E0EDE6', on_accent='#F6FAF8', accent2='#8A6A2E',
     ),
 }
@@ -56,6 +56,10 @@ PRUEBAS = [
     ('on_btn', 'btn', 4.5, 'texto del CTA'),
     ('btn', 'page', 3.0, 'el CTA sobre el fondo'),
     ('accent2', 'page', 3.0, 'marca gráfica pequeña'),
+    ('heading', 'page', 7.0, 'titulares'),
+    ('heading', 'surface2', 7.0, 'titulares sobre superficie'),
+    ('eyebrow', 'page', 4.5, 'etiqueta de sección'),
+    ('eyebrow', 'surface2', 4.5, 'etiqueta sobre superficie'),
 ]
 
 fallos = 0

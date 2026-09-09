@@ -21,7 +21,7 @@ export default function Section({ id, eyebrow, title, subtitle, muted = false, c
         <div className="grid gap-x-10 gap-y-6 lg:grid-cols-12 lg:items-end">
           <header className="reveal lg:col-span-7">
             <Eyebrow>{eyebrow}</Eyebrow>
-            <h2 className="display mt-5 text-[2.25rem] sm:text-[2.75rem] lg:text-[3.5rem]">
+            <h2 className="display mt-5 text-[2.25rem] text-heading sm:text-[2.75rem] lg:text-[3.5rem]">
               {title}
             </h2>
           </header>

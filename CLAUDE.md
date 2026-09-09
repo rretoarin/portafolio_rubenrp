@@ -105,9 +105,17 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
 - **Cada paleta se mide antes de darla por buena**: `python scripts/contraste.py`
   comprueba doce pares por estilo (texto ≥ 4.5:1, bordes de control ≥ 3:1). Si
   se toca un color, hay que volver a pasarlo y anotar el número en el CSS.
-- El CTA es distinto por estilo a propósito: tinta en claro, invertido en oscuro
-  y **del color de la marca en azul y verde**. Es lo que hace que los cuatro se
-  reconozcan de un vistazo, junto con los arcos teñidos con el acento.
+- **`--color-heading` y `--color-eyebrow` son lo que separa azul y verde del
+  claro.** Con el acento sólo en el botón y en detalles, los tres claros se
+  confundían — probado y descartado. Ahora los titulares (`text-heading` en h1,
+  los h2 de sección y el nombre de cada caso) y las etiquetas de sección van del
+  color de la marca en azul y en verde, y siguen en tinta en claro y en oscuro,
+  donde el contraste blanco/negro ya los distingue.
+  **El texto corrido y los subtítulos NO se tiñen nunca**: es lo que evita que
+  parezca una web pintada de azul.
+- El CTA también es distinto por estilo: tinta en claro, invertido en oscuro y
+  del color de la marca en azul y verde. Junto con los arcos teñidos con el
+  acento, completa el reconocimiento de un vistazo.
 - El cambio añade `.theme-switching` al `<html>` durante 400 ms y la retira. No
   dejar la transición puesta siempre: cada hover arrastraría medio segundo de
   color. Sin recarga, sin cambiar de ruta, sin perder scroll ni estados.

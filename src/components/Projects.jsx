@@ -83,7 +83,7 @@ function Project({ project, copy, index, labels }) {
           )}
         </div>
 
-        <h3 className="display mt-6 text-[2rem] md:text-[2.5rem]">{copy.name}</h3>
+        <h3 className="display mt-6 text-[2rem] text-heading md:text-[2.5rem]">{copy.name}</h3>
         <p className="mt-2 text-ink-soft">{copy.tag}</p>
       </header>
 
