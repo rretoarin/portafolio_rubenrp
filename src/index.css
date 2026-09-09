@@ -284,7 +284,6 @@ html.theme-switching *::after {
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    overflow-x: clip;
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior-x: none;
   }
@@ -317,6 +316,17 @@ html.theme-switching *::after {
 }
 
 @layer components {
+  /*
+   * La barra es `fixed` y lleva `backdrop-filter`. En móvil esa pareja repinta
+   * mal: al bajar, la barra se quedaba atrás y aparecía en mitad del contenido
+   * hasta recargar. Con esto se le da su propia capa de composición y el
+   * navegador deja de reutilizar el fotograma anterior.
+   */
+  .barra-fija {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
   .shell {
     width: 100%;
     max-width: 78rem;
