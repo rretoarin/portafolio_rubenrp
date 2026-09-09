@@ -1,9 +1,10 @@
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowUp, LinkedIn, Mail, WhatsApp } from './icons'
 
-// Una sola columna de atajos: seis enlaces en dos columnas de tres eran más
-// rejilla que ayuda, y el pie de una marca personal no es un mapa del sitio.
-const LINKS = ['services', 'styles', 'projects', 'process', 'contact']
+// Atajos, no un mapa del sitio: el pie de una marca personal no repite la
+// navegación entera. 'contact' se cayó de la lista porque el bloque de canales
+// va justo debajo con el mismo título, y en móvil se iba solo a una segunda fila.
+const LINKS = ['services', 'styles', 'projects', 'process']
 
 export default function Footer({ t }) {
   return (
