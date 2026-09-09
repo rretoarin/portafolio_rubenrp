@@ -126,6 +126,30 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
         <p aria-live="polite" className="mx-auto max-w-2xl pt-4 text-center text-sm text-on-scrim/80">
           {captions[index]}
         </p>
+
+        {/*
+          En móvil las flechas de los lados no caben —la captura se quedaría en
+          nada— y no hay teclado, así que sin esto el visor se abría y ya no se
+          podía pasar de la primera captura. Aquí van debajo, a tamaño real.
+        */}
+        <div className="flex items-center justify-center gap-4 pt-4 sm:hidden">
+          <button
+            type="button"
+            onClick={() => mover(-1)}
+            aria-label={labels.prev}
+            className="flex size-11 rotate-180 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim"
+          >
+            <ArrowRight width={18} height={18} />
+          </button>
+          <button
+            type="button"
+            onClick={() => mover(1)}
+            aria-label={labels.next}
+            className="flex size-11 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim"
+          >
+            <ArrowRight width={18} height={18} />
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -230,13 +230,25 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
   entre sí**: los pseudo-elementos se solapan y el toque cae en el vecino. Ahí
   hay que dar altura real (los atajos del pie y el menú móvil van así).
 - **El selector de estilos está en la barra también en móvil.** Las cuatro
-  muestras no caben junto al logo, el idioma y el menú (ni siquiera a 320px), así
-  que se dibuja una sola —la del estilo puesto— y abre un desplegable con las
-  cuatro, con su nombre y sus 44px. El corte es en `md`. Está además dentro del
-  menú a pantalla completa, que es otra vía, no la única: la primera versión sólo
-  lo tenía ahí y Rubén no lo encontraba.
+  muestras no caben junto al logo, el idioma y el menú (ni a 320px), así que se
+  dibuja una sola —la del estilo puesto— y abre un desplegable con las cuatro. El
+  corte es en `md`. Está además dentro del menú a pantalla completa, que es otra
+  vía, no la única: la primera versión sólo lo tenía ahí y no se encontraba.
+- **En móvil el desplegable NO lleva los nombres a la vista**, sólo los círculos:
+  con cuatro filas de texto medía 240×150 y tapaba el titular del hero. Ahora es
+  una píldora de 198×54 que deja el `h1` limpio. Los nombres siguen en un
+  `sr-only` y en el `aria-label` — quitarlos del DOM habría dejado el selector
+  mudo para un lector de pantalla.
+- **El desplegable se ancla al `<header>`, no al botón que lo abre.** Anclado al
+  botón se salía de la pantalla por la izquierda a 320px, porque el botón no está
+  pegado al borde: tiene el idioma y el menú a su derecha.
 - **Ningún efecto puede depender del hover**: todo lo que sea hover va dentro de
   `@media (hover: hover)`, porque en táctil se queda pegado.
+- **Ni del teclado.** El visor tenía las flechas en `hidden sm:flex` y en el
+  móvil no hay teclado: se abría y no se podía pasar de la primera captura, con
+  el contador marcando «01 / 08». Por debajo de `sm` los controles van bajo el
+  pie de foto, a 44px. Si se añade un control que sólo existe en escritorio, hay
+  que preguntarse cómo se hace lo mismo con el dedo.
 
 ## Efectos
 

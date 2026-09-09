@@ -117,7 +117,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
               menú, así que una sola —la del estilo puesto— abre las otras tres.
               Sigue estando en la cabecera, que es donde se busca.
             */}
-            <div ref={cajaEstilos} className="relative md:hidden">
+            <div ref={cajaEstilos} className="md:hidden">
               <button
                 type="button"
                 onClick={() => setEstilos((v) => !v)}
@@ -131,13 +131,11 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
               </button>
 
               {estilos && (
-                <div className="absolute right-0 top-full z-50 mt-2 w-60 rounded-[var(--radius-card)] border border-line bg-page p-2 shadow-[var(--shadow-card-hover)]">
-                  <p className="eyebrow eyebrow-plain px-3 pt-1 pb-2">{t.theme.label}</p>
+                <div className="panel-estilos absolute top-full right-[calc(1.25rem+env(safe-area-inset-right))] z-50 mt-1.5 rounded-full border border-line bg-[var(--glass)] p-1 shadow-[var(--shadow-card-hover)] backdrop-blur-xl">
                   <ThemeSwitch
                     theme={theme}
                     onChange={onThemeChange}
                     labels={t.theme}
-                    variant="panel"
                     onPick={() => setEstilos(false)}
                   />
                 </div>

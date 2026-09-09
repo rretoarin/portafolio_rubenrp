@@ -700,9 +700,24 @@ html.theme-switching *::after {
     }
   }
 
+  /*
+   * El estilo puesto. Anillo fino y un 8% de tamaño: en móvil, sin nombres
+   * debajo, esto es lo único que dice cuál está activo, así que tiene que verse
+   * de un vistazo sin convertirse en un borde grueso.
+   */
   .style-option[aria-checked="true"] .swatch {
     border-color: var(--color-ink);
-    box-shadow: 0 0 0 2px var(--color-page), 0 0 0 4px var(--color-ink);
+    transform: scale(1.08);
+    box-shadow: 0 0 0 2px var(--color-page), 0 0 0 3.5px var(--color-ink);
+  }
+
+  /*
+   * Desplegable de estilos de la barra en móvil. Entra corto y desde su esquina,
+   * que es de donde sale: 0.18s y sin rebote.
+   */
+  .panel-estilos {
+    transform-origin: top right;
+    animation: panel-estilos-in 0.18s var(--ease-out-soft);
   }
 
   /*
@@ -832,6 +847,17 @@ html.theme-switching *::after {
 @media (max-height: 34rem) {
   .hero-fill {
     min-height: 0;
+  }
+}
+
+@keyframes panel-estilos-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 

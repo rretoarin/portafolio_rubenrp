@@ -21,9 +21,10 @@ export function Swatch({ theme, className = '' }) {
  * tabulador y las flechas mueven la selección, que es lo que espera quien
  * navega con teclado. La etiqueta la pone quien lo usa.
  *
- * Dos presentaciones, un solo componente:
- *   compact → fila de cuatro muestras (barra de escritorio y menú móvil)
- *   panel   → rejilla de 2×2 con el nombre (desplegable de la barra en móvil)
+ * Una sola presentación: la fila de cuatro muestras. La usan la barra de
+ * escritorio, el desplegable de la barra en móvil y el menú a pantalla completa.
+ * En móvil no lleva nombres a la vista —el color ES la señal— pero cada botón
+ * conserva el suyo para quien navega con lector de pantalla.
  *
  * En la sección Estilos el selector son las cuatro miniaturas del sitio, que
  * viven en `Styles.jsx`: ahí ver y elegir tienen que ser el mismo gesto.
@@ -32,7 +33,7 @@ export function Swatch({ theme, className = '' }) {
  * y `.tap` no sirve ahí — los pseudo-elementos se solapan y el toque cae en el
  * vecino.
  */
-export default function ThemeSwitch({ theme, onChange, labels, variant = 'compact', onPick }) {
+export default function ThemeSwitch({ theme, onChange, labels, onPick }) {
   const grupo = useRef(null)
 
   // Flechas: mueven la selección en círculo y dejan el foco donde corresponde.
@@ -46,30 +47,16 @@ export default function ThemeSwitch({ theme, onChange, labels, variant = 'compac
     grupo.current?.querySelector(`[data-theme-option="${siguiente}"]`)?.focus()
   }
 
-  const contenedor = {
-    compact: 'flex items-center gap-1',
-    panel: 'grid grid-cols-2 gap-1',
-  }[variant]
-
   return (
     <div
       ref={grupo}
       role="radiogroup"
       aria-label={labels.aria}
       onKeyDown={onKeyDown}
-      className={contenedor}
+      className="flex items-center gap-1"
     >
       {THEMES.map((id) => {
         const activo = id === theme
-        const clase = {
-          compact: `flex size-11 items-center justify-center rounded-full transition-colors ${
-            activo ? 'bg-page-soft' : ''
-          }`,
-          panel: `flex min-h-11 items-center gap-2.5 rounded-full px-3 text-left text-sm transition-colors ${
-            activo ? 'bg-page-soft font-semibold' : 'text-ink-soft'
-          }`,
-        }[variant]
-
         return (
           <button
             key={id}
@@ -82,18 +69,12 @@ export default function ThemeSwitch({ theme, onChange, labels, variant = 'compac
               onChange(id)
               onPick?.(id)
             }}
-            className={`style-option ${clase}`}
+            className={`style-option flex size-11 items-center justify-center rounded-full transition-colors ${
+              activo ? 'bg-page-soft' : ''
+            }`}
           >
-            <Swatch
-              theme={id}
-              className={
-                { compact: 'size-5', panel: 'size-5 shrink-0' }[variant]
-              }
-            />
-
-            {variant === 'compact' && <span className="sr-only">{labels.names[id]}</span>}
-
-            {variant === 'panel' && <span className="truncate">{labels.names[id]}</span>}
+            <Swatch theme={id} className="size-5" />
+            <span className="sr-only">{labels.names[id]}</span>
           </button>
         )
       })}
