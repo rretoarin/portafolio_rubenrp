@@ -229,19 +229,21 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
   de `.tap` y parece que no funciona. `.tap` **no sirve para elementos pegados
   entre sí**: los pseudo-elementos se solapan y el toque cae en el vecino. Ahí
   hay que dar altura real (los atajos del pie y el menú móvil van así).
-- **El selector de estilos está en la barra también en móvil.** Las cuatro
-  muestras no caben junto al logo, el idioma y el menú (ni a 320px), así que se
-  dibuja una sola —la del estilo puesto— y abre un desplegable con las cuatro. El
-  corte es en `md`. Está además dentro del menú a pantalla completa, que es otra
-  vía, no la única: la primera versión sólo lo tenía ahí y no se encontraba.
-- **En móvil el desplegable NO lleva los nombres a la vista**, sólo los círculos:
-  con cuatro filas de texto medía 240×150 y tapaba el titular del hero. Ahora es
-  una píldora de 198×54 que deja el `h1` limpio. Los nombres siguen en un
-  `sr-only` y en el `aria-label` — quitarlos del DOM habría dejado el selector
-  mudo para un lector de pantalla.
-- **El desplegable se ancla al `<header>`, no al botón que lo abre.** Anclado al
-  botón se salía de la pantalla por la izquierda a 320px, porque el botón no está
-  pegado al borde: tiene el idioma y el menú a su derecha.
+- **Las cuatro muestras van en la barra, a la altura de la marca, siempre.**
+  Pasaron por dos versiones peores: sólo dentro del menú (no se encontraban) y
+  detrás de un desplegable (se abría sobre el hero y costaba un toque de más
+  para algo que es una seña de identidad). Ahora no hay desplegable.
+- **Nunca llevan los nombres a la vista**, sólo el color. Pero los nombres siguen
+  en un `sr-only` y en el `aria-label` del grupo: quitarlos del DOM dejaría el
+  selector mudo para un lector de pantalla.
+- **Los botones encogen con el ancho** —28px, 36px desde 390px y 44px desde
+  `md`— porque a 320px cuatro círculos de 44 empujaban el menú fuera de la
+  pantalla. `overflow-x: clip` lo ocultaba, así que **el botón desaparecía sin
+  que se notara en las medidas**: hay que comprobar que el último control entra
+  entero (`right <= innerWidth`), no sólo que no haya scroll horizontal.
+- **Por debajo de 360px el botón de idioma sale de la barra** y se queda sólo en
+  el menú a pantalla completa, donde está siempre. Es lo único que se podía
+  ceder: las cuatro muestras y el menú no admiten menos sitio.
 - **Ningún efecto puede depender del hover**: todo lo que sea hover va dentro de
   `@media (hover: hover)`, porque en táctil se queda pegado.
 - **Ni del teclado.** El visor tenía las flechas en `hidden sm:flex` y en el

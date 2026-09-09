@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
-import ThemeSwitch, { Swatch } from './ThemeSwitch'
+import ThemeSwitch from './ThemeSwitch'
 
 // Cinco destinos, los mismos en escritorio y en móvil: son todas las secciones
 // que hay. La home ya no tiene nada que esconder detrás de un menú más largo.
@@ -12,9 +12,7 @@ const MENU = ['services', 'styles', 'projects', 'process', 'contact']
 export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const [estilos, setEstilos] = useState(false)
   const [active, setActive] = useState('')
-  const cajaEstilos = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -49,23 +47,8 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
     }
   }, [open])
 
-  // El desplegable de estilos se cierra al pulsar fuera. `pointerdown` y no
-  // `click`: en táctil el click llega tarde y el panel parpadea.
   useEffect(() => {
-    if (!estilos) return
-    const fuera = (e) => {
-      if (!cajaEstilos.current?.contains(e.target)) setEstilos(false)
-    }
-    document.addEventListener('pointerdown', fuera)
-    return () => document.removeEventListener('pointerdown', fuera)
-  }, [estilos])
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key !== 'Escape') return
-      setOpen(false)
-      setEstilos(false)
-    }
+    const onKey = (e) => e.key === 'Escape' && setOpen(false)
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
@@ -79,7 +62,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
             : 'border-transparent bg-transparent'
         }`}
       >
-        <nav className="shell flex h-16 items-center justify-between gap-4 md:h-20">
+        <nav className="shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
           {/*
             La marca es tipográfica, no un logotipo: dos pesos en la misma
             palabra bastan para que se lea como marca y no como un nombre suelto.
@@ -107,46 +90,20 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
               ))}
             </ul>
 
-            {/* El selector de estilo, a mano desde la primera pantalla. */}
-            <div className="mx-1 hidden md:block">
-              <ThemeSwitch theme={theme} onChange={onThemeChange} labels={t.theme} />
-            </div>
-
             {/*
-              En móvil las cuatro muestras no caben junto al logo, el idioma y el
-              menú, así que una sola —la del estilo puesto— abre las otras tres.
-              Sigue estando en la cabecera, que es donde se busca.
+              Los cuatro estilos, siempre a la vista y a la altura de la marca.
+              Estuvieron detrás de un desplegable: se abría sobre el hero y hacía
+              falta un toque de más para algo que es una seña de identidad.
             */}
-            <div ref={cajaEstilos} className="md:hidden">
-              <button
-                type="button"
-                onClick={() => setEstilos((v) => !v)}
-                aria-label={t.theme.aria}
-                aria-expanded={estilos}
-                className={`flex size-11 items-center justify-center rounded-full transition-colors ${
-                  estilos ? 'bg-page-soft' : ''
-                }`}
-              >
-                <Swatch theme={theme} className="size-5" />
-              </button>
-
-              {estilos && (
-                <div className="panel-estilos absolute top-full right-[calc(1.25rem+env(safe-area-inset-right))] z-50 mt-1.5 rounded-full border border-line bg-[var(--glass)] p-1 shadow-[var(--shadow-card-hover)] backdrop-blur-xl">
-                  <ThemeSwitch
-                    theme={theme}
-                    onChange={onThemeChange}
-                    labels={t.theme}
-                    onPick={() => setEstilos(false)}
-                  />
-                </div>
-              )}
+            <div className="mx-0.5 md:mx-1">
+              <ThemeSwitch theme={theme} onChange={onThemeChange} labels={t.theme} />
             </div>
 
             <button
               type="button"
               onClick={onToggleLang}
               aria-label={t.langAria}
-              className="flex h-11 items-center rounded-full px-3 text-xs font-bold tracking-widest text-ink-soft transition-colors hover:text-ink md:h-9"
+              className="hidden h-11 items-center rounded-full px-2 text-xs font-bold tracking-widest text-ink-soft transition-colors min-[360px]:flex hover:text-ink md:h-9 md:px-3"
             >
               {t.langLabel}
             </button>
@@ -204,23 +161,25 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
           </ul>
 
           {/*
-            El selector también aquí: en móvil la barra no tiene sitio y es
-            justamente donde más se agradece poder probar los cuatro estilos.
+            El idioma también aquí: en la barra desaparece por debajo de 360px,
+            donde las cuatro muestras y el menú ya la llenan.
           */}
-          {/* Sin filete propio: el último enlace de la lista ya trae el suyo. */}
-          <div className="mt-6">
-            <p className="eyebrow eyebrow-plain">{t.theme.label}</p>
-            <div className="mt-3">
-              <ThemeSwitch theme={theme} onChange={onThemeChange} labels={t.theme} />
-            </div>
-          </div>
+          <button
+            type="button"
+            onClick={onToggleLang}
+            aria-label={t.langAria}
+            className="mt-6 flex min-h-11 items-center gap-3 self-start text-sm text-ink-soft transition-colors hover:text-ink"
+          >
+            <span className="eyebrow eyebrow-plain">{t.langLabel}</span>
+            <span>{t.nav.language}</span>
+          </button>
 
           <a
             href={whatsappUrl(t.contact.whatsappMessage)}
             target="_blank"
             rel="noreferrer noopener"
             onClick={() => setOpen(false)}
-            className="btn-primary mt-6 justify-center px-7"
+            className="btn-primary mt-4 justify-center px-7"
           >
             {t.nav.talk}
             <ArrowRight width={16} height={16} />

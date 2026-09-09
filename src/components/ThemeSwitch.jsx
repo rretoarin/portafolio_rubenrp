@@ -21,17 +21,18 @@ export function Swatch({ theme, className = '' }) {
  * tabulador y las flechas mueven la selección, que es lo que espera quien
  * navega con teclado. La etiqueta la pone quien lo usa.
  *
- * Una sola presentación: la fila de cuatro muestras. La usan la barra de
- * escritorio, el desplegable de la barra en móvil y el menú a pantalla completa.
- * En móvil no lleva nombres a la vista —el color ES la señal— pero cada botón
- * conserva el suyo para quien navega con lector de pantalla.
+ * Una sola presentación: la fila de cuatro muestras, en la barra y a la altura
+ * de la marca. Nunca lleva nombres a la vista —el color ES la señal— pero cada
+ * botón conserva el suyo para quien navega con lector de pantalla.
+ *
+ * En móvil los botones encogen para que las cuatro quepan junto al logo, el
+ * idioma y el menú sin amontonarse; en escritorio vuelven a los 44px.
  *
  * En la sección Estilos el selector son las cuatro miniaturas del sitio, que
  * viven en `Styles.jsx`: ahí ver y elegir tienen que ser el mismo gesto.
  *
- * Todas mantienen los 44px de objetivo táctil: los botones van pegados entre sí
- * y `.tap` no sirve ahí — los pseudo-elementos se solapan y el toque cae en el
- * vecino.
+ * El objetivo táctil es real, nunca un `.tap`: los botones van pegados entre sí
+ * y ahí los pseudo-elementos se solapan y el toque cae en el vecino.
  */
 export default function ThemeSwitch({ theme, onChange, labels, onPick }) {
   const grupo = useRef(null)
@@ -53,7 +54,7 @@ export default function ThemeSwitch({ theme, onChange, labels, onPick }) {
       role="radiogroup"
       aria-label={labels.aria}
       onKeyDown={onKeyDown}
-      className="flex items-center gap-1"
+      className="flex items-center gap-0.5 md:gap-1"
     >
       {THEMES.map((id) => {
         const activo = id === theme
@@ -69,11 +70,11 @@ export default function ThemeSwitch({ theme, onChange, labels, onPick }) {
               onChange(id)
               onPick?.(id)
             }}
-            className={`style-option flex size-11 items-center justify-center rounded-full transition-colors ${
+            className={`style-option flex size-7 items-center justify-center rounded-full transition-colors min-[390px]:size-9 md:size-11 ${
               activo ? 'bg-page-soft' : ''
             }`}
           >
-            <Swatch theme={id} className="size-5" />
+            <Swatch theme={id} className="size-3.5 min-[390px]:size-[1.125rem] md:size-5" />
             <span className="sr-only">{labels.names[id]}</span>
           </button>
         )
