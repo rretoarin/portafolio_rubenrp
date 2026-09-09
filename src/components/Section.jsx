@@ -5,15 +5,17 @@ import { Eyebrow } from './ui'
  * doce columnas por la izquierda y el subtítulo cae a la derecha alineado abajo,
  * así que ambos textos no comparten eje vertical ni línea de base.
  *
- * El ritmo entre secciones lo marca el espacio vertical. `muted` pinta el fondo
- * de superficie y se usa con cuentagotas —dos secciones en toda la página— para
- * que el ojo tenga dónde descansar sin recurrir a franjas de color.
+ * El ritmo entre secciones lo marca el espacio vertical, pero medido: con
+ * `py-24` quedaban unos 200px entre el final de una sección y el título de la
+ * siguiente y se leía como un hueco, no como ritmo. `muted` pinta el fondo de
+ * superficie y se usa con cuentagotas —dos secciones en toda la página— para que
+ * el ojo tenga dónde descansar sin recurrir a franjas de color.
  */
 export default function Section({ id, eyebrow, title, subtitle, muted = false, children }) {
   return (
     <section
       id={id}
-      className={`relative scroll-mt-20 overflow-hidden py-16 md:py-24 ${
+      className={`relative scroll-mt-16 overflow-hidden py-12 md:py-16 ${
         muted ? 'bg-surface-2' : ''
       }`}
     >
@@ -33,7 +35,7 @@ export default function Section({ id, eyebrow, title, subtitle, muted = false, c
           )}
         </div>
 
-        <div className="mt-12 md:mt-16">{children}</div>
+        <div className="mt-10 md:mt-12">{children}</div>
       </div>
     </section>
   )

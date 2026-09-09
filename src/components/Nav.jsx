@@ -142,7 +142,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
-        <div className="shell flex h-full flex-col justify-center pt-[calc(4rem+env(safe-area-inset-top))] pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
+        <div className="shell flex h-full flex-col pt-[calc(4.75rem+env(safe-area-inset-top))] pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
           <ul className="overflow-y-auto">
             {MENU.map((id, i) => (
               <li key={id}>

@@ -13,8 +13,8 @@ export default function Footer({ t }) {
           Sin nombre gigante. El cierre de marca ya lo hace la sección de
           contacto; repetirlo aquí sólo añadía media pantalla de altura.
         */}
-        <div className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          <nav className="reveal" aria-label={t.nav.menu}>
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:gap-x-10 lg:grid-cols-3">
+          <nav className="reveal row-span-2 lg:row-span-1" aria-label={t.nav.menu}>
             <ul>
               {LINKS.map((id) => (
                 <li key={id}>
@@ -46,10 +46,10 @@ export default function Footer({ t }) {
               <li>
                 <a
                   href={`mailto:${PROFILE.email}`}
-                  className="flex min-h-11 items-center gap-2.5 text-sm text-ink-soft transition-colors hover:text-ink"
+                  className="flex min-h-11 items-start gap-2.5 py-2 text-sm text-ink-soft transition-colors hover:text-ink"
                 >
                   <Mail width={15} height={15} className="text-ink-soft" />
-                  <span className="truncate">{PROFILE.email}</span>
+                  <span className="break-all">{PROFILE.email}</span>
                 </a>
               </li>
               <li>

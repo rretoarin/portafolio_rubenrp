@@ -19,7 +19,7 @@ export default function Hero({ t, theme }) {
   return (
     <section
       id="top"
-      className="hero-fill relative flex min-h-svh items-center overflow-hidden pt-28 pb-14 md:pt-32"
+      className="hero-fill relative flex min-h-svh flex-col overflow-hidden pt-24 pb-10 md:pt-28 md:pb-12"
     >
       <Arc className="-top-[30rem] -right-[24rem] size-[52rem]" />
 
@@ -75,11 +75,16 @@ export default function Hero({ t, theme }) {
           </div>
         </div>
 
-        {/*
-          Las cuatro soluciones en una línea: adelantan la sección siguiente sin
-          pedir un scroll, y sustituyen a la fila de tipos de cliente.
-        */}
-        <ul className="stagger mt-16 grid gap-x-8 gap-y-5 border-t border-line pt-8 sm:grid-cols-2 md:mt-20 lg:grid-cols-4">
+      </div>
+
+      {/*
+        Las cuatro soluciones en una línea: adelantan la sección siguiente sin
+        pedir un scroll, y sustituyen a la fila de tipos de cliente. Van con
+        `mt-auto`, ancladas al pie de la primera pantalla: así el espacio que
+        sobra cae aquí y no encima del titular.
+      */}
+      <div className="shell relative mt-auto pt-14 md:pt-16">
+        <ul className="stagger grid gap-x-8 gap-y-5 border-t border-line pt-8 sm:grid-cols-2 lg:grid-cols-4">
           {t.hero.services.map((item, i) => {
             const Icono = ICONOS[i]
             return (

@@ -30,7 +30,7 @@ export default function Contact({ t }) {
   }
 
   return (
-    <section id="contact" className="relative scroll-mt-20 overflow-hidden py-16 md:py-24">
+    <section id="contact" className="relative scroll-mt-16 overflow-hidden py-12 md:py-16">
       <Arc className="-top-[26rem] left-1/2 size-[56rem] -translate-x-1/2" />
 
       <div className="shell relative">

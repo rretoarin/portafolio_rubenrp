@@ -21,7 +21,7 @@ npm run lint      # oxlint
 
 python scripts/contraste.py   # mide el contraste de las cuatro paletas
 python scripts/capturas.py    # regenera las capturas de los casos
-python scripts/oscurecer.py   # y su variante para el estilo oscuro
+python scripts/capturas-estilo.py  # y su variante por estilo visual
 python scripts/og-image.py    # regenera la imagen de compartir
 ```
 
@@ -114,6 +114,10 @@ en el visor, a un clic. Antes cada caso ocupaba tres pantallas.
   detrás es lo que separa esto de una agencia sin rostro.
 - **Las tecnologías no son protagonistas.** Una línea al pie de cada caso
   («Construido con…») y se acabó. El cliente compra el resultado.
+- **La IA se menciona UNA sola vez**, en la frase personal del cierre, y siempre
+  con la misma forma: argumento de velocidad para el cliente y control humano
+  explícito («las decisiones las tomo yo y todo pasa por mi revisión»). Nunca
+  como característica técnica ni en más de un sitio.
 - El formulario de contacto **no tiene backend**: compone el mensaje y abre
   WhatsApp. Si algún día se envía a un servidor, hay que añadir aviso de datos.
 - Los canales (WhatsApp, correo, LinkedIn) van **sólo en el pie**. Estuvieron
@@ -174,26 +178,47 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
 - **Casi nada de tarjetas**: el recurso por defecto es un bloque abierto bajo
   `border-t border-line`. `.card` queda para agrupar de verdad (el formulario y
   la banda de CTA). `.card-hover` sólo si el bloque es pulsable.
-- El ritmo entre secciones lo marca el espacio vertical (`py-16 md:py-24`), no
-  franjas de color. `<Section muted>` pinta `surface-2` y se usa **como mucho en
+- El ritmo entre secciones lo marca el espacio vertical (`py-12 md:py-16`), no
+  franjas de color. **Medido**: entre el final de una sección y el título de la
+  siguiente quedan ~135px en escritorio y ~103px en móvil, y de la barra al
+  primer texto del hero, 39px. Con `py-24` eran 200 y Rubén los marcó como
+  huecos; por encima de eso deja de leerse como ritmo.
+- **El hero NO centra su contenido.** Con `items-center`, en una pantalla alta el
+  espacio que sobra se repartía arriba y abajo, y arriba se leía como un hueco
+  entre la barra y el titular — daba igual bajar el `padding`, porque el centrado
+  lo recuperaba. Ahora es una columna: el bloque arranca bajo la barra y la fila
+  de soluciones va con `mt-auto`, anclada al pie de la primera pantalla, así que
+  el sobrante cae entre las dos y no encima del titular. `<Section muted>` pinta `surface-2` y se usa **como mucho en
   dos secciones** de toda la página.
 - **Las capturas son la evidencia**, no ilustración. Van dentro de `<Frame>` y a
   ancho completo. Las prepara `scripts/capturas.py`: difumina los datos de
   cliente del sistema de Arin (interno; la web de J&M es pública y no lleva
   nada), recorta el espacio muerto y exporta a WebP. `shots.py` y `aclarar.py`
   son de la etapa negra del sitio y ya no se usan.
-- **El estilo oscuro tiene su propio juego de capturas**, en
-  `public/proyectos/oscuro/`, que genera `scripts/oscurecer.py` desde los WebP ya
-  terminados. **Un filtro CSS no sirve** y está probado: `invert()` apaga los
-  colores de marca y deja las FOTOS en negativo — la gente de los talleres de
-  J&M salía con la piel invertida, y el pie del caso dice "tal como se ve hoy".
-  La receta que funciona es negativo + giro de tono de media vuelta, y después
-  **repegar las zonas de foto en color original**; se detectan solas por variedad
-  de color por casilla, y las que se escapen van a mano en el dict `KEEP`.
-  La ruta la resuelve `shotFor()` de `content.js` en `Hero` y en `Projects`, y de
-  ahí para abajo todos reciben rutas ya resueltas. **Es la única excepción** a
-  que el estilo no cambie más que variables: cambia un archivo, no cómo se pinta
-  un componente.
+- **Cada estilo tiene su propio juego de capturas** en `public/proyectos/<estilo>/`,
+  que genera `scripts/capturas-estilo.py` desde los WebP ya terminados, y **no es
+  lo mismo en todos**:
+  - **oscuro**: TODAS invertidas (negativo + giro de tono de media vuelta),
+    porque una captura clara a pantalla completa deslumbra sobre el negro.
+  - **azul y verde**: sólo las de J&M, y sólo se les cambia **el verde de marca**
+    —titular, botones, filete del menú, iconos— por el color del estilo. El texto
+    negro, los grises, el fondo y las fotos no se tocan. Las del sistema de Arin
+    no tienen color de marca que cambiar, así que en los tres estilos claros son
+    las mismas.
+- **Se probó teñir todos los grises de la captura y Rubén lo rechazó**: la imagen
+  entera se volvía azul y parecía un filtro encima, no un rediseño. Lo que sí
+  funciona es cambiar el color de marca y dejar el resto intacto.
+- **Un filtro CSS no sirve** para ninguno de los dos tratamientos: no distingue
+  una foto de una tabla ni un verde de marca de un verde cualquiera. En los dos,
+  las zonas de foto se repegan en color original; se detectan solas por variedad
+  de color por casilla y las que se escapen van a mano en el dict `KEEP`.
+- La ruta la resuelve `shotFor()` de `content.js` en `Hero`, `Styles` y
+  `Projects`, y de ahí para abajo todos reciben rutas ya resueltas. **Es la única
+  excepción** a que el estilo no cambie más que variables: cambia un archivo, no
+  cómo se pinta un componente.
+- **El pie del caso no puede prometer colores exactos** («tal como se ve hoy»):
+  en tres de los cuatro estilos la captura lleva tratamiento. Dice que son reales
+  y en producción, que es lo que sí se sostiene.
 - **`scrim` y `on-scrim` son los únicos colores que NO cambian con el estilo.**
   Velan una captura —leyenda del bento, contador de capturas, fondo del visor— y
   tienen que ser oscuros en los cuatro. Con `ink`/`page` se invertían y en oscuro
@@ -244,6 +269,12 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
 - **Por debajo de 360px el botón de idioma sale de la barra** y se queda sólo en
   el menú a pantalla completa, donde está siempre. Es lo único que se podía
   ceder: las cuatro muestras y el menú no admiten menos sitio.
+- **El menú a pantalla completa arranca justo bajo la barra**, no centrado: con
+  `justify-center` dejaba más de cien píxeles muertos antes del primer enlace.
+- **El pie va a dos columnas desde 375px**, no desde `sm`: apilado dejaba media
+  pantalla vacía a la derecha. Los enlaces ocupan la columna izquierda entera
+  (`row-span-2`) y contacto y sitio se reparten la derecha. Ojo con el correo:
+  en media columna no cabe y `truncate` lo dejaba cortado — va con `break-all`.
 - **Ningún efecto puede depender del hover**: todo lo que sea hover va dentro de
   `@media (hover: hover)`, porque en táctil se queda pegado.
 - **Ni del teclado.** El visor tenía las flechas en `hidden sm:flex` y en el

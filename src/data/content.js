@@ -18,18 +18,31 @@ export const PROFILE = {
 }
 
 /*
- * El estilo oscuro tiene su propio juego de capturas, en `proyectos/oscuro/`:
- * invertidas y con las zonas de foto repegadas en color real
- * (`scripts/oscurecer.py`). No se resuelve con un filtro CSS a propósito —
- * `invert()` dejaría a las personas de las fotos en negativo, y el pie del caso
- * dice "tal como se ve hoy".
+ * Capturas por estilo, en `proyectos/<estilo>/`, que genera
+ * `scripts/capturas-estilo.py`. No es lo mismo en todos:
+ *
+ * - **oscuro**: TODAS invertidas, porque una captura clara a pantalla completa
+ *   deslumbra sobre el negro.
+ * - **azul y verde**: sólo las de J&M, y sólo se les cambia el verde de marca
+ *   —titular, botones, filete del menú— por el color del estilo. Es lo que hace
+ *   que la sección Estilos enseñe de verdad «así podría verse tu negocio».
+ *   Las del sistema de Arin no tienen color de marca que cambiar, así que en los
+ *   tres estilos claros son las mismas.
+ *
+ * Se probó teñir la captura entera y quedaba mal: parecía un filtro encima, no
+ * un rediseño. Y un filtro CSS tampoco vale — no distingue una foto de una
+ * tabla ni un verde de marca de un verde cualquiera.
  *
  * Es la única excepción a que el estilo no cambie nada más que variables: aquí
- * cambia un archivo, no cómo se pinta un componente. Se resuelve en `Hero` y en
- * `Projects`, y de ahí para abajo todos reciben rutas ya resueltas.
+ * cambia un archivo, no cómo se pinta un componente. Se resuelve en `Hero`, en
+ * `Styles` y en `Projects`; de ahí para abajo todos reciben rutas ya resueltas.
  */
 export function shotFor(theme, ruta) {
-  return theme === 'oscuro' ? ruta.replace('/proyectos/', '/proyectos/oscuro/') : ruta
+  if (theme === 'oscuro') return ruta.replace('/proyectos/', '/proyectos/oscuro/')
+  if ((theme === 'azul' || theme === 'verde') && ruta.includes('/jm-')) {
+    return ruta.replace('/proyectos/', `/proyectos/${theme}/`)
+  }
+  return ruta
 }
 
 // wa.me abre la conversación en app o en web según el dispositivo.
@@ -228,7 +241,7 @@ export const CONTENT = {
         },
         'jm-consulting': {
           name: 'J&M Consulting Foods',
-          evidenceNote: 'Capturas reales del sitio publicado, tal como se ve hoy.',
+          evidenceNote: 'Capturas reales del sitio en producción.',
           problem:
             'Dependían de terceros para publicar cualquier cambio y las consultas llegaban desordenadas por vías distintas.',
           solution:
@@ -253,7 +266,7 @@ export const CONTENT = {
       text: 'Cuéntame qué necesitas y encontremos juntos la mejor solución para tu negocio.',
       // La única presencia personal de la home, y va justo donde se decide.
       about:
-        'Soy Rubén, desarrollador full stack especializado en crear soluciones digitales para negocios. Trabajas directamente conmigo, del primer boceto al despliegue.',
+        'Soy Rubén, desarrollador full stack especializado en crear soluciones digitales para negocios. Me apoyo en inteligencia artificial para avanzar más rápido y entregarte antes, pero las decisiones las tomo yo y todo pasa por mi revisión. Hablas directamente conmigo, del primer boceto al despliegue.',
       cta: 'Hablemos de tu proyecto',
       ctaNote: 'Te contesto yo, no un formulario automático.',
       whatsappAria: 'Escribirme por WhatsApp',
@@ -418,7 +431,7 @@ export const CONTENT = {
         },
         'jm-consulting': {
           name: 'J&M Consulting Foods',
-          evidenceNote: 'Real screens of the published site, exactly as it looks today.',
+          evidenceNote: 'Real screens of the site in production.',
           problem:
             'They depended on others to publish any change, and enquiries arrived scattered across different channels.',
           solution:
@@ -442,7 +455,7 @@ export const CONTENT = {
       title: 'Let us talk and make your idea real.',
       text: 'Tell me what you need and let us find the best solution for your business together.',
       about:
-        'I am Rubén, a full stack developer specialised in building digital solutions for businesses. You work directly with me, from the first sketch to deployment.',
+        'I am Rubén, a full stack developer specialised in building digital solutions for businesses. I lean on AI to move faster and deliver sooner, but the decisions are mine and everything goes through my review. You work directly with me, from the first sketch to deployment.',
       cta: 'Let us talk about your project',
       ctaNote: 'You get me, not an automated form.',
       whatsappAria: 'Message me on WhatsApp',
