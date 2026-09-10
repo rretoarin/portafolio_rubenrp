@@ -8,7 +8,8 @@ cambia en vivo.
 
 - React 19 + Vite 8
 - Tailwind CSS v4 (plugin `@tailwindcss/vite`, **sin** `tailwind.config.js`)
-- Manrope autoalojada en `public/fonts` (variable, 200–800)
+- Dos tipografías autoalojadas en `public/fonts`, las dos variables:
+  Sentient (serifa, titulares) y Satoshi (sans, todo lo demás)
 - Deploy: Vercel (`vercel.json` ya configurado)
 
 ## Comandos
@@ -155,6 +156,13 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
   donde el contraste blanco/negro ya los distingue.
   **El texto corrido y los subtítulos NO se tiñen nunca**: es lo que evita que
   parezca una web pintada de azul.
+- **`--color-nav-line` es el subrayado del menú** —el riel del estado activo y
+  el trazo del hover, que son la misma línea— y va del color de la marca: el
+  mismo acento que pinta el «Dev» del logotipo. Así el «estás aquí» es también
+  una señal de marca y cambia con el estilo como todo lo demás. **En oscuro es
+  la excepción**: ahí va en tinta, porque sobre negro la línea blanca es la que
+  se ve. Se aplica sólo en la barra; en el pie `.nav-link` sigue con
+  `currentColor`, porque allí la línea acompaña al texto y no marca sección.
 - El CTA también es distinto por estilo: tinta en claro, invertido en oscuro y
   del color de la marca en azul y verde. Junto con los arcos teñidos con el
   acento, completa el reconocimiento de un vistazo.
@@ -166,10 +174,35 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
 
 ## Diseño
 
-- **Tipografía: Manrope**, autoalojada (`public/fonts`, variable 200–800, un
-  archivo por subconjunto: 24,8 kB latin + 15,1 kB latin-ext). **Nunca por
-  `<link>` a un tercero** — esa petición ya bloqueó el pintado una vez. El golpe
-  del titular lo dan el peso 800 y el tracking cerrado (`-0.038em`) de `.display`.
+- **Dos tipografías, y cada una tiene su trabajo.** **Sentient** (serifa) en los
+  titulares y en la marca; **Satoshi** (sans) en todo lo que se lee de verdad:
+  menú, texto corrido, botones, etiquetas y títulos de tarjeta. Es el
+  emparejamiento editorial clásico y es lo que da el aire premium; una serifa a
+  cuerpo pequeño sólo ensucia, y una sans sola no distingue la marca de
+  cualquier otra web.
+  - Las dos son de Fontshare (licencia gratuita para uso comercial), las dos
+    autoalojadas y variables, un archivo cada una con el juego latino completo:
+    `satoshi-variable.woff2` 42,6 kB (300–900) y `sentient-variable.woff2`
+    49,4 kB (200–700). **Nunca por `<link>` a un tercero** — esa petición ya
+    bloqueó el pintado una vez. Las dos se precargan en `index.html`: las dos
+    salen en la primera pantalla.
+  - El reparto vive en dos tokens y en tres clases: `--font-display` es la
+    serifa y `--font-sans` la sans; `.display` (titulares) y `.wordmark` (la
+    marca) van a la primera, `.display-light` y todo lo demás a la segunda.
+    **`.display-light` apunta a `--font-sans` a propósito**: si apuntara al
+    token de titulares, los títulos de tarjeta se llenarían de remates.
+  - **El golpe del titular NO lo da el peso.** `.display` va a 400 con
+    `-0.02em`: en una serifa el carácter está en los remates y el contraste del
+    trazo, y a peso 700 se emborrona. Los `-0.038em` que hubo eran de una sans
+    geométrica, donde cerrar el espacio compacta el bloque; aquí los remates ya
+    ocupan ese hueco y al apretarlos las letras se tocan.
+  - **Y el tracking tampoco es libre**: con `-0.01em` —lo natural para una
+    serifa— el titular del hero se iba a cinco líneas y empujaba la fila de
+    soluciones fuera de la primera pantalla en una ventana de 800px de alto.
+    Medido en 1440x800, 1440x900, 375 y 360. La interlinea sube a 1.06 por lo
+    mismo: a 1.02 las descendentes rozan las mayúsculas de la línea siguiente.
+  - La marca lleva clase propia (`.wordmark`, peso 700) y no `.display`: un
+    logotipo a 18px necesita cuerpo, y a 400 se quedaba en nada.
 - Microetiquetas (`.eyebrow`, `.tag`): versalitas con tracking amplio y peso 700.
   Nada de monoespaciada en la interfaz.
 - **Composición asimétrica**: rejilla de 12 donde los bloques no comparten eje.
@@ -223,8 +256,17 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
   Velan una captura —leyenda del bento, contador de capturas, fondo del visor— y
   tienen que ser oscuros en los cuatro. Con `ink`/`page` se invertían y en oscuro
   aparecía un bloque blanco encima de la imagen.
-- **Interacción, toda en CSS.** `.nav-link` dibuja un subrayado con `scaleX` (el
-  estado activo lo deja puesto). Los bloques editoriales llevan `.block` +
+- **Interacción, casi toda en CSS.** `.nav-link` dibuja el subrayado del hover
+  con `scaleX`, nunca animando el ancho. El estado activo de la barra es la
+  excepción: no lo pinta cada enlace, lo pinta **un solo riel compartido**
+  (`.nav-rail`) que se desplaza de una sección a la siguiente, porque encender
+  uno y apagar otro se leía como parpadeo. Su posición la mide `Nav.jsx` con
+  `getBoundingClientRect` —hacen falta los decimales— y la escribe en un
+  `transform`; se remide al cambiar de sección, al cambiar de idioma (las
+  palabras no miden lo mismo) y con un `ResizeObserver`. Mide **1px y no 1.5**:
+  con `transform` va en su propia capa y ahí el navegador no ajusta la altura a
+  la rejilla, así que 1.5 se reparte entre dos filas y la línea sale más blanda
+  que el trazo del hover. Los bloques editoriales llevan `.block` +
   `.block-rule` —cuando el filete ya es un `<span>`— o `.block-top` —cuando lo
   dibuja un `border-t`—, y al pasar el cursor repintan el filete, desplazan
   `.block-title` 4px y encienden `.block-num`. **El color en reposo de

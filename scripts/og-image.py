@@ -2,8 +2,10 @@
 """
 Genera la imagen que se ve al compartir el enlace (Open Graph, 1200x630).
 
-Usa la tipografía y los colores del sitio para que la tarjeta se lea como una
-pieza más de RubenDev y no como una miniatura genérica.
+Usa las tipografías y los colores del sitio para que la tarjeta se lea como una
+pieza más de RubenDev y no como una miniatura genérica: la serifa (Sentient) en
+la marca y en la promesa, la sans (Satoshi) en las versalitas del pie, que es
+exactamente el reparto que hace `src/index.css`.
 
 La regla que costó una tarde aprender: **en una burbuja de WhatsApp la tarjeta
 mide unos 320 px**, un 27% de esta imagen. Todo lo que aquí baje de 44 px de
@@ -17,7 +19,9 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FUENTE = os.path.join(ROOT, "public", "fonts", "manrope-latin.woff2")
+FUENTES = os.path.join(ROOT, "public", "fonts")
+SERIFA = os.path.join(FUENTES, "sentient-variable.woff2")
+SANS = os.path.join(FUENTES, "satoshi-variable.woff2")
 OUT = os.path.join(ROOT, "public", "og.png")
 
 # Se le puede pasar otra ruta de salida para comparar variantes con
@@ -38,9 +42,16 @@ ACCENT_2 = (79, 93, 70)     # --color-accent-2 (salvia)
 LINE = (225, 229, 234)      # --color-line
 
 
-def manrope(tam, peso):
-    """Manrope es variable (200–800): se instancia el peso que haga falta."""
-    f = ImageFont.truetype(FUENTE, tam)
+def serifa(tam, peso):
+    """Sentient, la de los titulares. Variable 200–700."""
+    f = ImageFont.truetype(SERIFA, tam)
+    f.set_variation_by_axes([peso])
+    return f
+
+
+def sans(tam, peso):
+    """Satoshi, la de todo lo demás. Variable 300–900."""
+    f = ImageFont.truetype(SANS, tam)
     f.set_variation_by_axes([peso])
     return f
 
@@ -56,14 +67,14 @@ y = MARGEN
 
 # 1) La marca. Dos pesos en la misma palabra, como en la barra del sitio.
 marca_a, marca_b = "Ruben", "Dev"
-f_marca = manrope(44, 800)
+f_marca = serifa(44, 700)
 d.text((MARGEN, y), marca_a, font=f_marca, fill=INK)
 ancho_a = d.textlength(marca_a, font=f_marca)
 d.text((MARGEN + ancho_a, y), marca_b, font=f_marca, fill=ACCENT)
 
 # 2) La promesa. Es lo único que tiene que leerse sí o sí.
 y += 132
-f_titular = manrope(76, 800)
+f_titular = serifa(76, 400)
 for linea in ("Transformo procesos", "complejos en sistemas", "digitales simples."):
     d.text((MARGEN, y), linea, font=f_titular, fill=INK)
     y += 92
@@ -71,7 +82,7 @@ for linea in ("Transformo procesos", "complejos en sistemas", "digitales simples
 # 3) El oficio, en versalitas anchas. Precedido del punto de terracota.
 y += 40
 d.ellipse((MARGEN, y + 11, MARGEN + 13, y + 24), fill=ACCENT_2)
-f_pie = manrope(27, 700)
+f_pie = sans(27, 700)
 d.text(
     (MARGEN + 30, y),
     "DISEÑO Y DESARROLLO DE SOLUCIONES DIGITALES",
