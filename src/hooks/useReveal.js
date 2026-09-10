@@ -1,12 +1,19 @@
 import { useEffect } from 'react'
 
+/*
+ * Todo lo que entra al hacer scroll. Son tres gestos distintos —el bloque que
+ * se funde, el titular palabra a palabra y el arco que se dibuja— pero el
+ * disparador es el mismo, así que comparten observador y atributo.
+ */
+const SELECTOR = '.reveal, .reveal-words, .arc'
+
 // Un solo IntersectionObserver para todo el documento: marca cada `.reveal`
 // como visible la primera vez que entra en pantalla y deja de observarlo.
 export function useReveal() {
   useEffect(() => {
     if (!('IntersectionObserver' in window)) {
       document
-        .querySelectorAll('.reveal, .reveal-words')
+        .querySelectorAll(SELECTOR)
         .forEach((node) => node.setAttribute('data-visible', 'true'))
       return
     }
@@ -24,9 +31,8 @@ export function useReveal() {
 
     // Observa el nodo y todo `.reveal` que cuelgue de él.
     const observe = (node) => {
-      if (node.classList.contains('reveal') || node.classList.contains('reveal-words'))
-        observer.observe(node)
-      node.querySelectorAll('.reveal, .reveal-words').forEach((child) => observer.observe(child))
+      if (node.matches?.(SELECTOR)) observer.observe(node)
+      node.querySelectorAll(SELECTOR).forEach((child) => observer.observe(child))
     }
 
     observe(document.body)

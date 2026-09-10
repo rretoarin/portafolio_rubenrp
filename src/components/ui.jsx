@@ -11,10 +11,10 @@
  * El espacio entre palabras es un nodo aparte para que el navegador siga
  * pudiendo partir la línea donde quiera.
  */
-export function Words({ text, delay = 55 }) {
+export function Words({ text, delay = 55, start = 0 }) {
   const palabras = text.split(' ')
   return palabras.map((palabra, i) => (
-    <span key={`${palabra}-${i}`} style={{ transitionDelay: `${i * delay}ms` }}>
+    <span key={`${palabra}-${i}`} style={{ transitionDelay: `${start + i * delay}ms` }}>
       {palabra}
       {i < palabras.length - 1 ? ' ' : ''}
     </span>
@@ -60,13 +60,33 @@ export function Frame({ label, as: Tag = 'figure', children, className = '' }) {
 /*
  * Arco teñido con el acento del estilo activo. Va detrás del contenido, dentro
  * de un contenedor con `relative overflow-hidden`, uno por sección como máximo.
+ *
+ * Es un SVG y no un `div` con `border-radius` por una sola razón: así el trazo
+ * puede dibujarse. `useReveal` marca el `.arc` cuando su sección entra en
+ * cuadro y el CSS recorre el `stroke-dashoffset`. El resultado es idéntico al
+ * borde de antes —un círculo de 1px al 20% del acento— porque
+ * `vector-effect="non-scaling-stroke"` mantiene el grosor en un píxel real por
+ * mucho que el círculo mida ochocientos.
  */
 export function Arc({ className = '' }) {
   return (
-    <div
+    <svg
       aria-hidden
-      className={`pointer-events-none absolute rounded-full border border-accent/20 ${className}`}
-    />
+      viewBox="0 0 100 100"
+      className={`arc pointer-events-none absolute text-accent/20 ${className}`}
+    >
+      <circle
+        className="arc-line"
+        cx="50"
+        cy="50"
+        r="49.9"
+        pathLength="1"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
   )
 }
 

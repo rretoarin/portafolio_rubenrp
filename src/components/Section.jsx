@@ -21,15 +21,22 @@ export default function Section({ id, eyebrow, title, subtitle, muted = false, c
     >
       <div className="shell">
         <div className="grid gap-x-10 gap-y-6 lg:grid-cols-12 lg:items-end">
-          <header className="reveal lg:col-span-7">
-            <Eyebrow>{eyebrow}</Eyebrow>
-            <h2 className="display mt-5 text-[2.25rem] text-heading sm:text-[2.75rem] lg:text-[3.5rem]">
+          {/*
+            La cabecera entra en el orden en que se lee —etiqueta, título,
+            subtítulo— y no de una pieza. Es el mismo retardo escalonado en las
+            cinco secciones, así que el sitio entero se mueve igual. En móvil el
+            paso se acorta a la mitad: la cabecera cabe entera en pantalla y una
+            cascada larga se nota mucho más.
+          */}
+          <header className="lg:col-span-7">
+            <Eyebrow className="reveal">{eyebrow}</Eyebrow>
+            <h2 className="reveal display mt-5 text-[2.25rem] text-heading delay-75 sm:text-[2.75rem] md:delay-100 lg:text-[3.5rem]">
               {title}
             </h2>
           </header>
 
           {subtitle && (
-            <p className="reveal leading-relaxed text-ink-soft lg:col-span-4 lg:col-start-9 lg:pb-2">
+            <p className="reveal leading-relaxed text-ink-soft delay-100 md:delay-200 lg:col-span-4 lg:col-start-9 lg:pb-2">
               {subtitle}
             </p>
           )}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
 import ThemeSwitch from './ThemeSwitch'
@@ -9,10 +9,23 @@ const SECTIONS = ['services', 'styles', 'projects', 'process', 'contact']
 
 const MENU = ['services', 'styles', 'projects', 'process', 'contact']
 
+/*
+ * Dónde se dibuja el subrayado dentro de un enlace, en píxeles: metido
+ * 0.875rem por cada lado y levantado 0.375rem del borde inferior. Los dos
+ * primeros son los mismos números que usa `.nav-link::after` para el trazo del
+ * hover y tienen que seguir siéndolo, porque los dos dibujan la misma línea.
+ * El tercero es el alto del riel, que va en `.nav-rail`.
+ */
+const SANGRIA = 14
+const ALTURA = 6
+const GROSOR = 1
+
 export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
+  const lista = useRef(null)
+  const [riel, setRiel] = useState(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -38,6 +51,45 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
     })
     return () => observer.disconnect()
   }, [])
+
+  /*
+   * Dónde tiene que estar la línea del menú. Se mide en píxeles porque el riel
+   * es uno solo y se desplaza de una sección a la siguiente en vez de
+   * encenderse y apagarse en cada enlace: así la navegación se lee como un
+   * recorrido y no como un parpadeo.
+   *
+   * Se vuelve a medir al cambiar de sección y al cambiar de idioma —las
+   * palabras no miden lo mismo en los dos—, y el `ResizeObserver` cubre lo
+   * demás: el ancho de la ventana y la fuente cuando termina de cargar.
+   */
+  useEffect(() => {
+    const ul = lista.current
+    if (!ul) return
+
+    const medir = () => {
+      const enlace = ul.querySelector('[data-active="true"]')
+      if (!enlace || !enlace.offsetWidth) return
+      /*
+       * Con `getBoundingClientRect` y no con `offsetLeft`/`offsetTop`: hacen
+       * falta los decimales. `.nav-link::after` cae en una posición
+       * fraccionaria y el navegador la ajusta a una fila de píxeles limpia;
+       * con las medidas redondeadas, el riel caía medio píxel al lado y la
+       * misma línea se repartía entre dos filas y se veía más blanda.
+       */
+      const caja = enlace.getBoundingClientRect()
+      const base = ul.getBoundingClientRect()
+      setRiel({
+        x: caja.left - base.left + SANGRIA,
+        y: Math.round(caja.bottom - base.top - ALTURA - GROSOR),
+        w: Math.max(caja.width - SANGRIA * 2, 0),
+      })
+    }
+
+    medir()
+    const ro = new ResizeObserver(medir)
+    ro.observe(ul)
+    return () => ro.disconnect()
+  }, [active, t])
 
   // Con el menú móvil abierto, el fondo no debe desplazarse.
   useEffect(() => {
@@ -68,19 +120,19 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
             palabra bastan para que se lea como marca y no como un nombre suelto.
           */}
           <a href="#top" className="tap group flex items-baseline" aria-label={PROFILE.brand}>
-            <span className="display text-lg tracking-tight md:text-xl">Ruben</span>
-            <span className="display text-lg tracking-tight text-accent md:text-xl">Dev</span>
+            <span className="wordmark text-lg tracking-tight md:text-xl">Ruben</span>
+            <span className="wordmark text-lg tracking-tight text-accent md:text-xl">Dev</span>
           </a>
 
           <div className="flex items-center gap-1">
-            <ul className="hidden items-center gap-0.5 lg:flex">
+            <ul ref={lista} className="relative hidden items-center gap-0.5 lg:flex">
               {SECTIONS.map((id) => (
                 <li key={id}>
                   <a
                     href={`#${id}`}
                     data-active={active === id}
                     aria-current={active === id ? 'true' : undefined}
-                    className={`nav-link rounded-full px-3.5 py-2 text-sm transition-colors ${
+                    className={`nav-link nav-slide rounded-full px-3.5 py-2 text-sm transition-colors ${
                       active === id ? 'text-ink' : 'text-ink-soft hover:text-ink'
                     }`}
                   >
@@ -88,6 +140,21 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
                   </a>
                 </li>
               ))}
+
+              {/*
+                La línea que viaja. Va como `<li>` y no como `<span>` porque un
+                `<ul>` sólo admite `<li>`; al estar posicionada no ocupa hueco
+                ni cuenta para el `gap`. Se estira con `scaleX` desde un píxel:
+                animar el ancho repintaría la barra en cada paso.
+              */}
+              <li
+                aria-hidden
+                className="nav-rail"
+                style={{
+                  transform: `translate(${riel?.x ?? 0}px, ${riel?.y ?? 0}px) scaleX(${riel?.w ?? 0})`,
+                  opacity: active && riel ? 1 : 0,
+                }}
+              />
             </ul>
 
             {/*
@@ -122,13 +189,10 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
 
             <button
               type="button"
-              onClick={() => {
-                setOpen((v) => !v)
-                setEstilos(false)
-              }}
+              onClick={() => setOpen((v) => !v)}
               aria-label={open ? t.nav.close : t.nav.menu}
               aria-expanded={open}
-              className="ml-1 flex size-11 items-center justify-center rounded-full border border-edge text-ink-soft transition-colors hover:border-ink hover:text-ink lg:hidden"
+              className="ml-1 flex size-11 items-center justify-center rounded-full border border-edge text-ink-soft transition-[color,border-color,transform] duration-200 hover:border-ink hover:text-ink active:scale-95 lg:hidden"
             >
               {open ? <Close width={18} height={18} /> : <Menu width={18} height={18} />}
             </button>
@@ -139,13 +203,23 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
       {/* Menú móvil a pantalla completa. */}
       <div
         className={`fixed inset-0 z-40 bg-page transition-opacity duration-300 lg:hidden ${
-          open ? 'opacity-100' : 'pointer-events-none opacity-0'
+          open ? 'menu-open opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
         <div className="shell flex h-full flex-col pt-[calc(4.75rem+env(safe-area-inset-top))] pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
           <ul className="overflow-y-auto">
+            {/*
+              Los enlaces suben escalonados mientras el fondo se funde. El
+              retardo va en línea porque depende del índice, y se apaga al
+              cerrar para que el menú desaparezca de una pieza: escalonar
+              también la salida deja la sensación de que se atasca.
+            */}
             {MENU.map((id, i) => (
-              <li key={id}>
+              <li
+                key={id}
+                className="menu-item"
+                style={{ transitionDelay: open ? `${60 + i * 45}ms` : '0ms' }}
+              >
                 <a
                   href={`#${id}`}
                   onClick={() => setOpen(false)}

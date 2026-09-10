@@ -70,7 +70,10 @@ export default function Styles({ t, theme, onThemeChange }) {
           <p className="eyebrow eyebrow-plain mt-6">{t.styles.hint}</p>
         </div>
 
-        <div className="reveal lg:col-span-7 lg:col-start-6" data-parallax="0.05">
+        <div
+          className="reveal delay-100 md:delay-200 lg:col-span-7 lg:col-start-6"
+          data-parallax="0.05"
+        >
           <DeviceMock
             laptop={{
               src: shotFor(theme, '/proyectos/jm-1.webp'),
@@ -101,10 +104,16 @@ export default function Styles({ t, theme, onThemeChange }) {
               aria-checked={activo}
               data-theme-option={id}
               onClick={() => onThemeChange(id)}
-              className="reveal group text-left"
+              className="reveal style-tile group text-left"
             >
+              {/*
+                La transición de esta caja vive en `.style-tile-box`, no en un
+                `transition-colors` de Tailwind: las utilidades se declaran
+                después de la capa de componentes y se llevarían por delante el
+                `transform` del hover y del toque.
+              */}
               <span
-                className={`block rounded-[var(--radius-card)] border p-1.5 transition-colors ${
+                className={`style-tile-box block rounded-[var(--radius-card)] border p-1.5 ${
                   activo ? 'border-ink' : 'border-line group-hover:border-edge'
                 }`}
               >

@@ -23,7 +23,7 @@ function Caso({ project, copy, labels, shots, onOpen }) {
         type="button"
         onClick={() => onOpen(0)}
         aria-label={`${labels.galleryLabel} — ${copy.name}`}
-        className="shot group block overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface"
+        className="shot reveal group block overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface delay-75 md:delay-150"
       >
         <img
           src={shots[0]}
@@ -32,7 +32,7 @@ function Caso({ project, copy, labels, shots, onOpen }) {
           height={900}
           loading="lazy"
           decoding="async"
-          className="shot-img block aspect-[16/10] w-full object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+          className="shot-img block aspect-[16/10] w-full object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
         />
       </button>
 

@@ -26,17 +26,24 @@ export default function Hero({ t, theme }) {
       <div className="shell relative">
         <div className="grid gap-x-12 gap-y-12 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-6">
+            {/*
+              La entrada del hero es lo único que se anima al cargar, y va en
+              orden de lectura: etiqueta, titular, párrafo, botones. Los
+              retardos son utilidades de Tailwind —la base es la de móvil y
+              `md:` la alarga— porque en una pantalla pequeña la misma
+              secuencia se hace larga: ahí entra en la mitad de tiempo.
+            */}
             <p className="reveal eyebrow">{t.hero.kicker}</p>
 
             <h1 className="reveal-words display mt-6 text-[2.5rem] text-heading sm:text-[3.25rem] lg:text-[3.75rem]">
-              <Words text={t.hero.headline} />
+              <Words text={t.hero.headline} start={80} />
             </h1>
 
-            <p className="reveal mt-7 max-w-lg text-lg leading-relaxed text-ink-soft">
+            <p className="reveal mt-7 max-w-lg text-lg leading-relaxed text-ink-soft delay-100 md:delay-200">
               {t.hero.lead}
             </p>
 
-            <div className="reveal mt-9 flex flex-wrap items-center gap-3">
+            <div className="reveal mt-9 flex flex-wrap items-center gap-3 delay-150 md:delay-300">
               <a
                 href={whatsappUrl(t.contact.whatsappMessage)}
                 target="_blank"
@@ -59,7 +66,7 @@ export default function Hero({ t, theme }) {
             La prueba visual. Grande, pero en su columna: a ancho completo se
             comía la primera pantalla y el titular dejaba de mandar.
           */}
-          <div className="reveal lg:col-span-6" data-parallax="0.08">
+          <div className="reveal delay-200 md:delay-300 lg:col-span-6" data-parallax="0.08">
             <DeviceMock
               priority
               laptop={{

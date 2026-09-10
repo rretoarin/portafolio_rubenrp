@@ -129,7 +129,7 @@ export function WhatsApp({ width = 16, height = 16, ...props }) {
 
 /*
  * Las cuatro soluciones. Trazo de 1.5, sin relleno y sobre una caja de 24: al
- * lado de un titular en Manrope tienen que leerse como un apunte, no como un
+ * lado de un titular en Satoshi tienen que leerse como un apunte, no como un
  * icono de aplicación.
  */
 export function Browser(props) {

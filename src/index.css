@@ -4,32 +4,38 @@
  * ============================================================================
  * TIPOGRAFÍA
  * ============================================================================
- * Manrope, autoalojada. Un solo archivo variable por subconjunto (400–800), así
- * que todos los pesos que usa el sitio son reales y no sintetizados: 24,8 kB
- * para latin y 15,1 kB para latin-ext, que sólo baja si hace falta.
+ * Satoshi, autoalojada. Un solo archivo variable (300–900) de 42,6 kB con el
+ * juego latino completo, así que todos los pesos que usa el sitio son reales y
+ * no sintetizados, y no hace falta partirla en subconjuntos: pesa lo mismo que
+ * los dos archivos que hacían falta antes.
  *
  * Nunca por <link> a un tercero: esa petición ya bloqueó el pintado una vez.
+ * El archivo sale de Fontshare (fontshare.com/fonts/satoshi, Indian Type
+ * Foundry, licencia gratuita para uso comercial) y se guarda en el repositorio.
  */
 @font-face {
-  font-family: "Manrope";
+  font-family: "Satoshi";
   font-style: normal;
-  font-weight: 400 800;
+  font-weight: 300 900;
   font-display: swap;
-  src: url("/fonts/manrope-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url("/fonts/satoshi-variable.woff2") format("woff2");
 }
 
+/*
+ * Sentient, la serifa de los titulares. Mismo origen y misma licencia que
+ * Satoshi, y también un solo archivo variable (200–700, 49,4 kB).
+ *
+ * Dos tipografías y no una porque hacen cosas distintas: la serifa pone la voz
+ * editorial en los titulares y la sans sostiene todo lo que se lee de verdad
+ * —menú, texto corrido, botones y etiquetas—, donde una serifa cansaría.
+ * Es el emparejamiento clásico y es el que pedía la referencia aprobada.
+ */
 @font-face {
-  font-family: "Manrope";
+  font-family: "Sentient";
   font-style: normal;
-  font-weight: 400 800;
+  font-weight: 200 700;
   font-display: swap;
-  src: url("/fonts/manrope-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  src: url("/fonts/sentient-variable.woff2") format("woff2");
 }
 
 /*
@@ -46,9 +52,9 @@
  * nuevo, se le da nombre aquí primero.
  */
 @theme {
-  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+  --font-sans: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-sans);
+  --font-display: "Sentient", ui-serif, Georgia, "Times New Roman", serif;
   --font-mono: ui-monospace, "SFMono-Regular", "Segoe UI Mono", Menlo, monospace;
 
   --color-page: #f8f9fa;
@@ -69,6 +75,7 @@
   --color-on-btn: #f8f9fa;
   --color-heading: #101317;
   --color-eyebrow: #535a63;
+  --color-nav-line: #9a5638;
 
   /*
    * Velo sobre imágenes: la leyenda del bento, el contador de capturas y el
@@ -137,6 +144,13 @@
   --color-on-btn: #f8f9fa;
   --color-heading: #101317; /* 17.67:1 */
   --color-eyebrow: #535a63; /* 6.62:1 */
+  /*
+   * El subrayado del menú. Va del color de la marca —el mismo acento que pinta
+   * el "Dev" del logotipo— y no de tinta: así la señal de "estás aquí" es
+   * también una señal de marca, y cambia con el estilo como todo lo demás.
+   * En oscuro es la excepción: ahí va en tinta.
+   */
+  --color-nav-line: var(--color-accent);
 
   --color-btn-hover: #262b31;
   --shadow-card: 0 1px 2px rgb(16 19 23 / 0.04), 0 10px 30px -18px rgb(16 19 23 / 0.16);
@@ -175,6 +189,8 @@
   --color-on-btn: #020202;
   --color-heading: #f4f5f6; /* 19.01:1 */
   --color-eyebrow: #a5abb3; /* 8.97:1 */
+  /* La única que no lleva el acento: sobre negro, la línea blanca es la que se ve. */
+  --color-nav-line: var(--color-ink);
 
   --color-btn-hover: #ffffff;
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.6), 0 12px 34px -20px rgb(0 0 0 / 0.9);
@@ -210,6 +226,7 @@
   --color-on-btn: #ffffff;
   --color-heading: #123f78; /* 9.92:1 */
   --color-eyebrow: #17539e; /* 7.20:1 */
+  --color-nav-line: var(--color-accent);
 
   --color-btn-hover: #113f79;
   --shadow-card: 0 1px 2px rgb(12 23 37 / 0.04), 0 10px 30px -18px rgb(12 23 37 / 0.18);
@@ -244,6 +261,7 @@
   --color-on-btn: #ffffff;
   --color-heading: #1b4a33; /* 9.61:1 */
   --color-eyebrow: #245c41; /* 7.43:1 */
+  --color-nav-line: var(--color-accent);
 
   --color-btn-hover: #1a4630;
   --shadow-card: 0 1px 2px rgb(13 25 19 / 0.04), 0 10px 30px -18px rgb(13 25 19 / 0.18);
@@ -345,22 +363,59 @@ html.theme-switching *::after {
   }
 
   /*
-   * Titular. Manrope a peso 800 con el tracking muy cerrado: a cuerpo grande es
-   * lo que da el golpe editorial. `text-wrap: balance` evita la línea huérfana
-   * de una palabra, que en titulares de tres líneas se nota mucho.
+   * Titular. Sentient en redonda: el peso normal basta porque el golpe lo dan
+   * los remates y el contraste del trazo, no el grosor. Un titular en serifa a
+   * peso 700 se emborrona y pierde justo el aire editorial que se busca.
+   *
+   * El tracking se abre mucho respecto a los -0.038em que había. Aquellos eran
+   * de Manrope y luego de Satoshi: en una sans geométrica cerrar el espacio
+   * compacta el bloque, pero en una serifa los remates ya ocupan ese hueco y al
+   * apretarlos se tocan entre letras.
+   *
+   * -0.02em y no menos, que es lo que se probó primero: con -0.01em el titular
+   * del hero se iba a cinco líneas y en una ventana de 800px de alto empujaba
+   * la fila de soluciones fuera de la primera pantalla, que es justo lo que no
+   * puede pasar. Medido en 1440x800, 1440x900, 375 y 360.
+   *
+   * La interlinea sube de 1.02 a 1.06: una serifa tiene ascendentes y
+   * descendentes más largas, y a 1.02 la 'j' de una línea rozaba la mayúscula
+   * de la siguiente.
+   *
+   * `text-wrap: balance` evita la línea huérfana de una palabra, que en
+   * titulares de tres líneas se nota mucho.
    */
   .display {
     font-family: var(--font-display);
-    font-weight: 800;
-    letter-spacing: -0.038em;
-    line-height: 1.02;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.06;
     text-wrap: balance;
     overflow-wrap: break-word;
   }
 
-  /* Segundo nivel: mismo carácter, dos pesos menos y algo más de aire. */
-  .display-light {
+  /*
+   * La marca. Va en la serifa de los titulares, igual que ellos: es la firma
+   * de la casa y tenía que hablar el mismo idioma que el titular que tiene
+   * justo debajo —en la sans se leía como de otro sitio.
+   *
+   * Clase propia y no `.display` porque el peso es otro: un logotipo a 18px
+   * necesita cuerpo para sostenerse, y a peso 400 se quedaba en nada. 700 es
+   * el máximo de Sentient. El tracking se lo pone `tracking-tight` desde el
+   * marcado, como antes.
+   */
+  .wordmark {
     font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  /*
+   * Segundo nivel —títulos de tarjeta, la nota de Estilos, el menú móvil—.
+   * Va en la SANS, no en la serifa: la serifa se reserva para los titulares
+   * grandes, que es donde tiene sitio para lucir. A cuerpo pequeño los remates
+   * sólo ensucian, y en la referencia estos títulos tampoco los llevan.
+   */
+  .display-light {
+    font-family: var(--font-sans);
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.16;
@@ -501,12 +556,19 @@ html.theme-switching *::after {
   @media (hover: hover) {
     .btn-primary:hover {
       background-color: var(--color-btn-hover);
-      transform: translateY(-1px);
+      /*
+       * Un píxel arriba y un 1,5% de tamaño. Es deliberadamente poco: el CTA
+       * tiene que sentirse firme, no elástico. Por encima de 1.03 el botón
+       * empieza a parecer un globo y arrastra la mirada más que el titular.
+       */
+      transform: translateY(-1px) scale(1.015);
     }
   }
 
+  /* Al pulsar se hunde. En táctil es el único acuse de recibo que hay. */
   .btn-primary:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(0.985);
+    transition-duration: 0.12s;
   }
 
   /* La chapa con la flecha que va dentro del CTA: colores invertidos. */
@@ -528,7 +590,8 @@ html.theme-switching *::after {
     font-weight: 600;
     transition:
       border-color 0.2s var(--ease-out-soft),
-      background-color 0.2s var(--ease-out-soft);
+      background-color 0.2s var(--ease-out-soft),
+      transform 0.2s var(--ease-out-soft);
   }
 
   @media (hover: hover) {
@@ -536,6 +599,11 @@ html.theme-switching *::after {
       border-color: var(--color-ink);
       background-color: var(--color-page-soft);
     }
+  }
+
+  .btn-ghost:active {
+    transform: scale(0.985);
+    transition-duration: 0.12s;
   }
 
   /* Enlace de texto: el subrayado engorda y pasa al acento. */
@@ -595,10 +663,60 @@ html.theme-switching *::after {
     transform: scaleX(1);
   }
 
+  /*
+   * En la barra el subrayado activo NO lo dibuja cada enlace: lo dibuja un solo
+   * riel compartido (`.nav-rail`) que se desplaza de una sección a la
+   * siguiente. Encender uno y apagar otro se leía como parpadeo; moviendo la
+   * misma línea, la navegación se lee como un recorrido. Aquí, por tanto, sólo
+   * queda el trazo del hover.
+   */
+  .nav-slide[data-active="true"]::after {
+    transform: scaleX(0);
+  }
+
+  /*
+   * Y el trazo del hover se pinta del mismo color que el riel, que es la misma
+   * línea. Sólo en la barra: en el pie `.nav-link` sigue con `currentColor`,
+   * porque ahí la línea acompaña al texto y no marca ninguna sección.
+   */
+  .nav-slide::after {
+    background-color: var(--color-nav-line);
+  }
+
   @media (hover: hover) {
     .nav-link:hover::after {
       transform: scaleX(1);
     }
+  }
+
+  /*
+   * El riel. Mide 1px y se estira con `scaleX`, nunca con `width`: así el
+   * desplazamiento entre secciones lo resuelve la GPU y no repinta la barra en
+   * cada scroll. La posición la mide `Nav.jsx` y la escribe en el `transform`.
+   */
+  .nav-rail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    /*
+     * Un píxel, no el 1.5 de `.nav-link::after`. Con `transform` el riel va en
+     * su propia capa y ahí el navegador no ajusta la altura a la rejilla: el
+     * mismo 1.5 se repartía entre dos filas y la línea salía más gruesa y más
+     * blanda que el trazo del hover, que se pinta como una fila limpia.
+     */
+    height: 1px;
+    /*
+     * La posición vertical también la escribe `Nav.jsx`, no un `bottom`: los
+     * enlaces del menú son elementos en línea, así que su relleno vertical
+     * desborda la caja del <ul> y un `bottom` medido desde la lista dejaba la
+     * línea seis píxeles por encima de donde la dibujaba `.nav-link::after`.
+     */
+    transform-origin: left;
+    background-color: var(--color-nav-line);
+    transition:
+      transform 0.42s var(--ease-out-soft),
+      opacity 0.25s var(--ease-out-soft);
   }
 
   /* Enlaces sin caja (pie, menú móvil): el subrayado ocupa todo el ancho. */
@@ -649,6 +767,14 @@ html.theme-switching *::after {
   }
 
   /*
+   * El icono de la solución. Sube tres píxeles con el resto del bloque: es la
+   * tercera señal pequeña, la que remata el gesto sin que nada salte.
+   */
+  .block-icon {
+    transition: translate 0.35s var(--ease-out-soft);
+  }
+
+  /*
    * El color en reposo va aquí y no en una utilidad `text-ink-soft`: las
    * utilidades de Tailwind se declaran después de esta capa y ganarían a la
    * regla de hover, dejando el número siempre gris.
@@ -673,12 +799,46 @@ html.theme-switching *::after {
     .block-top:hover .block-num {
       color: var(--color-accent);
     }
+
+    .block:hover .block-icon,
+    .block-top:hover .block-icon {
+      translate: 0 -3px;
+    }
+  }
+
+  /*
+   * Táctil: no hay hover, así que el bloque responde al dedo mientras dura el
+   * toque. Es el mismo gesto que en escritorio, más corto y sin el icono —
+   * en una pantalla pequeña tres cosas moviéndose a la vez es una de más.
+   */
+  @media (hover: none) {
+    .block-top:active::before,
+    .block:active .block-rule::after {
+      transform: scaleX(1);
+      transition-duration: 0.25s;
+    }
+
+    .block-top:active .block-title,
+    .block:active .block-title {
+      translate: 3px 0;
+      transition-duration: 0.18s;
+    }
   }
 
   /* Teclado: el foco dentro del bloque enciende lo mismo que el puntero. */
   .block:focus-within .block-rule::after,
   .block-top:focus-within::before {
     transform: scaleX(1);
+  }
+
+  .block:focus-within .block-title,
+  .block-top:focus-within .block-title {
+    translate: 4px 0;
+  }
+
+  .block:focus-within .block-num,
+  .block-top:focus-within .block-num {
+    color: var(--color-accent);
   }
 
   /*
@@ -721,6 +881,79 @@ html.theme-switching *::after {
     box-shadow: 0 0 0 2px var(--color-page), 0 0 0 3.5px var(--color-ink);
   }
 
+  /*
+   * El toque. En táctil no hay hover, y sin esto pulsar una muestra no acusaba
+   * nada hasta que la página entera cambiaba de color: medio segundo en el que
+   * parecía que el botón no había respondido. Encoge mientras dura el dedo.
+   *
+   * Lleva `[aria-checked]` y va DESPUÉS de la regla del estilo activo: esa
+   * también escribe `transform` sobre la muestra, así que hace falta el atributo
+   * para igualar su peso y el orden para ganarle. Sin las dos cosas, la muestra
+   * que ya está puesta era justo la única que no acusaba el toque.
+   */
+  .style-option[aria-checked]:active .swatch {
+    transform: scale(0.9);
+    transition-duration: 0.1s;
+  }
+
+  /*
+   * Las cuatro miniaturas de la sección Estilos: el mismo selector, a tamaño
+   * grande. La caja se levanta con el puntero y se hunde con el dedo. El
+   * movimiento va en la caja y no en el botón porque el botón es un `.reveal`
+   * y los dos escribirían sobre el mismo `transform`.
+   *
+   * La transición incluye el color: aquí NO puede ir un `transition-colors` de
+   * Tailwind, que se declara después y se llevaría por delante el `transform`.
+   */
+  .style-tile-box {
+    transition:
+      transform 0.28s var(--ease-out-soft),
+      border-color 0.28s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .style-tile:hover .style-tile-box {
+      transform: translateY(-3px);
+    }
+  }
+
+  .style-tile:active .style-tile-box {
+    transform: translateY(0) scale(0.985);
+    transition-duration: 0.1s;
+  }
+
+
+  /*
+   * ---- Arco decorativo ----
+   * Es un círculo de trazo finísimo, casi todo fuera de la pantalla. Se dibuja
+   * sólo la primera vez que su sección entra en cuadro: `pathLength="1"`
+   * normaliza el contorno a la unidad, así que el mismo par de reglas sirve
+   * para los cinco arcos sin calcular la circunferencia de cada uno.
+   *
+   * Dura más que cualquier otra animación del sitio (1,6 s) justamente para que
+   * no se note: si se dibujara rápido, competiría con el titular.
+   */
+  .arc-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.6s var(--ease-out-soft);
+  }
+
+  .arc[data-visible="true"] .arc-line {
+    stroke-dashoffset: 0;
+  }
+
+  /*
+   * En móvil no se dibuja: es un trazo de 800px de diámetro y animarlo obliga
+   * al navegador a repintar esa área entera en cada fotograma, justo mientras
+   * se hace scroll. Aparece ya dibujado y no cuesta nada.
+   */
+  @media (max-width: 767px) {
+    .arc-line {
+      stroke-dashoffset: 0;
+      transition: none;
+    }
+  }
 
   /*
    * ---- Capturas ----
@@ -800,6 +1033,19 @@ html.theme-switching *::after {
   }
 
   /*
+   * Móvil: el mismo gesto, más corto. Se recorren cuatro píxeles menos y se
+   * tarda 150 ms menos. Un móvil se lee con el pulgar y a más velocidad de
+   * scroll; con la duración de escritorio, la mitad de las entradas terminaban
+   * cuando el elemento ya estaba a media pantalla.
+   */
+  @media (max-width: 767px) {
+    .reveal {
+      transform: translateY(12px);
+      transition-duration: 0.45s;
+    }
+  }
+
+  /*
    * Titular que entra palabra a palabra. El retardo lo pone `<Words>` en línea,
    * así que el escalonado no depende de un nth-child que se rompa al traducir.
    */
@@ -817,20 +1063,68 @@ html.theme-switching *::after {
     transform: none;
   }
 
+  /*
+   * Móvil: el titular entra de una pieza, no palabra a palabra. A 375px ocupa
+   * cuatro líneas y el escalonado se convertía en una cascada larguísima justo
+   * en lo primero que se ve. El `!important` es para ganarle al retardo que
+   * `<Words>` escribe en línea, que es la única forma de anularlo desde el CSS.
+   */
+  @media (max-width: 767px) {
+    .reveal-words > span {
+      transition-delay: 0ms !important;
+      transition-duration: 0.5s;
+    }
+  }
+
+  /*
+   * El escalonado de una rejilla. El paso va en una variable para poder
+   * acortarlo en móvil de una sola línea: allí las tarjetas se apilan en una
+   * columna y el último elemento queda tan abajo que, con el paso de
+   * escritorio, aparecía medio segundo después de haberlo mirado.
+   */
+  .stagger {
+    --stagger-step: 70ms;
+  }
+
+  @media (max-width: 767px) {
+    .stagger {
+      --stagger-step: 45ms;
+    }
+  }
+
   .stagger > .reveal:nth-child(2) {
-    transition-delay: 70ms;
+    transition-delay: var(--stagger-step);
   }
   .stagger > .reveal:nth-child(3) {
-    transition-delay: 140ms;
+    transition-delay: calc(2 * var(--stagger-step));
   }
   .stagger > .reveal:nth-child(4) {
-    transition-delay: 210ms;
+    transition-delay: calc(3 * var(--stagger-step));
   }
   .stagger > .reveal:nth-child(5) {
-    transition-delay: 280ms;
+    transition-delay: calc(4 * var(--stagger-step));
   }
   .stagger > .reveal:nth-child(6) {
-    transition-delay: 350ms;
+    transition-delay: calc(5 * var(--stagger-step));
+  }
+
+  /*
+   * ---- Menú móvil ----
+   * Los enlaces suben ocho píxeles escalonados mientras el fondo se funde. Sin
+   * esto el menú aparecía de golpe, entero, y se leía como un corte de plano.
+   * El retardo lo pone `Nav.jsx` en línea porque depende del índice.
+   */
+  .menu-item {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.32s var(--ease-out-soft),
+      transform 0.32s var(--ease-out-soft);
+  }
+
+  .menu-open .menu-item {
+    opacity: 1;
+    transform: none;
   }
 
   /*
@@ -906,6 +1200,34 @@ html.theme-switching *::after {
   .block:hover .block-title,
   .block-top:hover .block-title {
     translate: none;
+  }
+  .block:hover .block-icon,
+  .block-top:hover .block-icon {
+    translate: none;
+  }
+  /* El CTA sigue cambiando de color al pasar por encima; deja de moverse. */
+  .btn-primary:hover,
+  .btn-primary:active,
+  .btn-ghost:active {
+    transform: none;
+  }
+  .style-tile:hover .style-tile-box,
+  .style-tile:active .style-tile-box {
+    transform: none;
+  }
+  /* El arco aparece ya dibujado: no hay trazo que recorrer. */
+  .arc-line {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+  /* El riel del menú salta a su sitio en vez de recorrer la barra. */
+  .nav-rail {
+    transition: none;
+  }
+  .menu-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
   *,
   *::before,

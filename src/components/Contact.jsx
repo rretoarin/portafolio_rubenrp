@@ -78,7 +78,7 @@ export default function Contact({ t }) {
             </div>
           </div>
 
-          <div className="reveal lg:col-span-5 lg:col-start-8">
+          <div className="reveal delay-100 md:delay-200 lg:col-span-5 lg:col-start-8">
             <form onSubmit={enviar} className="card p-6 md:p-7">
               <p className="eyebrow eyebrow-plain">{t.contact.formLabel}</p>
 
@@ -91,7 +91,7 @@ export default function Contact({ t }) {
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 placeholder={t.contact.formNamePlaceholder}
-                className="mt-2 w-full rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm placeholder:text-ink-soft/70"
+                className="mt-2 w-full rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink focus:border-ink"
               />
 
               <label htmlFor="mensaje" className="mt-4 block text-sm font-medium">
@@ -104,7 +104,7 @@ export default function Contact({ t }) {
                 value={mensaje}
                 onChange={(e) => setMensaje(e.target.value)}
                 placeholder={t.contact.formMessagePlaceholder}
-                className="mt-2 w-full resize-y rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm placeholder:text-ink-soft/70"
+                className="mt-2 w-full resize-y rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink focus:border-ink"
               />
 
               <button type="submit" className="btn-primary mt-5 w-full justify-center px-6">

@@ -27,10 +27,21 @@
       })()
     </script>
 
-    <!-- Manrope, autoalojada. El subconjunto latino es el que necesita el texto. -->
+    <!--
+      Las dos caras, autoalojadas y con todo el juego latino. Se precargan las
+      dos porque las dos salen en la primera pantalla: la serifa en el titular
+      y la sans en el menú y el texto.
+    -->
     <link
       rel="preload"
-      href="/fonts/manrope-latin.woff2"
+      href="/fonts/satoshi-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/sentient-variable.woff2"
       as="font"
       type="font/woff2"
       crossorigin

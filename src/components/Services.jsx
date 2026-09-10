@@ -27,7 +27,7 @@ export default function Services({ t }) {
           const Icono = ICONOS[i]
           return (
             <article key={i} className="reveal block-top border-t border-line pt-6">
-              <Icono width={26} height={26} className="text-accent" aria-hidden />
+              <Icono width={26} height={26} className="block-icon text-accent" aria-hidden />
               <h3 className="block-title display-light mt-5 text-xl">{item.title}</h3>
               <p className="mt-3 leading-relaxed text-ink-soft">{item.text}</p>
             </article>
