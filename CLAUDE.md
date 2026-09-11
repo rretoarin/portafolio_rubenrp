@@ -211,18 +211,28 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
 - **Casi nada de tarjetas**: el recurso por defecto es un bloque abierto bajo
   `border-t border-line`. `.card` queda para agrupar de verdad (el formulario y
   la banda de CTA). `.card-hover` sólo si el bloque es pulsable.
-- El ritmo entre secciones lo marca el espacio vertical (`py-12 md:py-16`), no
-  franjas de color. **Medido**: entre el final de una sección y el título de la
-  siguiente quedan ~135px en escritorio y ~103px en móvil, y de la barra al
-  primer texto del hero, 39px. Con `py-24` eran 200 y Rubén los marcó como
-  huecos; por encima de eso deja de leerse como ritmo.
-- **El hero NO centra su contenido.** Con `items-center`, en una pantalla alta el
-  espacio que sobra se repartía arriba y abajo, y arriba se leía como un hueco
-  entre la barra y el titular — daba igual bajar el `padding`, porque el centrado
-  lo recuperaba. Ahora es una columna: el bloque arranca bajo la barra y la fila
-  de soluciones va con `mt-auto`, anclada al pie de la primera pantalla, así que
-  el sobrante cae entre las dos y no encima del titular. `<Section muted>` pinta `surface-2` y se usa **como mucho en
-  dos secciones** de toda la página.
+- El ritmo entre secciones lo marca el espacio vertical (`py-10 md:py-12`, y lo
+  mismo en `Contact` y en el `pt` del pie), no franjas de color. **Medido**:
+  entre el final de una sección y el título de la siguiente quedan ~106px en
+  escritorio y ~90px en móvil, iguales en los seis cortes; de la barra al
+  primer texto del hero, 39px, y tras saltar por el menú, ~40px en escritorio
+  y ~47px en móvil. Rubén marcó como huecos los 200px de `py-24` y después
+  también los 138px de `md:py-16` (2026-09-11); por encima de ~110 deja de
+  leerse como ritmo.
+- **El hero NO ocupa la pantalla entera ni centra su contenido.** Mide lo que
+  mide su contenido. Pasó por dos versiones peores: con `min-h-svh` e
+  `items-center` el sobrante de una pantalla alta se repartía arriba y abajo, y
+  arriba se leía como un hueco entre la barra y el titular; con `mt-auto` en la
+  fila de soluciones el sobrante caía entre los botones y la fila, y Rubén lo
+  marcó como hueco (2026-09-11): crecía con la altura de la ventana, 210px en
+  una de 900 y 390 en una de 1080. Ahora la fila va a 64px fijos de los
+  botones en cualquier pantalla y, en las altas, asoma el comienzo de
+  Soluciones, que invita a bajar. **No volver a estirar el hero con `svh`.**
+- **Lo mismo en Estilos**: la frase de la izquierda va con `items-start`, a la
+  altura del borde superior de la maqueta; centrada dejaba 206px vacíos entre
+  el título y la frase.
+- `<Section muted>` pinta `surface-2` y se usa **como mucho en dos secciones**
+  de toda la página.
 - **Las capturas son la evidencia**, no ilustración. Van dentro de `<Frame>` y a
   ancho completo. Las prepara `scripts/capturas.py`: difumina los datos de
   cliente del sistema de Arin (interno; la web de J&M es pública y no lleva

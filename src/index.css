@@ -1150,13 +1150,6 @@ html.theme-switching *::after {
   }
 }
 
-/* En pantallas cortas y apaisadas (iPhone de lado) el hero no debe estirarse. */
-@media (max-height: 34rem) {
-  .hero-fill {
-    min-height: 0;
-  }
-}
-
 @keyframes lightbox-in {
   from {
     opacity: 0;

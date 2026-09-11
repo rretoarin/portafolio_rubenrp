@@ -8,7 +8,7 @@ const LINKS = ['services', 'styles', 'projects', 'process']
 
 export default function Footer({ t }) {
   return (
-    <footer className="relative overflow-hidden border-t border-line pt-12 pb-[calc(2.5rem+env(safe-area-inset-bottom))] md:pt-16">
+    <footer className="relative overflow-hidden border-t border-line pt-10 pb-[calc(2.5rem+env(safe-area-inset-bottom))] md:pt-12">
       <div className="shell relative">
         {/*
           Sin nombre gigante. El cierre de marca ya lo hace la sección de

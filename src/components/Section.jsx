@@ -7,15 +7,20 @@ import { Eyebrow } from './ui'
  *
  * El ritmo entre secciones lo marca el espacio vertical, pero medido: con
  * `py-24` quedaban unos 200px entre el final de una sección y el título de la
- * siguiente y se leía como un hueco, no como ritmo. `muted` pinta el fondo de
- * superficie y se usa con cuentagotas —dos secciones en toda la página— para que
- * el ojo tenga dónde descansar sin recurrir a franjas de color.
+ * siguiente, y con `md:py-16` todavía 138, y los dos se leían como un hueco, no
+ * como ritmo. Con `md:py-12` quedan ~106 en escritorio y ~90 en móvil: el doble
+ * del aire entre la cabecera y el contenido, que es lo justo para que se note el
+ * cambio de sección sin que parezca que se acabó la página.
+ *
+ * `muted` pinta el fondo de superficie y se usa con cuentagotas —dos secciones
+ * en toda la página— para que el ojo tenga dónde descansar sin recurrir a
+ * franjas de color.
  */
 export default function Section({ id, eyebrow, title, subtitle, muted = false, children }) {
   return (
     <section
       id={id}
-      className={`relative scroll-mt-16 overflow-hidden py-12 md:py-16 ${
+      className={`relative scroll-mt-16 overflow-hidden py-10 md:py-12 ${
         muted ? 'bg-surface-2' : ''
       }`}
     >

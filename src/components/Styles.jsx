@@ -62,7 +62,12 @@ export default function Styles({ t, theme, onThemeChange }) {
       title={t.styles.title}
       subtitle={t.styles.subtitle}
     >
-      <div className="grid gap-x-12 gap-y-10 lg:grid-cols-12 lg:items-center">
+      {/*
+        La frase arranca arriba, a la altura de la maqueta, y no centrada: con
+        `items-center` quedaban 206px vacíos entre el título y la frase, y se
+        leía como un hueco dentro de la sección.
+      */}
+      <div className="grid gap-x-12 gap-y-10 lg:grid-cols-12 lg:items-start">
         <div className="reveal lg:col-span-4">
           <p className="display-light text-[1.5rem] text-heading sm:text-[1.75rem]">
             {t.styles.note}
