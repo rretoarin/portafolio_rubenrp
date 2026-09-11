@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 
 /*
- * Todo lo que entra al hacer scroll. Son tres gestos distintos —el bloque que
- * se funde, el titular palabra a palabra y el arco que se dibuja— pero el
- * disparador es el mismo, así que comparten observador y atributo.
+ * Todo lo que entra al hacer scroll. Son cuatro gestos distintos —el bloque que
+ * se funde, el titular palabra a palabra, el arco que se dibuja y el filete que
+ * se traza— pero el disparador es el mismo, así que comparten observador y
+ * atributo.
  */
-const SELECTOR = '.reveal, .reveal-words, .arc'
+const SELECTOR = '.reveal, .reveal-words, .arc, .trace'
 
 // Un solo IntersectionObserver para todo el documento: marca cada `.reveal`
 // como visible la primera vez que entra en pantalla y deja de observarlo.

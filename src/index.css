@@ -1084,6 +1084,11 @@ html.theme-switching *::after {
    */
   .stagger {
     --stagger-step: 70ms;
+    /*
+     * Cuándo arranca la rejilla entera. Casi siempre cero; la fila de
+     * soluciones del hero lo sube para entrar después de los botones.
+     */
+    --stagger-base: 0ms;
   }
 
   @media (max-width: 767px) {
@@ -1092,20 +1097,141 @@ html.theme-switching *::after {
     }
   }
 
+  /*
+   * El puesto de cada hijo va en una variable y no directamente en el retardo:
+   * así lo que va DENTRO del hijo —los iconos que se dibujan en el hero— puede
+   * esperar a que su hijo haya entrado sin repetir el nth-child.
+   */
+  .stagger > .reveal {
+    transition-delay: calc(var(--stagger-base) + var(--stagger-i, 0) * var(--stagger-step));
+  }
   .stagger > .reveal:nth-child(2) {
-    transition-delay: var(--stagger-step);
+    --stagger-i: 1;
   }
   .stagger > .reveal:nth-child(3) {
-    transition-delay: calc(2 * var(--stagger-step));
+    --stagger-i: 2;
   }
   .stagger > .reveal:nth-child(4) {
-    transition-delay: calc(3 * var(--stagger-step));
+    --stagger-i: 3;
   }
   .stagger > .reveal:nth-child(5) {
-    transition-delay: calc(4 * var(--stagger-step));
+    --stagger-i: 4;
   }
   .stagger > .reveal:nth-child(6) {
-    transition-delay: calc(5 * var(--stagger-step));
+    --stagger-i: 5;
+  }
+
+  /*
+   * ---- Soluciones del hero ----
+   * La fila que cierra el hero entra en tres tiempos, en el mismo idioma que el
+   * arco: el filete se traza de izquierda a derecha, cada solución sube en su
+   * turno y su icono se dibuja justo después. Es lo último que se anima al
+   * cargar, porque es lo último que se lee.
+   *
+   * El filete es un pseudo-elemento y no el `border-t` de antes: un borde no se
+   * puede trazar. Se estira con `scaleX`, como el riel del menú, así que lo
+   * resuelve la GPU. Tarda 0,9 s, más que una entrada, por lo mismo que el arco:
+   * es un trazo que cruza la pantalla y a 0,6 s pasaba como un corte.
+   */
+  .trace {
+    position: relative;
+  }
+
+  .trace::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--color-line);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.9s var(--ease-out-soft) var(--stagger-base);
+  }
+
+  .trace[data-visible="true"]::before {
+    transform: scaleX(1);
+  }
+
+  /*
+   * El icono se dibuja con el mismo truco que el arco: los trazos llevan
+   * `pathLength="1"` y aquí se recorre el `stroke-dashoffset`. El guion es 1 y
+   * el hueco 2, y se esconde a 1.01 y no a 1: a 1 justo el redondeo del
+   * `pathLength` dejaba restos a la vista antes de empezar —un palito en la
+   * ventana, una raya en el engranaje—. Medido a 4x en Chrome.
+   * Los dos puntos de la ventana no tienen trazo, así que se funden.
+   */
+  .sol-icon :is(path, rect, circle) {
+    stroke-dasharray: 1 2;
+    stroke-dashoffset: 1.01;
+    transition: stroke-dashoffset 0.7s var(--ease-out-soft) var(--sol-draw);
+  }
+
+  .sol-icon [stroke="none"] {
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-out-soft) calc(var(--sol-draw) + 0.35s);
+  }
+
+  .sol {
+    --sol-draw: calc(var(--stagger-base) + var(--stagger-i, 0) * var(--stagger-step) + 150ms);
+    position: relative;
+  }
+
+  .sol[data-visible="true"] .sol-icon :is(path, rect, circle) {
+    stroke-dashoffset: 0;
+  }
+
+  .sol[data-visible="true"] .sol-icon [stroke="none"] {
+    opacity: 1;
+  }
+
+  /*
+   * Al pasar el cursor, lo mismo que en los bloques de Soluciones: el tramo del
+   * filete que le toca se repinta con el acento, el icono sube tres píxeles y
+   * el texto pasa a tinta. El color en reposo va aquí, no en `text-ink-soft`,
+   * por la misma razón que `.block-num`.
+   */
+  .sol-icon {
+    transition: translate 0.35s var(--ease-out-soft);
+  }
+
+  .sol-text {
+    color: var(--color-ink-soft);
+    transition: color 0.2s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .sol:hover .sol-icon {
+      translate: 0 -3px;
+    }
+
+    .sol:hover .sol-text {
+      color: var(--color-ink);
+    }
+  }
+
+  /*
+   * El tramo de acento sólo con las cuatro en fila: en dos columnas la segunda
+   * fila no toca el filete y la línea quedaba flotando sobre ella.
+   */
+  @media (hover: hover) and (min-width: 1024px) {
+    .sol::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--color-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s var(--ease-out-soft);
+    }
+
+    .sol:hover::before {
+      transform: scaleX(1);
+    }
   }
 
   /*
@@ -1215,6 +1341,25 @@ html.theme-switching *::after {
   }
   /* El riel del menú salta a su sitio en vez de recorrer la barra. */
   .nav-rail {
+    transition: none;
+  }
+  /* La fila de soluciones del hero aparece ya trazada y con los iconos enteros. */
+  .trace::before {
+    transform: none;
+    transition: none;
+  }
+  .sol-icon :is(path, rect, circle) {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+  .sol-icon [stroke="none"] {
+    opacity: 1;
+    transition: none;
+  }
+  .sol:hover .sol-icon {
+    translate: none;
+  }
+  .sol::before {
     transition: none;
   }
   .menu-item {

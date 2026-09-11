@@ -90,15 +90,23 @@ export default function Hero({ t, theme }) {
         distancia fija de los botones, no ancladas al pie de la pantalla: con
         `min-h-svh` y `mt-auto` el sobrante caía aquí y el hueco crecía con la
         altura de la ventana —210px en una de 900 y 390 en una de 1080—.
+
+        Es lo último que entra: el filete se traza y cada icono se dibuja tras
+        su texto (`.trace` y `.sol` en index.css). En escritorio espera a los
+        botones; por debajo de `lg` la fila cae bajo la maqueta, fuera de la
+        primera pantalla, y un retardo sólo se notaría como lentitud al llegar.
+
+        En cuatro columnas el relleno pasa de la lista a cada solución, para que
+        su borde superior toque el filete: ahí se pinta el tramo de acento.
       */}
       <div className="shell relative pt-14 md:pt-16">
-        <ul className="stagger grid gap-x-8 gap-y-5 border-t border-line pt-8 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="trace stagger grid gap-x-8 gap-y-5 pt-8 sm:grid-cols-2 lg:grid-cols-4 lg:pt-0 lg:[--stagger-base:450ms]">
           {t.hero.services.map((item, i) => {
             const Icono = ICONOS[i]
             return (
-              <li key={i} className="reveal flex items-center gap-3">
-                <Icono width={20} height={20} className="shrink-0 text-accent" aria-hidden />
-                <span className="text-sm leading-snug text-ink-soft">{item}</span>
+              <li key={i} className="sol reveal flex items-center gap-3 lg:pt-8">
+                <Icono width={20} height={20} className="sol-icon shrink-0 text-accent" aria-hidden />
+                <span className="sol-text text-sm leading-snug">{item}</span>
               </li>
             )
           })}

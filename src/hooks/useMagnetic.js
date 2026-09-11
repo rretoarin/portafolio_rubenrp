@@ -2,14 +2,19 @@ import { useEffect } from 'react'
 
 /*
  * Atracción magnética del cursor. Un único listener de `pointermove` en el
- * documento: cuando el puntero entra en el radio de un `.magnetic`, el botón se
+ * documento: mientras el puntero está ENCIMA de un `.magnetic`, el botón se
  * inclina unos píxeles hacia él y vuelve solo al salir.
+ *
+ * Sólo encima, no cerca. Antes había un radio de atracción medido desde el
+ * centro —la mitad del ancho más 90px—, y en un botón ancho como el del hero
+ * eso llegaba a ~225px en todas direcciones: el CTA se movía al pasar por la
+ * fila de soluciones, que está debajo y no tiene nada que ver con él. Rubén lo
+ * marcó (2026-09-11): el botón responde a su cursor y a nada más.
  *
  * En táctil no se registra nada — no hay puntero que seguir — y con
  * `prefers-reduced-motion` tampoco. Sólo escribe `translate`, así que no
  * provoca relayout.
  */
-const RADIO = 90 // px alrededor del botón donde empieza a notarse
 const FUERZA = 0.22 // fracción de la distancia que recorre el botón
 
 export function useMagnetic() {
@@ -28,19 +33,9 @@ export function useMagnetic() {
       if (frame) return
       frame = requestAnimationFrame(() => {
         frame = 0
-        const el = document
+        const candidato = document
           .elementFromPoint(event.clientX, event.clientY)
           ?.closest?.('.magnetic')
-
-        // Buscar el más cercano aunque el puntero aún no esté encima.
-        const candidato =
-          el ||
-          [...document.querySelectorAll('.magnetic')].find((node) => {
-            const r = node.getBoundingClientRect()
-            const dx = event.clientX - (r.left + r.width / 2)
-            const dy = event.clientY - (r.top + r.height / 2)
-            return Math.hypot(dx, dy) < r.width / 2 + RADIO
-          })
 
         if (last && last !== candidato) {
           soltar(last)

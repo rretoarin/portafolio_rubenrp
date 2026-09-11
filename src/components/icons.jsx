@@ -131,12 +131,16 @@ export function WhatsApp({ width = 16, height = 16, ...props }) {
  * Las cuatro soluciones. Trazo de 1.5, sin relleno y sobre una caja de 24: al
  * lado de un titular en Satoshi tienen que leerse como un apunte, no como un
  * icono de aplicación.
+ *
+ * Cada trazo lleva `pathLength="1"` para que el hero pueda dibujarlos (ver
+ * `.sol-icon` en index.css). Sin un `stroke-dasharray` no cambia nada: en
+ * Soluciones se pintan igual que siempre.
  */
 export function Browser(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <rect x="3" y="4" width="18" height="16" rx="2.5" />
-      <path d="M3 9h18" strokeLinecap="round" />
+      <rect x="3" y="4" width="18" height="16" rx="2.5" pathLength="1" />
+      <path d="M3 9h18" strokeLinecap="round" pathLength="1" />
       <circle cx="6.4" cy="6.5" r=".7" fill="currentColor" stroke="none" />
       <circle cx="8.9" cy="6.5" r=".7" fill="currentColor" stroke="none" />
     </svg>
@@ -146,7 +150,12 @@ export function Browser(props) {
 export function Code(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <path d="m8.5 8-4.5 4 4.5 4M15.5 8l4.5 4-4.5 4" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="m8.5 8-4.5 4 4.5 4M15.5 8l4.5 4-4.5 4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        pathLength="1"
+      />
     </svg>
   )
 }
@@ -154,10 +163,11 @@ export function Code(props) {
 export function Gear(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <circle cx="12" cy="12" r="3.2" />
+      <circle cx="12" cy="12" r="3.2" pathLength="1" />
       <path
         d="M12 2.8v2.4M12 18.8v2.4M21.2 12h-2.4M5.2 12H2.8M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7M18.5 18.5l-1.7-1.7M7.2 7.2 5.5 5.5"
         strokeLinecap="round"
+        pathLength="1"
       />
     </svg>
   )
@@ -170,6 +180,7 @@ export function Link(props) {
         d="M10 13.5a4 4 0 0 0 5.7.3l2.6-2.6a4 4 0 0 0-5.7-5.7l-1.5 1.5M14 10.5a4 4 0 0 0-5.7-.3l-2.6 2.6a4 4 0 0 0 5.7 5.7l1.5-1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+        pathLength="1"
       />
     </svg>
   )
