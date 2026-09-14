@@ -950,6 +950,46 @@ html.theme-switching *::after {
 
 
   /*
+   * ---- El marco del arco ----
+   * El arco sólo puede dibujarse en los MÁRGENES, nunca sobre la columna de
+   * texto. Esto no se consigue colocándolo bien: se probó y no converge, porque
+   * el ancho de la columna cambia con la ventana y el largo del texto con el
+   * idioma. Se consigue tapándolo.
+   *
+   * La máscara deja pasar el arco en la franja que queda fuera de `.shell`
+   * —78rem de ancho máximo más 2.5rem de aire— y lo apaga en el resto. Como el
+   * cálculo va en porcentaje del ancho, se ajusta solo a cualquier ventana; y
+   * cuando no hay margen que valga —por debajo de 78rem— los topes se cruzan,
+   * la máscara queda entera transparente y el arco no se dibuja. Que es lo
+   * correcto: si no cabe fuera del texto, no va.
+   */
+  .arc-marco {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    --borde: calc((100% - 78rem) / 2);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 var(--borde),
+      transparent calc(var(--borde) + 2.5rem),
+      transparent calc(100% - var(--borde) - 2.5rem),
+      #000 calc(100% - var(--borde)),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0,
+      #000 var(--borde),
+      transparent calc(var(--borde) + 2.5rem),
+      transparent calc(100% - var(--borde) - 2.5rem),
+      #000 calc(100% - var(--borde)),
+      #000 100%
+    );
+  }
+
+  /*
    * ---- Arco decorativo ----
    * Es un círculo de trazo finísimo, casi todo fuera de la pantalla. Se dibuja
    * sólo la primera vez que su sección entra en cuadro: `pathLength="1"`

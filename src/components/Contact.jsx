@@ -31,7 +31,11 @@ export default function Contact({ t }) {
 
   return (
     <section id="contact" className="relative scroll-mt-16 overflow-hidden py-10 md:py-12">
-      <Arc className="-top-[26rem] left-1/2 size-[56rem] -translate-x-1/2" />
+      {/*
+        Abajo a la izquierda y no centrado: centrado le pasaba por encima al
+        titular, que es lo único de esta sección que hay que leer sí o sí.
+      */}
+      <Arc className="-bottom-[42rem] -left-[34rem] size-[56rem]" />
 
       <div className="shell relative">
         <div className="grid gap-x-12 gap-y-12 lg:grid-cols-12 lg:items-start">

@@ -61,6 +61,13 @@ export function Frame({ label, as: Tag = 'figure', children, className = '' }) {
  * Arco teñido con el acento del estilo activo. Va detrás del contenido, dentro
  * de un contenedor con `relative overflow-hidden`, uno por sección como máximo.
  *
+ * **Por debajo de `md` no se dibuja.** No es por rendimiento: estos círculos
+ * miden más de 50rem y están colocados para rozar los márgenes de una pantalla
+ * ancha; en uno de 390px el mismo trazo entra por el medio y cruza el titular.
+ * Medido: a 390 cruzaban tres de los cuatro y a 768 —ya con `md`— seguían
+ * cruzando dos, así que el corte es `lg` y no `md`. Antes de mover un arco hay
+ * que comprobar que no solapa ningún `h1`/`h2` a 768, 1024, 1280 y 1440.
+ *
  * Es un SVG y no un `div` con `border-radius` por una sola razón: así el trazo
  * puede dibujarse. `useReveal` marca el `.arc` cuando su sección entra en
  * cuadro y el CSS recorre el `stroke-dashoffset`. El resultado es idéntico al
@@ -70,23 +77,30 @@ export function Frame({ label, as: Tag = 'figure', children, className = '' }) {
  */
 export function Arc({ className = '' }) {
   return (
-    <svg
-      aria-hidden
-      viewBox="0 0 100 100"
-      className={`arc pointer-events-none absolute text-accent/20 ${className}`}
-    >
-      <circle
-        className="arc-line"
-        cx="50"
-        cy="50"
-        r="49.9"
-        pathLength="1"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1"
-        vectorEffect="non-scaling-stroke"
-      />
-    </svg>
+    /*
+      El marco recorta el arco a los márgenes: la máscara vive en `index.css`.
+      Va `inset-0` y posicionado, así que es él quien resuelve el `absolute` del
+      SVG y las medidas de cada sección siguen valiendo igual que antes.
+    */
+    <span aria-hidden className="arc-marco hidden lg:block">
+      <svg
+        aria-hidden
+        viewBox="0 0 100 100"
+        className={`arc pointer-events-none absolute text-accent/20 ${className}`}
+      >
+        <circle
+          className="arc-line"
+          cx="50"
+          cy="50"
+          r="49.9"
+          pathLength="1"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+    </span>
   )
 }
 

@@ -109,7 +109,7 @@ export default function Projects({ t, theme }) {
       title={t.projects.title}
       subtitle={t.projects.subtitle}
     >
-      <Arc className="top-[14rem] -right-[28rem] size-[54rem]" />
+      <Arc className="-top-[10rem] -right-[38rem] size-[54rem]" />
 
       <div className="stagger relative grid gap-x-14 gap-y-16 lg:grid-cols-2">
         {PROJECTS.map((project) => (

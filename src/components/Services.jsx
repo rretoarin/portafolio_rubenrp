@@ -20,7 +20,7 @@ export default function Services({ t }) {
       title={t.services.title}
       subtitle={t.services.subtitle}
     >
-      <Arc className="-top-[28rem] -right-[28rem] size-[52rem]" />
+      <Arc className="-top-[38rem] -right-[34rem] size-[52rem]" />
 
       <div className="stagger relative grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {t.services.items.map((item, i) => {

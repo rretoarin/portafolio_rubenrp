@@ -287,6 +287,17 @@ hace que se lean como una pieza y no como dos letras juntas.
 - **Lo mismo en Estilos**: la frase de la izquierda va con `items-start`, a la
   altura del borde superior de la maqueta; centrada dejaba 206px vacíos entre
   el título y la frase.
+- **Los arcos NO pueden tocar el texto.** `<Arc>` va dentro de `.arc-marco`,
+  cuya máscara sólo lo deja pasar por fuera de la columna de `.shell` (78rem más
+  2,5rem de aire). Por debajo de ese ancho los topes de la máscara se cruzan y
+  el arco no se dibuja: si no cabe fuera del texto, no va. Además se oculta
+  entero por debajo de `lg`.
+  **Colocarlos «bien» no funciona y se probó**: el ancho de la columna cambia
+  con la ventana y el largo del texto con el idioma, así que cada ajuste
+  arreglaba un ancho y rompía otro. Medido a 320, 390, 768, 1024, 1280, 1440 y
+  1600: **cero píxeles de arco sobre texto**. Se comprueba capturando la página
+  con y sin arcos y restando las dos imágenes; el solape de cajas no vale,
+  porque la caja del arco es enorme y lo que se ve es sólo el trazo.
 - `<Section muted>` pinta `surface-2` y se usa **como mucho en dos secciones**
   de toda la página.
 - **Las capturas son la evidencia**, no ilustración. Van dentro de `<Frame>` y a

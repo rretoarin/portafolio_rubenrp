@@ -21,7 +21,7 @@ export default function Hero({ t, theme }) {
       id="top"
       className="relative overflow-hidden pt-24 pb-10 md:pt-28 md:pb-12"
     >
-      <Arc className="-top-[30rem] -right-[24rem] size-[52rem]" />
+      <Arc className="-top-[36rem] -right-[30rem] size-[52rem]" />
 
       <div className="shell relative">
         <div className="grid gap-x-12 gap-y-12 lg:grid-cols-12 lg:items-center">
