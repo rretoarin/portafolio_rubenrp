@@ -23,6 +23,7 @@ npm run lint      # oxlint
 python scripts/contraste.py   # mide el contraste de las cuatro paletas
 python scripts/capturas.py    # regenera las capturas de los casos
 python scripts/capturas-estilo.py  # y su variante por estilo visual
+python scripts/logo.py        # prepara el isotipo de los 4 estilos + el favicon
 python scripts/og-image.py    # regenera la imagen de compartir
 ```
 
@@ -35,7 +36,7 @@ src/
 │  ├─ Section.jsx      ← envoltorio común (eyebrow, título, subtítulo, espaciado)
 │  ├─ ui.jsx           ← Words, Eyebrow, Frame, Arc, Tick, Check
 │  ├─ icons.jsx        ← SVG inline, sin librería de iconos
-│  ├─ Logo.jsx         ← isotipo RD + logotipo; la geometría vive AQUÍ
+│  ├─ Logo.jsx         ← isotipo RD + logotipo (las piezas, en public/logo)
 │  ├─ ThemeSwitch.jsx  ← selector de estilo (compacto y completo)
 │  ├─ DeviceMock.jsx   ← portátil + móvil del hero, dibujados en CSS
 │  ├─ Lightbox.jsx     ← visor de capturas, accesible
@@ -183,43 +184,47 @@ que la contraforma queda abierta por la izquierda— y una **D reducida a su
 arco**, sin asta, porque el hueco que deja la R le hace de asta. Eso es lo que
 hace que se lean como una pieza y no como dos letras juntas.
 
-- **Está CONSTRUIDO con geometría exacta, no calcado.** La referencia aprobada
-  es una imagen de 125 px con el borde blando; calcarla con potrace se probó dos
-  veces y las dos se vio mal, porque a los 24 px de la barra el temblor del
-  original se convierte en papilla. Lo que se calcó fueron las MEDIDAS. La panza
-  de la R es un círculo de radio 29 en (41,29), la contraforma un casquete de 13
-  en (38.6,31) y la D el anillo entre dos elipses concéntricas en (82,50) —52.6
-  × 50 por fuera y 31.5 × 35.5 por dentro—. Por eso es nítido a 16 px y sigue
-  siéndolo a 900. **No volver a calcar la imagen.**
-- **La geometría vive en `src/components/Logo.jsx` y en ningún otro sitio.** Los
-  trazos van en `currentColor` y la pierna en `fill-accent`, así que el
-  monograma se retiñe con las variables de los cuatro estilos como todo lo demás:
-  no hay una copia por tema y no hay ni un color escrito en el componente.
-- **Hay dos copias de los trazados y las dos son inevitables**: `public/favicon.svg`
-  (un archivo estático no lee variables) y `scripts/og-image.py`, que las **lee**
-  de `Logo.jsx` con una expresión regular en vez de copiarlas. Si se toca la
-  geometría, hay que tocar el favicon a mano.
-- **La pierna se pinta ANTES que la tinta.** Arranca en y=52, tapada por la
-  panza, y asoma sola al acabar la barra: es la tinta la que tapa el solape, así
-  que no puede salir ni costura ni reborde entre las dos.
-- **La pierna de la R es la única pieza en color** y va suelta, sin tocar el asta.
-- **Las dos terminales de la D no son simétricas a propósito**: abajo se recoge
-  (corte a 93°/100° en vez de −102°/−92°) para no tocar la punta de la pierna.
-- **Las terminales del brazo y del arranque de la D están cortadas a 45°.** Ese
-  corte es lo que le da el aire editorial; redondearlas lo convierte en un logo
-  geométrico cualquiera.
-- El isotipo se apoya en la **línea base** del nombre (`items-baseline`), no en
-  su centro: centrado quedaba flotando y se veía despegado. Mide 24px de alto
-  frente a los 18–20 del nombre.
+- **Son CUATRO dibujos, uno por estilo, hechos por Rubén.** Viven en
+  `scripts/logo-fuente/` y `scripts/logo.py` los deja listos en
+  `public/logo/*.webp`. No son el mismo dibujo recoloreado: cada uno está hecho
+  para su fondo, y el oscuro es la versión dibujada para negro, no la invertida.
+- **Se probó vectorizar una referencia y se descartó dos veces.** El original
+  era una imagen de 125 px con el borde blando: calcarlo hereda ese temblor y a
+  los 24 px de la barra se convierte en papilla. **No volver a calcar imágenes.**
+- **El estilo activo elige la pieza con `--logo`**, igual que cualquier otro
+  color. La clase `.isotipo` la pinta de fondo, así que **ningún componente
+  recibe el tema ni lo pregunta**: el pie usa `<Mark>` exactamente igual que la
+  barra. Es lo que evita el `if (tema === …)` que aquí habría sido inevitable
+  con un `<img src>`.
+- **Se le da SÓLO la altura**; el ancho sale del `aspect-ratio` de `.isotipo`,
+  que es el del lienzo que exporta el script. Si cambia el margen allí, cambia
+  la proporción aquí.
+- `scripts/logo.py` hace tres cosas que importan: recorta el fondo despejándolo
+  de la mezcla (no con un umbral seco, que dejaba halo del fondo original —y los
+  fondos de esos PNG **no** son los del sitio: azul y verde van sobre #F8F9FA—),
+  **iguala los cuatro** a la misma caja para que el logotipo no dé un salto al
+  cambiar de estilo, y exporta a 3x para pantalla retina.
+- **El alto NO es el de las mayúsculas.** Se probó igualarlo a ellas —12,6 px a
+  `text-lg` y 14 a `text-xl`— y Rubén lo marcó: se veía claramente más pequeño
+  que la palabra. El monograma es ancho y de trazo fino, así que a la misma
+  altura pesa menos. Va a **~1,45 veces la mayúscula** (18 y 20 px), que es
+  donde las dos piezas se leen con el mismo peso. **Por debajo de `sm` sube a
+  26**: ahí va solo y no tiene palabra con la que igualarse.
+- **El lienzo del WebP va SIN aire alrededor.** Lo llevó y fue parte del mismo
+  problema: la altura que se pide en CSS no era la del monograma sino la de una
+  caja con márgenes, así que salía un 8% más pequeño de lo que decían los
+  números.
 - **Por debajo de `sm` el nombre desaparece y queda sólo el isotipo.** No es una
-  concesión: el logotipo pasa de ~85px de ancho a 33, así que a 320px la barra
+  concesión: el logotipo pasa de ~85px de ancho a 26, así que a 320px la barra
   queda más holgada que cuando la marca era sólo texto. El `aria-label` del
   enlace mantiene «RubenDev» para el lector de pantalla.
-- **El favicon va a sangre, sin pastilla.** Con el recuadro redondeado que había,
-  a 16px el monograma se quedaba en 13px de ancho y se leía como una mancha.
-  Cambia de color con el tema del **navegador** (`prefers-color-scheme`) usando
-  los tokens de claro y oscuro: en pestaña oscura no es el logo invertido, es
-  tinta clara con el acento arena, porque la terracota sobre negro se apaga.
+- **El favicon lo genera el mismo script** y lleva dentro las piezas clara y
+  oscura; cambia con el tema del **navegador**, porque un archivo estático no ve
+  las variables de `index.css`. Va a sangre, sin pastilla: con el recuadro
+  redondeado que tuvo, a 16px el monograma se quedaba en 13px de ancho.
+- **La imagen de compartir usa la MISMA pieza** (`public/logo/claro.webp`), no
+  una copia. Si se redibuja el logotipo y se vuelve a pasar el script, la
+  tarjeta se actualiza sola.
 - El nombre mantiene el reparto de siempre: «Ruben» en tinta y «Dev» en el
   acento, los dos en la serifa a peso 700 (`.wordmark`).
 

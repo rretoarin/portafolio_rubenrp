@@ -161,6 +161,12 @@
   --grain-opacity: 0.025;
   --grain-blend: normal;
   --shot-filter: none;
+  /*
+   * El isotipo del estilo. Es lo ÚNICO del logotipo que cambia por tema, y va
+   * en una variable como todo lo demás: el componente no pregunta qué estilo
+   * hay puesto. Las cuatro piezas las dibujó Rubén; las prepara scripts/logo.py.
+   */
+  --logo: url("/logo/claro.webp");
 }
 
 /*
@@ -202,6 +208,8 @@
   --grain-blend: screen;
   /* Las capturas ya vienen invertidas de `proyectos/oscuro/`: nada que filtrar. */
   --shot-filter: none;
+  /* Trazo claro sobre negro: la versión dibujada para oscuro, no la invertida. */
+  --logo: url("/logo/oscuro.webp");
 }
 
 /* Azul — misma base clara. Lo que cambia es la marca: acento, CTA y titulares. */
@@ -237,6 +245,7 @@
   --grain-opacity: 0.02;
   --grain-blend: normal;
   --shot-filter: none;
+  --logo: url("/logo/azul.webp");
 }
 
 /* Verde — misma base clara. Verde bosque, no verde ecológico. */
@@ -272,6 +281,7 @@
   --grain-opacity: 0.02;
   --grain-blend: normal;
   --shot-filter: none;
+  --logo: url("/logo/verde.webp");
 }
 
 /*
@@ -334,6 +344,22 @@ html.theme-switching *::after {
 }
 
 @layer components {
+  /*
+   * El isotipo RD. Va de fondo y no en un <img> porque así lo elige el estilo
+   * activo con `--logo` y no hace falta pasarle el tema por props a nadie: el
+   * pie lo usa igual que la barra sin saber nada.
+   *
+   * Se le da SÓLO la altura; el ancho sale de `aspect-ratio`, así que nunca se
+   * deforma. La proporción es la del lienzo que exporta scripts/logo.py, que es
+   * la misma para los cuatro: si cambia allí, cambia aquí. El lienzo va SIN
+   * aire alrededor, así que la altura que se pide es la del monograma y no la
+   * de una caja con márgenes.
+   */
+  .isotipo {
+    aspect-ratio: 150 / 108;
+    background: var(--logo) center / contain no-repeat;
+  }
+
   /*
    * La barra es `fixed` y lleva `backdrop-filter`. En móvil esa pareja repinta
    * mal: al bajar, la barra se quedaba atrás y aparecía en mitad del contenido
