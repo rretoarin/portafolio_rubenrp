@@ -214,10 +214,14 @@ hace que se lean como una pieza y no como dos letras juntas.
   problema: la altura que se pide en CSS no era la del monograma sino la de una
   caja con márgenes, así que salía un 8% más pequeño de lo que decían los
   números.
-- **Por debajo de `sm` el nombre desaparece y queda sólo el isotipo.** No es una
-  concesión: el logotipo pasa de ~85px de ancho a 26, así que a 320px la barra
-  queda más holgada que cuando la marca era sólo texto. El `aria-label` del
-  enlace mantiene «RubenDev» para el lector de pantalla.
+- **Por debajo de `sm` el logotipo se APILA**: isotipo arriba y nombre debajo a
+  cuerpo 9, los dos centrados entre sí. En fila, el nombre a tamaño normal se
+  come el sitio de las cuatro muestras y el menú; apilado ocupa 46px de ancho
+  —contra los 85 que ocupaba la marca en texto— y la marca se lee entera. A ese
+  cuerpo el nombre mide 29px y el monograma 30,5, así que el bloque sale
+  cuadrado sin forzar nada. Medido: 36,5px de alto dentro de una barra de 64.
+  El `tracking-tight` se queda fuera por debajo de `sm`: a cuerpo 9 pega las
+  letras.
 - **El favicon lo genera el mismo script** y lleva dentro las piezas clara y
   oscura; cambia con el tema del **navegador**, porque un archivo estático no ve
   las variables de `index.css`. Va a sangre, sin pastilla: con el recuadro

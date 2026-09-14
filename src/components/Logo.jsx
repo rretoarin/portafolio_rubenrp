@@ -33,15 +33,20 @@ export function Mark({ className = '' }) {
 /*
  * El logotipo de la barra: isotipo + nombre.
  *
- * El nombre desaparece por debajo de `sm` y queda sólo el isotipo. No es una
- * concesión: es lo que libera sitio en la barra estrecha, donde las cuatro
- * muestras y el menú no admiten menos. De paso el logotipo pasa de ~85 px de
- * ancho a 26, así que a 320 px la barra queda MÁS holgada que antes de tener
- * isotipo.
+ * Por debajo de `sm` el bloque se APILA: el isotipo arriba y el nombre debajo,
+ * a cuerpo 9. En una fila, el nombre a tamaño normal se come el sitio que
+ * necesitan las cuatro muestras y el menú; apilado cabe entero y la marca se
+ * lee completa, que es lo que no pasaba cuando el nombre desaparecía del todo.
+ * Los dos van centrados entre sí, porque a ese cuerpo el nombre mide algo más
+ * que el monograma y alinearlos por la izquierda dejaba el bloque torcido.
  *
- * Va a `items-baseline` y no a `items-center`: el isotipo se apoya en la línea
- * base del nombre, que es lo que hace que los dos se lean como una sola pieza.
- * Centrado lo dejaba flotando medio píxel por encima y se veía despegado.
+ * De `sm` en adelante vuelve a la fila y a `items-baseline`, no a
+ * `items-center`: el isotipo se apoya en la línea base del nombre, que es lo
+ * que hace que los dos se lean como una sola pieza. Centrado lo dejaba
+ * flotando medio píxel por encima y se veía despegado.
+ *
+ * El `tracking-tight` es sólo de `sm` para arriba: a cuerpo 9 aprieta las
+ * letras hasta que se tocan.
  *
  * El alto va a ojo y NO a la altura de las mayúsculas. Se probó igualarlo a
  * ellas —12,6 px a `text-lg` y 14 a `text-xl`— y se veía claramente más
@@ -55,11 +60,15 @@ export function Mark({ className = '' }) {
  */
 export default function Logo() {
   return (
-    <span className="flex items-baseline gap-2 md:gap-2.5">
-      <Mark className="h-[1.625rem] sm:h-[1.125rem] md:h-[1.25rem]" />
-      <span className="hidden items-baseline sm:flex">
-        <span className="wordmark text-lg tracking-tight md:text-xl">Ruben</span>
-        <span className="wordmark text-lg tracking-tight text-accent md:text-xl">Dev</span>
+    <span className="flex flex-col items-center gap-px sm:flex-row sm:items-baseline sm:gap-2 md:gap-2.5">
+      <Mark className="h-[1.375rem] sm:h-[1.125rem] md:h-[1.25rem]" />
+      <span className="flex items-baseline">
+        <span className="wordmark text-[0.5625rem] sm:text-lg sm:tracking-tight md:text-xl">
+          Ruben
+        </span>
+        <span className="wordmark text-[0.5625rem] text-accent sm:text-lg sm:tracking-tight md:text-xl">
+          Dev
+        </span>
       </span>
     </span>
   )
