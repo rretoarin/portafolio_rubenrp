@@ -1,8 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Marca de RubenDev: la R en crema sobre tinta, con el punto de terracota del
-       eyebrow. A 16px lo único que se distingue es la letra y el contraste, así
-       que no lleva nada más. -->
-  <rect width="64" height="64" rx="14" fill="#101317"/>
-  <text x="30" y="45" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="36" font-weight="800" fill="#f8f9fa" text-anchor="middle">R</text>
-  <circle cx="50" cy="41" r="4" fill="#9a5638"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 142.6 108">
+  <!--
+    El isotipo RD, a sangre y sin recuadro.
+
+    Con la pastilla redondeada que había antes, a 16 px el monograma se quedaba
+    en 13 px de ancho y el trazo en pixel y medio: se leía como una mancha. Sin
+    recuadro ocupa los 16 enteros, que es todo lo que se le puede dar a una
+    marca de proporción 1,36:1 dentro de una casilla cuadrada.
+
+    Los colores cambian con el tema del NAVEGADOR, no con el del sitio: un
+    archivo estático no ve las variables de index.css. Son los mismos tokens de
+    los estilos claro y oscuro, así que en una pestaña oscura no es el logotipo
+    invertido sino la versión que ya existe para fondo negro —tinta clara y
+    acento arena, no terracota, que sobre negro se apaga—.
+
+    Es la única copia de la geometría fuera de src/components/Logo.jsx y no se
+    puede evitar. Si se toca el monograma allí, hay que tocarlo aquí.
+  -->
+  <style>
+    .tinta { fill: #101317 }
+    .acento { fill: #9a5638 }
+    @media (prefers-color-scheme: dark) {
+      .tinta { fill: #f4f5f6 }
+      .acento { fill: #cbb894 }
+    }
+  </style>
+  <path class="acento" d="M27.5 52L42 52C42 62 70 81 71 98C40 90 31 68 27.5 52Z"/>
+  <path class="tinta" d="M0 0L41 0A29 29 0 0 1 41 58L23.5 58L23.5 100L2.5 100L2.5 44L38.6 44A13 13 0 0 0 38.6 18L14.22 18Z"/>
+  <path class="tinta" d="M71.06 1.09A52.6 50 0 1 1 79.25 99.93L76.53 84.96A31.5 35.5 0 1 0 80.9 14.52Z"/>
 </svg>

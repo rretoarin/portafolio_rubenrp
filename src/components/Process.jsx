@@ -1,5 +1,4 @@
 import Section from './Section'
-import { Arc } from './ui'
 
 /*
  * Proceso y acompañamiento en una sola sección, no en dos. Cinco pasos en una
@@ -19,8 +18,6 @@ export default function Process({ t }) {
       title={t.process.title}
       subtitle={t.process.subtitle}
     >
-      <Arc className="-top-[24rem] -left-[26rem] size-[50rem]" />
-
       <ol className="stagger relative grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
         {t.process.steps.map((step, i) => {
           const destacado = i === ultimo

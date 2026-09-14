@@ -35,6 +35,7 @@ src/
 │  ├─ Section.jsx      ← envoltorio común (eyebrow, título, subtítulo, espaciado)
 │  ├─ ui.jsx           ← Words, Eyebrow, Frame, Arc, Tick, Check
 │  ├─ icons.jsx        ← SVG inline, sin librería de iconos
+│  ├─ Logo.jsx         ← isotipo RD + logotipo; la geometría vive AQUÍ
 │  ├─ ThemeSwitch.jsx  ← selector de estilo (compacto y completo)
 │  ├─ DeviceMock.jsx   ← portátil + móvil del hero, dibujados en CSS
 │  ├─ Lightbox.jsx     ← visor de capturas, accesible
@@ -173,6 +174,56 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
   pintar**. Sin él, quien tenga el oscuro ve un fogonazo claro en cada carga.
 
 ## Diseño
+
+### El isotipo RD
+
+La marca es un monograma: una **R sin asta entera** —el brazo entra por arriba,
+gira en la panza y baja hasta un asta que sólo existe en la mitad inferior, así
+que la contraforma queda abierta por la izquierda— y una **D reducida a su
+arco**, sin asta, porque el hueco que deja la R le hace de asta. Eso es lo que
+hace que se lean como una pieza y no como dos letras juntas.
+
+- **Está CONSTRUIDO con geometría exacta, no calcado.** La referencia aprobada
+  es una imagen de 125 px con el borde blando; calcarla con potrace se probó dos
+  veces y las dos se vio mal, porque a los 24 px de la barra el temblor del
+  original se convierte en papilla. Lo que se calcó fueron las MEDIDAS. La panza
+  de la R es un círculo de radio 29 en (41,29), la contraforma un casquete de 13
+  en (38.6,31) y la D el anillo entre dos elipses concéntricas en (82,50) —52.6
+  × 50 por fuera y 31.5 × 35.5 por dentro—. Por eso es nítido a 16 px y sigue
+  siéndolo a 900. **No volver a calcar la imagen.**
+- **La geometría vive en `src/components/Logo.jsx` y en ningún otro sitio.** Los
+  trazos van en `currentColor` y la pierna en `fill-accent`, así que el
+  monograma se retiñe con las variables de los cuatro estilos como todo lo demás:
+  no hay una copia por tema y no hay ni un color escrito en el componente.
+- **Hay dos copias de los trazados y las dos son inevitables**: `public/favicon.svg`
+  (un archivo estático no lee variables) y `scripts/og-image.py`, que las **lee**
+  de `Logo.jsx` con una expresión regular en vez de copiarlas. Si se toca la
+  geometría, hay que tocar el favicon a mano.
+- **La pierna se pinta ANTES que la tinta.** Arranca en y=52, tapada por la
+  panza, y asoma sola al acabar la barra: es la tinta la que tapa el solape, así
+  que no puede salir ni costura ni reborde entre las dos.
+- **La pierna de la R es la única pieza en color** y va suelta, sin tocar el asta.
+- **Las dos terminales de la D no son simétricas a propósito**: abajo se recoge
+  (corte a 93°/100° en vez de −102°/−92°) para no tocar la punta de la pierna.
+- **Las terminales del brazo y del arranque de la D están cortadas a 45°.** Ese
+  corte es lo que le da el aire editorial; redondearlas lo convierte en un logo
+  geométrico cualquiera.
+- El isotipo se apoya en la **línea base** del nombre (`items-baseline`), no en
+  su centro: centrado quedaba flotando y se veía despegado. Mide 24px de alto
+  frente a los 18–20 del nombre.
+- **Por debajo de `sm` el nombre desaparece y queda sólo el isotipo.** No es una
+  concesión: el logotipo pasa de ~85px de ancho a 33, así que a 320px la barra
+  queda más holgada que cuando la marca era sólo texto. El `aria-label` del
+  enlace mantiene «RubenDev» para el lector de pantalla.
+- **El favicon va a sangre, sin pastilla.** Con el recuadro redondeado que había,
+  a 16px el monograma se quedaba en 13px de ancho y se leía como una mancha.
+  Cambia de color con el tema del **navegador** (`prefers-color-scheme`) usando
+  los tokens de claro y oscuro: en pestaña oscura no es el logo invertido, es
+  tinta clara con el acento arena, porque la terracota sobre negro se apaga.
+- El nombre mantiene el reparto de siempre: «Ruben» en tinta y «Dev» en el
+  acento, los dos en la serifa a peso 700 (`.wordmark`).
+
+### Tipografía, composición e interacción
 
 - **Dos tipografías, y cada una tiene su trabajo.** **Sentient** (serifa) en los
   titulares y en la marca; **Satoshi** (sans) en todo lo que se lee de verdad:

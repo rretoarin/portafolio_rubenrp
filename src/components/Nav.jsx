@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
+import Logo from './Logo'
 import ThemeSwitch from './ThemeSwitch'
 
 // Cinco destinos, los mismos en escritorio y en móvil: son todas las secciones
@@ -116,12 +117,12 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
       >
         <nav className="shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
           {/*
-            La marca es tipográfica, no un logotipo: dos pesos en la misma
-            palabra bastan para que se lea como marca y no como un nombre suelto.
+            Isotipo + nombre. El nombre se cae por debajo de `sm` y queda sólo
+            el monograma: el `aria-label` mantiene la marca completa para quien
+            navega con lector de pantalla.
           */}
-          <a href="#top" className="tap group flex items-baseline" aria-label={PROFILE.brand}>
-            <span className="wordmark text-lg tracking-tight md:text-xl">Ruben</span>
-            <span className="wordmark text-lg tracking-tight text-accent md:text-xl">Dev</span>
+          <a href="#top" className="tap group flex items-center" aria-label={PROFILE.brand}>
+            <Logo />
           </a>
 
           <div className="flex items-center gap-1">

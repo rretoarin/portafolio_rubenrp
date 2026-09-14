@@ -1,5 +1,6 @@
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowUp, LinkedIn, Mail, WhatsApp } from './icons'
+import { Mark } from './Logo'
 
 // Atajos, no un mapa del sitio: el pie de una marca personal no repite la
 // navegación entera. 'contact' se cayó de la lista porque el bloque de canales
@@ -93,6 +94,12 @@ export default function Footer({ t }) {
             que había aquí ocupaba media pantalla sin decir nada nuevo.
           */}
           <p className="text-xs text-ink-soft">
+            {/*
+              El isotipo firma el cierre, en la misma línea que el nombre. Va
+              `inline-block` y no en un flex: así el resto de la línea sigue
+              siendo texto corrido y parte por donde tiene que partir en móvil.
+            */}
+            <Mark className="mr-1.5 inline-block h-3.5 align-middle text-ink" />
             <span className="font-bold text-ink">Ruben</span>
             <span className="font-bold text-accent">Dev</span>
             <span> · © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}</span>
