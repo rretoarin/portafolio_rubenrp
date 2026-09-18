@@ -179,8 +179,16 @@
    * fondo y el pie usa la misma clase que la barra. El terracota va DENTRO del
    * archivo y no cambia en ningún estilo.
    */
-  --logo: url("/logo/apilado-claro.webp");
-  --logo-icono: url("/logo/icono-claro.webp");
+  --logo-1x: url("/logo/apilado-claro@2x.webp");
+  --logo: image-set(
+    url("/logo/apilado-claro.webp") 1x,
+    url("/logo/apilado-claro@2x.webp") 2x
+  );
+  --logo-icono-1x: url("/logo/icono-claro@2x.webp");
+  --logo-icono: image-set(
+    url("/logo/icono-claro.webp") 1x,
+    url("/logo/icono-claro@2x.webp") 2x
+  );
 }
 
 /*
@@ -223,8 +231,16 @@
   /* Las capturas ya vienen invertidas de `proyectos/oscuro/`: nada que filtrar. */
   --shot-filter: none;
   /* Su propio juego, con la tinta crema de la lámina. */
-  --logo: url("/logo/apilado-oscuro.webp");
-  --logo-icono: url("/logo/icono-oscuro.webp");
+  --logo-1x: url("/logo/apilado-oscuro@2x.webp");
+  --logo: image-set(
+    url("/logo/apilado-oscuro.webp") 1x,
+    url("/logo/apilado-oscuro@2x.webp") 2x
+  );
+  --logo-icono-1x: url("/logo/icono-oscuro@2x.webp");
+  --logo-icono: image-set(
+    url("/logo/icono-oscuro.webp") 1x,
+    url("/logo/icono-oscuro@2x.webp") 2x
+  );
 }
 
 /* Azul — misma base clara. Lo que cambia es la marca: acento, CTA y titulares. */
@@ -261,8 +277,16 @@
   --grain-blend: normal;
   --shot-filter: none;
   /* Su propio juego, con la tinta azul marino de la lámina. */
-  --logo: url("/logo/apilado-azul.webp");
-  --logo-icono: url("/logo/icono-azul.webp");
+  --logo-1x: url("/logo/apilado-azul@2x.webp");
+  --logo: image-set(
+    url("/logo/apilado-azul.webp") 1x,
+    url("/logo/apilado-azul@2x.webp") 2x
+  );
+  --logo-icono-1x: url("/logo/icono-azul@2x.webp");
+  --logo-icono: image-set(
+    url("/logo/icono-azul.webp") 1x,
+    url("/logo/icono-azul@2x.webp") 2x
+  );
 }
 
 /* Verde — misma base clara. Verde bosque, no verde ecológico. */
@@ -299,8 +323,16 @@
   --grain-blend: normal;
   --shot-filter: none;
   /* Su propio juego, con la tinta verde bosque de la lámina. */
-  --logo: url("/logo/apilado-verde.webp");
-  --logo-icono: url("/logo/icono-verde.webp");
+  --logo-1x: url("/logo/apilado-verde@2x.webp");
+  --logo: image-set(
+    url("/logo/apilado-verde.webp") 1x,
+    url("/logo/apilado-verde@2x.webp") 2x
+  );
+  --logo-icono-1x: url("/logo/icono-verde@2x.webp");
+  --logo-icono: image-set(
+    url("/logo/icono-verde.webp") 1x,
+    url("/logo/icono-verde@2x.webp") 2x
+  );
 }
 
 /*
@@ -370,19 +402,34 @@ html.theme-switching *::after {
    * `if (tema === …)` que con un `<img src>` habría sido inevitable.
    *
    * Se les da SÓLO la altura; el ancho sale del `aspect-ratio`, que es el del
-   * recorte que exporta scripts/logo.py —si cambia el recorte allí, cambia la
-   * proporción aquí—. Los ocho archivos salen a la MISMA caja a propósito: con
-   * la caja de cada uno, el logotipo daba un salto de tamaño al cambiar de
-   * estilo.
+   * archivo que exporta scripts/logo.py —si cambia allí, cambia aquí—. Las
+   * piezas salen todas a la MISMA caja a propósito: con la caja de cada una, el
+   * logotipo daba un salto de tamaño al cambiar de estilo.
+   *
+   * Cada pieza va en `image-set()` con sus dos densidades, y **cada archivo
+   * está exportado al tamaño exacto en que se pinta**: 97x56 el apilado a 1x y
+   * 194x112 a 2x. Antes había una sola copia a 243x140 y era el navegador quien
+   * la reducía a 97x56 con su propio filtro —una reducción de 2,5x— y por eso
+   * se veía blando en un monitor normal al 100%. Si se cambia la altura a la
+   * que se pinta el logo, hay que cambiar `MEDIDAS` en el script: si no, vuelve
+   * a haber una reducción de por medio.
+   *
+   * La primera declaración de fondo es la RESERVA y va con un `url()` normal.
+   * `image-set()` sin prefijo no lo entiende Safari 16 ni anterior, y como aquí
+   * viaja dentro de una variable, el navegador la acepta y luego falla al
+   * usarla: el logotipo se quedaría sin fondo, es decir, invisible. Con las dos
+   * declaraciones, quien no entienda `image-set()` se queda con la de arriba.
    */
   .logotipo {
-    aspect-ratio: 243 / 140;
-    background: var(--logo) center / contain no-repeat;
+    aspect-ratio: 97 / 56;
+    background: var(--logo-1x) center / contain no-repeat;
+    background-image: var(--logo);
   }
 
   .isotipo {
-    aspect-ratio: 242 / 84;
-    background: var(--logo-icono) center / contain no-repeat;
+    aspect-ratio: 81 / 28;
+    background: var(--logo-icono-1x) center / contain no-repeat;
+    background-image: var(--logo-icono);
   }
 
   /*

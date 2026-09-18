@@ -207,10 +207,37 @@ segunda cuadraba en los números y aun así no era lo aprobado. La lámina manda
 - **El fondo se despeja de la mezcla, no con un umbral seco**, o quedaría halo
   del fondo original en cada borde antialiaseado. La tinta y el rojo se separan
   por tono, nunca por posición.
-- **Los ocho archivos salen a la MISMA caja** (243×140 el apilado, 242×84 el
-  monograma). Se consigue llevando el monograma de los cuatro al mismo ancho
-  antes de recortar. Con la caja de cada uno, el logotipo daba un salto de
-  tamaño al cambiar de estilo.
+- **Las piezas salen a la MISMA caja** (97×56 el apilado, 81×28 el monograma).
+  Se consigue llevando el monograma de los cuatro al mismo ancho antes de
+  recortar. Con la caja de cada uno, el logotipo daba un salto de tamaño al
+  cambiar de estilo.
+- **Cada archivo se exporta al tamaño EXACTO en que se pinta, y en dos
+  densidades**, y se sirven con `image-set()`. Antes había una sola copia a
+  243×140 y era el navegador quien la reducía a los 97×56 de la barra: una
+  reducción de 2,5x con su propio filtro, y eso es lo que se veía blando en un
+  monitor normal al 100% (en retina no, porque allí la reducción es de 1,25x).
+  Reduciendo con Lanczos en el script, esa reducción desaparece. **Si se cambia
+  la altura a la que se pinta el logo, hay
+  que cambiar `MEDIDAS` en el script**, o vuelve a haber una reducción de por
+  medio y se deshace la mejora.
+- **NO se enfoca después de reducir, y no es un olvido.** Se probó una máscara
+  de enfoque y Rubén lo marcó: a 97px de ancho el nombre tiene unos 10px de
+  altura de mayúscula, y enfocar a esa escala se come el antialiasing —los
+  grises intermedios que redondean la letra— y deja los trazos dentados y con
+  manchas dentro. Lanczos solo da el mejor resultado. **Aviso para quien mida
+  esto**: el gradiente medio SUBE al enfocar, así que esa métrica dice que
+  mejora cuando está empeorando. Mide dureza de borde, no nitidez. Comparar a
+  ojo, ampliado.
+- **La reducción va sobre el alfa PREMULTIPLICADO.** Con alfa recta, el color de
+  los píxeles transparentes —que no es el del logo— se mezcla con el del borde y
+  deja una orla clara alrededor del trazo.
+- **La primera declaración de fondo de `.logotipo` es la RESERVA**, con un
+  `url()` normal, y la segunda el `image-set()`. Safari 16 y anteriores no
+  entienden `image-set()` sin prefijo, y como aquí viaja dentro de una variable
+  el navegador la acepta y falla al usarla: el logotipo se quedaría invisible.
+- **La tarjeta de compartir tiene su propia exportación** (`tarjeta-claro.webp`,
+  229×132). Las de la barra están hechas a la medida de la barra y ampliarlas a
+  los 132 de alto de la tarjeta las dejaría borrosas.
 - **Un juego por estilo, no dos.** `--logo` y `--logo-icono` eligen la pieza como
   cualquier otro token y `.logotipo` y `.isotipo` las pintan de fondo, así que
   **ningún componente recibe el tema ni lo pregunta** —el pie usa la misma clase
@@ -240,10 +267,10 @@ segunda cuadraba en los números y aun así no era lo aprobado. La lámina manda
   con «RD» calado, para que a 16px de pestaña se lea. Va a sangre sin pastilla y
   **cambia con el tema del NAVEGADOR** —lleva la media query dentro—, no con el
   del sitio: un archivo estático no ve las variables de `index.css`.
-- **La imagen de compartir usa la MISMA pieza** (`public/logo/apilado-claro.webp`),
-  no una copia, y tampoco compone la marca con texto. Va a **132px de alto**: a
-  62 el nombre era ilegible en la burbuja de WhatsApp —donde la tarjeta se ve a
-  un 27%— y a 150 la línea de abajo se salía de la imagen.
+- **La imagen de compartir sale del MISMO montaje**, no de una copia a mano, y
+  tampoco compone la marca con texto. Va a **132px de alto**: a 62 el nombre era
+  ilegible en la burbuja de WhatsApp —donde la tarjeta se ve a un 27%— y a 150
+  la línea de abajo se salía de la imagen.
 - **Si cambia el nombre de la marca**, el logo es una imagen: hay que rehacer la
   lámina. En el código se toca `PROFILE.brand` en `content.js` y el `<title>` y
   las etiquetas OG de `index.html`. La clave de `localStorage`

@@ -80,10 +80,36 @@ TINTA = {
 # las ocho piezas salgan a la misma caja.
 ANCHO_OBJETIVO = 360.0
 
-# La barra pide 56 de alto en escritorio; en retina hacen falta 112, así que
-# con 140 sobra. Lossy a 94: a este tamaño no se distingue del lossless y pesa
-# mucho menos.
-ALTO_APILADO = 140
+# Cada pieza se exporta AL TAMAÑO EXACTO en que se pinta, y en dos densidades.
+#
+# Antes salía una sola copia a 243x140 y el navegador la reducía a los 97x56 de
+# la barra: una reducción de 2,5x hecha con su filtro, que es lo que emborronaba
+# el logotipo en un monitor normal al 100%. En retina casi no se notaba, porque
+# ahí la reducción es de 1,25x. Exportando a medida, en 1x no hay reducción
+# ninguna y en 2x tampoco.
+#
+#   uso        (ancho, alto) a 1x      dónde se pinta
+#   apilado    97 x 56                 la barra de escritorio
+#   icono      81 x 28                 la barra de móvil (y el pie, a 16)
+MEDIDAS = {"apilado": (97, 56), "icono": (81, 28)}
+DENSIDADES = (1, 2)
+
+# La tarjeta de compartir la dibuja Pillow a 132 de alto y no tiene densidades:
+# es un PNG de tamaño fijo. Necesita su propia exportación porque las piezas de
+# la barra son mucho más pequeñas y ampliarlas la dejaría borrosa. Sólo hace
+# falta en claro: la tarjeta va siempre con la paleta clara.
+TARJETA = ("tarjeta-claro.webp", 229, 132)
+
+# NO se enfoca después de reducir, y no es un olvido. Se probó y Rubén lo
+# marcó: a 97px de ancho el nombre mide unos 10 de altura de mayúscula, y una
+# máscara de enfoque a esa escala se come el antialiasing —los grises
+# intermedios que redondean la letra— y deja los trazos dentados y con manchas
+# dentro. Lanczos solo da el mejor resultado.
+#
+# Aviso para quien mida esto: el gradiente medio SUBE al enfocar, así que esa
+# métrica dice que mejora cuando en realidad está empeorando. Mide dureza de
+# borde, no nitidez. Comparar a ojo, ampliado, contra la versión sin enfocar.
+
 CALIDAD = 94
 
 # Por debajo de esto, el píxel es fondo. Ver `despejar()`.
@@ -145,12 +171,38 @@ def recortar_alfa(rgba):
     return rgba[ys.min(): ys.max() + 1, xs.min(): xs.max() + 1], (xs.min(), ys.min())
 
 
-def guardar(im, nombre, alto):
-    im = im.resize((max(round(im.width * alto / im.height), 1), alto), Image.LANCZOS)
-    ruta = SALIDA / nombre
-    im.save(ruta, "WEBP", quality=CALIDAD, method=6)
-    print("  %-22s %3dx%-3d  %5.1f kB" % (nombre, im.width, im.height, ruta.stat().st_size / 1024))
-    return im.size
+def reducir(im, ancho, alto):
+    """
+    Reduce a `ancho` x `alto` con Lanczos, y nada más.
+
+    Se trabaja con el alfa PREMULTIPLICADO. Reduciendo con alfa recta, el color
+    de los píxeles transparentes —que no es el del logo— se mezcla con el del
+    borde y deja una orla clara alrededor del trazo. Premultiplicando, los
+    transparentes no aportan color y el borde sale limpio.
+    """
+    a = np.asarray(im).astype(np.float64) / 255.0
+    alfa = a[..., 3:4]
+    pre = np.concatenate([a[..., :3] * alfa, alfa], axis=2)
+    pre = Image.fromarray((pre * 255).round().astype(np.uint8), "RGBA")
+
+    pre = pre.resize((ancho, alto), Image.LANCZOS)
+
+    p = np.asarray(pre).astype(np.float64) / 255.0
+    alfa = p[..., 3:4]
+    color = np.clip(np.divide(p[..., :3], np.where(alfa > 0.004, alfa, 1.0)), 0, 1)
+    salida = np.concatenate([color, alfa], axis=2)
+    return Image.fromarray((salida * 255).round().astype(np.uint8), "RGBA")
+
+
+def guardar(im, uso, estilo):
+    """Las dos densidades de una pieza, cada una a su tamaño exacto."""
+    ancho, alto = MEDIDAS[uso]
+    for d in DENSIDADES:
+        nombre = f"{uso}-{estilo}.webp" if d == 1 else f"{uso}-{estilo}@{d}x.webp"
+        ruta = SALIDA / nombre
+        reducir(im, ancho * d, alto * d).save(ruta, "WEBP", quality=CALIDAD, method=6)
+        print("  %-24s %3dx%-3d  %5.1f kB" % (nombre, ancho * d, alto * d, ruta.stat().st_size / 1024))
+    return (ancho, alto)
 
 
 def main():
@@ -186,20 +238,19 @@ def main():
     for estilo, d in piezas.items():
         lienzo = Image.new("RGBA", (ancho, alto), (0, 0, 0, 0))
         lienzo.alpha_composite(d["im"], ((ancho - d["im"].width) // 2, 0))
-        medidas[f"apilado-{estilo}"] = guardar(lienzo, f"apilado-{estilo}.webp", ALTO_APILADO)
+        medidas[f"apilado-{estilo}"] = guardar(lienzo, "apilado", estilo)
+        medidas[f"icono-{estilo}"] = guardar(lienzo.crop((0, 0, ancho, alto_mono)), "icono", estilo)
 
-        icono = lienzo.crop((0, 0, ancho, alto_mono))
-        recorte, _ = recortar_alfa(np.asarray(icono))
-        icono = Image.new("RGBA", (ancho, alto_mono), (0, 0, 0, 0))
-        icono.alpha_composite(lienzo.crop((0, 0, ancho, alto_mono)))
-        medidas[f"icono-{estilo}"] = guardar(
-            icono, f"icono-{estilo}.webp", round(ALTO_APILADO * alto_mono / alto)
-        )
+        if estilo == "claro":
+            nombre, a, h = TARJETA
+            reducir(lienzo, a, h).save(SALIDA / nombre, "WEBP", quality=CALIDAD, method=6)
+            print("  %-24s %3dx%-3d  %5.1f kB" % (
+                nombre, a, h, (SALIDA / nombre).stat().st_size / 1024))
 
     print()
-    print("  aspect-ratio para index.css (tienen que coincidir los cuatro):")
-    for n, (w, h) in sorted(medidas.items()):
-        print("    %-16s %d / %d   (%.4f)" % (n, w, h, w / h))
+    print("  aspect-ratio para index.css:")
+    for uso, (w, h) in MEDIDAS.items():
+        print("    %-10s %d / %d   (%.4f)" % (uso, w, h, w / h))
 
 
 if __name__ == "__main__":

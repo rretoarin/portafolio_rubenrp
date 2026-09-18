@@ -23,7 +23,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FUENTES = os.path.join(ROOT, "public", "fonts")
 SERIFA = os.path.join(FUENTES, "sentient-variable.woff2")
 SANS = os.path.join(FUENTES, "satoshi-variable.woff2")
-LOGO = os.path.join(ROOT, "public", "logo", "apilado-claro.webp")
+LOGO = os.path.join(ROOT, "public", "logo", "tarjeta-claro.webp")
 OUT = os.path.join(ROOT, "public", "og.png")
 
 # Se le puede pasar otra ruta de salida para comparar variantes con
@@ -63,9 +63,11 @@ def logotipo(destino, x, y, alto):
     Pega el logotipo completo —isotipo, barra del acento y nombre— con el borde
     superior en `y`.
 
-    Es la MISMA pieza que sirve la web: la recorta scripts/logo.py de la lámina
-    de concepto, así que si se cambia el logo y se vuelve a pasar ese script,
-    esta tarjeta se actualiza sola. Aquí NO se compone la marca con texto:
+    Es la MISMA pieza que sirve la web —la recorta scripts/logo.py de la lámina
+    de concepto—, pero en su propia exportación: las de la barra están hechas a
+    la medida exacta en que se pintan allí (97x56 y 194x112) y ampliarlas hasta
+    los 132 de alto de la tarjeta las dejaría borrosas. Si se cambia el logo y
+    se vuelve a pasar el script, esta tarjeta se actualiza sola. Aquí NO se compone la marca con texto:
     hacerlo daría dos versiones distintas de la misma palabra, una en Sentient
     y otra en la letra del logo.
     """
