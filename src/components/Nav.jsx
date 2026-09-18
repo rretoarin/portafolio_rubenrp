@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
-import Logo from './Logo'
+import Logo, { Mark } from './Logo'
 import ThemeSwitch from './ThemeSwitch'
 
 // Cinco destinos, los mismos en escritorio y en móvil: son todas las secciones
@@ -115,38 +115,26 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
             : 'border-transparent bg-transparent'
         }`}
       >
-        {/*
-          El alto de la barra lo manda el logotipo, que va apilado: círculo
-          arriba y nombre debajo. El nombre es una fracción pequeña del dibujo
-          (la mayúscula es ~0,19 del alto), así que la barra tiene que darle
-          sitio o el nombre no se lee.
-
-          96 en escritorio con el logotipo a 72 (mayúscula 13,7px) y 72 en móvil
-          con el logotipo a 52 (mayúscula 9,9px). En móvil no se puede más: la
-          barra comparte fila con las cuatro muestras, el idioma y el menú.
-        */}
-        <nav className="shell flex h-18 items-center justify-between gap-3 md:h-24 md:gap-4">
+        <nav className="shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
           {/*
             Isotipo + nombre. El nombre se cae por debajo de `sm` y queda sólo
             el monograma: el `aria-label` mantiene la marca completa para quien
             navega con lector de pantalla.
 
-            El logotipo ENTERO en los dos, apilado como la lámina de concepto:
-            el círculo arriba y «RuberpDev» debajo. Antes en móvil iba sólo el
-            círculo y la marca se quedaba sin nombre.
+            De `md` en adelante el logotipo entero —monograma y «RuberpDev»
+            debajo—, a 56 de alto: 97 de ancho. Por debajo, sólo el monograma, a
+            28: 80 de ancho. Apilado en móvil, el nombre se quedaría en unos
+            ocho píxeles y no se leería.
 
-            El apilado mide 248 × 176 (1,409), así que a 52 de alto ocupa 73 de
-            ancho: cabe en la barra de móvil, donde al lado tiene las cuatro
-            muestras, el idioma y el menú. Medido a 320px, el ancho más
-            apretado, quedan 29px de aire entre el logotipo y la primera
-            muestra.
+            Son dos piezas y no una que se encoge porque el lienzo es otro: el
+            apilado va a 1,729 y el monograma solo a 2,869.
 
-            Va con `items-center` en la fila para que el bloque quede centrado
-            en la barra: el logotipo es más alto que los controles de al lado y
-            alinearlo por arriba lo dejaba descolgado.
+            Medido a 320px, el ancho más apretado: quedan 28px de aire entre el
+            monograma y la primera muestra del selector.
           */}
           <a href="#top" className="tap group flex items-center" aria-label={PROFILE.brand}>
-            <Logo className="h-13 md:h-18" />
+            <Mark className="h-7 md:hidden" />
+            <Logo className="hidden h-14 md:block" />
           </a>
 
           <div className="flex items-center gap-1">
@@ -231,7 +219,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
           open ? 'menu-open opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
-        <div className="shell flex h-full flex-col pt-[calc(5.25rem+env(safe-area-inset-top))] pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
+        <div className="shell flex h-full flex-col pt-[calc(4.75rem+env(safe-area-inset-top))] pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
           <ul className="overflow-y-auto">
             {/*
               Los enlaces suben escalonados mientras el fondo se funde. El

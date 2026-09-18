@@ -179,93 +179,71 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
 
 ### El logotipo RuberpDev
 
-Un **círculo de filete fino con el monograma RD dentro**, una **rayita corta de
-terracota** debajo del monograma, y el nombre **apilado debajo del círculo** con
-«Dev» en terracota y un **subrayado de terracota** bajo el nombre.
+El **monograma RD** —la R y la D encajadas, con un corte diagonal en rojo— y
+**«RuberpDev» debajo**. Sin recuadro ni círculo.
 
-**El logo del sitio se MONTA de dos fuentes, y ninguna se redibuja:**
+**El logo del sitio ES la lámina de concepto, recortada** (`scripts/logo-fuente/
+refrencia.png` → `scripts/logo.py` → `public/logo/*.webp`). **No redibujarlo.**
+Se intentó dos veces y las dos se rechazaron: montándolo desde los SVG de un
+paquete, y reconstruyéndolo con vectores desde los contornos de Outfit. La
+segunda cuadraba en los números y aun así no era lo aprobado. La lámina manda.
 
-1. **La lámina de concepto** (`scripts/logo-fuente/refrencia.png`), que trae el
-   logotipo ya resuelto en los cuatro estilos, cada uno con su tinta: tinta en
-   claro, crema en oscuro, azul marino en azul y verde bosque en verde. De ahí
-   sale el círculo, el nombre, las dos rayas de terracota y el color.
-2. **El monograma dibujado a mano por Rubén** (`scripts/logo-fuente/*.png`), que
-   sustituye al «RD» tipográfico que trae la lámina dentro del círculo. Es la
-   marca de verdad: la R sin asta entera y la D reducida a su arco, con la
-   pierna de la R en terracota.
-
-`scripts/logo.py` hace el montaje y deja los ocho archivos en
-`public/logo/{apilado,icono}-<estilo>.webp`.
-
-**No redibujar el logotipo.** Se intentó dos veces y las dos se rechazaron:
-primero montándolo desde los SVG del paquete original —que venían en horizontal
-y con «Dev» teñido en vez de subrayado— y después reconstruyéndolo con vectores,
-sacando los contornos de Outfit y colocándolos con la lámina medida a píxel.
-Aquella reconstrucción cuadraba en los números y aun así no era lo aprobado.
-
-Lo que importa del montaje:
-
-- **El lema «IDEAS · SOLUCIONES · RESULTADOS» se queda fuera.** Está en la
-  lámina, pero mide 14px de los 315 del dibujo: en la barra, con el logotipo a
-  72 de alto, caería a 3px. Un renglón ilegible no es parecerse a la lámina.
-- **El fondo se despeja de la mezcla, no con un umbral seco.** Cada cuadrante de
-  la lámina tiene su fondo (hueso, negro, azul claro, salvia) y ninguno es el
-  del sitio; un umbral dejaría halo de ese fondo en cada borde antialiaseado, y
-  sobre el negro del estilo oscuro se vería.
-- **La tinta y el terracota se separan por tono** (el terracota tiene el rojo muy
-  por encima del azul), nunca por posición. Vale igual para la lámina y para el
-  monograma.
-- **El interior del círculo se vacía por máscara radial**, no por caja: el «RD»
-  de la lámina casi toca el trazo por los lados y una caja se comería el anillo.
-- **El monograma se recolorea a la tinta del anillo de su cuadrante.** Son dos
-  dibujos distintos y con su color propio se notaba que iba un tono aparte del
-  círculo que lo rodea. Su pierna de terracota no se toca.
-- **El monograma va a 0,60 del diámetro** y no a los 0,54 que ocupaba el «RD»
-  tipográfico: es más ancho y de trazo más fino, así que a la misma medida pesa
-  menos y se queda pequeño dentro del anillo. Es la misma corrección que ya hizo
-  falta cuando el monograma iba al lado del nombre.
-- **Los ocho archivos salen a la MISMA caja** (248×176 el apilado, 174×174 el
-  círculo). Se consigue llevando el anillo de los cuatro al mismo radio ANTES de
-  recortar y usando una caja común en unidades de radio. En crudo sus
-  proporciones se iban de 1,4029 a 1,4161, y esa diferencia es un salto de
-  tamaño visible al cambiar de estilo.
-- **Hay un juego por estilo, no dos.** La marca cambia de color entera, no sólo
-  de claro a oscuro. `--logo` y `--logo-icono` eligen la pieza como cualquier
-  otro token y `.logotipo` y `.isotipo` las pintan de fondo, así que **ningún
-  componente recibe el tema ni lo pregunta** —el pie usa la misma clase que la
-  barra— y sigue sin haber un `if (tema === …)`.
+- **La adaptación que hay que hacer.** La lámina trae los cuatro estilos, pero
+  **azul y verde vienen en BLANCO sobre un fondo de color**. La web no tiene
+  esos fondos: de los cuatro estilos sólo el oscuro es oscuro, y azul y verde
+  comparten la base clara del claro —eso lo eligió Rubén y no se toca—. Un
+  logotipo blanco ahí sería invisible, así que en esos dos el script tiñe la
+  tinta con el **color de marca del estilo**, el mismo `--color-heading` de sus
+  titulares y ya medido: azul #123F78 (9.92:1) y verde #1B4A33 (9.61:1). Claro
+  y oscuro se quedan con la tinta de la lámina.
+- **El corte rojo no se toca en ninguno de los cuatro**: es marca, no interfaz.
+- **El alfa lleva suelo (`PISO_ALFA`).** El fondo de la lámina no es plano —es
+  una imagen renderizada y tiene grano—, así que sin suelo el alfa nunca llega a
+  cero y queda un velo del color del cuadrante sobre todo el recorte: una caja
+  crema detrás del logotipo, que sobre el #F8F9FA del sitio se ve y en la
+  tarjeta de compartir cantaba. Se corta por debajo del suelo y se reescala lo
+  que queda, para no comerse el antialiasing. De paso, los archivos pasaron de
+  38 kB a 8–14.
+- **El fondo se despeja de la mezcla, no con un umbral seco**, o quedaría halo
+  del fondo original en cada borde antialiaseado. La tinta y el rojo se separan
+  por tono, nunca por posición.
+- **Los ocho archivos salen a la MISMA caja** (243×140 el apilado, 242×84 el
+  monograma). Se consigue llevando el monograma de los cuatro al mismo ancho
+  antes de recortar. Con la caja de cada uno, el logotipo daba un salto de
+  tamaño al cambiar de estilo.
+- **Un juego por estilo, no dos.** `--logo` y `--logo-icono` eligen la pieza como
+  cualquier otro token y `.logotipo` y `.isotipo` las pintan de fondo, así que
+  **ningún componente recibe el tema ni lo pregunta** —el pie usa la misma clase
+  que la barra— y sigue sin haber un `if (tema === …)`.
 - **Se les da SÓLO la altura**; el ancho sale del `aspect-ratio`. Si cambia el
   recorte en el script, cambia la proporción en `index.css`.
-- **El logotipo entero en los dos, móvil incluido.** El apilado va a **72px** de
-  `md` en adelante y a **52px** por debajo. Pasó por una versión en la que en
-  móvil iba sólo el círculo y Rubén lo marcó: la marca se quedaba sin nombre.
-  **Cabe**: a 52 de alto el apilado ocupa 73 de ancho, y a 320px —el ancho más
-  apretado— quedan 29px de aire hasta la primera muestra. Por debajo de 360 el
-  botón de idioma ya sale de la barra, como estaba documentado.
-- **El alto de la barra lo manda el logotipo**: **96 en escritorio y 72 en
-  móvil**, en vez de los 80 y 64 de antes. Apilado, la mayúscula del nombre es
-  ~0,19 del alto del dibujo, así que a 72 mide 13,7px y a 52 mide 9,9. Más bajo
-  no se lee. Al subir la barra hay que mover con ella, lo mismo que subió, el
-  `pt-` del hero (8 en móvil, 16 en escritorio) y el `scroll-mt-` de `Section` y
-  `Contact`. **Medido después**: de la barra al primer texto del hero 37,8px en
-  los dos, tras saltar por el menú 37,3 en escritorio y 45,5 en móvil —el ritmo
-  de siempre—, el menú a pantalla completa sigue arrancando a 11px de la barra y
-  la fila de soluciones entra entera en la primera pantalla a 1440x800. **Si se
-  vuelve a tocar el alto de la barra, hay que mover los cuatro a la vez.**
-- **El pie sí lleva sólo el círculo**, a 20px: la línea de cierre es texto a
-  cuerpo 12 y el apilado ahí rompería el renglón. Es el único sitio donde el
-  logotipo va incompleto. Tampoco se escribe
-  el nombre al lado a mano —daría dos versiones de la misma palabra en la misma
-  página—; lo que firma es el nombre real de Rubén, que va justo detrás. Por eso
-  `.wordmark` ya no existe.
-- **El favicon es otra pieza a propósito**: disco lleno con «RD» calado, porque a
-  16px el filete fino no se dibuja. Va a sangre sin pastilla y **cambia con el
-  tema del NAVEGADOR** —lleva la media query dentro—, no con el del sitio: un
-  archivo estático no ve las variables de `index.css`. No sale de `logo.py`.
+- **Escritorio el logotipo entero; móvil sólo el monograma.** De `md` en
+  adelante el apilado a **56px** (97 de ancho); por debajo, el monograma a
+  **28px** (81 de ancho). Apilado en móvil el nombre se quedaría en unos ocho
+  píxeles. El `aria-label` de la barra mantiene la marca completa para el lector
+  de pantalla. Medido a 320px, el ancho más apretado: quedan 28px de aire hasta
+  la primera muestra del selector.
+- **La barra vuelve a medir 64 y 80.** Llegó a 72 y 96 cuando el logotipo era el
+  del concepto anterior, que era mucho más alto que ancho; éste es apaisado
+  (1,736) y cabe en la barra de siempre. Si algún día vuelve a cambiar el alto de
+  la barra, hay que mover con ella el `pt-` del hero y el `scroll-mt-` de
+  `Section` y `Contact`, o el ritmo vertical se descuadra. **Medido**: de la
+  barra al primer texto del hero 37,8px, tras saltar por el menú 37,3 en
+  escritorio y 45,5 en móvil, el menú a pantalla completa a 11px de la barra, y
+  la fila de soluciones entera en la primera pantalla a 1440x800.
+- **El pie lleva el monograma**, a 16px: esa línea es texto a cuerpo 12 y el
+  apilado rompería el renglón. A 16 el monograma mide 46 de ancho y se lee. No
+  se escribe el nombre al lado a mano —daría dos versiones de la misma palabra
+  en la misma página—; lo que firma es el nombre real de Rubén, que va detrás.
+  Por eso `.wordmark` ya no existe.
+- **El favicon es otra pieza a propósito** y no sale de `logo.py`: disco lleno
+  con «RD» calado, para que a 16px de pestaña se lea. Va a sangre sin pastilla y
+  **cambia con el tema del NAVEGADOR** —lleva la media query dentro—, no con el
+  del sitio: un archivo estático no ve las variables de `index.css`.
 - **La imagen de compartir usa la MISMA pieza** (`public/logo/apilado-claro.webp`),
-  no una copia, y tampoco compone la marca con texto. Va a **132px de alto**, y
-  el número no es libre: a 62 el nombre era ilegible en la burbuja de WhatsApp
-  —donde la tarjeta se ve a un 27%— y a 150 la línea de abajo se salía.
+  no una copia, y tampoco compone la marca con texto. Va a **132px de alto**: a
+  62 el nombre era ilegible en la burbuja de WhatsApp —donde la tarjeta se ve a
+  un 27%— y a 150 la línea de abajo se salía de la imagen.
 - **Si cambia el nombre de la marca**, el logo es una imagen: hay que rehacer la
   lámina. En el código se toca `PROFILE.brand` en `content.js` y el `<title>` y
   las etiquetas OG de `index.html`. La clave de `localStorage`

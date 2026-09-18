@@ -1,46 +1,44 @@
 #!/usr/bin/env python3
 """
-Monta el logotipo de RuberpDev: la lámina de concepto + el monograma de Rubén.
+Recorta el logotipo de RuberpDev de la lámina de concepto y lo adapta a la web.
 
-Qué hace, y por qué así
------------------------
-La lámina (`scripts/logo-fuente/refrencia.png`) trae el logotipo resuelto en
-los CUATRO estilos del sitio —claro, oscuro, azul y verde—, cada uno con su
-tinta y su fondo. De ahí sale todo menos una cosa: el «RD» de dentro del
-círculo, que en la lámina es tipografía y tiene que ser **el monograma dibujado
-a mano por Rubén** (`scripts/logo-fuente/*.png` → `public/logo/<estilo>.webp`),
-que es la marca de verdad: la R sin asta entera y la D reducida a su arco, con
-la pierna de la R en terracota.
+    scripts/logo-fuente/refrencia.png   la lámina, tal como la entregó Rubén
+    public/logo/*.webp                  las ocho piezas que sirve el sitio
 
-Así que este script, por cada estilo:
+La lámina trae el logotipo resuelto en cuatro cuadrantes —el monograma RD con
+su corte rojo y «RuberpDev» debajo—, uno por estilo del sitio. De aquí sale
+todo; **no se redibuja nada**. Se intentó reconstruirlo con vectores y se
+descartó: la lámina es la referencia aprobada.
 
-  1. Recorta su cuadrante de la lámina, del borde del círculo a justo debajo
-     del subrayado del nombre.
-  2. Despeja el fondo de la mezcla para que quede alfa limpio.
-  3. Vacía el interior del círculo —sin tocar el filete ni la rayita de
-     terracota— y pega encima el monograma de Rubén, recoloreado a la tinta de
-     ese estilo.
-  4. Exporta el apilado y el círculo suelto.
+La adaptación que hay que hacer, y por qué
+------------------------------------------
+En la lámina, **azul y verde llevan el logotipo en blanco sobre un fondo de
+color** (azul acero y verde salvia). La web no tiene esos fondos: de los cuatro
+estilos sólo el oscuro es oscuro, y azul y verde comparten la misma base clara
+(#F8F9FA) que el claro —eso lo eligió Rubén y no se toca—. Un logotipo blanco
+ahí sería invisible.
 
-Decisiones que no son cosméticas
---------------------------------
-- **El lema «IDEAS · SOLUCIONES · RESULTADOS» se queda fuera.** Está en la
-  lámina, pero mide 14px de los 315 del dibujo: en la barra, con el logotipo a
-  72 de alto, caería a 3px. Un renglón de texto ilegible no es «parecerse a la
-  lámina», es ruido. El lema vive en la lámina, no en la barra.
+Así que en esos dos la tinta se cambia por el **color de marca del estilo**, el
+mismo `--color-heading` con el que ya se pintan sus titulares y que ya está
+medido en contraste: azul #123F78 (9.92:1) y verde #1B4A33 (9.61:1). Claro y
+oscuro se quedan con la tinta de la lámina, que sobre sus fondos ya funciona.
+
+**El corte rojo no se toca en ninguno de los cuatro**: es marca, no interfaz.
+
+Lo demás que importa
+--------------------
 - **El fondo se despeja de la mezcla, no con un umbral seco.** Cada cuadrante
-  tiene su fondo (hueso, negro, azul claro, salvia) y ninguno es el del sitio;
-  un umbral dejaría un halo de ese fondo en cada borde antialiaseado, y sobre
-  el negro del estilo oscuro se vería.
-- **La tinta y el terracota se separan por tono**, no por posición: el terracota
-  tiene el rojo muy por encima del azul y las tintas son neutras o frías. Vale
-  igual para la lámina y para el monograma.
-- **El monograma se recolorea a la tinta del anillo de su cuadrante**, no se
-  deja con la suya: son dos dibujos distintos y a ojo se notaba que el
-  monograma iba un tono aparte del círculo que lo rodea. Su pierna de terracota
-  no se toca.
-- **Los cuatro salen a la MISMA caja.** Si cada uno saliera con la suya, el
-  logotipo daría un salto de tamaño al cambiar de estilo.
+  tiene el suyo y ninguno es el de la web; un umbral dejaría un halo de ese
+  fondo en cada borde antialiaseado, y sobre el negro del estilo oscuro se
+  vería.
+- **La tinta y el rojo se separan por tono**, no por posición: el rojo tiene el
+  canal rojo muy por encima del azul.
+- **Los ocho archivos salen a la MISMA caja.** Se consigue llevando el
+  monograma de los cuatro al mismo ancho ANTES de recortar y usando una caja
+  común. Con la caja de cada uno, el logotipo daba un salto de tamaño al
+  cambiar de estilo.
+- **Dos piezas por estilo**: el apilado (monograma + nombre) para la barra de
+  escritorio, y el monograma solo para móvil y para el pie.
 
     python scripts/logo.py
 """
@@ -54,47 +52,50 @@ RAIZ = Path(__file__).resolve().parent.parent
 LAMINA = RAIZ / "scripts" / "logo-fuente" / "refrencia.png"
 SALIDA = RAIZ / "public" / "logo"
 
-# Los cuatro cuadrantes de la lámina y, en cada uno, el recorte del logotipo
-# (sin el lema) y dónde acaba el círculo. Medido a píxel sobre la lámina.
+# Los cuatro cuadrantes de la lámina y, dentro de cada uno, dónde acaba el
+# monograma. Medido a píxel sobre la lámina.
 #
-#   caja    = x0, y0, x1, y1  del apilado: del borde del círculo al subrayado
-#   circulo = y0, y1          del anillo, para poder recortarlo suelto
+#   caja  = x0, y0, x1, y1  del apilado entero
+#   mono  = y1              última fila del monograma, antes del nombre
 ESTILOS = {
-    "claro":  {"caja": (155,  95,  617,  369), "circulo": ( 95, 252)},
-    "oscuro": {"caja": (921,  91, 1385,  368), "circulo": ( 91, 252)},
-    "azul":   {"caja": (155, 597,  618,  872), "circulo": (597, 755)},
-    "verde":  {"caja": (924, 596, 1384,  874), "circulo": (596, 755)},
+    "claro":  {"caja": (200, 157,  575, 379), "mono": 291},
+    "oscuro": {"caja": (966, 160, 1343, 378), "mono": 288},
+    "azul":   {"caja": (203, 666,  572, 882), "mono": 795},
+    "verde":  {"caja": (967, 667, 1342, 883), "mono": 794},
 }
 
-# El filete del anillo mide unos 6px en la lámina. Se vacía el interior dejando
-# ese margen de sobra, para no morder el trazo por dentro.
-MARGEN_FILETE = 11
+# La tinta de cada estilo. `None` = la que trae la lámina.
+#
+# Azul y verde vienen en blanco sobre fondo de color y la web los tiene sobre
+# base clara, así que se tiñen con el color de marca del estilo —el mismo
+# `--color-heading` de sus titulares, ya medido en contraste en index.css—.
+TINTA = {
+    "claro": None,
+    "oscuro": None,
+    "azul": (0x12, 0x3F, 0x78),   # 9.92:1 sobre #F8F9FA
+    "verde": (0x1B, 0x4A, 0x33),  # 9.61:1 sobre #F8F9FA
+}
 
-# Cuánto del ancho del círculo ocupa el monograma. En la lámina el «RD»
-# tipográfico ocupa 85 de 157 (0,54); el monograma de Rubén es más ancho y de
-# trazo más fino, así que a la misma medida pesa menos y se queda pequeño
-# dentro del anillo. A 0,60 las dos piezas se leen con el mismo peso — es la
-# misma corrección que ya hizo falta cuando el monograma iba al lado del
-# nombre.
-ANCHO_MONOGRAMA = 0.60
+# El monograma de los cuatro se lleva a este ancho antes de recortar, para que
+# las ocho piezas salgan a la misma caja.
+ANCHO_OBJETIVO = 360.0
 
-# El anillo de los cuatro se lleva a este radio ANTES de recortar, y el recorte
-# es una caja común en unidades de radio. Es lo que garantiza que los cuatro
-# salgan a la misma caja al píxel: medidos en crudo, sus proporciones se iban de
-# 1,4029 a 1,4161, y esa diferencia es un salto de tamaño visible al cambiar de
-# estilo.
-RADIO_OBJETIVO = 86.0
-
-# La barra pide 72 de alto; en retina hacen falta 144, así que con 176 sobra.
-# Lossy a 94: a este tamaño no se distingue del lossless y pesa diez veces
-# menos —el lossless salía a 160-220 kB por pieza, que para un logo es absurdo.
-ALTO_APILADO = 176
+# La barra pide 56 de alto en escritorio; en retina hacen falta 112, así que
+# con 140 sobra. Lossy a 94: a este tamaño no se distingue del lossless y pesa
+# mucho menos.
+ALTO_APILADO = 140
 CALIDAD = 94
+
+# Por debajo de esto, el píxel es fondo. Ver `despejar()`.
+PISO_ALFA = 0.10
 
 
 def es_acento(rgb):
-    """El terracota, separado por tono: rojo muy por encima del azul."""
-    return (rgb[..., 0].astype(int) - rgb[..., 2].astype(int)) > 45
+    """El rojo del corte, separado por tono."""
+    r = rgb[..., 0].astype(int)
+    b = rgb[..., 2].astype(int)
+    g = rgb[..., 1].astype(int)
+    return (r - b > 55) & (r - g > 55) & (r > 110)
 
 
 def despejar(recorte, fondo):
@@ -109,6 +110,14 @@ def despejar(recorte, fondo):
     fondo = np.array(fondo, dtype=np.float64)
     dist = np.abs(p - fondo).max(axis=2)
     alfa = np.clip(dist / max(dist.max(), 1.0), 0.0, 1.0)
+
+    # El fondo de la lámina NO es perfectamente plano —es una imagen renderizada
+    # y tiene grano—, así que sin suelo el alfa nunca llega a cero y queda un
+    # velo del color del cuadrante sobre todo el recorte: una caja crema detrás
+    # del logotipo, que sobre el #F8F9FA del sitio se ve. Se corta por debajo del
+    # suelo y se reescala lo que queda, para no comerse el antialiasing.
+    alfa = np.clip((alfa - PISO_ALFA) / (1.0 - PISO_ALFA), 0.0, 1.0)
+
     seguro = np.where(alfa[..., None] > 0.004, alfa[..., None], 1.0)
     color = np.clip(fondo + (p - fondo) / seguro, 0, 255)
     salida = np.zeros(p.shape[:2] + (4,), dtype=np.uint8)
@@ -117,29 +126,15 @@ def despejar(recorte, fondo):
     return salida
 
 
-def vaciar_circulo(rgba, cx, cy, radio):
-    """
-    Quita lo que haya dentro del anillo dejando el filete y la rayita.
-
-    Se borra por máscara radial y no por caja porque el «RD» tipográfico de la
-    lámina casi toca el trazo por los lados: una caja rectangular se comería
-    parte del anillo.
-    """
-    h, w = rgba.shape[:2]
-    yy, xx = np.mgrid[0:h, 0:w]
-    dentro = ((xx - cx) ** 2 + (yy - cy) ** 2) < (radio - MARGEN_FILETE) ** 2
-    borrar = dentro & ~es_acento(rgba[..., :3])
-    rgba[..., 3][borrar] = 0
-    return rgba
-
-
-def recolorear(rgba, tinta):
-    """La tinta a `tinta`; el terracota, intacto."""
+def tenir(rgba, tinta):
+    """La tinta a `tinta`; el rojo del corte, intacto."""
+    if tinta is None:
+        return rgba
     salida = rgba.copy()
-    tinta_px = ~es_acento(salida[..., :3])
+    pixeles = ~es_acento(salida[..., :3])
     for i, v in enumerate(tinta):
         canal = salida[..., i]
-        canal[tinta_px] = v
+        canal[pixeles] = v
         salida[..., i] = canal
     return salida
 
@@ -147,87 +142,59 @@ def recolorear(rgba, tinta):
 def recortar_alfa(rgba):
     """Ajusta el lienzo a la tinta: sin aire alrededor."""
     ys, xs = np.nonzero(rgba[..., 3] > 6)
-    return rgba[ys.min(): ys.max() + 1, xs.min(): xs.max() + 1]
-
-
-def monograma(estilo, tinta, ancho):
-    """El dibujo de Rubén, recoloreado a `tinta` y escalado a `ancho`."""
-    im = Image.open(SALIDA / f"{estilo}.webp").convert("RGBA")
-    a = recortar_alfa(np.asarray(im))
-    a = recolorear(a, tinta)
-    im = Image.fromarray(a, "RGBA")
-    alto = round(im.height * ancho / im.width)
-    return im.resize((ancho, alto), Image.LANCZOS)
+    return rgba[ys.min(): ys.max() + 1, xs.min(): xs.max() + 1], (xs.min(), ys.min())
 
 
 def guardar(im, nombre, alto):
-    im = im.resize((round(im.width * alto / im.height), alto), Image.LANCZOS)
+    im = im.resize((max(round(im.width * alto / im.height), 1), alto), Image.LANCZOS)
     ruta = SALIDA / nombre
     im.save(ruta, "WEBP", quality=CALIDAD, method=6)
-    print("  %-22s %dx%d  %5.1f kB" % (nombre, im.width, im.height, ruta.stat().st_size / 1024))
+    print("  %-22s %3dx%-3d  %5.1f kB" % (nombre, im.width, im.height, ruta.stat().st_size / 1024))
     return im.size
 
 
 def main():
+    SALIDA.mkdir(parents=True, exist_ok=True)
     lamina = np.asarray(Image.open(LAMINA).convert("RGB"))
-    medidas, piezas = {}, {}
+    piezas, medidas = {}, {}
 
     for estilo, d in ESTILOS.items():
         x0, y0, x1, y1 = d["caja"]
-        cy0, cy1 = d["circulo"]
-        fondo = tuple(lamina[max(y0 - 12, 0), x0])
-
-        # El anillo, para saber su centro, su radio y su tinta.
-        banda = lamina[cy0:cy1, x0:x1]
-        visible = np.abs(banda.astype(int) - np.array(fondo)).max(axis=2) > 16
-        ys, xs = np.nonzero(visible)
-        acx, acy = (xs.min() + xs.max()) / 2, (cy0 - y0) + (ys.min() + ys.max()) / 2
-        radio = (xs.max() - xs.min() + 1) / 2
-        # La tinta se lee en el trazo, a la altura del centro y por su izquierda.
-        tinta = tuple(int(v) for v in lamina[int(cy0 + (ys.min() + ys.max()) / 2), x0 + int(xs.min()) + 2])
+        fondo = tuple(lamina[max(y0 - 14, 0), x0])
 
         limpio = despejar(lamina[y0:y1, x0:x1], fondo)
-        limpio = vaciar_circulo(limpio, acx, acy, radio)
+        limpio = tenir(limpio, TINTA[estilo])
+        limpio, _ = recortar_alfa(limpio)
 
-        # El monograma, centrado en el anillo y algo por encima del centro, que
-        # es donde estaba el «RD» de la lámina: la rayita de terracota ocupa la
-        # parte de abajo.
-        mono = monograma(estilo, tinta, round(2 * radio * ANCHO_MONOGRAMA))
-        pieza = Image.fromarray(limpio, "RGBA")
-        # Centrado en el anillo y sólo un poco por encima: en la lámina el «RD»
-        # va prácticamente al centro y la rayita de terracota queda debajo. Más
-        # arriba se pega al trazo y deja un hueco grande sobre la rayita.
-        pieza.alpha_composite(
-            mono,
-            (round(acx - mono.width / 2), round(acy - radio * 0.10 - mono.height / 2)),
-        )
+        # El monograma ocupa la parte de arriba; su ancho es el patrón con el
+        # que se igualan los cuatro, porque es la pieza que se usa sola.
+        alto_mono = d["mono"] - y0
+        mono = limpio[:alto_mono]
+        mono, _ = recortar_alfa(mono)
 
-        # Todo a la misma escala de anillo, para poder recortar con una caja
-        # común expresada en radios.
-        s = RADIO_OBJETIVO / radio
-        pieza = pieza.resize((round(pieza.width * s), round(pieza.height * s)), Image.LANCZOS)
-        piezas[estilo] = {"im": pieza, "cx": acx * s, "cy": acy * s}
+        s = ANCHO_OBJETIVO / mono.shape[1]
+        im = Image.fromarray(limpio, "RGBA")
+        im = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
+        piezas[estilo] = {"im": im, "mono": round(alto_mono * s)}
 
-    # --- Segunda pasada: la caja común ------------------------------------
-    # Se toma la unión de las cuatro tintas, medida desde el centro del anillo,
-    # así ninguna se recorta y las cuatro comparten lienzo.
-    bordes = []
-    for d in piezas.values():
-        ys, xs = np.nonzero(np.asarray(d["im"])[..., 3] > 6)
-        bordes.append((d["cx"] - xs.min(), xs.max() - d["cx"], d["cy"] - ys.min(), ys.max() - d["cy"]))
-    izq, der, arr, aba = (max(b[i] for b in bordes) for i in range(4))
+    # La caja común: la unión de los cuatro, para que ninguno se recorte y todos
+    # compartan lienzo.
+    ancho = max(d["im"].width for d in piezas.values())
+    alto = max(d["im"].height for d in piezas.values())
+    alto_mono = max(d["mono"] for d in piezas.values())
 
     for estilo, d in piezas.items():
-        cx, cy = d["cx"], d["cy"]
-        caja = (round(cx - izq), round(cy - arr), round(cx + der) + 1, round(cy + aba) + 1)
-        apilado = d["im"].crop(caja)
-        medidas[f"apilado-{estilo}"] = guardar(apilado, f"apilado-{estilo}.webp", ALTO_APILADO)
+        lienzo = Image.new("RGBA", (ancho, alto), (0, 0, 0, 0))
+        lienzo.alpha_composite(d["im"], ((ancho - d["im"].width) // 2, 0))
+        medidas[f"apilado-{estilo}"] = guardar(lienzo, f"apilado-{estilo}.webp", ALTO_APILADO)
 
-        # El círculo suelto: la misma pieza recortada al anillo, en las dos
-        # direcciones. Sale cuadrado y a la misma caja en los cuatro.
-        r = RADIO_OBJETIVO + 1
-        icono = d["im"].crop((round(cx - r), round(cy - r), round(cx + r) + 1, round(cy + r) + 1))
-        medidas[f"icono-{estilo}"] = guardar(icono, f"icono-{estilo}.webp", round(2 * r))
+        icono = lienzo.crop((0, 0, ancho, alto_mono))
+        recorte, _ = recortar_alfa(np.asarray(icono))
+        icono = Image.new("RGBA", (ancho, alto_mono), (0, 0, 0, 0))
+        icono.alpha_composite(lienzo.crop((0, 0, ancho, alto_mono)))
+        medidas[f"icono-{estilo}"] = guardar(
+            icono, f"icono-{estilo}.webp", round(ALTO_APILADO * alto_mono / alto)
+        )
 
     print()
     print("  aspect-ratio para index.css (tienen que coincidir los cuatro):")

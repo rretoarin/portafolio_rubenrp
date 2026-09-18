@@ -19,12 +19,7 @@ export default function Hero({ t, theme }) {
   return (
     <section
       id="top"
-      /*
-       * Los dos rellenos suben lo que subió la barra al entrar el logotipo
-       * apilado —8 en móvil (64→72) y 16 en escritorio (80→96)— para que el
-       * hueco entre la barra y el primer texto siga siendo el de siempre.
-       */
-      className="relative overflow-hidden pt-26 pb-10 md:pt-32 md:pb-12"
+      className="relative overflow-hidden pt-24 pb-10 md:pt-28 md:pb-12"
     >
       <Arc className="-top-[36rem] -right-[30rem] size-[52rem]" />
 

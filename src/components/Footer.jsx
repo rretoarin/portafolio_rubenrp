@@ -106,10 +106,11 @@ export default function Footer({ t }) {
 
               Va `inline-block` y no en un flex, así el resto de la línea sigue
               siendo texto corrido y parte por donde tiene que partir en móvil.
-              A 20px —y no a los 12 del texto— porque el filete se deshace por
-              debajo de ~24 y hay que dejarlo lo más cerca posible.
+              A 16px —y no a los 12 del texto— porque el monograma es apaisado
+              (2,869) y a cuerpo de texto se quedaría en un garabato: a 16 mide
+              46 de ancho y se lee.
             */}
-            <Mark className="mr-1.5 inline-block h-5 align-middle" />
+            <Mark className="mr-2 inline-block h-4 align-middle" />
             <span> · © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}</span>
           </p>
           <a

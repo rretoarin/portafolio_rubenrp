@@ -166,10 +166,13 @@
    * `scripts/logo.py`: el apilado para la barra de escritorio y el círculo
    * solo para móvil y para el pie.
    *
-   * **Hay un juego por estilo, no dos.** La lámina de concepto trae el
-   * logotipo ya resuelto en los cuatro —cada uno con su tinta: tinta en claro,
-   * crema en oscuro, azul marino en azul y verde bosque en verde—, así que la
-   * marca cambia de color entera y no sólo de claro a oscuro.
+   * **Hay un juego por estilo, no dos.** La lámina trae el logotipo resuelto
+   * en los cuatro y la marca cambia de color entera, no sólo de claro a
+   * oscuro: tinta en claro, crema en oscuro, azul marino en azul y verde
+   * bosque en verde. En azul y verde la lámina lo trae BLANCO sobre fondo de
+   * color; como esos dos estilos de la web van sobre base clara, `logo.py` los
+   * tiñe con el color de marca del estilo. El corte rojo no se toca en
+   * ninguno.
    *
    * Van en variables como cualquier otro color, así que **ningún componente
    * recibe el tema ni lo pregunta**: `.logotipo` y `.isotipo` las pintan de
@@ -373,12 +376,12 @@ html.theme-switching *::after {
    * estilo.
    */
   .logotipo {
-    aspect-ratio: 248 / 176;
+    aspect-ratio: 243 / 140;
     background: var(--logo) center / contain no-repeat;
   }
 
   .isotipo {
-    aspect-ratio: 1;
+    aspect-ratio: 242 / 84;
     background: var(--logo-icono) center / contain no-repeat;
   }
 
