@@ -20,11 +20,11 @@ export default function Hero({ t, theme }) {
     <section
       id="top"
       /*
-       * `md:pt-32` y no `pt-28`: la barra de escritorio pasó de 80 a 96 al
-       * entrar el logotipo apilado, y el relleno sube los mismos 16 para que el
+       * Los dos rellenos suben lo que subió la barra al entrar el logotipo
+       * apilado —8 en móvil (64→72) y 16 en escritorio (80→96)— para que el
        * hueco entre la barra y el primer texto siga siendo el de siempre.
        */
-      className="relative overflow-hidden pt-24 pb-10 md:pt-32 md:pb-12"
+      className="relative overflow-hidden pt-26 pb-10 md:pt-32 md:pb-12"
     >
       <Arc className="-top-[36rem] -right-[30rem] size-[52rem]" />
 

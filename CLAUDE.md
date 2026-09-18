@@ -236,20 +236,25 @@ Lo que importa del montaje:
   barra— y sigue sin haber un `if (tema === …)`.
 - **Se les da SÓLO la altura**; el ancho sale del `aspect-ratio`. Si cambia el
   recorte en el script, cambia la proporción en `index.css`.
-- **Escritorio el logotipo entero; móvil sólo el círculo.** De `md` en adelante
-  el apilado a **72px**; por debajo, el círculo a **32px**. Apilado, el nombre es
-  una fracción pequeña del dibujo, así que en la barra de 64 de móvil caería a
-  ocho píxeles: **mejor no ponerlo que ponerlo ilegible**. El `aria-label` de la
-  barra mantiene la marca completa para el lector de pantalla.
-- **La barra de escritorio mide 96 y no 80**, justo para que el apilado entre a
-  72. Al subirla hubo que mover con ella, los mismos 16px, el `md:pt-` del hero y
-  el `md:scroll-mt-` de `Section` y `Contact`. **Medido después**: de la barra al
-  primer texto del hero 37,8px y tras saltar por el menú 37,3 en escritorio y
-  45,5 en móvil —el ritmo de siempre—, y la fila de soluciones sigue entrando
-  entera en la primera pantalla a 1440x800. Si se vuelve a tocar el alto de la
-  barra, hay que mover los tres a la vez.
-- **El pie lleva el círculo, no el logotipo entero**, a 20px: la línea de cierre
-  es texto a cuerpo 12 y el apilado ahí rompería el renglón. Tampoco se escribe
+- **El logotipo entero en los dos, móvil incluido.** El apilado va a **72px** de
+  `md` en adelante y a **52px** por debajo. Pasó por una versión en la que en
+  móvil iba sólo el círculo y Rubén lo marcó: la marca se quedaba sin nombre.
+  **Cabe**: a 52 de alto el apilado ocupa 73 de ancho, y a 320px —el ancho más
+  apretado— quedan 29px de aire hasta la primera muestra. Por debajo de 360 el
+  botón de idioma ya sale de la barra, como estaba documentado.
+- **El alto de la barra lo manda el logotipo**: **96 en escritorio y 72 en
+  móvil**, en vez de los 80 y 64 de antes. Apilado, la mayúscula del nombre es
+  ~0,19 del alto del dibujo, así que a 72 mide 13,7px y a 52 mide 9,9. Más bajo
+  no se lee. Al subir la barra hay que mover con ella, lo mismo que subió, el
+  `pt-` del hero (8 en móvil, 16 en escritorio) y el `scroll-mt-` de `Section` y
+  `Contact`. **Medido después**: de la barra al primer texto del hero 37,8px en
+  los dos, tras saltar por el menú 37,3 en escritorio y 45,5 en móvil —el ritmo
+  de siempre—, el menú a pantalla completa sigue arrancando a 11px de la barra y
+  la fila de soluciones entra entera en la primera pantalla a 1440x800. **Si se
+  vuelve a tocar el alto de la barra, hay que mover los cuatro a la vez.**
+- **El pie sí lleva sólo el círculo**, a 20px: la línea de cierre es texto a
+  cuerpo 12 y el apilado ahí rompería el renglón. Es el único sitio donde el
+  logotipo va incompleto. Tampoco se escribe
   el nombre al lado a mano —daría dos versiones de la misma palabra en la misma
   página—; lo que firma es el nombre real de Rubén, que va justo detrás. Por eso
   `.wordmark` ya no existe.

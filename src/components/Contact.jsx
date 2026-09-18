@@ -30,7 +30,7 @@ export default function Contact({ t }) {
   }
 
   return (
-    <section id="contact" className="relative scroll-mt-16 overflow-hidden md:scroll-mt-20 py-10 md:py-12">
+    <section id="contact" className="relative scroll-mt-18 overflow-hidden md:scroll-mt-20 py-10 md:py-12">
       {/*
         Abajo a la izquierda y no centrado: centrado le pasaba por encima al
         titular, que es lo único de esta sección que hay que leer sí o sí.
