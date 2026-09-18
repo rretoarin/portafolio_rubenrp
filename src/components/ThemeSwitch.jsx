@@ -21,9 +21,14 @@ export function Swatch({ theme, className = '' }) {
  * tabulador y las flechas mueven la selección, que es lo que espera quien
  * navega con teclado. La etiqueta la pone quien lo usa.
  *
- * Una sola presentación: la fila de cuatro muestras, en la barra y a la altura
- * de la marca. Nunca lleva nombres a la vista —el color ES la señal— pero cada
- * botón conserva el suyo para quien navega con lector de pantalla.
+ * Una sola presentación: la fila de muestras, en la barra y a la altura de la
+ * marca. Nunca lleva nombres a la vista —el color ES la señal— pero cada botón
+ * conserva el suyo para quien navega con lector de pantalla.
+ *
+ * Cuáles se pintan lo decide quien lo usa, con `themes`. En la barra de móvil
+ * van sólo claro y oscuro, porque ahí compiten por sitio con el logotipo, el
+ * idioma y el menú. Los cuatro siguen estando en la sección Estilos, que tiene
+ * su propio selector en `Styles.jsx` y no pasa por aquí.
  *
  * En móvil los botones encogen para que las cuatro quepan junto al logo, el
  * idioma y el menú sin amontonarse; en escritorio vuelven a los 44px.
@@ -34,19 +39,31 @@ export function Swatch({ theme, className = '' }) {
  * El objetivo táctil es real, nunca un `.tap`: los botones van pegados entre sí
  * y ahí los pseudo-elementos se solapan y el toque cae en el vecino.
  */
-export default function ThemeSwitch({ theme, onChange, labels, onPick }) {
+export default function ThemeSwitch({ theme, onChange, labels, onPick, themes = THEMES }) {
   const grupo = useRef(null)
 
   // Flechas: mueven la selección en círculo y dejan el foco donde corresponde.
+  // Giran sobre los estilos que hay PUESTOS, no sobre los cuatro: en la barra
+  // de móvil sólo hay dos y las flechas tienen que quedarse en esos dos.
   const onKeyDown = (event) => {
     const paso = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key]
     if (!paso) return
     event.preventDefault()
-    const i = THEMES.indexOf(theme)
-    const siguiente = THEMES[(i + paso + THEMES.length) % THEMES.length]
+    const i = themes.indexOf(theme)
+    // Si el estilo activo no está en la lista —se eligió azul en el escritorio
+    // y se abre en el móvil—, la primera flecha entra por el principio.
+    const desde = i === -1 ? (paso > 0 ? -1 : 0) : i
+    const siguiente = themes[(desde + paso + themes.length) % themes.length]
     onChange(siguiente)
     grupo.current?.querySelector(`[data-theme-option="${siguiente}"]`)?.focus()
   }
+
+  /*
+   * La única parada de tabulador del grupo. Normalmente es el estilo activo,
+   * pero si ése no está entre los que se pintan, se le da al primero: si no, el
+   * grupo entero se quedaría fuera del recorrido del tabulador.
+   */
+  const tabulable = themes.includes(theme) ? theme : themes[0]
 
   return (
     <div
@@ -56,7 +73,7 @@ export default function ThemeSwitch({ theme, onChange, labels, onPick }) {
       onKeyDown={onKeyDown}
       className="flex items-center gap-0.5 md:gap-1"
     >
-      {THEMES.map((id) => {
+      {themes.map((id) => {
         const activo = id === theme
         return (
           <button
@@ -65,7 +82,7 @@ export default function ThemeSwitch({ theme, onChange, labels, onPick }) {
             role="radio"
             aria-checked={activo}
             data-theme-option={id}
-            tabIndex={activo ? 0 : -1}
+            tabIndex={id === tabulable ? 0 : -1}
             onClick={() => {
               onChange(id)
               onPick?.(id)

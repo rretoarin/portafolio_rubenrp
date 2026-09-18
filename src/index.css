@@ -187,7 +187,8 @@
   --logo-icono-1x: url("/logo/icono-claro@2x.webp");
   --logo-icono: image-set(
     url("/logo/icono-claro.webp") 1x,
-    url("/logo/icono-claro@2x.webp") 2x
+    url("/logo/icono-claro@2x.webp") 2x,
+    url("/logo/icono-claro@3x.webp") 3x
   );
 }
 
@@ -239,7 +240,8 @@
   --logo-icono-1x: url("/logo/icono-oscuro@2x.webp");
   --logo-icono: image-set(
     url("/logo/icono-oscuro.webp") 1x,
-    url("/logo/icono-oscuro@2x.webp") 2x
+    url("/logo/icono-oscuro@2x.webp") 2x,
+    url("/logo/icono-oscuro@3x.webp") 3x
   );
 }
 
@@ -285,7 +287,8 @@
   --logo-icono-1x: url("/logo/icono-azul@2x.webp");
   --logo-icono: image-set(
     url("/logo/icono-azul.webp") 1x,
-    url("/logo/icono-azul@2x.webp") 2x
+    url("/logo/icono-azul@2x.webp") 2x,
+    url("/logo/icono-azul@3x.webp") 3x
   );
 }
 
@@ -331,7 +334,8 @@
   --logo-icono-1x: url("/logo/icono-verde@2x.webp");
   --logo-icono: image-set(
     url("/logo/icono-verde.webp") 1x,
-    url("/logo/icono-verde@2x.webp") 2x
+    url("/logo/icono-verde@2x.webp") 2x,
+    url("/logo/icono-verde@3x.webp") 3x
   );
 }
 
@@ -413,6 +417,10 @@ html.theme-switching *::after {
    * se veía blando en un monitor normal al 100%. Si se cambia la altura a la
    * que se pinta el logo, hay que cambiar `MEDIDAS` en el script: si no, vuelve
    * a haber una reducción de por medio.
+   *
+   * El monograma lleva además 3x y el apilado no: el apilado sólo sale en la
+   * barra de escritorio, y el monograma es el de móvil, donde el usuario amplía
+   * con los dedos y conviene que detrás haya el archivo más grande posible.
    *
    * La primera declaración de fondo es la RESERVA y va con un `url()` normal.
    * `image-set()` sin prefijo no lo entiende Safari 16 ni anterior, y como aquí

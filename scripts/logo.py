@@ -91,8 +91,18 @@ ANCHO_OBJETIVO = 360.0
 #   uso        (ancho, alto) a 1x      dónde se pinta
 #   apilado    97 x 56                 la barra de escritorio
 #   icono      81 x 28                 la barra de móvil (y el pie, a 16)
+#   uso        (ancho, alto) a 1x      densidades
 MEDIDAS = {"apilado": (97, 56), "icono": (81, 28)}
-DENSIDADES = (1, 2)
+
+# El monograma lleva también 3x y el apilado no, a propósito.
+#
+# El apilado sólo sale en la barra de escritorio, donde ya está resuelto y no
+# se toca. El monograma es el de móvil, y ahí el usuario hace zoom con los
+# dedos: cuanto más grande sea el archivo que hay detrás, más aguanta al
+# ampliar. 3x es el techo útil —el monograma de la lámina mide 375px de ancho,
+# así que a 243 todavía se reduce; más allá habría que ampliar el original y no
+# se gana nada.
+DENSIDADES = {"apilado": (1, 2), "icono": (1, 2, 3)}
 
 # La tarjeta de compartir la dibuja Pillow a 132 de alto y no tiene densidades:
 # es un PNG de tamaño fijo. Necesita su propia exportación porque las piezas de
@@ -195,9 +205,9 @@ def reducir(im, ancho, alto):
 
 
 def guardar(im, uso, estilo):
-    """Las dos densidades de una pieza, cada una a su tamaño exacto."""
+    """Las densidades de una pieza, cada una a su tamaño exacto."""
     ancho, alto = MEDIDAS[uso]
-    for d in DENSIDADES:
+    for d in DENSIDADES[uso]:
         nombre = f"{uso}-{estilo}.webp" if d == 1 else f"{uso}-{estilo}@{d}x.webp"
         ruta = SALIDA / nombre
         reducir(im, ancho * d, alto * d).save(ruta, "WEBP", quality=CALIDAD, method=6)

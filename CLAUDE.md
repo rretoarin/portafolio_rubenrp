@@ -44,6 +44,7 @@ src/
 ├─ hooks/
 │  ├─ useTheme.js      ← estilo activo: localStorage + data-theme + theme-color
 │  ├─ useReveal.js     ← IntersectionObserver único para las entradas
+│  ├─ useMedia.js      ← una media query en JS, para lo que no se puede con CSS
 │  └─ useParallax | useMagnetic
 ├─ index.css           ← tokens en @theme + los CUATRO estilos + componentes
 └─ App.jsx             ← idioma, estilo y composición de secciones
@@ -220,6 +221,14 @@ segunda cuadraba en los números y aun así no era lo aprobado. La lámina manda
   la altura a la que se pinta el logo, hay
   que cambiar `MEDIDAS` en el script**, o vuelve a haber una reducción de por
   medio y se deshace la mejora.
+- **El monograma lleva además 3x; el apilado no.** El apilado sólo sale en la
+  barra de escritorio, que está resuelta y no se toca. El monograma es el de
+  móvil, y ahí el usuario amplía con los dedos: cuanto mayor sea el archivo que
+  hay detrás, más aguanta al ampliar. 3x es el techo útil —el monograma de la
+  lámina mide 375px de ancho, así que a 243 todavía se reduce—. Aviso: el zoom
+  de pellizco del móvil **no** cambia el `devicePixelRatio`, así que no vuelve a
+  elegir en el `image-set()`; lo que gana es la pantalla de 3x, que ya recibe la
+  pieza grande. Nítido a cualquier ampliación sólo lo da un vector.
 - **NO se enfoca después de reducir, y no es un olvido.** Se probó una máscara
   de enfoque y Rubén lo marcó: a 97px de ancho el nombre tiene unos 10px de
   altura de mayúscula, y enfocar a esa escala se come el antialiasing —los
@@ -421,7 +430,19 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
   de `.tap` y parece que no funciona. `.tap` **no sirve para elementos pegados
   entre sí**: los pseudo-elementos se solapan y el toque cae en el vecino. Ahí
   hay que dar altura real (los atajos del pie y el menú móvil van así).
-- **Las cuatro muestras van en la barra, a la altura de la marca, siempre.**
+- **En la barra de móvil van SÓLO dos estilos, claro y oscuro**; los cuatro
+  vuelven de `md` en adelante. Ahí la fila la comparten el logotipo, las
+  muestras, el idioma y el menú, y con cuatro quedaba apretada. **Los otros dos
+  no desaparecen del sitio**: la sección Estilos sigue enseñando los cuatro en
+  todos los anchos, con su propio selector en `Styles.jsx`, que no pasa por
+  `ThemeSwitch`.
+  La lista se decide en JS (`useMedia` + la prop `themes`) y **no ocultando
+  botones con CSS**: un `radiogroup` con nodos invisibles dentro manda el foco
+  del teclado a un botón que no se ve, y la única parada de tabulador puede caer
+  en él. Si el estilo activo no está entre los que se pintan —se eligió azul en
+  el escritorio y se abre en el móvil—, la parada de tabulador se la queda el
+  primero y las flechas entran por el principio.
+- **Las muestras van en la barra, a la altura de la marca, siempre.**
   Pasaron por dos versiones peores: sólo dentro del menú (no se encontraban) y
   detrás de un desplegable (se abría sobre el hero y costaba un toque de más
   para algo que es una seña de identidad). Ahora no hay desplegable.

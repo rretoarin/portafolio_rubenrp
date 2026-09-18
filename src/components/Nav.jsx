@@ -3,9 +3,15 @@ import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
 import Logo, { Mark } from './Logo'
 import ThemeSwitch from './ThemeSwitch'
+import { THEMES } from '../hooks/useTheme'
+import { useMedia } from '../hooks/useMedia'
 
 // Cinco destinos, los mismos en escritorio y en móvil: son todas las secciones
 // que hay. La home ya no tiene nada que esconder detrás de un menú más largo.
+// Los estilos que caben en la barra de móvil. Los cuatro siguen en la sección
+// Estilos; esto es sólo lo que se enseña arriba cuando no hay sitio.
+const ESTILOS_BARRA_MOVIL = ['claro', 'oscuro']
+
 const SECTIONS = ['services', 'styles', 'projects', 'process', 'contact']
 
 const MENU = ['services', 'styles', 'projects', 'process', 'contact']
@@ -25,6 +31,8 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
+  // El mismo corte que usa el logotipo para pasar del monograma al apilado.
+  const escritorio = useMedia('(min-width: 48rem)')
   const lista = useRef(null)
   const [riel, setRiel] = useState(null)
 
@@ -171,12 +179,28 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
             </ul>
 
             {/*
-              Los cuatro estilos, siempre a la vista y a la altura de la marca.
+              Los estilos, siempre a la vista y a la altura de la marca.
               Estuvieron detrás de un desplegable: se abría sobre el hero y hacía
               falta un toque de más para algo que es una seña de identidad.
+
+              En la barra de MÓVIL van sólo dos —claro y oscuro—; los cuatro
+              vuelven de `md` en adelante. Ahí la fila la comparten el logotipo,
+              las muestras, el idioma y el menú, y con cuatro quedaba apretada.
+              **Los otros dos no desaparecen del sitio**: la sección Estilos, más
+              abajo, sigue enseñando los cuatro y tiene su propio selector en
+              `Styles.jsx`.
+
+              La lista se decide en JS y no ocultando botones con CSS: un
+              `radiogroup` con nodos invisibles dentro manda el foco del teclado
+              a un botón que no se ve.
             */}
             <div className="mx-0.5 md:mx-1">
-              <ThemeSwitch theme={theme} onChange={onThemeChange} labels={t.theme} />
+              <ThemeSwitch
+                theme={theme}
+                onChange={onThemeChange}
+                labels={t.theme}
+                themes={escritorio ? THEMES : ESTILOS_BARRA_MOVIL}
+              />
             </div>
 
             <button
