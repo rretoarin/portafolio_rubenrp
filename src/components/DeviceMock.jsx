@@ -2,7 +2,7 @@ import { Frame } from './ui'
 
 /*
  * La prueba visual del hero: un sistema en pantalla grande y una web en el
- * móvil, que es exactamente lo que vende RubenDev —las dos caras de un negocio.
+ * móvil, que es exactamente lo que vende RuberpDev —las dos caras de un negocio.
  *
  * Dibujado con CSS: ni librería, ni PNG de marco, ni sombra falsa. Reutiliza la
  * ventana de `<Frame>`, así que consume los mismos tokens que el resto y cambia

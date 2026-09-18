@@ -1,4 +1,4 @@
-# RubenDev — marca personal de Rubén Reto Panta
+# RuberpDev — marca personal de Rubén Reto Panta
 
 Marca personal comercial de un desarrollador full stack. Sitio de una sola
 página, bilingüe (ES/EN), con **cuatro identidades visuales** que el visitante
@@ -23,7 +23,7 @@ npm run lint      # oxlint
 python scripts/contraste.py   # mide el contraste de las cuatro paletas
 python scripts/capturas.py    # regenera las capturas de los casos
 python scripts/capturas-estilo.py  # y su variante por estilo visual
-python scripts/logo.py        # prepara el isotipo de los 4 estilos + el favicon
+python scripts/logo.py        # vectoriza el logotipo + el favicon + el logo de la tarjeta OG
 python scripts/og-image.py    # regenera la imagen de compartir
 ```
 
@@ -36,7 +36,7 @@ src/
 │  ├─ Section.jsx      ← envoltorio común (eyebrow, título, subtítulo, espaciado)
 │  ├─ ui.jsx           ← Words, Eyebrow, Frame, Arc, Tick, Check
 │  ├─ icons.jsx        ← SVG inline, sin librería de iconos
-│  ├─ Logo.jsx         ← isotipo RD + logotipo (las piezas, en public/logo)
+│  ├─ Logo.jsx         ← logotipo + isotipo, SVG inline (trazos en logo-paths.js)
 │  ├─ ThemeSwitch.jsx  ← selector de estilo (compacto y completo)
 │  ├─ DeviceMock.jsx   ← portátil + móvil del hero, dibujados en CSS
 │  ├─ Lightbox.jsx     ← visor de capturas, accesible
@@ -80,7 +80,7 @@ Tres frases sostienen toda la comunicación:
 1. **«Transformo procesos complejos en soluciones digitales simples.»**
 2. **«El diseño cambia. La calidad no.»** — la sección Estilos.
 3. **«No te dejo solo después del lanzamiento.»** — el paso 05 del proceso, que
-   es el argumento que más separa a RubenDev de quien entrega y desaparece.
+   es el argumento que más separa a RuberpDev de quien entrega y desaparece.
 
 ### Seis secciones. Ni una más
 
@@ -112,7 +112,7 @@ Lo que se quitó en el recorte del 2026-09-09 y **no debe volver**:
 captura y tres líneas** (problema, solución, resultado); las demás capturas viven
 en el visor, a un clic. Antes cada caso ocupaba tres pantallas.
 
-- **RubenDev es la marca comercial** (logo, navegación, `<title>`, OG). *Rubén
+- **RuberpDev es la marca comercial** (logo, navegación, `<title>`, OG). *Rubén
   Reto Panta* se mantiene en el cierre, el pie y el JSON-LD: la persona real
   detrás es lo que separa esto de una agencia sin rostro.
 - **Las tecnologías no son protagonistas.** Una línea al pie de cada caso
@@ -159,9 +159,10 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
   **El texto corrido y los subtítulos NO se tiñen nunca**: es lo que evita que
   parezca una web pintada de azul.
 - **`--color-nav-line` es el subrayado del menú** —el riel del estado activo y
-  el trazo del hover, que son la misma línea— y va del color de la marca: el
-  mismo acento que pinta el «Dev» del logotipo. Así el «estás aquí» es también
-  una señal de marca y cambia con el estilo como todo lo demás. **En oscuro es
+  el trazo del hover, que son la misma línea— y va del acento del estilo, así
+  que el «estás aquí» cambia con el estilo como todo lo demás. Ojo: ya **no**
+  es el mismo color que el «Dev» del logotipo, que desde el logo nuevo se queda
+  en terracota fijo en los cuatro estilos. **En oscuro es
   la excepción**: ahí va en tinta, porque sobre negro la línea blanca es la que
   se ve. Se aplica sólo en la barra; en el pie `.nav-link` sigue con
   `currentColor`, porque allí la línea acompaña al texto y no marca sección.
@@ -176,66 +177,100 @@ rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
 
 ## Diseño
 
-### El isotipo RD
+### El logotipo RuberpDev
 
-La marca es un monograma: una **R sin asta entera** —el brazo entra por arriba,
-gira en la panza y baja hasta un asta que sólo existe en la mitad inferior, así
-que la contraforma queda abierta por la izquierda— y una **D reducida a su
-arco**, sin asta, porque el hueco que deja la R le hace de asta. Eso es lo que
-hace que se lean como una pieza y no como dos letras juntas.
+Un **círculo de filete fino con el monograma RD dentro**, una **rayita corta de
+terracota** debajo del monograma, y el nombre **apilado debajo del círculo** con
+«Dev» en terracota y un **subrayado de terracota** bajo el nombre.
 
-- **Son CUATRO dibujos, uno por estilo, hechos por Rubén.** Viven en
-  `scripts/logo-fuente/` y `scripts/logo.py` los deja listos en
-  `public/logo/*.webp`. No son el mismo dibujo recoloreado: cada uno está hecho
-  para su fondo, y el oscuro es la versión dibujada para negro, no la invertida.
-- **Se probó vectorizar una referencia y se descartó dos veces.** El original
-  era una imagen de 125 px con el borde blando: calcarlo hereda ese temblor y a
-  los 24 px de la barra se convierte en papilla. **No volver a calcar imágenes.**
-- **El estilo activo elige la pieza con `--logo`**, igual que cualquier otro
-  color. La clase `.isotipo` la pinta de fondo, así que **ningún componente
-  recibe el tema ni lo pregunta**: el pie usa `<Mark>` exactamente igual que la
-  barra. Es lo que evita el `if (tema === …)` que aquí habría sido inevitable
-  con un `<img src>`.
-- **Se le da SÓLO la altura**; el ancho sale del `aspect-ratio` de `.isotipo`,
-  que es el del lienzo que exporta el script. Si cambia el margen allí, cambia
-  la proporción aquí.
-- `scripts/logo.py` hace tres cosas que importan: recorta el fondo despejándolo
-  de la mezcla (no con un umbral seco, que dejaba halo del fondo original —y los
-  fondos de esos PNG **no** son los del sitio: azul y verde van sobre #F8F9FA—),
-  **iguala los cuatro** a la misma caja para que el logotipo no dé un salto al
-  cambiar de estilo, y exporta a 3x para pantalla retina.
-- **El alto NO es el de las mayúsculas.** Se probó igualarlo a ellas —12,6 px a
-  `text-lg` y 14 a `text-xl`— y Rubén lo marcó: se veía claramente más pequeño
-  que la palabra. El monograma es ancho y de trazo fino, así que a la misma
-  altura pesa menos. Va a **~1,45 veces la mayúscula** (18 y 20 px), que es
-  donde las dos piezas se leen con el mismo peso. **Por debajo de `sm` sube a
-  26**: ahí va solo y no tiene palabra con la que igualarse.
-- **El lienzo del WebP va SIN aire alrededor.** Lo llevó y fue parte del mismo
-  problema: la altura que se pide en CSS no era la del monograma sino la de una
-  caja con márgenes, así que salía un 8% más pequeño de lo que decían los
-  números.
-- **Por debajo de `sm` el logotipo se APILA**: isotipo arriba y nombre debajo a
-  cuerpo 9, los dos centrados entre sí. En fila, el nombre a tamaño normal se
-  come el sitio de las cuatro muestras y el menú; apilado ocupa 46px de ancho
-  —contra los 85 que ocupaba la marca en texto— y la marca se lee entera. A ese
-  cuerpo el nombre mide 29px y el monograma 30,5, así que el bloque sale
-  cuadrado sin forzar nada. Medido: 36,5px de alto dentro de una barra de 64.
-  El `tracking-tight` se queda fuera por debajo de `sm`: a cuerpo 9 pega las
-  letras.
-- **El favicon lo genera el mismo script** y lleva dentro las piezas clara y
-  oscura; cambia con el tema del **navegador**, porque un archivo estático no ve
-  las variables de `index.css`. Va a sangre, sin pastilla: con el recuadro
-  redondeado que tuvo, a 16px el monograma se quedaba en 13px de ancho.
-- **La imagen de compartir usa la MISMA pieza** (`public/logo/claro.webp`), no
-  una copia. Si se redibuja el logotipo y se vuelve a pasar el script, la
-  tarjeta se actualiza sola.
-- El nombre mantiene el reparto de siempre: «Ruben» en tinta y «Dev» en el
-  acento, los dos en la serifa a peso 700 (`.wordmark`).
+**El logo del sitio se MONTA de dos fuentes, y ninguna se redibuja:**
+
+1. **La lámina de concepto** (`scripts/logo-fuente/refrencia.png`), que trae el
+   logotipo ya resuelto en los cuatro estilos, cada uno con su tinta: tinta en
+   claro, crema en oscuro, azul marino en azul y verde bosque en verde. De ahí
+   sale el círculo, el nombre, las dos rayas de terracota y el color.
+2. **El monograma dibujado a mano por Rubén** (`scripts/logo-fuente/*.png`), que
+   sustituye al «RD» tipográfico que trae la lámina dentro del círculo. Es la
+   marca de verdad: la R sin asta entera y la D reducida a su arco, con la
+   pierna de la R en terracota.
+
+`scripts/logo.py` hace el montaje y deja los ocho archivos en
+`public/logo/{apilado,icono}-<estilo>.webp`.
+
+**No redibujar el logotipo.** Se intentó dos veces y las dos se rechazaron:
+primero montándolo desde los SVG del paquete original —que venían en horizontal
+y con «Dev» teñido en vez de subrayado— y después reconstruyéndolo con vectores,
+sacando los contornos de Outfit y colocándolos con la lámina medida a píxel.
+Aquella reconstrucción cuadraba en los números y aun así no era lo aprobado.
+
+Lo que importa del montaje:
+
+- **El lema «IDEAS · SOLUCIONES · RESULTADOS» se queda fuera.** Está en la
+  lámina, pero mide 14px de los 315 del dibujo: en la barra, con el logotipo a
+  72 de alto, caería a 3px. Un renglón ilegible no es parecerse a la lámina.
+- **El fondo se despeja de la mezcla, no con un umbral seco.** Cada cuadrante de
+  la lámina tiene su fondo (hueso, negro, azul claro, salvia) y ninguno es el
+  del sitio; un umbral dejaría halo de ese fondo en cada borde antialiaseado, y
+  sobre el negro del estilo oscuro se vería.
+- **La tinta y el terracota se separan por tono** (el terracota tiene el rojo muy
+  por encima del azul), nunca por posición. Vale igual para la lámina y para el
+  monograma.
+- **El interior del círculo se vacía por máscara radial**, no por caja: el «RD»
+  de la lámina casi toca el trazo por los lados y una caja se comería el anillo.
+- **El monograma se recolorea a la tinta del anillo de su cuadrante.** Son dos
+  dibujos distintos y con su color propio se notaba que iba un tono aparte del
+  círculo que lo rodea. Su pierna de terracota no se toca.
+- **El monograma va a 0,60 del diámetro** y no a los 0,54 que ocupaba el «RD»
+  tipográfico: es más ancho y de trazo más fino, así que a la misma medida pesa
+  menos y se queda pequeño dentro del anillo. Es la misma corrección que ya hizo
+  falta cuando el monograma iba al lado del nombre.
+- **Los ocho archivos salen a la MISMA caja** (248×176 el apilado, 174×174 el
+  círculo). Se consigue llevando el anillo de los cuatro al mismo radio ANTES de
+  recortar y usando una caja común en unidades de radio. En crudo sus
+  proporciones se iban de 1,4029 a 1,4161, y esa diferencia es un salto de
+  tamaño visible al cambiar de estilo.
+- **Hay un juego por estilo, no dos.** La marca cambia de color entera, no sólo
+  de claro a oscuro. `--logo` y `--logo-icono` eligen la pieza como cualquier
+  otro token y `.logotipo` y `.isotipo` las pintan de fondo, así que **ningún
+  componente recibe el tema ni lo pregunta** —el pie usa la misma clase que la
+  barra— y sigue sin haber un `if (tema === …)`.
+- **Se les da SÓLO la altura**; el ancho sale del `aspect-ratio`. Si cambia el
+  recorte en el script, cambia la proporción en `index.css`.
+- **Escritorio el logotipo entero; móvil sólo el círculo.** De `md` en adelante
+  el apilado a **72px**; por debajo, el círculo a **32px**. Apilado, el nombre es
+  una fracción pequeña del dibujo, así que en la barra de 64 de móvil caería a
+  ocho píxeles: **mejor no ponerlo que ponerlo ilegible**. El `aria-label` de la
+  barra mantiene la marca completa para el lector de pantalla.
+- **La barra de escritorio mide 96 y no 80**, justo para que el apilado entre a
+  72. Al subirla hubo que mover con ella, los mismos 16px, el `md:pt-` del hero y
+  el `md:scroll-mt-` de `Section` y `Contact`. **Medido después**: de la barra al
+  primer texto del hero 37,8px y tras saltar por el menú 37,3 en escritorio y
+  45,5 en móvil —el ritmo de siempre—, y la fila de soluciones sigue entrando
+  entera en la primera pantalla a 1440x800. Si se vuelve a tocar el alto de la
+  barra, hay que mover los tres a la vez.
+- **El pie lleva el círculo, no el logotipo entero**, a 20px: la línea de cierre
+  es texto a cuerpo 12 y el apilado ahí rompería el renglón. Tampoco se escribe
+  el nombre al lado a mano —daría dos versiones de la misma palabra en la misma
+  página—; lo que firma es el nombre real de Rubén, que va justo detrás. Por eso
+  `.wordmark` ya no existe.
+- **El favicon es otra pieza a propósito**: disco lleno con «RD» calado, porque a
+  16px el filete fino no se dibuja. Va a sangre sin pastilla y **cambia con el
+  tema del NAVEGADOR** —lleva la media query dentro—, no con el del sitio: un
+  archivo estático no ve las variables de `index.css`. No sale de `logo.py`.
+- **La imagen de compartir usa la MISMA pieza** (`public/logo/apilado-claro.webp`),
+  no una copia, y tampoco compone la marca con texto. Va a **132px de alto**, y
+  el número no es libre: a 62 el nombre era ilegible en la burbuja de WhatsApp
+  —donde la tarjeta se ve a un 27%— y a 150 la línea de abajo se salía.
+- **Si cambia el nombre de la marca**, el logo es una imagen: hay que rehacer la
+  lámina. En el código se toca `PROFILE.brand` en `content.js` y el `<title>` y
+  las etiquetas OG de `index.html`. La clave de `localStorage`
+  (`rubendev-theme`) se queda con el nombre viejo a propósito: renombrarla haría
+  que todo el que ya visitó el sitio perdiera el estilo que tenía elegido.
 
 ### Tipografía, composición e interacción
 
 - **Dos tipografías, y cada una tiene su trabajo.** **Sentient** (serifa) en los
-  titulares y en la marca; **Satoshi** (sans) en todo lo que se lee de verdad:
+  titulares; **Satoshi** (sans) en todo lo que se lee de verdad:
   menú, texto corrido, botones, etiquetas y títulos de tarjeta. Es el
   emparejamiento editorial clásico y es lo que da el aire premium; una serifa a
   cuerpo pequeño sólo ensucia, y una sans sola no distingue la marca de
@@ -247,8 +282,9 @@ hace que se lean como una pieza y no como dos letras juntas.
     bloqueó el pintado una vez. Las dos se precargan en `index.html`: las dos
     salen en la primera pantalla.
   - El reparto vive en dos tokens y en tres clases: `--font-display` es la
-    serifa y `--font-sans` la sans; `.display` (titulares) y `.wordmark` (la
-    marca) van a la primera, `.display-light` y todo lo demás a la segunda.
+    serifa y `--font-sans` la sans; `.display` (titulares) va a la primera,
+    `.display-light` y todo lo demás a la segunda. El logotipo no entra en el
+    reparto: va en trazos y no usa ninguna de las dos.
     **`.display-light` apunta a `--font-sans` a propósito**: si apuntara al
     token de titulares, los títulos de tarjeta se llenarían de remates.
   - **El golpe del titular NO lo da el peso.** `.display` va a 400 con
@@ -261,8 +297,6 @@ hace que se lean como una pieza y no como dos letras juntas.
     soluciones fuera de la primera pantalla en una ventana de 800px de alto.
     Medido en 1440x800, 1440x900, 375 y 360. La interlinea sube a 1.06 por lo
     mismo: a 1.02 las descendentes rozan las mayúsculas de la línea siguiente.
-  - La marca lleva clase propia (`.wordmark`, peso 700) y no `.display`: un
-    logotipo a 18px necesita cuerpo, y a 400 se quedaba en nada.
 - Microetiquetas (`.eyebrow`, `.tag`): versalitas con tracking amplio y peso 700.
   Nada de monoespaciada en la interfaz.
 - **Composición asimétrica**: rejilla de 12 donde los bloques no comparten eje.

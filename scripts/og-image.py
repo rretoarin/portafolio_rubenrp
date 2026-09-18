@@ -3,9 +3,10 @@
 Genera la imagen que se ve al compartir el enlace (Open Graph, 1200x630).
 
 Usa las tipografías y los colores del sitio para que la tarjeta se lea como una
-pieza más de RubenDev y no como una miniatura genérica: la serifa (Sentient) en
-la marca y en la promesa, la sans (Satoshi) en las versalitas del pie, que es
-exactamente el reparto que hace `src/index.css`.
+pieza más de RuberpDev y no como una miniatura genérica: la serifa (Sentient) en
+la promesa, la sans (Satoshi) en las versalitas del pie, que es exactamente el
+reparto que hace `src/index.css`. El logotipo no se compone aquí: se pega la
+pieza entera que genera scripts/logo.py.
 
 La regla que costó una tarde aprender: **en una burbuja de WhatsApp la tarjeta
 mide unos 320 px**, un 27% de esta imagen. Todo lo que aquí baje de 44 px de
@@ -22,7 +23,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FUENTES = os.path.join(ROOT, "public", "fonts")
 SERIFA = os.path.join(FUENTES, "sentient-variable.woff2")
 SANS = os.path.join(FUENTES, "satoshi-variable.woff2")
-LOGO = os.path.join(ROOT, "public", "logo", "claro.webp")
+LOGO = os.path.join(ROOT, "public", "logo", "apilado-claro.webp")
 OUT = os.path.join(ROOT, "public", "og.png")
 
 # Se le puede pasar otra ruta de salida para comparar variantes con
@@ -57,19 +58,20 @@ def sans(tam, peso):
     return f
 
 
-def isotipo(destino, x, base, alto):
+def logotipo(destino, x, y, alto):
     """
-    Pega el monograma del estilo claro con la base apoyada en `base`, igual que
-    en la barra del sitio. Es la MISMA pieza que sirve la web
-    (`public/logo/claro.webp`), no una copia: si Rubén redibuja el logotipo y
-    vuelve a pasar scripts/logo.py, esta tarjeta se actualiza sola.
+    Pega el logotipo completo —isotipo, barra del acento y nombre— con el borde
+    superior en `y`.
 
-    Devuelve el ancho ocupado, para saber dónde empieza el nombre.
+    Es la MISMA pieza que sirve la web: la recorta scripts/logo.py de la lámina
+    de concepto, así que si se cambia el logo y se vuelve a pasar ese script,
+    esta tarjeta se actualiza sola. Aquí NO se compone la marca con texto:
+    hacerlo daría dos versiones distintas de la misma palabra, una en Sentient
+    y otra en la letra del logo.
     """
     im = Image.open(LOGO).convert("RGBA")
     ancho = round(im.width * alto / im.height)
-    im = im.resize((ancho, alto), Image.LANCZOS)
-    destino.paste(im, (x, base - alto), im)
+    destino.paste(im := im.resize((ancho, alto), Image.LANCZOS), (x, y), im)
     return ancho
 
 
@@ -82,19 +84,21 @@ for cx, cy, r in ((1150, 90, 430), (120, 620, 300)):
 
 y = MARGEN
 
-# 1) La marca: isotipo + nombre, el mismo bloque que la barra del sitio. El
-# monograma se apoya en la línea base del nombre y mide lo que sus mayúsculas,
-# que es el mismo criterio que en la barra.
-marca_a, marca_b = "Ruben", "Dev"
-f_marca = serifa(44, 700)
-base = y + f_marca.getmetrics()[0]
-x = MARGEN + isotipo(img, MARGEN, base, 48) + 16
-d.text((x, y), marca_a, font=f_marca, fill=INK)
-ancho_a = d.textlength(marca_a, font=f_marca)
-d.text((x + ancho_a, y), marca_b, font=f_marca, fill=ACCENT)
+# 1) La marca, de una pieza y apilada como la lámina.
+#
+# El alto no es libre. Apilado, el nombre es sólo 27,7 de los 176 que mide el
+# dibujo, así que a los 62 px que llevaba la versión horizontal su mayúscula
+# caía a 9,8 px y en la burbuja de WhatsApp —donde la tarjeta se ve a un 27%— a
+# 2,6: ilegible. A 132 la mayúscula mide 20,8 y en la burbuja 5,6, del orden del
+# resto del texto de la tarjeta. Más arriba no se puede: 150 empujaba la línea
+# de abajo fuera de la imagen.
+ALTO_MARCA = 132
+logotipo(img, MARGEN, y, ALTO_MARCA)
 
-# 2) La promesa. Es lo único que tiene que leerse sí o sí.
-y += 132
+# 2) La promesa. Es lo único que tiene que leerse sí o sí. El salto se cuenta
+# desde el alto real de la marca, no con un número suelto: si cambia el tamaño
+# del logotipo de arriba, esto se mueve con él y nada se sale por abajo.
+y += ALTO_MARCA + 30
 f_titular = serifa(76, 400)
 for linea in ("Transformo procesos", "complejos en sistemas", "digitales simples."):
     d.text((MARGEN, y), linea, font=f_titular, fill=INK)

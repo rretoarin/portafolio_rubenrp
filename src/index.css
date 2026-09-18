@@ -162,11 +162,22 @@
   --grain-blend: normal;
   --shot-filter: none;
   /*
-   * El isotipo del estilo. Es lo ÚNICO del logotipo que cambia por tema, y va
-   * en una variable como todo lo demás: el componente no pregunta qué estilo
-   * hay puesto. Las cuatro piezas las dibujó Rubén; las prepara scripts/logo.py.
+   * El logotipo del estilo. Dos piezas por estilo, ocho en total, que monta
+   * `scripts/logo.py`: el apilado para la barra de escritorio y el círculo
+   * solo para móvil y para el pie.
+   *
+   * **Hay un juego por estilo, no dos.** La lámina de concepto trae el
+   * logotipo ya resuelto en los cuatro —cada uno con su tinta: tinta en claro,
+   * crema en oscuro, azul marino en azul y verde bosque en verde—, así que la
+   * marca cambia de color entera y no sólo de claro a oscuro.
+   *
+   * Van en variables como cualquier otro color, así que **ningún componente
+   * recibe el tema ni lo pregunta**: `.logotipo` y `.isotipo` las pintan de
+   * fondo y el pie usa la misma clase que la barra. El terracota va DENTRO del
+   * archivo y no cambia en ningún estilo.
    */
-  --logo: url("/logo/claro.webp");
+  --logo: url("/logo/apilado-claro.webp");
+  --logo-icono: url("/logo/icono-claro.webp");
 }
 
 /*
@@ -208,8 +219,9 @@
   --grain-blend: screen;
   /* Las capturas ya vienen invertidas de `proyectos/oscuro/`: nada que filtrar. */
   --shot-filter: none;
-  /* Trazo claro sobre negro: la versión dibujada para oscuro, no la invertida. */
-  --logo: url("/logo/oscuro.webp");
+  /* Su propio juego, con la tinta crema de la lámina. */
+  --logo: url("/logo/apilado-oscuro.webp");
+  --logo-icono: url("/logo/icono-oscuro.webp");
 }
 
 /* Azul — misma base clara. Lo que cambia es la marca: acento, CTA y titulares. */
@@ -245,7 +257,9 @@
   --grain-opacity: 0.02;
   --grain-blend: normal;
   --shot-filter: none;
-  --logo: url("/logo/azul.webp");
+  /* Su propio juego, con la tinta azul marino de la lámina. */
+  --logo: url("/logo/apilado-azul.webp");
+  --logo-icono: url("/logo/icono-azul.webp");
 }
 
 /* Verde — misma base clara. Verde bosque, no verde ecológico. */
@@ -281,7 +295,9 @@
   --grain-opacity: 0.02;
   --grain-blend: normal;
   --shot-filter: none;
-  --logo: url("/logo/verde.webp");
+  /* Su propio juego, con la tinta verde bosque de la lámina. */
+  --logo: url("/logo/apilado-verde.webp");
+  --logo-icono: url("/logo/icono-verde.webp");
 }
 
 /*
@@ -345,19 +361,25 @@ html.theme-switching *::after {
 
 @layer components {
   /*
-   * El isotipo RD. Va de fondo y no en un <img> porque así lo elige el estilo
+   * El logotipo. Va de fondo y no en un `<img>` porque así lo elige el estilo
    * activo con `--logo` y no hace falta pasarle el tema por props a nadie: el
-   * pie lo usa igual que la barra sin saber nada.
+   * pie usa `.isotipo` igual que la barra sin saber nada. Es lo que evita el
+   * `if (tema === …)` que con un `<img src>` habría sido inevitable.
    *
-   * Se le da SÓLO la altura; el ancho sale de `aspect-ratio`, así que nunca se
-   * deforma. La proporción es la del lienzo que exporta scripts/logo.py, que es
-   * la misma para los cuatro: si cambia allí, cambia aquí. El lienzo va SIN
-   * aire alrededor, así que la altura que se pide es la del monograma y no la
-   * de una caja con márgenes.
+   * Se les da SÓLO la altura; el ancho sale del `aspect-ratio`, que es el del
+   * recorte que exporta scripts/logo.py —si cambia el recorte allí, cambia la
+   * proporción aquí—. Los ocho archivos salen a la MISMA caja a propósito: con
+   * la caja de cada uno, el logotipo daba un salto de tamaño al cambiar de
+   * estilo.
    */
-  .isotipo {
-    aspect-ratio: 150 / 108;
+  .logotipo {
+    aspect-ratio: 248 / 176;
     background: var(--logo) center / contain no-repeat;
+  }
+
+  .isotipo {
+    aspect-ratio: 1;
+    background: var(--logo-icono) center / contain no-repeat;
   }
 
   /*
@@ -417,21 +439,6 @@ html.theme-switching *::after {
     line-height: 1.06;
     text-wrap: balance;
     overflow-wrap: break-word;
-  }
-
-  /*
-   * La marca. Va en la serifa de los titulares, igual que ellos: es la firma
-   * de la casa y tenía que hablar el mismo idioma que el titular que tiene
-   * justo debajo —en la sans se leía como de otro sitio.
-   *
-   * Clase propia y no `.display` porque el peso es otro: un logotipo a 18px
-   * necesita cuerpo para sostenerse, y a peso 400 se quedaba en nada. 700 es
-   * el máximo de Sentient. El tracking se lo pone `tracking-tight` desde el
-   * marcado, como antes.
-   */
-  .wordmark {
-    font-family: var(--font-display);
-    font-weight: 700;
   }
 
   /*

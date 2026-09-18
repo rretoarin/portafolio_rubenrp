@@ -4,7 +4,13 @@
 export const PROFILE = {
   // La marca comercial. La persona detrás sigue teniendo nombre y cara: eso es
   // lo que separa una marca personal de una agencia sin rostro.
-  brand: 'RubenDev',
+  //
+  // Es el único sitio donde se escribe: de aquí salen el `aria-label` de la
+  // barra y el `alternateName` del JSON-LD. El logotipo NO lo lee —lleva la
+  // palabra dibujada en trazos, que los genera scripts/logo.py—, así que si
+  // cambia la marca hay que volver a pasar ese script además de tocar esta
+  // línea y el <title> de index.html.
+  brand: 'RuberpDev',
   name: 'Rubén Reto Panta',
   initials: 'RR',
   email: 'rubenretopanta@gmail.com',

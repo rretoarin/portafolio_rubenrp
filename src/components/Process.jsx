@@ -5,7 +5,7 @@ import Section from './Section'
  * fila: el recorrido completo se lee de un vistazo, sin scroll.
  *
  * El quinto va destacado a propósito. "No te dejamos solo después del
- * lanzamiento" es el argumento comercial que más separa a RubenDev de quien
+ * lanzamiento" es el argumento comercial que más separa a RuberpDev de quien
  * entrega un proyecto y desaparece, así que no puede parecer un paso más.
  */
 export default function Process({ t }) {

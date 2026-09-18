@@ -1,75 +1,34 @@
 /*
- * El isotipo RD y el logotipo completo de RubenDev.
+ * El logotipo de RuberpDev: el círculo con «RD» y su rayita de terracota, y el
+ * nombre apilado debajo con el subrayado bajo «Dev».
  *
- * Las cuatro piezas las dibujó Rubén, una por estilo, y viven en
- * `public/logo/*.webp`. No se eligen aquí: el estilo activo las pone en
- * `--logo` y la clase `.isotipo` de `index.css` las pinta de fondo. Por eso
- * este componente no recibe el tema, no lo pregunta y no hay ningún
- * `if (tema === …)` —el pie lo usa exactamente igual que la barra—.
+ * Es la LÁMINA DE CONCEPTO recortada, no un redibujo. Se intentó reconstruirlo
+ * con vectores —contornos de Outfit colocados con las medidas de la lámina— y
+ * seguía sin ser lo aprobado, así que el logo del sitio es la propia lámina.
+ * Las piezas las recorta `scripts/logo.py` a `public/logo/*.webp`. **No volver
+ * a redibujarlo.**
  *
- * Se probó calcar la referencia a vectores y se descartó: el original era una
- * imagen de 125 px con el borde blando y a los 24 px de la barra se deshacía.
- * Estas piezas vienen dibujadas una a una y se exportan a 3x, así que en
- * pantalla retina llegan limpias. Las prepara `scripts/logo.py`.
+ * Aquí no se elige ninguna pieza: el estilo activo las pone en `--logo` y
+ * `--logo-icono`, y `.logotipo` y `.isotipo` de `index.css` las pintan de
+ * fondo. Por eso este componente no recibe el tema, no lo pregunta y no hay
+ * ningún `if (tema === …)`: el pie usa `<Mark>` exactamente igual que la barra.
  *
- * Cómo está construido el monograma, porque no es una R y una D cualesquiera:
- * la R no tiene asta entera —el brazo entra por arriba, gira en la panza y baja
- * hasta un asta que sólo existe en la mitad inferior, así que la contraforma
- * queda abierta por la izquierda— y la D es sólo su arco, sin asta, porque el
- * hueco que deja la R le hace de asta. La diagonal en color es la pierna de la
- * R y va suelta, sin tocar el asta: es el único detalle en color y lo que hace
- * que se lea como una marca y no como dos letras juntas.
+ * Son dos piezas y no una que se encoge porque el nombre necesita sitio: el
+ * apilado mide 434 × 368 de recorte, así que en la barra de 64 de móvil su
+ * nombre caería a ocho píxeles. Ahí va sólo el círculo.
+ *
+ * Las dos se escalan dando SÓLO la altura; el ancho sale del `aspect-ratio`.
  */
 
 /*
- * El isotipo suelto. Funciona solo —es lo que se ve en la barra por debajo de
- * `sm` y en el pie— y se escala dando SÓLO la altura: el ancho sale del
- * `aspect-ratio` de `.isotipo`, así que nunca se deforma.
+ * El círculo suelto. Es lo que se ve en la barra por debajo de `md` y en la
+ * línea de cierre del pie, que es texto a cuerpo 12 y no admite el apilado.
  */
 export function Mark({ className = '' }) {
   return <span aria-hidden className={`isotipo shrink-0 ${className}`} />
 }
 
-/*
- * El logotipo de la barra: isotipo + nombre.
- *
- * Por debajo de `sm` el bloque se APILA: el isotipo arriba y el nombre debajo,
- * a cuerpo 9. En una fila, el nombre a tamaño normal se come el sitio que
- * necesitan las cuatro muestras y el menú; apilado cabe entero y la marca se
- * lee completa, que es lo que no pasaba cuando el nombre desaparecía del todo.
- * Los dos van centrados entre sí, porque a ese cuerpo el nombre mide algo más
- * que el monograma y alinearlos por la izquierda dejaba el bloque torcido.
- *
- * De `sm` en adelante vuelve a la fila y a `items-baseline`, no a
- * `items-center`: el isotipo se apoya en la línea base del nombre, que es lo
- * que hace que los dos se lean como una sola pieza. Centrado lo dejaba
- * flotando medio píxel por encima y se veía despegado.
- *
- * El `tracking-tight` es sólo de `sm` para arriba: a cuerpo 9 aprieta las
- * letras hasta que se tocan.
- *
- * El alto va a ojo y NO a la altura de las mayúsculas. Se probó igualarlo a
- * ellas —12,6 px a `text-lg` y 14 a `text-xl`— y se veía claramente más
- * pequeño que la palabra: el monograma es ancho y de trazo fino, así que a la
- * misma altura pesa menos. Va a ~1,45 veces la mayúscula (18 y 20 px), que es
- * donde las dos piezas se leen con el mismo peso.
- *
- * Por debajo de `sm` va a 26: ahí el isotipo está solo en una barra de 64 y no
- * tiene palabra con la que igualarse, así que necesita cuerpo al lado de unos
- * controles de 44.
- */
-export default function Logo() {
-  return (
-    <span className="flex flex-col items-center gap-px sm:flex-row sm:items-baseline sm:gap-2 md:gap-2.5">
-      <Mark className="h-[1.375rem] sm:h-[1.125rem] md:h-[1.25rem]" />
-      <span className="flex items-baseline">
-        <span className="wordmark text-[0.5625rem] sm:text-lg sm:tracking-tight md:text-xl">
-          Ruben
-        </span>
-        <span className="wordmark text-[0.5625rem] text-accent sm:text-lg sm:tracking-tight md:text-xl">
-          Dev
-        </span>
-      </span>
-    </span>
-  )
+/* El logotipo entero, apilado. La barra de escritorio, de `md` en adelante. */
+export default function Logo({ className = '' }) {
+  return <span aria-hidden className={`logotipo shrink-0 ${className}`} />
 }

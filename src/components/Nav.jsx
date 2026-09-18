@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
-import Logo from './Logo'
+import Logo, { Mark } from './Logo'
 import ThemeSwitch from './ThemeSwitch'
 
 // Cinco destinos, los mismos en escritorio y en móvil: son todas las secciones
@@ -115,14 +115,35 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
             : 'border-transparent bg-transparent'
         }`}
       >
-        <nav className="shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
+        {/*
+          La barra mide 96 en escritorio y no 80: el logotipo va apilado y a 72
+          de alto, que es donde su nombre llega a 11,3px de mayúscula y se lee.
+          Más baja, el nombre se queda en ocho píxeles. En móvil sigue en 64,
+          porque ahí va sólo el círculo.
+        */}
+        <nav className="shell flex h-16 items-center justify-between gap-3 md:h-24 md:gap-4">
           {/*
             Isotipo + nombre. El nombre se cae por debajo de `sm` y queda sólo
             el monograma: el `aria-label` mantiene la marca completa para quien
             navega con lector de pantalla.
+
+            De `md` en adelante va el logotipo ENTERO, apilado como la lámina
+            de concepto. Por debajo va sólo el círculo: el apilado mide 203 de
+            ancho por 176 de alto, así que en una barra de 64 el nombre caería a
+            ocho píxeles y no se leería. Es mejor no ponerlo que ponerlo ilegible.
+
+            Son dos piezas y no una que se encoge porque el lienzo es otro: el
+            apilado es algo más ancho que alto (1,155) y el círculo, cuadrado.
+
+            Las alturas no son libres. El filete del círculo es 1,5 sobre 96 de
+            diámetro, así que se dibuja a 0,015 × la altura pedida y por debajo
+            de ~24px se deshace —lo avisa el propio manual del logo—. Medido a
+            1x y a 2x: 72 de apilado en la barra de 96, y 32 de círculo suelto
+            en la de 64.
           */}
           <a href="#top" className="tap group flex items-center" aria-label={PROFILE.brand}>
-            <Logo />
+            <Mark className="h-8 md:hidden" />
+            <Logo className="hidden h-[4.5rem] md:block" />
           </a>
 
           <div className="flex items-center gap-1">

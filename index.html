@@ -2,7 +2,20 @@
 <html lang="es" data-theme="claro">
   <head>
     <meta charset="UTF-8" />
+    <!--
+      El juego del favicon, todo generado por scripts/logo.py desde el mismo
+      vector del logotipo. NO cambia con el estilo del sitio: son archivos
+      estáticos y no ven las variables de index.css. El SVG sí se adapta al tema
+      del NAVEGADOR, que lleva la regla dentro.
+
+      El orden importa: quien entiende SVG se queda con el SVG —nítido a
+      cualquier densidad y 1,2 kB— y el .ico es sólo el respaldo para quien no.
+    -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
@@ -47,7 +60,7 @@
       crossorigin
     />
 
-    <title>RubenDev — Soluciones digitales a medida para tu negocio</title>
+    <title>RuberpDev — Soluciones digitales a medida para tu negocio</title>
     <meta
       name="description"
       content="Transformo procesos complejos en sistemas digitales simples. Diseño y desarrollo páginas web, sistemas web a medida, integraciones y automatización de procesos para empresas y negocios en Perú. Trabajas directamente conmigo, del primer boceto al despliegue."
@@ -57,14 +70,14 @@
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="RubenDev — Soluciones digitales a medida para tu negocio"
+      content="RuberpDev — Soluciones digitales a medida para tu negocio"
     />
     <meta
       property="og:description"
       content="Transformo procesos complejos en sistemas digitales simples. Páginas web, sistemas a medida, integraciones y automatización, sin intermediarios."
     />
     <meta property="og:url" content="https://portafolio-rubenrp.vercel.app/" />
-    <meta property="og:site_name" content="RubenDev" />
+    <meta property="og:site_name" content="RuberpDev" />
     <meta property="og:locale" content="es_PE" />
     <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:image" content="https://portafolio-rubenrp.vercel.app/og.png" />
@@ -72,7 +85,7 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="RubenDev — soluciones digitales a medida para tu negocio."
+      content="RuberpDev — soluciones digitales a medida para tu negocio."
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://portafolio-rubenrp.vercel.app/og.png" />

@@ -95,15 +95,21 @@ export default function Footer({ t }) {
           */}
           <p className="text-xs text-ink-soft">
             {/*
-              El isotipo firma el cierre, en la misma línea que el nombre y con
-              el mismo criterio que en la barra: algo por encima de sus
-              mayúsculas, que es donde pesan igual. Va `inline-block` y no en un
-              flex, así el resto de la línea sigue siendo texto corrido y parte
-              por donde tiene que partir en móvil.
+              El isotipo firma el cierre, no el logotipo entero: esta línea es
+              texto a cuerpo 12 y el apilado mide 176 de alto, así que aquí no
+              cabe sin romper el renglón. La marca completa ya está en la barra.
+
+              Tampoco se escribe el nombre al lado a mano: daría dos versiones
+              distintas de la misma palabra en la misma página, una en Satoshi y
+              otra en la letra del logo. El nombre real de Rubén, que es lo que
+              firma de verdad el cierre, va justo después.
+
+              Va `inline-block` y no en un flex, así el resto de la línea sigue
+              siendo texto corrido y parte por donde tiene que partir en móvil.
+              A 20px —y no a los 12 del texto— porque el filete se deshace por
+              debajo de ~24 y hay que dejarlo lo más cerca posible.
             */}
-            <Mark className="mr-1.5 inline-block h-3 align-middle" />
-            <span className="font-bold text-ink">Ruben</span>
-            <span className="font-bold text-accent">Dev</span>
+            <Mark className="mr-1.5 inline-block h-5 align-middle" />
             <span> · © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}</span>
           </p>
           <a

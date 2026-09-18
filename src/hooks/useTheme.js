@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 /*
- * Los cuatro estilos de RubenDev. El orden es el del selector.
+ * Los cuatro estilos de RuberpDev. El orden es el del selector.
  *
  * Aquí sólo vive el identificador: los colores están en `src/index.css` y los
  * nombres visibles, en `content.js` (uno por idioma). Este archivo no sabe de
@@ -12,6 +12,12 @@ export const THEMES = ['claro', 'oscuro', 'azul', 'verde']
 
 export const DEFAULT_THEME = 'claro'
 
+/*
+ * Se queda con el nombre viejo de la marca A PROPÓSITO. Renombrarla a
+ * `ruberpdev-theme` haría que todo el que ya ha visitado el sitio perdiera el
+ * estilo que tenía elegido y volviera al claro. No es una errata: no tocarla.
+ * El mismo literal está en el script en línea de `index.html`.
+ */
 const STORAGE_KEY = 'rubendev-theme'
 
 // El mismo cálculo que corre el script en línea de `index.html` antes de pintar.
