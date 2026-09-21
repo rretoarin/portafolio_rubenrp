@@ -34,7 +34,7 @@ siempre.
 
     python scripts/capturas-estilo.py
 """
-from PIL import Image, ImageOps
+from PIL import Image, ImageDraw, ImageOps
 from collections import deque
 import numpy as np
 import os
@@ -65,8 +65,71 @@ MIN_TILES = 10             # casillas contiguas para que cuente como foto
 # con antialias de color, que son largos y bajos.
 MIN_LADO = 64
 
-# Fotos que el detector no alcanza, en coordenadas de la captura ya terminada.
-KEEP = {}
+# Fotos que NO se invierten, en coordenadas de la captura ya terminada. Van a
+# mano: el detector automático (`photo_boxes`) dejaba franjas blancas, fotos a
+# medias y se saltaba las de fondo blanco (el equipo de «Nosotros»). Dentro de
+# cada caja, el blanco que toca el borde se trata como fondo y se invierte con
+# el resto de la página: así se respetan las esquinas redondeadas, la onda de
+# la portada y el fondo blanco de los retratos.
+FOTOS = {
+    # (caja, forma, radio, bordes desde los que se busca fondo blanco)
+    "jm-1.webp": [((589, 169, 1137, 508), "round", 28, ("bottom",))],       # portada: la onda de abajo
+    "jm-3.webp": [((41, 433, 392, 630), "top", 16, ("bottom",)),             # servicios: la placa del
+                  ((422, 433, 773, 630), "top", 16, ("bottom",)),            # icono toca el borde de
+                  ((803, 433, 1155, 630), "top", 16, ("bottom",))],          # abajo y es fondo
+    "jm-5.webp": [((634, 182, 1158, 530), "round", 22, ("top", "bottom", "left", "right")),  # equipo
+                  ((659, 609, 739, 689), "circle", 0, ())],                  # consultora
+    "jm-6.webp": [((x, 440, x + 207, 716), "round", 18, ()) for x in (25, 252, 479, 706, 933)],  # talleres
+    "jm-8.webp": [((40, 405, 1140, 530), "rect", 0, ("top", "bottom", "left", "right"))],     # logos
+    "muestras-1.webp": [((39, 92, 86, 139), "circle", 0, ())],               # avatar del panel
+}
+BLANCO = 245   # un píxel con los tres canales por encima cuenta como fondo
+
+
+def mascara_foto(recorte, forma, radio, bordes):
+    """255 = foto (se conserva); 0 = se invierte con el resto de la página.
+
+    La forma recorta las esquinas (redondeadas o en círculo). Además, el
+    blanco conectado a los `bordes` indicados es fondo de la página, no foto.
+    Sólo desde esos bordes: si se busca desde todos, el relleno se cuela por
+    los blancos de la propia foto (batas, cascos, estanterías).
+    """
+    w, h = recorte.size
+    forma_m = Image.new("L", (w, h), 0)
+    d = ImageDraw.Draw(forma_m)
+    if forma == "circle":
+        d.ellipse((0, 0, w - 1, h - 1), fill=255)
+    elif forma == "round":
+        d.rounded_rectangle((0, 0, w - 1, h - 1), radius=radio, fill=255)
+    elif forma == "top":
+        d.rounded_rectangle((0, 0, w - 1, h - 1 + radio), radius=radio, fill=255)
+    else:
+        d.rectangle((0, 0, w - 1, h - 1), fill=255)
+    if not bordes:
+        return forma_m
+
+    px = recorte.load()
+    marca = Image.new("L", (w, h), 0)
+    m = marca.load()
+    for y in range(h):
+        for x in range(w):
+            r, g, b = px[x, y]
+            if r >= BLANCO and g >= BLANCO and b >= BLANCO:
+                m[x, y] = 255
+    semillas = []
+    if "top" in bordes:
+        semillas += [(x, 0) for x in range(w)]
+    if "bottom" in bordes:
+        semillas += [(x, h - 1) for x in range(w)]
+    if "left" in bordes:
+        semillas += [(0, y) for y in range(h)]
+    if "right" in bordes:
+        semillas += [(w - 1, y) for y in range(h)]
+    for x, y in semillas:
+        if m[x, y] == 255:
+            ImageDraw.floodfill(marca, (x, y), 128)
+    foto = marca.point(lambda v: 0 if v == 128 else 255)
+    return Image.composite(foto, Image.new("L", (w, h), 0), forma_m)
 
 
 def flip(im):
@@ -182,7 +245,8 @@ def main():
         print(f"--- {estilo} ---")
 
         for nombre in sorted(os.listdir(SRC)):
-            if not nombre.endswith(".webp"):
+            # Las reducidas (`@560w`) se sacan después de cada tema, no se invierten.
+            if not nombre.endswith(".webp") or "@" in nombre:
                 continue
             # En azul y en verde, sólo las capturas con color de marca.
             if color is not None and not nombre.startswith(PREFIJO_MARCA):
@@ -192,15 +256,58 @@ def main():
             variante = flip(clara) if color is None else recolorear(clara, color)
 
             # Las fotos no aguantan ni la inversión ni el recoloreado.
-            cajas = photo_boxes(clara) + KEEP.get(nombre, [])
-            for caja in cajas:
-                variante.paste(clara.crop(caja), caja[:2])
+            cajas = FOTOS.get(nombre, [])
+            for caja, forma, radio, bordes in cajas:
+                recorte = clara.crop(caja)
+                variante.paste(recorte, caja[:2], mascara_foto(recorte, forma, radio, bordes))
 
             destino = os.path.join(destino_dir, nombre)
-            variante.save(destino, "WEBP", quality=82, method=6)
+            variante.save(destino, "WEBP", quality=CALIDAD, method=6)
             print(f"{nombre:18} {len(cajas)} foto(s) intacta(s)   "
                   f"{os.path.getsize(destino) // 1024} kB")
 
 
+# --- Tamaños para `srcset` ----------------------------------------------------
+# En la página las capturas se pintan a 260–680 px de ancho y los archivos miden
+# 900–1600: el navegador las reducía 2–5 veces y, como van dentro de capas con
+# `transform` (el volteo del carrusel, el mazo del hero), esa reducción la hace
+# la GPU con un filtro rápido y blando. Por eso se veían sin nitidez. Aquí se
+# exportan ya reducidas con Lanczos y `srcset` elige la más cercana al tamaño
+# real × la densidad de la pantalla: la reducción que queda es de 1–1,4x.
+#
+# NO se enfoca después de reducir: con texto pequeño se come el antialiasing
+# (ver lo que se probó con el logo en CLAUDE.md).
+ANCHOS = (400, 560, 800, 1120)
+CALIDAD = 86
+TAMANOS_JSON = os.path.join(os.path.dirname(__file__), "..", "src", "data", "capturas.json")
+
+
+def reducidas():
+    """`nombre@560w.webp` y compañía, en claro y en oscuro, y el JSON de anchos."""
+    import json
+    tamanos = {}
+    for carpeta in (SRC, os.path.join(SRC, "oscuro")):
+        for viejo in os.listdir(carpeta):
+            if "@" in viejo and viejo.endswith(".webp"):
+                os.remove(os.path.join(carpeta, viejo))
+        for nombre in sorted(os.listdir(carpeta)):
+            if not nombre.endswith(".webp"):
+                continue
+            im = Image.open(os.path.join(carpeta, nombre)).convert("RGB")
+            anchos = [w for w in ANCHOS if w < im.width]
+            for w in anchos:
+                h = round(im.height * w / im.width)
+                base = nombre[:-5]
+                im.resize((w, h), Image.LANCZOS).save(
+                    os.path.join(carpeta, f"{base}@{w}w.webp"), "WEBP", quality=CALIDAD, method=6)
+            # Claro y oscuro salen del mismo tamaño: basta con apuntarlo una vez.
+            tamanos[nombre[:-5]] = anchos + [im.width]
+    with open(TAMANOS_JSON, "w", encoding="utf-8") as f:
+        json.dump(tamanos, f, indent=2, sort_keys=True)
+        f.write("\n")
+    print(f"--- reducidas: {len(tamanos)} capturas, anchos {ANCHOS} + el original ---")
+
+
 if __name__ == "__main__":
     main()
+    reducidas()

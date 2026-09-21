@@ -44,9 +44,8 @@ export function whatsappUrl(message) {
 }
 
 /*
- * Los dos casos. En la home cada uno ocupa una tarjeta con UNA captura y tres
- * líneas —problema, solución, resultado—; las demás capturas viven detrás del
- * visor, a un clic. Antes cada caso ocupaba tres pantallas.
+ * Los dos casos. En la home cada uno ocupa una tarjeta con un carrusel que pasa
+ * TODAS sus capturas y tres líneas —problema, solución, resultado—.
  *
  * `shots` son capturas reales en producción; las del sistema de Arin llevan los
  * datos de cliente difuminados. El orden manda: cada ruta se empareja por índice
@@ -68,6 +67,9 @@ export const PROJECTS = [
       '/proyectos/muestras-6.webp',
       '/proyectos/muestras-7.webp',
       '/proyectos/muestras-8.webp',
+      '/proyectos/muestras-9.webp',
+      '/proyectos/muestras-10.webp',
+      '/proyectos/muestras-11.webp',
     ],
   },
   {
@@ -83,6 +85,8 @@ export const PROJECTS = [
       '/proyectos/jm-4.webp',
       '/proyectos/jm-5.webp',
       '/proyectos/jm-6.webp',
+      '/proyectos/jm-7.webp',
+      '/proyectos/jm-8.webp',
     ],
   },
 ]
@@ -217,11 +221,14 @@ export const CONTENT = {
             'Panel de control: pendientes, finalizados y aprobados, con la carga de cada proceso al día.',
             'Listado de diseños: filtros combinados por estado y categoría, con exportación a Excel.',
             'Calendario de cierres: el año completo, coloreado por muestras vencidas, por vencer y a tiempo.',
-            'Ficha del diseño: las aprobaciones quedan firmadas con nombre y fecha, y el historial guarda cada cambio.',
+            'Ficha del diseño: el historial guarda cada cambio con quién lo hizo, cuándo y por qué.',
             'Reporte de vencimientos: porcentaje por estado, distribución por unidad de negocio y piezas por kilataje.',
-            'Reporte de muestras: curva de cierres, estados del periodo y tiempo promedio de entrega.',
+            'Reporte de reprogramaciones: cuántas hubo por tipo y cuántas piezas afectaron, con exportación a Excel.',
             'Mantenimiento de feriados: un cambio acá recalcula los plazos de todo el sistema.',
             'Los reportes del sistema, agrupados: por semana, por mes, por diseñador y por vencimiento.',
+            'Diseños por semana: cuánto creó cada diseñador en el rango elegido.',
+            'Diseños por mes: el año completo, con el total y el porcentaje de cada mes.',
+            'Reporte por diseñador: la producción de cada uno en el periodo, en tabla y en gráfico.',
           ],
         },
         'jm-consulting': {
@@ -236,10 +243,12 @@ export const CONTENT = {
             'En uso con dominio propio. El equipo gestiona su contenido sin tocar código y recibe las consultas ya armadas.',
           shots: [
             'Portada de J&M: la propuesta de valor y el paso directo a WhatsApp.',
-            'Catálogo de servicios con el detalle de cada trámite y certificación.',
-            'Capacitaciones: fotos reales de los talleres, cada una con su pie de foto.',
             'El proceso en cuatro etapas, para que el cliente sepa dónde está.',
+            'Catálogo de servicios con el detalle de cada trámite y certificación.',
             'Los sectores de alimentos que atienden, listados uno a uno.',
+            'Quiénes somos: el equipo, la consultora principal y los datos de la empresa.',
+            'Capacitaciones: fotos reales de los talleres, cada una con su pie de foto.',
+            'Contacto: el formulario arma el mensaje y lo abre en WhatsApp, con todos los canales a la vista.',
             'Carrusel de las empresas que ya trabajaron con la consultora.',
           ],
         },
@@ -399,11 +408,14 @@ export const CONTENT = {
             'Dashboard: pending, finished and approved, with each process load up to date.',
             'Design list: combined status and category filters, with Excel export.',
             'Deadline calendar: the full year, colour-coded by overdue, due soon and on time.',
-            'Design record: approvals signed with name and date, and a history of every change.',
+            'Design record: the history keeps every change with who made it, when and why.',
             'Overdue report: share by status, split by business unit and pieces by karat.',
-            'Sample report: closing curve, period statuses and average delivery time.',
+            'Rescheduling report: how many per type and how many pieces they affected, with Excel export.',
             'Holiday settings: one change here recalculates deadlines across the system.',
             'All system reports, grouped: by week, month, designer and due date.',
+            'Designs per week: how much each designer created in the chosen range.',
+            'Designs per month: the full year, with the total and share of each month.',
+            'Report by designer: each designer\'s output for the period, as a table and a chart.',
           ],
         },
         'jm-consulting': {
@@ -418,10 +430,12 @@ export const CONTENT = {
             'In use on its own domain. The team manages its content without touching code and gets enquiries ready to answer.',
           shots: [
             'J&M home: the value proposition and a direct step to WhatsApp.',
-            'Service catalogue detailing every procedure and certification.',
-            'Training: real workshop photos, each with its own caption.',
             'A four-stage process, so the client always knows where things stand.',
+            'Service catalogue detailing every procedure and certification.',
             'The food sectors they serve, listed one by one.',
+            'About us: the team, the lead consultant and the company details.',
+            'Training: real workshop photos, each with its own caption.',
+            'Contact: the form builds the message and opens it in WhatsApp, with every channel in view.',
             'Carousel of companies that have already worked with the consultancy.',
           ],
         },

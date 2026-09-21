@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from 'react'
 import { PROJECTS, shotFor } from '../data/content'
 import { useMedia } from '../hooks/useMedia'
+import { SIZES_CARRUSEL, srcsetFor } from '../data/capturas'
 import Lightbox from './Lightbox'
 import Section from './Section'
 import { ArrowUpRight, Lock } from './icons'
@@ -38,6 +39,9 @@ function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
   const [estado, dispatch] = useReducer(paginar, { i: 0, prev: null })
   const [oculto, setOculto] = useState(() => typeof document !== 'undefined' && document.hidden)
   const quieto = useMedia('(prefers-reduced-motion: reduce)')
+  // Qué archivo eligió `srcset` para cada captura: la página que voltea usa el
+  // mismo, ya descargado, en vez del original a tamaño completo.
+  const [elegidas, setElegidas] = useState({})
   const total = shots.length
 
   useEffect(() => {
@@ -61,8 +65,11 @@ function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
 
   // La siguiente se pide antes de que toque, para que no aparezca en blanco.
   useEffect(() => {
+    const siguiente = shots[(estado.i + 1) % total]
     const img = new Image()
-    img.src = shots[(estado.i + 1) % total]
+    img.sizes = SIZES_CARRUSEL
+    img.srcset = srcsetFor(siguiente) ?? ''
+    img.src = siguiente
   }, [estado.i, shots, total])
 
   const texto = captions[estado.i]
@@ -79,11 +86,17 @@ function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
         {/* El pie de abajo ya la describe y se anuncia solo: la imagen no se lee. */}
         <img
           src={shots[estado.i]}
+          srcSet={srcsetFor(shots[estado.i])}
+          sizes={SIZES_CARRUSEL}
           alt=""
           aria-hidden
           width={1600}
           height={1000}
           decoding="async"
+          onLoad={(e) => {
+            const src = e.currentTarget.currentSrc
+            setElegidas((m) => (m[estado.i] === src ? m : { ...m, [estado.i]: src }))
+          }}
           className="flip-img"
         />
         {estado.prev !== null && (
@@ -91,7 +104,7 @@ function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
             aria-hidden
             key={estado.prev}
             className="flip-page"
-            style={{ backgroundImage: `url(${shots[estado.prev]})` }}
+            style={{ backgroundImage: `url(${elegidas[estado.prev] ?? shots[estado.prev]})` }}
           />
         )}
       </button>

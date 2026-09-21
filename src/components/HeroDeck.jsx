@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useMedia } from '../hooks/useMedia'
+import { SIZES_MAZO, srcsetFor } from '../data/capturas'
 import { ChevronLeft, ChevronRight, Pause, Play } from './icons'
 
 const CICLO_MS = 2900
@@ -81,7 +82,13 @@ export default function HeroDeck({ shots, labels }) {
                 <span />
               </div>
               <div className="deck-shot">
-                <img src={shot.src} alt={delante ? shot.caption : ''} decoding="async" />
+                <img
+                  src={shot.src}
+                  srcSet={srcsetFor(shot.src)}
+                  sizes={SIZES_MAZO}
+                  alt={delante ? shot.caption : ''}
+                  decoding="async"
+                />
               </div>
             </div>
           )

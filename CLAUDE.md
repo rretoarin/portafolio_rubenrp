@@ -282,10 +282,25 @@ logotipo apilado se retiró en el v2).
 - `<Section muted>` pinta `surface-2` y se usa **como mucho en dos secciones**
   de toda la página.
 - **Las capturas son la evidencia**, no ilustración. Van dentro de `<Frame>` y a
-  ancho completo. Las prepara `scripts/capturas.py`: difumina los datos de
-  cliente del sistema de Arin (interno; la web de J&M es pública y no lleva
-  nada), recorta el espacio muerto y exporta a WebP. `shots.py` y `aclarar.py`
-  son de la etapa negra del sitio y ya no se usan.
+  ancho completo. Las prepara `scripts/capturas.py` desde
+  `Desktop\clauderin muestras` (11) y `Desktop\claude\web` (8): pixela los
+  nombres de clientes y usuarios del sistema de Arin (localizados con el OCR
+  de Windows; el saludo «Ruben Reto» se deja), le pone a TODAS las de Arin una
+  marca de agua diagonal tenue («RuberpDev · datos protegidos»), recorta el
+  espacio muerto y exporta a WebP. La web de J&M es pública y no lleva nada.
+  `shots.py` y `aclarar.py` son de la etapa negra del sitio y ya no se usan.
+- **Las capturas se sirven con `srcset`** (`src/data/capturas.js`). Se pintan
+  a 260–680 px y los originales miden 900–1600: el navegador las reducía 2–5x
+  dentro de capas con `transform` (volteo, mazo) y se veían blandas.
+  `capturas-estilo.py` exporta copias con Lanczos (`nombre@400w/560w/800w/1120w`,
+  en claro y en oscuro) y escribe sus anchos en `src/data/capturas.json`; ahora
+  la reducción es de 1–1,4x. El visor a pantalla completa sigue con el
+  original. Si cambia el ancho de un visor, cambia `SIZES_*`.
+- **En la variante oscura las fotos se marcan a mano** (`FOTOS` en
+  `capturas-estilo.py`: caja, forma y bordes desde los que buscar fondo
+  blanco). El detector automático dejaba franjas blancas, fotos a medias y se
+  saltaba las de fondo blanco. Si se recaptura una pantalla con fotos, hay que
+  volver a medir sus cajas.
 - **Capturas por tema**: en oscuro salen de `public/proyectos/oscuro/`
   (negativo + giro de tono de media vuelta, que genera
   `scripts/capturas-estilo.py`) y además llevan `filter: var(--shot-filter)`
