@@ -285,28 +285,28 @@ html.theme-switching *::after {
 
 @layer components {
   /*
-   * El logo, en una línea: isotipo + «RuberpDev». El isotipo se escala por la
-   * altura con un ancho máximo y `object-fit: contain`: nunca un ancho fijo,
-   * que es lo que lo estiraba. En oscuro se invierte por CSS.
+   * El logo, en una línea: isotipo + «RuberpDev». El isotipo se escala SÓLO
+   * por la altura (`width: auto`): nunca un ancho fijo, que es lo que lo
+   * estiraba. El archivo va recortado al dibujo, sin margen transparente, así
+   * que el `gap` de 5px es el aire real entre «RD» y el nombre. En oscuro se
+   * invierte por CSS.
    */
   .logo {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 5px;
   }
 
   .logo-img {
     display: block;
     flex-shrink: 0;
-    height: 32px;
+    height: 15px;
     width: auto;
-    max-width: 44px;
-    object-fit: contain;
   }
 
+  /* El del pie: el mismo isotipo, más pequeño. */
   .logo-img-sm {
-    height: 24px;
-    max-width: 34px;
+    height: 12px;
   }
 
   [data-theme="oscuro"] .logo-img {

@@ -215,6 +215,20 @@ def guardar(im, uso, estilo):
     return (ancho, alto)
 
 
+def recortar_margen(ruta):
+    """Quita el margen transparente del isotipo ya exportado.
+
+    La caja común de los cuatro cuadrantes deja ~34px vacíos a cada lado del
+    monograma. En la barra el logo va en línea con la palabra «RuberpDev» y
+    ese margen se sumaba al `gap`: el «RD» quedaba a ~19px del nombre. Se
+    recorta sólo el vacío (sin reescalar) y se guarda sin pérdida.
+    """
+    im = Image.open(ruta).convert("RGBA")
+    caja = im.split()[-1].getbbox()
+    im.crop(caja).save(ruta, "WEBP", lossless=True, method=6)
+    print("  %-24s recortado a %dx%d" % (ruta.name, caja[2] - caja[0], caja[3] - caja[1]))
+
+
 def main():
     SALIDA.mkdir(parents=True, exist_ok=True)
     lamina = np.asarray(Image.open(LAMINA).convert("RGB"))
@@ -255,6 +269,7 @@ def main():
         lienzo = Image.new("RGBA", (ancho, alto), (0, 0, 0, 0))
         lienzo.alpha_composite(d["im"], ((ancho - d["im"].width) // 2, 0))
         medidas[f"icono-{estilo}"] = guardar(lienzo.crop((0, 0, ancho, alto_mono)), "icono", estilo)
+        recortar_margen(SALIDA / f"icono-{estilo}@2x.webp")
 
         if estilo == "claro":
             nombre, a, h = TARJETA

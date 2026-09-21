@@ -188,11 +188,16 @@ eliminaron en el rediseño v2 (2026-09-21), con sus capturas y sus logos.
 **Una sola línea**: isotipo RD + la palabra «RuberpDev». Nada apilado (el
 logotipo apilado se retiró en el v2).
 
-- `<a href="#top" class="logo">` → `display:flex; align-items:center; gap:9px`.
-- Isotipo: `<img src="/logo/icono-claro@2x.webp">` con `height:32px;
-  width:auto; max-width:44px; object-fit:contain`. **Nunca un `width` fijo**:
-  ése era el bug que lo estiraba. En el pie, el mismo isotipo a 24px
-  (`max-width:34px`, clase `.logo-img-sm`).
+- `<a href="#top" class="logo">` → `display:flex; align-items:center; gap:5px` (el handoff decía 9; Rubén lo quería más junto).
+- Isotipo: `<img src="/logo/icono-claro@2x.webp">` a `height:15px;
+  width:auto` (24×15 visibles). **Nunca un `width` fijo**: ése era el bug que
+  lo estiraba. En el pie, el mismo isotipo a 12px (`.logo-img-sm`).
+- **El archivo va recortado al dibujo (91×56), sin margen transparente.** La
+  exportación común de `logo.py` dejaba ~34px vacíos a cada lado, que a 44px
+  de ancho sumaban ~10px al `gap` y separaban el «RD» del nombre (~19px en
+  vez de 9). `logo.py` lo recorta al final con `recortar_margen()`. El handoff
+  pedía `height:32px; max-width:44px`, que con el margen daba este mismo
+  tamaño visible; ahora se da la altura directamente (2026-09-21).
 - Palabra: Sentient 19px, `letter-spacing:-0.2px`, `white-space:nowrap`.
 - **En oscuro se invierte por CSS** (`filter: invert(1) brightness(1.08)`) en
   vez de cargar otro archivo. Efecto conocido: el corte rojo sale en cian.
