@@ -24,7 +24,7 @@ export default function Footer({ t }) {
                 <li key={id}>
                   <a
                     href={`#${id}`}
-                    className="nav-link nav-link-plain flex min-h-11 items-center text-sm text-ink-soft transition-colors hover:text-ink"
+                    className="nav-link nav-link-plain flex min-h-11 items-center text-sm text-ink-soft transition-colors hover:text-ink focus-visible:text-ink"
                   >
                     {t.nav[id]}
                   </a>
@@ -41,7 +41,7 @@ export default function Footer({ t }) {
                   href={whatsappUrl(t.contact.whatsappMessage)}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="flex min-h-11 items-center gap-2.5 text-sm text-ink-soft transition-colors hover:text-ink"
+                  className="flex min-h-11 items-center gap-2.5 text-sm text-ink-soft transition-colors hover:text-ink focus-visible:text-ink"
                 >
                   <WhatsApp width={15} height={15} className="text-ink" />
                   {PROFILE.whatsappDisplay}
@@ -50,7 +50,7 @@ export default function Footer({ t }) {
               <li>
                 <a
                   href={`mailto:${PROFILE.email}`}
-                  className="flex min-h-11 items-start gap-2.5 py-2 text-sm text-ink-soft transition-colors hover:text-ink"
+                  className="flex min-h-11 items-start gap-2.5 py-2 text-sm text-ink-soft transition-colors hover:text-ink focus-visible:text-ink"
                 >
                   <Mail width={15} height={15} className="text-ink-soft" />
                   <span className="break-words">
@@ -64,7 +64,7 @@ export default function Footer({ t }) {
                   href={PROFILE.linkedin}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="flex min-h-11 items-center gap-2.5 text-sm text-ink-soft transition-colors hover:text-ink"
+                  className="flex min-h-11 items-center gap-2.5 text-sm text-ink-soft transition-colors hover:text-ink focus-visible:text-ink"
                 >
                   <LinkedIn width={15} height={15} className="text-ink-soft" />
                   {PROFILE.linkedinLabel}
@@ -98,7 +98,7 @@ export default function Footer({ t }) {
           <a
             href="#top"
             aria-label={t.footer.top}
-            className="flex size-11 items-center justify-center rounded-full border border-edge text-ink-soft transition-colors hover:border-ink hover:text-ink"
+            className="flex size-11 items-center justify-center rounded-full border border-edge text-ink-soft transition-colors hover:border-ink focus-visible:border-ink hover:text-ink focus-visible:text-ink"
           >
             <ArrowUp width={15} height={15} />
           </a>

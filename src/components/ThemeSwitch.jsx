@@ -1,7 +1,7 @@
 import { Moon, Sun } from './icons'
 
 /*
- * Interruptor de tema: un solo botón redondo de 44×44 que alterna claro ↔
+ * Interruptor de tema: un solo botón de 44×44, sin círculo, que alterna claro ↔
  * oscuro. Enseña el tema al que LLEVA —luna en claro, sol en oscuro— y el
  * `aria-label` dice lo mismo con palabras.
  *
@@ -17,7 +17,7 @@ export default function ThemeSwitch({ theme, onChange, labels }) {
       type="button"
       onClick={() => onChange(oscuro ? 'claro' : 'oscuro')}
       aria-label={oscuro ? labels.toLight : labels.toDark}
-      className="theme-toggle flex size-11 shrink-0 items-center justify-center rounded-full border border-line text-ink"
+      className="theme-toggle round-btn flex size-11 shrink-0 items-center justify-center rounded-full"
     >
       <Moon width={18} height={18} className="theme-toggle-moon" />
       <Sun width={18} height={18} className="theme-toggle-sun" />

@@ -248,9 +248,14 @@ html.theme-switching *::after {
     color: var(--color-page);
   }
 
+  /*
+   * El anillo de foco de TODO el sitio: 2px de acento a 2px de separación.
+   * Nunca se quita sin sustituto; lo de abajo sólo lo esconde cuando el foco
+   * llega por ratón o toque, no por teclado.
+   */
   :focus-visible {
     outline: 2px solid var(--color-accent);
-    outline-offset: 3px;
+    outline-offset: 2px;
   }
 
   :focus:not(:focus-visible) {
@@ -467,12 +472,18 @@ html.theme-switching *::after {
     animation: rp-flip 900ms cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
   }
 
+  /*
+   * Reserva siempre dos líneas (2 × 1.5em), aunque el pie de turno ocupe una:
+   * así la tarjeta no cambia de alto en cada paso. Medido en ES y EN de 360 a
+   * 1440: ningún pie pasa de dos líneas.
+   */
   .flip-caption {
     margin-top: 10px;
-    min-height: 38px;
+    min-height: 3em;
     font-size: 12.5px;
     line-height: 1.5;
     color: var(--color-ink-soft);
+    text-wrap: pretty;
   }
 
   /*
@@ -701,6 +712,26 @@ html.theme-switching *::after {
   .btn-badge {
     background-color: var(--color-on-btn);
     color: var(--color-btn);
+  }
+
+  /*
+   * El CTA de la barra entra al hacer scroll: 300 ms de opacidad y un
+   * desplazamiento corto. Sobre el hero se queda oculto (el hero ya tiene el
+   * suyo) sin soltar su hueco, para que la barra no salte.
+   */
+  .nav-cta {
+    transition:
+      background-color 0.2s var(--ease-out-soft),
+      transform 0.3s var(--ease-out-soft),
+      opacity 0.3s var(--ease-out-soft),
+      visibility 0.3s;
+  }
+
+  .nav-cta-oculto {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    pointer-events: none;
   }
 
   /*
@@ -997,14 +1028,30 @@ html.theme-switching *::after {
     display: block;
   }
 
+  /*
+   * Los botones de tema e idioma de la barra: sin círculo ni fondo, sólo el
+   * icono o el texto, que pasa de `ink-soft` a `ink` al pasar el puntero o con
+   * Tab. El área de toque sigue siendo de 44×44 y el anillo de foco global
+   * sigue apareciendo con el teclado.
+   */
+  .round-btn {
+    color: var(--color-ink-soft);
+    transition:
+      color 0.2s var(--ease-out-soft),
+      transform 0.2s var(--ease-out-soft);
+  }
+
   @media (hover: hover) {
-    .theme-toggle:hover {
-      border-color: var(--color-edge);
-      background-color: var(--color-page-soft);
+    .round-btn:hover {
+      color: var(--color-ink);
     }
   }
 
-  .theme-toggle:active {
+  .round-btn:focus-visible {
+    color: var(--color-ink);
+  }
+
+  .round-btn:active {
     transform: scale(0.94);
   }
 
@@ -1360,6 +1407,66 @@ html.theme-switching *::after {
   }
 
   /*
+   * Destino de las anclas del menú: el borde de la sección cae justo bajo la
+   * barra fija, que mide 4rem (5rem desde `md`) más el safe area de arriba.
+   * El antetítulo queda a ~46–54px de la barra gracias al relleno de la
+   * sección. Si cambia el alto de la barra, cambia aquí.
+   */
+  .ancla {
+    scroll-margin-top: calc(4rem + env(safe-area-inset-top));
+  }
+
+  @media (min-width: 48rem) {
+    .ancla {
+      scroll-margin-top: calc(5rem + env(safe-area-inset-top));
+    }
+  }
+
+  /*
+   * ---- Foco de teclado ----
+   * Lo que el hover hace con el ratón, el foco lo hace con Tab. Va fuera de
+   * `@media (hover: hover)`: el teclado existe también en táctil (tablet con
+   * funda, lector de pantalla). El anillo lo pone la regla global de `:focus-visible`.
+   */
+  .deck-btn:focus-visible {
+    background: var(--color-page-soft);
+  }
+
+  a.pill:focus-visible,
+  button.pill:focus-visible {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+    background-color: var(--color-page-soft);
+  }
+
+  .card-hover:focus-visible {
+    border-color: var(--color-edge);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .btn-primary:focus-visible {
+    background-color: var(--color-btn-hover);
+  }
+
+  .link:focus-visible {
+    color: var(--color-accent);
+  }
+
+  .link:focus-visible::after {
+    background-color: var(--color-accent);
+    height: 2px;
+  }
+
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+
+  .flip:focus-visible {
+    border-color: var(--color-edge);
+  }
+
+  /*
    * ---- Menú móvil ----
    * Los enlaces suben ocho píxeles escalonados mientras el fondo se funde. Sin
    * esto el menú aparecía de golpe, entero, y se leía como un corte de plano.
@@ -1434,9 +1541,32 @@ html.theme-switching *::after {
     transform: none;
     transition: none;
   }
-  /* El carrusel cambia de captura sin voltear la página. */
+  /*
+   * Los carruseles no avanzan solos (lo corta el componente con `useMedia`) y,
+   * si se cambia de captura a mano, no hay volteo ni deslizamiento del mazo.
+   */
   .flip-page {
     display: none;
+    animation: none;
+  }
+  .deck-card,
+  .deck-progress span {
+    transition: none;
+  }
+  /* Todo entra a la vez: sin escalonado. */
+  .stagger > .reveal {
+    transition-delay: 0s;
+  }
+  /* Sin atracción magnética (el hook tampoco arranca). */
+  .magnetic {
+    translate: none;
+    transition: none;
+  }
+  /* El CTA de la barra aparece sin desplazarse. */
+  .nav-cta,
+  .nav-cta-oculto {
+    transform: none;
+    transition: none;
   }
   .reveal-words > span {
     opacity: 1;

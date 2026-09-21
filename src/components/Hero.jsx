@@ -51,7 +51,7 @@ export default function Hero({ t, theme }) {
                 className="btn-primary magnetic group pr-3 pl-7"
               >
                 {t.hero.ctaPrimary}
-                <span className="btn-badge flex size-9 items-center justify-center rounded-full transition-transform group-hover:translate-x-0.5">
+                <span className="btn-badge flex size-9 items-center justify-center rounded-full transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5">
                   <ArrowRight width={16} height={16} />
                 </span>
               </a>
@@ -59,7 +59,7 @@ export default function Hero({ t, theme }) {
               {/* Secundario: enlace de texto, sin cápsula. El único fondo sólido es el CTA. */}
               <a href="#process" className="text-cta group">
                 <span className="text-cta-label">{t.hero.ctaSecondary}</span>
-                <ArrowRight width={16} height={16} className="transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight width={16} height={16} className="transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5" />
               </a>
             </div>
           </div>

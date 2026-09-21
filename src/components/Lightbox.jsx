@@ -91,7 +91,7 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
             type="button"
             onClick={onClose}
             aria-label={labels.closeShot}
-            className="flex size-11 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim hover:text-scrim"
+            className="flex size-11 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim focus-visible:bg-on-scrim hover:text-scrim focus-visible:text-scrim"
           >
             <Close width={18} height={18} />
           </button>
@@ -102,7 +102,7 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
             type="button"
             onClick={() => mover(-1)}
             aria-label={labels.prev}
-            className="hidden size-11 shrink-0 rotate-180 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim hover:text-scrim sm:flex"
+            className="hidden size-11 shrink-0 rotate-180 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim focus-visible:bg-on-scrim hover:text-scrim focus-visible:text-scrim sm:flex"
           >
             <ArrowRight width={18} height={18} />
           </button>
@@ -117,7 +117,7 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
             type="button"
             onClick={() => mover(1)}
             aria-label={labels.next}
-            className="hidden size-11 shrink-0 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim hover:text-scrim sm:flex"
+            className="hidden size-11 shrink-0 items-center justify-center rounded-full border border-on-scrim/25 text-on-scrim transition-colors hover:bg-on-scrim focus-visible:bg-on-scrim hover:text-scrim focus-visible:text-scrim sm:flex"
           >
             <ArrowRight width={18} height={18} />
           </button>

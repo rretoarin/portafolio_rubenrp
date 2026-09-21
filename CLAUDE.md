@@ -246,8 +246,10 @@ logotipo apilado se retiró en el v2).
   mismo en `Contact` y en el `pt` del pie), no franjas de color. **Medido**:
   entre el final de una sección y el título de la siguiente quedan ~106px en
   escritorio y ~90px en móvil, iguales en los seis cortes; de la barra al
-  primer texto del hero, 39px, y tras saltar por el menú, ~40px en escritorio
-  y ~47px en móvil. Rubén marcó como huecos los 200px de `py-24` y después
+  primer texto del hero, 39px, y tras saltar por el menú, 54px en escritorio
+  y 46px en móvil (medido 2026-09-21). El destino de las anclas es `.ancla`
+  en `index.css`: el borde de la sección cae justo bajo la barra (4rem, 5rem
+  desde `md`, más el safe area). Si cambia el alto de la barra, cambia ahí. Rubén marcó como huecos los 200px de `py-24` y después
   también los 138px de `md:py-16` (2026-09-11); por encima de ~110 deja de
   leerse como ritmo.
 - **El hero NO ocupa la pantalla entera ni centra su contenido.** Mide lo que

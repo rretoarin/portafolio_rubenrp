@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useMedia } from '../hooks/useMedia'
 import { ChevronLeft, ChevronRight, Pause, Play } from './icons'
 
 const CICLO_MS = 2900
@@ -15,13 +16,15 @@ const CARTAS = [2, 1, 0]
  * Las de atrás se desplazan, encogen, giran y se desenfocan según su posición.
  *
  * Se pausa con el puntero encima, con el botón, con las flechas ← → y mientras
- * la pestaña está oculta. UN solo intervalo, limpiado en su efecto.
+ * la pestaña está oculta. UN solo intervalo, limpiado en su efecto. Con
+ * `prefers-reduced-motion` no pasa solo: las flechas siguen funcionando.
  */
 export default function HeroDeck({ shots, labels }) {
   const [i, setI] = useState(0)
   const [reproduciendo, setReproduciendo] = useState(true)
   const [encima, setEncima] = useState(false)
   const [oculto, setOculto] = useState(() => typeof document !== 'undefined' && document.hidden)
+  const quieto = useMedia('(prefers-reduced-motion: reduce)')
   const total = shots.length
 
   const mover = (paso) => setI((actual) => (actual + paso + total) % total)
@@ -33,10 +36,10 @@ export default function HeroDeck({ shots, labels }) {
   }, [])
 
   useEffect(() => {
-    if (!reproduciendo || encima || oculto) return
+    if (!reproduciendo || encima || oculto || quieto) return
     const id = setInterval(() => setI((actual) => (actual + 1) % total), CICLO_MS)
     return () => clearInterval(id)
-  }, [reproduciendo, encima, oculto, total])
+  }, [reproduciendo, encima, oculto, quieto, total])
 
   // Flechas del teclado: mueven y pausan. No si hay un visor abierto o se escribe.
   useEffect(() => {

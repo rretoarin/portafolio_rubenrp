@@ -20,7 +20,7 @@ export default function Section({ id, eyebrow, title, subtitle, muted = false, c
   return (
     <section
       id={id}
-      className={`relative scroll-mt-16 overflow-hidden py-10 md:py-12 ${
+      className={`ancla relative overflow-hidden py-10 md:py-12 ${
         muted ? 'bg-surface-2' : ''
       }`}
     >

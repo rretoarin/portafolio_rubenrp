@@ -131,7 +131,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
                     data-active={active === id}
                     aria-current={active === id ? 'true' : undefined}
                     className={`nav-link nav-slide rounded-full px-3.5 py-2 text-sm transition-colors ${
-                      active === id ? 'text-ink' : 'text-ink-soft hover:text-ink'
+                      active === id ? 'text-ink' : 'text-ink-soft hover:text-ink focus-visible:text-ink'
                     }`}
                   >
                     {t.nav[id]}
@@ -158,23 +158,34 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
             {/* Un solo botón alterna claro ↔ oscuro. */}
             <ThemeSwitch theme={theme} onChange={onThemeChange} labels={t.theme} />
 
+            {/* Sin círculo, como el tema: sólo el texto, que se enciende al pasar. */}
             <button
               type="button"
               onClick={onToggleLang}
               aria-label={t.langAria}
-              className="hidden h-11 items-center rounded-full px-2 text-xs font-bold tracking-widest text-ink-soft transition-colors min-[360px]:flex hover:text-ink md:h-9 md:px-3"
+              className="round-btn hidden size-11 shrink-0 items-center justify-center rounded-full text-xs font-bold tracking-widest min-[360px]:flex"
             >
               {t.langLabel}
             </button>
 
+            {/*
+              Sólo aparece al hacer scroll: sobre el hero ya está su propio CTA,
+              y dos botones al mismo WhatsApp en la misma pantalla compiten.
+              Oculto conserva su hueco (sólo opacidad y desplazamiento), así la
+              barra no salta, y sale del recorrido del tabulador.
+            */}
             <a
               href={whatsappUrl(t.contact.whatsappMessage)}
               target="_blank"
               rel="noreferrer noopener"
-              className="btn-primary group ml-1 hidden h-11 min-h-0 pr-2.5 pl-5 text-sm lg:inline-flex"
+              tabIndex={scrolled ? 0 : -1}
+              aria-hidden={!scrolled}
+              className={`btn-primary nav-cta group ml-1 hidden h-11 min-h-0 pr-2.5 pl-5 text-sm lg:inline-flex ${
+                scrolled ? '' : 'nav-cta-oculto'
+              }`}
             >
               {t.nav.talk}
-              <span className="flex size-7 items-center justify-center rounded-full btn-badge transition-transform group-hover:translate-x-0.5">
+              <span className="flex size-7 items-center justify-center rounded-full btn-badge transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5">
                 <ArrowRight width={13} height={13} />
               </span>
             </a>
@@ -184,7 +195,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? t.nav.close : t.nav.menu}
               aria-expanded={open}
-              className="ml-1 flex size-11 items-center justify-center rounded-full border border-edge text-ink-soft transition-[color,border-color,transform] duration-200 hover:border-ink hover:text-ink active:scale-95 lg:hidden"
+              className="round-btn ml-1 flex size-11 items-center justify-center rounded-full lg:hidden"
             >
               {open ? <Close width={18} height={18} /> : <Menu width={18} height={18} />}
             </button>
@@ -192,14 +203,19 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
         </nav>
       </header>
 
-      {/* Menú móvil a pantalla completa. */}
+      {/*
+        Menú móvil a pantalla completa. Cerrado es `inert`: sigue en el DOM
+        (por el fundido) pero sus enlaces no reciben el foco del tabulador.
+      */}
       <div
+        inert={!open}
         className={`fixed inset-0 z-40 bg-page transition-opacity duration-300 lg:hidden ${
           open ? 'menu-open opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
         <div className="shell flex h-full flex-col pt-[calc(4.75rem+env(safe-area-inset-top))] pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
-          <ul className="overflow-y-auto">
+          {/* `-m-1 p-1`: aire para que el scroll no recorte el anillo de foco. */}
+          <ul className="-m-1 overflow-y-auto p-1">
             {/*
               Los enlaces suben escalonados mientras el fondo se funde. El
               retardo va en línea porque depende del índice, y se apaga al
@@ -234,7 +250,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
             type="button"
             onClick={onToggleLang}
             aria-label={t.langAria}
-            className="mt-6 flex min-h-11 items-center gap-3 self-start text-sm text-ink-soft transition-colors hover:text-ink"
+            className="mt-6 flex min-h-11 items-center gap-3 self-start text-sm text-ink-soft transition-colors hover:text-ink focus-visible:text-ink"
           >
             <span className="eyebrow eyebrow-plain">{t.langLabel}</span>
             <span>{t.nav.language}</span>

@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useState } from 'react'
 import { PROJECTS, shotFor } from '../data/content'
+import { useMedia } from '../hooks/useMedia'
 import Lightbox from './Lightbox'
 import Section from './Section'
 import { ArrowUpRight, Lock } from './icons'
@@ -30,10 +31,13 @@ function paginar(estado, accion) {
  * UN solo intervalo por carrusel: se crea en un único efecto y se limpia en su
  * `return`. Si no, se acumulan temporizadores y las páginas pasan mucho más
  * rápido de lo configurado.
+ *
+ * Con `prefers-reduced-motion` no arranca: se queda en la primera captura.
  */
 function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
   const [estado, dispatch] = useReducer(paginar, { i: 0, prev: null })
   const [oculto, setOculto] = useState(() => typeof document !== 'undefined' && document.hidden)
+  const quieto = useMedia('(prefers-reduced-motion: reduce)')
   const total = shots.length
 
   useEffect(() => {
@@ -43,10 +47,10 @@ function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
   }, [])
 
   useEffect(() => {
-    if (pausado || oculto) return
+    if (pausado || oculto || quieto) return
     const id = setInterval(() => dispatch({ tipo: 'siguiente', total }), CICLO_MS)
     return () => clearInterval(id)
-  }, [pausado, oculto, total])
+  }, [pausado, oculto, quieto, total])
 
   // La página que voltea se desmonta al terminar su giro.
   useEffect(() => {
@@ -72,9 +76,11 @@ function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
         aria-label={`${label} — ${name}`}
         className="flip block w-full"
       >
+        {/* El pie de abajo ya la describe y se anuncia solo: la imagen no se lee. */}
         <img
           src={shots[estado.i]}
-          alt={`${name} — ${texto}`}
+          alt=""
+          aria-hidden
           width={1600}
           height={1000}
           decoding="async"
@@ -89,9 +95,12 @@ function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
           />
         )}
       </button>
-      <p className="flip-caption">
-        {estado.i + 1}/{total} · {texto}
-      </p>
+      {/* Región viva: el lector de pantalla anuncia cada captura nueva. */}
+      <div aria-live="polite" aria-atomic="true">
+        <p className="flip-caption">
+          {estado.i + 1}/{total} · {texto}
+        </p>
+      </div>
     </div>
   )
 }
@@ -99,23 +108,30 @@ function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
 /*
  * Cada caso es una tarjeta con TODAS sus capturas pasando solas y tres líneas
  * —problema, solución, resultado—. El carrusel se pausa mientras el puntero
- * está sobre la tarjeta.
+ * está sobre la tarjeta, mientras el foco del teclado está dentro de ella y
+ * mientras su visor está abierto.
  */
-function Caso({ project, copy, labels, shots, onOpen }) {
+function Caso({ project, copy, labels, shots, onOpen, visorAbierto }) {
   const esEnlace = Boolean(project.url)
   const [encima, setEncima] = useState(false)
+  const [foco, setFoco] = useState(false)
 
   return (
     <article
       className="reveal flex flex-col"
       onMouseEnter={() => setEncima(true)}
       onMouseLeave={() => setEncima(false)}
+      onFocusCapture={() => setFoco(true)}
+      onBlurCapture={(e) => {
+        // Pasar el foco de un control a otro de la misma tarjeta no la suelta.
+        if (!e.currentTarget.contains(e.relatedTarget)) setFoco(false)
+      }}
     >
       <Carrusel
         shots={shots}
         captions={copy.shots}
         name={copy.name}
-        pausado={encima}
+        pausado={encima || foco || visorAbierto}
         onOpen={onOpen}
         label={labels.galleryLabel}
       />
@@ -139,7 +155,7 @@ function Caso({ project, copy, labels, shots, onOpen }) {
             <ArrowUpRight
               width={14}
               height={14}
-              className="text-ink-soft transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              className="text-ink-soft transition-transform group-hover:-translate-y-0.5 group-focus-visible:-translate-y-0.5 group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
             />
           </a>
         ) : (
@@ -201,6 +217,7 @@ export default function Projects({ t, theme }) {
             labels={t.projects}
             shots={project.shots.map((ruta) => shotFor(theme, ruta))}
             onOpen={(i) => setVisor({ id: project.id, i })}
+            visorAbierto={visor?.id === project.id}
           />
         ))}
       </div>

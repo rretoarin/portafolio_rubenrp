@@ -30,7 +30,7 @@ export default function Contact({ t }) {
   }
 
   return (
-    <section id="contact" className="relative scroll-mt-16 overflow-hidden py-10 md:py-12">
+    <section id="contact" className="ancla relative overflow-hidden py-10 md:py-12">
       {/*
         Abajo a la izquierda y no centrado: centrado le pasaba por encima al
         titular, que es lo único de esta sección que hay que leer sí o sí.
@@ -48,16 +48,18 @@ export default function Contact({ t }) {
 
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">{t.contact.text}</p>
 
+            {/*
+              Enlace de texto y no botón: el único fondo sólido de esta sección
+              es el envío del formulario, que es su acción real.
+            */}
             <a
               href={whatsappUrl(t.contact.whatsappMessage)}
               target="_blank"
               rel="noreferrer noopener"
-              className="btn-primary magnetic group mt-8 pr-3 pl-7"
+              className="text-cta group mt-8"
             >
-              {t.contact.cta}
-              <span className="btn-badge flex size-9 items-center justify-center rounded-full transition-transform group-hover:translate-x-0.5">
-                <ArrowRight width={16} height={16} />
-              </span>
+              <span className="text-cta-label">{t.contact.cta}</span>
+              <ArrowRight width={16} height={16} className="transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5" />
             </a>
 
             <p className="mt-4 text-sm text-ink-soft">{t.contact.ctaNote}</p>
@@ -95,7 +97,7 @@ export default function Contact({ t }) {
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 placeholder={t.contact.formNamePlaceholder}
-                className="mt-2 w-full rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink focus:border-ink"
+                className="mt-2 w-full rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink focus-visible:border-ink focus:border-ink"
               />
 
               <label htmlFor="mensaje" className="mt-4 block text-sm font-medium">
@@ -108,7 +110,7 @@ export default function Contact({ t }) {
                 value={mensaje}
                 onChange={(e) => setMensaje(e.target.value)}
                 placeholder={t.contact.formMessagePlaceholder}
-                className="mt-2 w-full resize-y rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink focus:border-ink"
+                className="mt-2 w-full resize-y rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink focus-visible:border-ink focus:border-ink"
               />
 
               <button type="submit" className="btn-primary mt-5 w-full justify-center px-6">
