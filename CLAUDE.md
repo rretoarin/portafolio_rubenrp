@@ -108,19 +108,17 @@ Lo que se quitó en el recorte del 2026-09-09 y **no debe volver**:
 - **Sobre mí** como sección — queda una frase con la foto dentro del cierre, que
   es donde se decide. El cliente no necesita la trayectoria para entender qué
   gana.
-- **Las píldoras de tipos de cliente** — empujaban la maqueta fuera de la
-  primera pantalla. (El trío de cifras del hero SÍ volvió con el v2: ver abajo.)
+- **Las píldoras de tipos de cliente y las cifras del hero** (1 sistema / 1
+  web / 0 intermediarios) — las cifras volvieron con el v2 y Rubén las quitó
+  otra vez el 2026-09-21. No volver a ponerlas.
 
 ### Densidad
 
 4 soluciones · 5 pasos · 2 proyectos. Cada caso es **una tarjeta con un
 carrusel y tres líneas** (problema, solución, resultado).
 
-- **Las cifras del hero son 1 / 1 / 0**: «1 sistema interno en producción»,
-  «1 página web en línea», «0 intermediarios». **Nunca «2 sistemas»**: es UN
-  sistema interno (Arin) y UNA página web (J&M). Lo mismo en el subtítulo de
-  Proyectos. Van bajo los botones, tras un filete `--color-line`; cifra en
-  Sentient 26px, etiqueta 12.5px `ink-soft` (`.hero-stats` en `index.css`).
+- **Nunca «2 sistemas»**: es UN sistema interno (Arin) y UNA página web
+  (J&M). Así lo dice el subtítulo de Proyectos.
 - **Carrusel «pasar página de un libro»** en cada tarjeta (`Carrusel` en
   `Projects.jsx`): enseña TODAS las capturas (8 de Arin, 6 de J&M), sin
   enlaces «Ver las N capturas». La captura nueva va debajo con `contain` sobre

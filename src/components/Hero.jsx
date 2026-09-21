@@ -43,7 +43,7 @@ export default function Hero({ t, theme }) {
               {t.hero.lead}
             </p>
 
-            <div className="reveal mt-9 flex flex-wrap items-center gap-3 delay-150 md:delay-300">
+            <div className="reveal mt-9 flex flex-wrap items-center gap-x-7 gap-y-3 delay-150 md:delay-300">
               <a
                 href={whatsappUrl(t.contact.whatsappMessage)}
                 target="_blank"
@@ -56,21 +56,12 @@ export default function Hero({ t, theme }) {
                 </span>
               </a>
 
-              <a href="#process" className="btn-ghost">
-                {t.hero.ctaSecondary}
+              {/* Secundario: enlace de texto, sin cápsula. El único fondo sólido es el CTA. */}
+              <a href="#process" className="text-cta group">
+                <span className="text-cta-label">{t.hero.ctaSecondary}</span>
+                <ArrowRight width={16} height={16} className="transition-transform group-hover:translate-x-0.5" />
               </a>
             </div>
-
-            {/* Las tres cifras: 1 sistema interno, 1 página web, 0 intermediarios. */}
-            <dl className="hero-stats reveal delay-200 md:delay-300">
-              {t.hero.stats.map((stat) => (
-                <div key={stat.label} className="hero-stat">
-                  {/* La etiqueta es el término; la cifra, su valor. El CSS pone la cifra arriba. */}
-                  <dt className="hero-stat-label">{stat.label}</dt>
-                  <dd className="hero-stat-value">{stat.value}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
           {/*

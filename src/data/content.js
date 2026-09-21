@@ -128,15 +128,6 @@ export const CONTENT = {
        * de cliente (emprendedores, talleres, consultoras…), que ocupaba mucho
        * sitio y no ayudaba a decidir.
        */
-      /*
-       * Las tres cifras bajo los botones. Son 1 / 1 / 0: UN sistema interno y
-       * UNA página web. Nunca «2 sistemas».
-       */
-      stats: [
-        { value: '1', label: 'sistema interno en producción' },
-        { value: '1', label: 'página web en línea' },
-        { value: '0', label: 'intermediarios' },
-      ],
       services: [
         'Páginas web corporativas',
         'Sistemas web a medida',
@@ -318,11 +309,6 @@ export const CONTENT = {
       lead: 'I design and build websites, systems and digital experiences shaped around what each business actually needs.',
       ctaPrimary: 'Let us talk about your project',
       ctaSecondary: 'See how I work',
-      stats: [
-        { value: '1', label: 'internal system in production' },
-        { value: '1', label: 'website live' },
-        { value: '0', label: 'middlemen' },
-      ],
       services: [
         'Corporate websites',
         'Custom web systems',
