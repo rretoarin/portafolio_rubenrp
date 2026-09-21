@@ -65,8 +65,9 @@ export default function App() {
       <Nav t={t} onToggleLang={toggleLang} theme={theme} onThemeChange={setTheme} />
 
       {/*
-        La historia es: qué resuelvo → qué puedes encargarme → cómo trabajo y
-        hasta dónde te acompaño → ya lo he hecho → hablemos.
+        La historia es: qué resuelvo → ya lo he hecho (la prueba va primero,
+        antes de pedir confianza) → qué puedes encargarme → cómo trabajo y
+        hasta dónde te acompaño → hablemos.
 
         Lo que se quitó de aquí —el problema, los resultados, las tecnologías,
         un CTA intermedio y una sección entera sobre mí— no se sustituyó por
@@ -74,9 +75,9 @@ export default function App() {
       */}
       <main>
         <Hero t={t} theme={theme} />
+        <Projects t={t} theme={theme} />
         <Services t={t} />
         <Process t={t} />
-        <Projects t={t} theme={theme} />
         <Contact t={t} />
       </main>
 

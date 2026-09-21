@@ -88,8 +88,10 @@ calidad no.», se fue con la sección en el v2):
 
 ### Cinco secciones. Ni una más
 
-`hero → Soluciones → Proyectos → Proceso → Contacto` (orden del v2; la sección
-Estilos se eliminó el 2026-09-21).
+`hero → Proyectos → Soluciones → Proceso → Contacto`. La prueba va primero: el
+visitante ve trabajo real antes de que se le pida confianza (reordenado el
+2026-09-21; la sección Estilos se eliminó ese mismo día). El mismo orden en
+`App.jsx`, en `SECTIONS`/`MENU` de `Nav.jsx` y en `LINKS` de `Footer.jsx`.
 
 La home se recorre en menos de un minuto y mide **unas seis pantallas**. Llegó a
 tener once secciones y quince pantallas, y el problema nunca fue que el diseño

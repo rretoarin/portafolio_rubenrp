@@ -3,7 +3,7 @@ import { ArrowUp, LinkedIn, Mail, WhatsApp } from './icons'
 import { Mark } from './Logo'
 
 // Las cuatro secciones, en el mismo orden que la barra.
-const LINKS = ['services', 'projects', 'process', 'contact']
+const LINKS = ['projects', 'services', 'process', 'contact']
 
 export default function Footer({ t }) {
   return (

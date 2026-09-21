@@ -7,9 +7,9 @@ import ThemeSwitch from './ThemeSwitch'
 // Cuatro destinos, los mismos en escritorio y en móvil: son todas las secciones
 // que hay. La home ya no tiene nada que esconder detrás de un menú más largo.
 
-const SECTIONS = ['services', 'projects', 'process', 'contact']
+const SECTIONS = ['projects', 'services', 'process', 'contact']
 
-const MENU = ['services', 'projects', 'process', 'contact']
+const MENU = ['projects', 'services', 'process', 'contact']
 
 /*
  * Dónde se dibuja el subrayado dentro de un enlace, en píxeles: metido

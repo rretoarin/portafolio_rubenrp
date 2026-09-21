@@ -118,11 +118,11 @@ export const CONTENT = {
     },
 
     hero: {
-      kicker: 'Soluciones digitales para tu negocio',
+      kicker: 'Dos proyectos en producción · Míralos por dentro',
       headline: 'Transformo procesos complejos en soluciones digitales simples.',
       lead: 'Diseño y desarrollo páginas web, sistemas y experiencias digitales adaptadas a las necesidades reales de cada negocio.',
       ctaPrimary: 'Hablemos de tu proyecto',
-      ctaSecondary: 'Ver cómo trabajamos',
+      ctaSecondary: 'Ver proyectos reales',
       /*
        * Adelanto de las soluciones, en una línea. Sustituye a la fila de tipos
        * de cliente (emprendedores, talleres, consultoras…), que ocupaba mucho
@@ -190,7 +190,7 @@ export const CONTENT = {
       eyebrow: 'Casos reales',
       title: 'Proyectos que solucionan problemas.',
       subtitle:
-        'Un sistema interno y una página web, construidos de cero este año y funcionando hoy. En los dos empecé por entender el proceso, no por elegir la tecnología.',
+        'Una página web y un sistema interno, construidos de cero este año y funcionando hoy. Son cosas distintas y las dos las hago yo, de principio a fin.',
       clientLabel: 'Cliente',
       viewLive: 'Ver el sitio',
       privateLabel: 'Sistema interno',
@@ -204,6 +204,7 @@ export const CONTENT = {
       next: 'Captura siguiente',
       items: {
         muestras: {
+          type: 'Sistema web',
           name: 'Sistema de Gestión de Muestras',
           evidenceNote: 'Capturas reales en producción. Los datos de cliente van difuminados.',
           problem:
@@ -224,6 +225,7 @@ export const CONTENT = {
           ],
         },
         'jm-consulting': {
+          type: 'Página web',
           name: 'J&M Consulting Foods',
           evidenceNote: 'Capturas reales del sitio en producción.',
           problem:
@@ -304,11 +306,11 @@ export const CONTENT = {
     },
 
     hero: {
-      kicker: 'Digital solutions for your business',
+      kicker: 'Two projects in production · See them from the inside',
       headline: 'I turn complex processes into simple digital solutions.',
       lead: 'I design and build websites, systems and digital experiences shaped around what each business actually needs.',
       ctaPrimary: 'Let us talk about your project',
-      ctaSecondary: 'See how I work',
+      ctaSecondary: 'See real projects',
       services: [
         'Corporate websites',
         'Custom web systems',
@@ -370,7 +372,7 @@ export const CONTENT = {
       eyebrow: 'Real cases',
       title: 'Projects that solve problems.',
       subtitle:
-        'An internal system and a website, built from scratch this year and running today. In both I started by understanding the process, not by picking the technology.',
+        'A website and an internal system, built from scratch this year and running today. They are different jobs and I do both, end to end.',
       clientLabel: 'Client',
       viewLive: 'Visit the site',
       privateLabel: 'Internal system',
@@ -384,6 +386,7 @@ export const CONTENT = {
       next: 'Next screen',
       items: {
         muestras: {
+          type: 'Web system',
           name: 'Sample Management System',
           evidenceNote: 'Real screens in production. Client data is blurred out.',
           problem:
@@ -404,6 +407,7 @@ export const CONTENT = {
           ],
         },
         'jm-consulting': {
+          type: 'Website',
           name: 'J&M Consulting Foods',
           evidenceNote: 'Real screens of the site in production.',
           problem:

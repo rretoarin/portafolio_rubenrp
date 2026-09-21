@@ -139,6 +139,8 @@ function Caso({ project, copy, labels, shots, onOpen, visorAbierto }) {
       <p className="mt-3 text-xs text-ink-soft">{copy.evidenceNote}</p>
 
       <div className="mt-5 flex flex-wrap items-center gap-3">
+        {/* Qué tipo de trabajo es: que no haya que deducirlo del párrafo. */}
+        <span className="tag">{copy.type}</span>
         <span className="tag">
           <span className="sr-only">{labels.clientLabel}: </span>
           {project.client}
