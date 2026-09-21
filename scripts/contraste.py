@@ -18,8 +18,8 @@ TEMAS = {
     # Base clara: #F8F9FA (Seasalt), la que eligió Rubén.
     'claro': dict(
         page='#F8F9FA', page_soft='#ECEFF2', surface='#FFFFFF', surface2='#F1F3F6',
-        line='#E1E5EA', edge='#767D86', ink='#101317', ink_soft='#535A63',
-        btn='#101317', on_btn='#F8F9FA', heading='#101317', eyebrow='#535A63',
+        line='#E1E5EA', edge='#767D86', ink='#101317', ink_soft='#3D434A',
+        btn='#101317', on_btn='#F8F9FA', heading='#101317', eyebrow='#3D434A',
         accent='#9A5638', accent_soft='#F3E9E4', on_accent='#F8F9FA', accent2='#4F5D46',
     ),
     # Base oscura: #020202, negro puro.
