@@ -2,10 +2,8 @@ import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowUp, LinkedIn, Mail, WhatsApp } from './icons'
 import { Mark } from './Logo'
 
-// Atajos, no un mapa del sitio: el pie de una marca personal no repite la
-// navegación entera. 'contact' se cayó de la lista porque el bloque de canales
-// va justo debajo con el mismo título, y en móvil se iba solo a una segunda fila.
-const LINKS = ['services', 'styles', 'projects', 'process']
+// Las cuatro secciones, en el mismo orden que la barra.
+const LINKS = ['services', 'projects', 'process', 'contact']
 
 export default function Footer({ t }) {
   return (
@@ -94,23 +92,7 @@ export default function Footer({ t }) {
             que había aquí ocupaba media pantalla sin decir nada nuevo.
           */}
           <p className="text-xs text-ink-soft">
-            {/*
-              El isotipo firma el cierre, no el logotipo entero: esta línea es
-              texto a cuerpo 12 y el apilado mide 176 de alto, así que aquí no
-              cabe sin romper el renglón. La marca completa ya está en la barra.
-
-              Tampoco se escribe el nombre al lado a mano: daría dos versiones
-              distintas de la misma palabra en la misma página, una en Satoshi y
-              otra en la letra del logo. El nombre real de Rubén, que es lo que
-              firma de verdad el cierre, va justo después.
-
-              Va `inline-block` y no en un flex, así el resto de la línea sigue
-              siendo texto corrido y parte por donde tiene que partir en móvil.
-              A 16px —y no a los 12 del texto— porque el monograma es apaisado
-              (2,869) y a cuerpo de texto se quedaría en un garabato: a 16 mide
-              46 de ancho y se lee.
-            */}
-            <Mark className="mr-2 inline-block h-4 align-middle" />
+            <Mark className="logo-img-sm mr-2 inline-block align-middle" />
             <span> · © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}</span>
           </p>
           <a

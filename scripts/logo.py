@@ -102,7 +102,7 @@ MEDIDAS = {"apilado": (97, 56), "icono": (81, 28)}
 # ampliar. 3x es el techo útil —el monograma de la lámina mide 375px de ancho,
 # así que a 243 todavía se reduce; más allá habría que ampliar el original y no
 # se gana nada.
-DENSIDADES = {"apilado": (1, 2), "icono": (1, 2, 3)}
+DENSIDADES = {"apilado": (1, 2), "icono": (2,)}
 
 # La tarjeta de compartir la dibuja Pillow a 132 de alto y no tiene densidades:
 # es un PNG de tamaño fijo. Necesita su propia exportación porque las piezas de
@@ -245,10 +245,15 @@ def main():
     alto = max(d["im"].height for d in piezas.values())
     alto_mono = max(d["mono"] for d in piezas.values())
 
+    # Rediseño v2: el sitio usa SÓLO `icono-claro@2x.webp` (en oscuro se
+    # invierte por CSS) y la tarjeta de compartir. Los cuatro cuadrantes se
+    # siguen midiendo porque la caja común sale de su unión: quitarlos
+    # cambiaría el recorte del isotipo.
     for estilo, d in piezas.items():
+        if estilo != "claro":
+            continue
         lienzo = Image.new("RGBA", (ancho, alto), (0, 0, 0, 0))
         lienzo.alpha_composite(d["im"], ((ancho - d["im"].width) // 2, 0))
-        medidas[f"apilado-{estilo}"] = guardar(lienzo, "apilado", estilo)
         medidas[f"icono-{estilo}"] = guardar(lienzo.crop((0, 0, ancho, alto_mono)), "icono", estilo)
 
         if estilo == "claro":

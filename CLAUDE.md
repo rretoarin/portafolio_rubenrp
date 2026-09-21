@@ -1,8 +1,11 @@
 # RuberpDev — marca personal de Rubén Reto Panta
 
 Marca personal comercial de un desarrollador full stack. Sitio de una sola
-página, bilingüe (ES/EN), con **cuatro identidades visuales** que el visitante
-cambia en vivo.
+página, bilingüe (ES/EN), con tema claro y oscuro.
+
+> **Rediseño v2 (2026-09-21).** `design_handoff_portafolio_v2/README.md` manda
+> sobre este archivo. Se aplica sección por sección y este documento se pone al
+> día en cada paso; si algo de aquí contradice el handoff, gana el handoff.
 
 ## Stack
 
@@ -20,10 +23,10 @@ npm run build     # build de producción a dist/
 npm run preview   # sirve dist/ localmente
 npm run lint      # oxlint
 
-python scripts/contraste.py   # mide el contraste de las cuatro paletas
+python scripts/contraste.py   # mide el contraste de las dos paletas
 python scripts/capturas.py    # regenera las capturas de los casos
-python scripts/capturas-estilo.py  # y su variante por estilo visual
-python scripts/logo.py        # vectoriza el logotipo + el favicon + el logo de la tarjeta OG
+python scripts/capturas-estilo.py  # y su variante para el tema oscuro
+python scripts/logo.py        # recorta el isotipo + el logo de la tarjeta OG
 python scripts/og-image.py    # regenera la imagen de compartir
 ```
 
@@ -36,17 +39,17 @@ src/
 │  ├─ Section.jsx      ← envoltorio común (eyebrow, título, subtítulo, espaciado)
 │  ├─ ui.jsx           ← Words, Eyebrow, Frame, Arc, Tick, Check
 │  ├─ icons.jsx        ← SVG inline, sin librería de iconos
-│  ├─ Logo.jsx         ← logotipo + isotipo, SVG inline (trazos en logo-paths.js)
-│  ├─ ThemeSwitch.jsx  ← selector de estilo (compacto y completo)
-│  ├─ DeviceMock.jsx   ← portátil + móvil del hero, dibujados en CSS
+│  ├─ Logo.jsx         ← isotipo + «RuberpDev» en una línea
+│  ├─ ThemeSwitch.jsx  ← botón único claro ↔ oscuro
+│  ├─ HeroDeck.jsx     ← mazo de capturas del hero (una por proyecto)
 │  ├─ Lightbox.jsx     ← visor de capturas, accesible
-│  └─ Nav | Hero | Services | Styles | Process | Projects | Contact | Footer
+│  └─ Nav | Hero | Services | Process | Projects | Contact | Footer
 ├─ hooks/
 │  ├─ useTheme.js      ← estilo activo: localStorage + data-theme + theme-color
 │  ├─ useReveal.js     ← IntersectionObserver único para las entradas
 │  ├─ useMedia.js      ← una media query en JS, para lo que no se puede con CSS
 │  └─ useParallax | useMagnetic
-├─ index.css           ← tokens en @theme + los CUATRO estilos + componentes
+├─ index.css           ← tokens en @theme + los DOS temas + componentes
 └─ App.jsx             ← idioma, estilo y composición de secciones
 ```
 
@@ -62,7 +65,7 @@ src/
    maquetas de dispositivo y layout se resuelven con SVG inline, CSS y Tailwind.
 4. **Ni un color escrito a mano en un componente.** Todo pasa por los tokens de
    `index.css`. Si hace falta un color nuevo, se le da nombre primero en los
-   cuatro estilos. Un componente que pregunte qué tema hay puesto para pintarse
+   dos temas. Un componente que pregunte qué tema hay puesto para pintarse
    distinto está mal escrito: **no hay ni un `if (tema === …)` en el proyecto**.
 5. **Toda sección nueva** usa `<Section>`, lleva `id`, entra en `SECTIONS` o
    `MENU` de `Nav.jsx` y suma su clave a `nav` en ambos idiomas.
@@ -76,16 +79,17 @@ captar clientes: 80% cliente, 20% él. El visitante tiene que pensar «esta pers
 entiende los problemas de un negocio y puede resolver el mío», no «este es
 programador y estas son sus tecnologías».
 
-Tres frases sostienen toda la comunicación:
+Dos frases sostienen toda la comunicación (la de Estilos, «El diseño cambia. La
+calidad no.», se fue con la sección en el v2):
 
 1. **«Transformo procesos complejos en soluciones digitales simples.»**
-2. **«El diseño cambia. La calidad no.»** — la sección Estilos.
-3. **«No te dejo solo después del lanzamiento.»** — el paso 05 del proceso, que
+2. **«No te dejo solo después del lanzamiento.»** — el paso 05 del proceso, que
    es el argumento que más separa a RuberpDev de quien entrega y desaparece.
 
-### Seis secciones. Ni una más
+### Cinco secciones. Ni una más
 
-`hero → Soluciones → Estilos → Proceso → Casos → CTA final`
+`hero → Soluciones → Proyectos → Proceso → Contacto` (orden del v2; la sección
+Estilos se eliminó el 2026-09-21).
 
 La home se recorre en menos de un minuto y mide **unas seis pantallas**. Llegó a
 tener once secciones y quince pantallas, y el problema nunca fue que el diseño
@@ -104,14 +108,32 @@ Lo que se quitó en el recorte del 2026-09-09 y **no debe volver**:
 - **Sobre mí** como sección — queda una frase con la foto dentro del cierre, que
   es donde se decide. El cliente no necesita la trayectoria para entender qué
   gana.
-- **Las píldoras de tipos de cliente y el trío de prueba del hero** — empujaban
-  la maqueta fuera de la primera pantalla.
+- **Las píldoras de tipos de cliente** — empujaban la maqueta fuera de la
+  primera pantalla. (El trío de cifras del hero SÍ volvió con el v2: ver abajo.)
 
 ### Densidad
 
-4 soluciones · 4 estilos · 5 pasos · 2 casos. Cada caso es **una tarjeta con una
-captura y tres líneas** (problema, solución, resultado); las demás capturas viven
-en el visor, a un clic. Antes cada caso ocupaba tres pantallas.
+4 soluciones · 5 pasos · 2 proyectos. Cada caso es **una tarjeta con un
+carrusel y tres líneas** (problema, solución, resultado).
+
+- **Las cifras del hero son 1 / 1 / 0**: «1 sistema interno en producción»,
+  «1 página web en línea», «0 intermediarios». **Nunca «2 sistemas»**: es UN
+  sistema interno (Arin) y UNA página web (J&M). Lo mismo en el subtítulo de
+  Proyectos. Van bajo los botones, tras un filete `--color-line`; cifra en
+  Sentient 26px, etiqueta 12.5px `ink-soft` (`.hero-stats` en `index.css`).
+- **Carrusel «pasar página de un libro»** en cada tarjeta (`Carrusel` en
+  `Projects.jsx`): enseña TODAS las capturas (8 de Arin, 6 de J&M), sin
+  enlaces «Ver las N capturas». La captura nueva va debajo con `contain` sobre
+  `--color-mat`; la anterior, como `span` con fondo, gira con `rp-flip` 900 ms
+  sobre su borde izquierdo y se desmonta a los 930. Ciclo de **2900 ms** en
+  todos los anchos. Pausa con el puntero sobre la tarjeta y con
+  `document.hidden`. Pie «3/8 · texto», 12.5px, `min-height:38px`. Al pulsar la
+  captura se abre el visor en la que esté a la vista.
+- **Trampa**: un intervalo sin limpiar se acumula y las páginas pasan mucho más
+  rápido. Un solo `useEffect` con `clearInterval` en el cleanup. Verificado con
+  Chrome headless contando los `setInterval(…, 2900)` vivos: uno por carrusel.
+- Los 14 pies de foto (ES/EN) son los del handoff, copiados tal cual.
+- El pie lista las cuatro secciones: Soluciones, Proyectos, Proceso, Contacto.
 
 - **RuberpDev es la marca comercial** (logo, navegación, `<title>`, OG). *Rubén
   Reto Panta* se mantiene en el cierre, el pie y el JSON-LD: la persona real
@@ -127,164 +149,62 @@ en el visor, a un clic. Antes cada caso ocupaba tres pantallas.
 - Los canales (WhatsApp, correo, LinkedIn) van **sólo en el pie**. Estuvieron
   duplicados en Contacto y en el pie.
 
-## Los cuatro estilos
+## Los dos temas: claro y oscuro
 
-**Una sola marca, cuatro expresiones visuales.** No son cuatro páginas ni cuatro
-rutas: es el mismo HTML con otras variables. Claro, oscuro, azul y verde.
+**Una sola marca, dos temas.** Mismo HTML con otras variables. Azul y verde se
+eliminaron en el rediseño v2 (2026-09-21), con sus capturas y sus logos.
 
-- **Sólo hay dos fondos, y los eligió Rubén**: `#F8F9FA` (Seasalt) para claro,
-  azul y verde, y `#020202` para oscuro. **Los tres claros comparten base a
-  propósito**: lo único que los separa es el color de la marca. No cambiarlos sin
-  preguntar.
-- Por eso el acento de **claro es terracota y no salvia**: con la misma base que
-  verde, un acento verdoso hacía que las dos muestras del selector se
-  confundieran, que es justo donde el visitante elige.
-- Los tokens por defecto van en `@theme` (= estilo claro) sólo para que Tailwind
-  genere las utilidades. Los cuatro estilos se declaran después **fuera de toda
-  `@layer`**, porque una regla sin capa gana a `@theme`.
-- El selector es `[data-theme]` a secas, no `html[data-theme]`: así cualquier
-  subárbol adopta un estilo. De eso viven las muestras de la barra y **las cuatro
-  miniaturas de la sección Estilos**, que se ven a la vez con sus colores reales
-  sin repetir la paleta en JavaScript. Esas miniaturas SON el selector: ver y
-  elegir es el mismo gesto, y demuestran la capacidad de adaptación mejor que
-  cualquier párrafo.
+- **Un solo botón** (`ThemeSwitch`) alterna claro ↔ oscuro. `useTheme` guarda
+  la elección en `localStorage` (clave `rubendev-theme`, nombre viejo a
+  propósito) **sólo cuando el visitante pulsa**; el primer arranque sigue
+  `prefers-color-scheme`. `index.html` hace la misma lectura en línea **antes de
+  pintar**, para que el oscuro no dé un fogonazo claro.
+- **Fondos**: `#F8F9FA` (Seasalt) en claro y `#020202` en oscuro. Los eligió
+  Rubén; no cambiarlos sin preguntar.
+- **El acento cambia de color entre temas**: terracota `#9a5638` en claro y
+  arena `#cbb894` en oscuro, porque el terracota no llega a 4.5:1 sobre
+  `#020202`. Mantener esa distinción.
+- Tokens nuevos del v2: `--color-mat` (paspartú de las capturas con
+  `object-fit: contain`: `#eef0f3` / `#121416`) y `--shot-filter`.
+- Los tokens por defecto van en `@theme` (= claro) sólo para que Tailwind
+  genere las utilidades. Los dos temas se declaran después **fuera de toda
+  `@layer`**, porque una regla sin capa gana a `@theme`. El selector es
+  `[data-theme]` a secas (el handoff escribe `data-tema`; en el código es
+  `data-theme`).
 - **Cada paleta se mide antes de darla por buena**: `python scripts/contraste.py`
-  comprueba diecisiete pares por estilo (texto ≥ 4.5:1, controles ≥ 3:1). Si
-  se toca un color, hay que volver a pasarlo y anotar el número en el CSS.
-- **`--color-heading` y `--color-eyebrow` son lo que separa azul y verde del
-  claro.** Con el acento sólo en el botón y en detalles, los tres claros se
-  confundían — probado y descartado. Ahora los titulares (`text-heading` en h1,
-  los h2 de sección y el nombre de cada caso) y las etiquetas de sección van del
-  color de la marca en azul y en verde, y siguen en tinta en claro y en oscuro,
-  donde el contraste blanco/negro ya los distingue.
-  **El texto corrido y los subtítulos NO se tiñen nunca**: es lo que evita que
-  parezca una web pintada de azul.
-- **`--color-nav-line` es el subrayado del menú** —el riel del estado activo y
-  el trazo del hover, que son la misma línea— y va del acento del estilo, así
-  que el «estás aquí» cambia con el estilo como todo lo demás. Ojo: ya **no**
-  es el mismo color que el «Dev» del logotipo, que desde el logo nuevo se queda
-  en terracota fijo en los cuatro estilos. **En oscuro es
-  la excepción**: ahí va en tinta, porque sobre negro la línea blanca es la que
-  se ve. Se aplica sólo en la barra; en el pie `.nav-link` sigue con
-  `currentColor`, porque allí la línea acompaña al texto y no marca sección.
-- El CTA también es distinto por estilo: tinta en claro, invertido en oscuro y
-  del color de la marca en azul y verde. Junto con los arcos teñidos con el
-  acento, completa el reconocimiento de un vistazo.
+  (texto ≥ 4.5:1, controles ≥ 3:1). Si se toca un color, hay que volver a
+  pasarlo y anotar el número en el CSS.
 - El cambio añade `.theme-switching` al `<html>` durante 400 ms y la retira. No
-  dejar la transición puesta siempre: cada hover arrastraría medio segundo de
-  color. Sin recarga, sin cambiar de ruta, sin perder scroll ni estados.
-- `index.html` lleva un script en línea que aplica el estilo guardado **antes de
-  pintar**. Sin él, quien tenga el oscuro ve un fogonazo claro en cada carga.
+  dejar la transición puesta siempre. Sin recarga, sin cambiar de ruta, sin
+  perder scroll ni estados.
+- **Única comparación con el tema en un componente**: el `aria-label` de
+  `ThemeSwitch` (dice a qué tema lleva). El icono lo elige el CSS. Aparte,
+  `shotFor()` cambia la ruta de la captura. Nada más pregunta el tema.
 
 ## Diseño
 
-### El logotipo RuberpDev
+### El logo RuberpDev
 
-El **monograma RD** —la R y la D encajadas, con un corte diagonal en rojo— y
-**«RuberpDev» debajo**. Sin recuadro ni círculo.
+**Una sola línea**: isotipo RD + la palabra «RuberpDev». Nada apilado (el
+logotipo apilado se retiró en el v2).
 
-**El logo del sitio ES la lámina de concepto, recortada** (`scripts/logo-fuente/
-refrencia.png` → `scripts/logo.py` → `public/logo/*.webp`). **No redibujarlo.**
-Se intentó dos veces y las dos se rechazaron: montándolo desde los SVG de un
-paquete, y reconstruyéndolo con vectores desde los contornos de Outfit. La
-segunda cuadraba en los números y aun así no era lo aprobado. La lámina manda.
-
-- **La adaptación que hay que hacer.** La lámina trae los cuatro estilos, pero
-  **azul y verde vienen en BLANCO sobre un fondo de color**. La web no tiene
-  esos fondos: de los cuatro estilos sólo el oscuro es oscuro, y azul y verde
-  comparten la base clara del claro —eso lo eligió Rubén y no se toca—. Un
-  logotipo blanco ahí sería invisible, así que en esos dos el script tiñe la
-  tinta con el **color de marca del estilo**, el mismo `--color-heading` de sus
-  titulares y ya medido: azul #123F78 (9.92:1) y verde #1B4A33 (9.61:1). Claro
-  y oscuro se quedan con la tinta de la lámina.
-- **El corte rojo no se toca en ninguno de los cuatro**: es marca, no interfaz.
-- **El alfa lleva suelo (`PISO_ALFA`).** El fondo de la lámina no es plano —es
-  una imagen renderizada y tiene grano—, así que sin suelo el alfa nunca llega a
-  cero y queda un velo del color del cuadrante sobre todo el recorte: una caja
-  crema detrás del logotipo, que sobre el #F8F9FA del sitio se ve y en la
-  tarjeta de compartir cantaba. Se corta por debajo del suelo y se reescala lo
-  que queda, para no comerse el antialiasing. De paso, los archivos pasaron de
-  38 kB a 8–14.
-- **El fondo se despeja de la mezcla, no con un umbral seco**, o quedaría halo
-  del fondo original en cada borde antialiaseado. La tinta y el rojo se separan
-  por tono, nunca por posición.
-- **Las piezas salen a la MISMA caja** (97×56 el apilado, 81×28 el monograma).
-  Se consigue llevando el monograma de los cuatro al mismo ancho antes de
-  recortar. Con la caja de cada uno, el logotipo daba un salto de tamaño al
-  cambiar de estilo.
-- **Cada archivo se exporta al tamaño EXACTO en que se pinta, y en dos
-  densidades**, y se sirven con `image-set()`. Antes había una sola copia a
-  243×140 y era el navegador quien la reducía a los 97×56 de la barra: una
-  reducción de 2,5x con su propio filtro, y eso es lo que se veía blando en un
-  monitor normal al 100% (en retina no, porque allí la reducción es de 1,25x).
-  Reduciendo con Lanczos en el script, esa reducción desaparece. **Si se cambia
-  la altura a la que se pinta el logo, hay
-  que cambiar `MEDIDAS` en el script**, o vuelve a haber una reducción de por
-  medio y se deshace la mejora.
-- **El monograma lleva además 3x; el apilado no.** El apilado sólo sale en la
-  barra de escritorio, que está resuelta y no se toca. El monograma es el de
-  móvil, y ahí el usuario amplía con los dedos: cuanto mayor sea el archivo que
-  hay detrás, más aguanta al ampliar. 3x es el techo útil —el monograma de la
-  lámina mide 375px de ancho, así que a 243 todavía se reduce—. Aviso: el zoom
-  de pellizco del móvil **no** cambia el `devicePixelRatio`, así que no vuelve a
-  elegir en el `image-set()`; lo que gana es la pantalla de 3x, que ya recibe la
-  pieza grande. Nítido a cualquier ampliación sólo lo da un vector.
-- **NO se enfoca después de reducir, y no es un olvido.** Se probó una máscara
-  de enfoque y Rubén lo marcó: a 97px de ancho el nombre tiene unos 10px de
-  altura de mayúscula, y enfocar a esa escala se come el antialiasing —los
-  grises intermedios que redondean la letra— y deja los trazos dentados y con
-  manchas dentro. Lanczos solo da el mejor resultado. **Aviso para quien mida
-  esto**: el gradiente medio SUBE al enfocar, así que esa métrica dice que
-  mejora cuando está empeorando. Mide dureza de borde, no nitidez. Comparar a
-  ojo, ampliado.
-- **La reducción va sobre el alfa PREMULTIPLICADO.** Con alfa recta, el color de
-  los píxeles transparentes —que no es el del logo— se mezcla con el del borde y
-  deja una orla clara alrededor del trazo.
-- **La primera declaración de fondo de `.logotipo` es la RESERVA**, con un
-  `url()` normal, y la segunda el `image-set()`. Safari 16 y anteriores no
-  entienden `image-set()` sin prefijo, y como aquí viaja dentro de una variable
-  el navegador la acepta y falla al usarla: el logotipo se quedaría invisible.
-- **La tarjeta de compartir tiene su propia exportación** (`tarjeta-claro.webp`,
-  229×132). Las de la barra están hechas a la medida de la barra y ampliarlas a
-  los 132 de alto de la tarjeta las dejaría borrosas.
-- **Un juego por estilo, no dos.** `--logo` y `--logo-icono` eligen la pieza como
-  cualquier otro token y `.logotipo` y `.isotipo` las pintan de fondo, así que
-  **ningún componente recibe el tema ni lo pregunta** —el pie usa la misma clase
-  que la barra— y sigue sin haber un `if (tema === …)`.
-- **Se les da SÓLO la altura**; el ancho sale del `aspect-ratio`. Si cambia el
-  recorte en el script, cambia la proporción en `index.css`.
-- **Escritorio el logotipo entero; móvil sólo el monograma.** De `md` en
-  adelante el apilado a **56px** (97 de ancho); por debajo, el monograma a
-  **28px** (81 de ancho). Apilado en móvil el nombre se quedaría en unos ocho
-  píxeles. El `aria-label` de la barra mantiene la marca completa para el lector
-  de pantalla. Medido a 320px, el ancho más apretado: quedan 28px de aire hasta
-  la primera muestra del selector.
-- **La barra vuelve a medir 64 y 80.** Llegó a 72 y 96 cuando el logotipo era el
-  del concepto anterior, que era mucho más alto que ancho; éste es apaisado
-  (1,736) y cabe en la barra de siempre. Si algún día vuelve a cambiar el alto de
-  la barra, hay que mover con ella el `pt-` del hero y el `scroll-mt-` de
-  `Section` y `Contact`, o el ritmo vertical se descuadra. **Medido**: de la
-  barra al primer texto del hero 37,8px, tras saltar por el menú 37,3 en
-  escritorio y 45,5 en móvil, el menú a pantalla completa a 11px de la barra, y
-  la fila de soluciones entera en la primera pantalla a 1440x800.
-- **El pie lleva el monograma**, a 16px: esa línea es texto a cuerpo 12 y el
-  apilado rompería el renglón. A 16 el monograma mide 46 de ancho y se lee. No
-  se escribe el nombre al lado a mano —daría dos versiones de la misma palabra
-  en la misma página—; lo que firma es el nombre real de Rubén, que va detrás.
-  Por eso `.wordmark` ya no existe.
-- **El favicon es otra pieza a propósito** y no sale de `logo.py`: disco lleno
-  con «RD» calado, para que a 16px de pestaña se lea. Va a sangre sin pastilla y
-  **cambia con el tema del NAVEGADOR** —lleva la media query dentro—, no con el
-  del sitio: un archivo estático no ve las variables de `index.css`.
-- **La imagen de compartir sale del MISMO montaje**, no de una copia a mano, y
-  tampoco compone la marca con texto. Va a **132px de alto**: a 62 el nombre era
-  ilegible en la burbuja de WhatsApp —donde la tarjeta se ve a un 27%— y a 150
-  la línea de abajo se salía de la imagen.
-- **Si cambia el nombre de la marca**, el logo es una imagen: hay que rehacer la
-  lámina. En el código se toca `PROFILE.brand` en `content.js` y el `<title>` y
-  las etiquetas OG de `index.html`. La clave de `localStorage`
-  (`rubendev-theme`) se queda con el nombre viejo a propósito: renombrarla haría
-  que todo el que ya visitó el sitio perdiera el estilo que tenía elegido.
+- `<a href="#top" class="logo">` → `display:flex; align-items:center; gap:9px`.
+- Isotipo: `<img src="/logo/icono-claro@2x.webp">` con `height:32px;
+  width:auto; max-width:44px; object-fit:contain`. **Nunca un `width` fijo**:
+  ése era el bug que lo estiraba. En el pie, el mismo isotipo a 24px
+  (`max-width:34px`, clase `.logo-img-sm`).
+- Palabra: Sentient 19px, `letter-spacing:-0.2px`, `white-space:nowrap`.
+- **En oscuro se invierte por CSS** (`filter: invert(1) brightness(1.08)`) en
+  vez de cargar otro archivo. Efecto conocido: el corte rojo sale en cian.
+- El isotipo sale de la lámina de concepto (`scripts/logo-fuente/refrencia.png`
+  → `scripts/logo.py`). **No redibujarlo.** El script ya sólo exporta
+  `icono-claro@2x.webp` y la tarjeta de compartir (`tarjeta-claro.webp`), pero
+  sigue midiendo los cuatro cuadrantes de la lámina porque la caja común sale
+  de su unión.
+- **El favicon es otra pieza** (disco con «RD» calado) y cambia con el tema del
+  navegador, no con el del sitio.
+- **Si cambia el nombre de la marca**: `PROFILE.brand` en `content.js`, el
+  `<title>` y las OG de `index.html`, y rehacer la lámina para el isotipo.
 
 ### Tipografía, composición e interacción
 
@@ -341,9 +261,6 @@ segunda cuadraba en los números y aun así no era lo aprobado. La lámina manda
   una de 900 y 390 en una de 1080. Ahora la fila va a 64px fijos de los
   botones en cualquier pantalla y, en las altas, asoma el comienzo de
   Soluciones, que invita a bajar. **No volver a estirar el hero con `svh`.**
-- **Lo mismo en Estilos**: la frase de la izquierda va con `items-start`, a la
-  altura del borde superior de la maqueta; centrada dejaba 206px vacíos entre
-  el título y la frase.
 - **Los arcos NO pueden tocar el texto.** `<Arc>` va dentro de `.arc-marco`,
   cuya máscara sólo lo deja pasar por fuera de la columna de `.shell` (78rem más
   2,5rem de aire). Por debajo de ese ancho los topes de la máscara se cruzan y
@@ -362,33 +279,15 @@ segunda cuadraba en los números y aun así no era lo aprobado. La lámina manda
   cliente del sistema de Arin (interno; la web de J&M es pública y no lleva
   nada), recorta el espacio muerto y exporta a WebP. `shots.py` y `aclarar.py`
   son de la etapa negra del sitio y ya no se usan.
-- **Cada estilo tiene su propio juego de capturas** en `public/proyectos/<estilo>/`,
-  que genera `scripts/capturas-estilo.py` desde los WebP ya terminados, y **no es
-  lo mismo en todos**:
-  - **oscuro**: TODAS invertidas (negativo + giro de tono de media vuelta),
-    porque una captura clara a pantalla completa deslumbra sobre el negro.
-  - **azul y verde**: sólo las de J&M, y sólo se les cambia **el verde de marca**
-    —titular, botones, filete del menú, iconos— por el color del estilo. El texto
-    negro, los grises, el fondo y las fotos no se tocan. Las del sistema de Arin
-    no tienen color de marca que cambiar, así que en los tres estilos claros son
-    las mismas.
-- **Se probó teñir todos los grises de la captura y Rubén lo rechazó**: la imagen
-  entera se volvía azul y parecía un filtro encima, no un rediseño. Lo que sí
-  funciona es cambiar el color de marca y dejar el resto intacto.
-- **Un filtro CSS no sirve** para ninguno de los dos tratamientos: no distingue
-  una foto de una tabla ni un verde de marca de un verde cualquiera. En los dos,
-  las zonas de foto se repegan en color original; se detectan solas por variedad
-  de color por casilla y las que se escapen van a mano en el dict `KEEP`.
-- La ruta la resuelve `shotFor()` de `content.js` en `Hero`, `Styles` y
-  `Projects`, y de ahí para abajo todos reciben rutas ya resueltas. **Es la única
-  excepción** a que el estilo no cambie más que variables: cambia un archivo, no
-  cómo se pinta un componente.
-- **El pie del caso no puede prometer colores exactos** («tal como se ve hoy»):
-  en tres de los cuatro estilos la captura lleva tratamiento. Dice que son reales
-  y en producción, que es lo que sí se sostiene.
+- **Capturas por tema**: en oscuro salen de `public/proyectos/oscuro/`
+  (negativo + giro de tono de media vuelta, que genera
+  `scripts/capturas-estilo.py`) y además llevan `filter: var(--shot-filter)`
+  —`saturate(0.8) brightness(0.9)`—, que se aplica a **toda** imagen de
+  captura. En claro, `--shot-filter: none`. La ruta la resuelve `shotFor()` de
+  `content.js` en `Hero` y `Projects`.
 - **`scrim` y `on-scrim` son los únicos colores que NO cambian con el estilo.**
   Velan una captura —leyenda del bento, contador de capturas, fondo del visor— y
-  tienen que ser oscuros en los cuatro. Con `ink`/`page` se invertían y en oscuro
+  tienen que ser oscuros en los dos. Con `ink`/`page` se invertían y en oscuro
   aparecía un bloque blanco encima de la imagen.
 - **Interacción, casi toda en CSS.** `.nav-link` dibuja el subrayado del hover
   con `scaleX`, nunca animando el ancho. El estado activo de la barra es la
@@ -430,33 +329,9 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
   de `.tap` y parece que no funciona. `.tap` **no sirve para elementos pegados
   entre sí**: los pseudo-elementos se solapan y el toque cae en el vecino. Ahí
   hay que dar altura real (los atajos del pie y el menú móvil van así).
-- **En la barra de móvil van SÓLO dos estilos, claro y oscuro**; los cuatro
-  vuelven de `md` en adelante. Ahí la fila la comparten el logotipo, las
-  muestras, el idioma y el menú, y con cuatro quedaba apretada. **Los otros dos
-  no desaparecen del sitio**: la sección Estilos sigue enseñando los cuatro en
-  todos los anchos, con su propio selector en `Styles.jsx`, que no pasa por
-  `ThemeSwitch`.
-  La lista se decide en JS (`useMedia` + la prop `themes`) y **no ocultando
-  botones con CSS**: un `radiogroup` con nodos invisibles dentro manda el foco
-  del teclado a un botón que no se ve, y la única parada de tabulador puede caer
-  en él. Si el estilo activo no está entre los que se pintan —se eligió azul en
-  el escritorio y se abre en el móvil—, la parada de tabulador se la queda el
-  primero y las flechas entran por el principio.
-- **Las muestras van en la barra, a la altura de la marca, siempre.**
-  Pasaron por dos versiones peores: sólo dentro del menú (no se encontraban) y
-  detrás de un desplegable (se abría sobre el hero y costaba un toque de más
-  para algo que es una seña de identidad). Ahora no hay desplegable.
-- **Nunca llevan los nombres a la vista**, sólo el color. Pero los nombres siguen
-  en un `sr-only` y en el `aria-label` del grupo: quitarlos del DOM dejaría el
-  selector mudo para un lector de pantalla.
-- **Los botones encogen con el ancho** —28px, 36px desde 390px y 44px desde
-  `md`— porque a 320px cuatro círculos de 44 empujaban el menú fuera de la
-  pantalla. `overflow-x: clip` lo ocultaba, así que **el botón desaparecía sin
-  que se notara en las medidas**: hay que comprobar que el último control entra
-  entero (`right <= innerWidth`), no sólo que no haya scroll horizontal.
-- **Por debajo de 360px el botón de idioma sale de la barra** y se queda sólo en
-  el menú a pantalla completa, donde está siempre. Es lo único que se podía
-  ceder: las cuatro muestras y el menú no admiten menos sitio.
+- **El tema es un solo botón redondo de 44×44** en la barra (☾ en claro, ☀ en
+  oscuro), en todos los anchos. Las muestras de color y su `radiogroup` ya no
+  existen.
 - **El menú a pantalla completa arranca justo bajo la barra**, no centrado: con
   `justify-center` dejaba más de cien píxeles muertos antes del primer enlace.
 - **El pie va a dos columnas desde 375px**, no desde `sm`: apilado dejaba media
@@ -490,6 +365,6 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
 - `python scripts/contraste.py` sin fallos si se tocó un color
 - Paridad de claves ES/EN de `content.js` (script de una línea con `walk()`)
 - Probar el toggle ES/EN en la sección tocada
-- Probar **los cuatro estilos** a 375px y a 1440px
+- Probar **los dos temas** a 375px y a 1440px
 - Comprobar que el cambio de estilo no recarga, no salta el scroll y no pierde
   el estado del formulario ni del visor

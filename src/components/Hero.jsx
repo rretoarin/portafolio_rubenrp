@@ -1,7 +1,7 @@
 import { shotFor, whatsappUrl } from '../data/content'
 import { ArrowRight, Browser, Code, Gear, Link } from './icons'
 import { Arc, Words } from './ui'
-import DeviceMock from './DeviceMock'
+import HeroDeck from './HeroDeck'
 
 // Mismo orden que `hero.services` en content.js.
 const ICONOS = [Browser, Code, Gear, Link]
@@ -60,24 +60,37 @@ export default function Hero({ t, theme }) {
                 {t.hero.ctaSecondary}
               </a>
             </div>
+
+            {/* Las tres cifras: 1 sistema interno, 1 página web, 0 intermediarios. */}
+            <dl className="hero-stats reveal delay-200 md:delay-300">
+              {t.hero.stats.map((stat) => (
+                <div key={stat.label} className="hero-stat">
+                  {/* La etiqueta es el término; la cifra, su valor. El CSS pone la cifra arriba. */}
+                  <dt className="hero-stat-label">{stat.label}</dt>
+                  <dd className="hero-stat-value">{stat.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           {/*
-            La prueba visual. Grande, pero en su columna: a ancho completo se
-            comía la primera pantalla y el titular dejaba de mandar.
+            La prueba visual: el mazo de capturas. Grande, pero en su columna:
+            a ancho completo se comía la primera pantalla.
           */}
           <div className="reveal delay-200 md:delay-300 lg:col-span-6" data-parallax="0.08">
-            <DeviceMock
-              priority
-              laptop={{
-                src: shotFor(theme, '/proyectos/muestras-1.webp'),
-                alt: t.hero.mock.laptopAlt,
-                label: t.hero.mock.label,
-              }}
-              phone={{
-                src: shotFor(theme, '/proyectos/jm-movil.webp'),
-                alt: t.hero.mock.phoneAlt,
-              }}
+            {/* Una captura por proyecto: el sistema interno y la web. */}
+            <HeroDeck
+              shots={[
+                {
+                  src: shotFor(theme, '/proyectos/muestras-1.webp'),
+                  caption: t.projects.items.muestras.shots[0],
+                },
+                {
+                  src: shotFor(theme, '/proyectos/jm-1.webp'),
+                  caption: t.projects.items['jm-consulting'].shots[0],
+                },
+              ]}
+              labels={t.hero.deck}
             />
           </div>
         </div>

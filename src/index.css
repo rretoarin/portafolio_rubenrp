@@ -71,6 +71,7 @@
   --color-on-accent: #f8f9fa;
   --color-frame: #f1f3f6;
   --color-frame-line: #e1e5ea;
+  --color-mat: #eef0f3;
   --color-btn: #101317;
   --color-on-btn: #f8f9fa;
   --color-heading: #101317;
@@ -81,7 +82,7 @@
    * Velo sobre imágenes: la leyenda del bento, el contador de capturas y el
    * fondo del visor. Son los ÚNICOS colores que no cambian con el estilo, y a
    * propósito: van encima de una captura, así que tienen que ser oscuros en los
-   * cuatro. Con `ink`/`page` se invertían y en oscuro salía un bloque blanco.
+   * dos. Con `ink`/`page` se invertían y en oscuro salía un bloque blanco.
    */
   --color-scrim: #05070a;
   --color-on-scrim: #ffffff;
@@ -94,15 +95,14 @@
 
 /*
  * ============================================================================
- * LOS CUATRO ESTILOS
+ * LOS DOS TEMAS: CLARO Y OSCURO
  * ============================================================================
  * Van FUERA de toda `@layer`: `@theme` declara sus variables dentro de
  * `@layer theme`, y una regla sin capa gana siempre a una con capa. Por eso
  * basta con repetir aquí los mismos nombres.
  *
- * Es la única diferencia entre los cuatro estilos. Mismo HTML, mismos
- * componentes, mismo contenido: un componente + variables = cuatro
- * experiencias. No hay ni un `if (tema === 'oscuro')` en todo el proyecto.
+ * Es la única diferencia entre los dos temas. Mismo HTML, mismos componentes,
+ * mismo contenido: un componente + variables = dos experiencias. No hay ni un `if (tema === 'oscuro')` en todo el proyecto.
  *
  * El selector es `[data-theme]` a secas y no `html[data-theme]` a propósito:
  * así CUALQUIER elemento puede adoptar un estilo. De eso viven las muestras del
@@ -112,15 +112,14 @@
  * del <body> lo pone el tema de la página.
  *
  * Contraste medido con `python scripts/contraste.py` (AA: 4.5 en texto, 3 en
- * bordes de control). Los cuatro pasan las doce comprobaciones. Si se toca un
+ * bordes de control). Los dos pasan todas las comprobaciones. Si se toca un
  * color, hay que volver a pasarlo.
  */
 
 /*
  * Claro — la base la eligió Rubén: #F8F9FA (Seasalt), un blanco frío. El acento
- * es terracota apagado, no el salvia de antes: azul y verde comparten esta misma
- * base, así que un acento verdoso aquí haría que claro y verde se confundieran
- * en el selector, que es justo donde se elige.
+ * es terracota apagado. En oscuro no alcanza 4.5:1 sobre #020202, así que allí
+ * el acento pasa a arena (#cbb894): mantener esa distinción.
  */
 :root,
 [data-theme="claro"] {
@@ -140,14 +139,15 @@
   --color-on-accent: #f8f9fa;
   --color-frame: #f1f3f6;
   --color-frame-line: #e1e5ea;
+  /* El paspartú de las capturas: lo que se ve alrededor con `object-fit: contain`. */
+  --color-mat: #eef0f3;
   --color-btn: #101317; /* texto encima: 17.67:1 */
   --color-on-btn: #f8f9fa;
   --color-heading: #101317; /* 17.67:1 */
   --color-eyebrow: #535a63; /* 6.62:1 */
   /*
-   * El subrayado del menú. Va del color de la marca —el mismo acento que pinta
-   * el "Dev" del logotipo— y no de tinta: así la señal de "estás aquí" es
-   * también una señal de marca, y cambia con el estilo como todo lo demás.
+   * El subrayado del menú. Va del acento y no de tinta: así la señal de
+   * "estás aquí" es también una señal de marca.
    * En oscuro es la excepción: ahí va en tinta.
    */
   --color-nav-line: var(--color-accent);
@@ -161,35 +161,7 @@
   --grain-opacity: 0.025;
   --grain-blend: normal;
   --shot-filter: none;
-  /*
-   * El logotipo del estilo. Dos piezas por estilo, ocho en total, que monta
-   * `scripts/logo.py`: el apilado para la barra de escritorio y el círculo
-   * solo para móvil y para el pie.
-   *
-   * **Hay un juego por estilo, no dos.** La lámina trae el logotipo resuelto
-   * en los cuatro y la marca cambia de color entera, no sólo de claro a
-   * oscuro: tinta en claro, crema en oscuro, azul marino en azul y verde
-   * bosque en verde. En azul y verde la lámina lo trae BLANCO sobre fondo de
-   * color; como esos dos estilos de la web van sobre base clara, `logo.py` los
-   * tiñe con el color de marca del estilo. El corte rojo no se toca en
-   * ninguno.
-   *
-   * Van en variables como cualquier otro color, así que **ningún componente
-   * recibe el tema ni lo pregunta**: `.logotipo` y `.isotipo` las pintan de
-   * fondo y el pie usa la misma clase que la barra. El terracota va DENTRO del
-   * archivo y no cambia en ningún estilo.
-   */
-  --logo-1x: url("/logo/apilado-claro@2x.webp");
-  --logo: image-set(
-    url("/logo/apilado-claro.webp") 1x,
-    url("/logo/apilado-claro@2x.webp") 2x
-  );
-  --logo-icono-1x: url("/logo/icono-claro@2x.webp");
-  --logo-icono: image-set(
-    url("/logo/icono-claro.webp") 1x,
-    url("/logo/icono-claro@2x.webp") 2x,
-    url("/logo/icono-claro@3x.webp") 3x
-  );
+  --shadow-deck: 0 22px 48px rgb(16 19 23 / 0.13);
 }
 
 /*
@@ -214,6 +186,7 @@
   --color-on-accent: #0a0b0c;
   --color-frame: #121416;
   --color-frame-line: #262a2e;
+  --color-mat: #121416;
   --color-btn: #f4f5f6; /* texto encima: 19.01:1 */
   --color-on-btn: #020202;
   --color-heading: #f4f5f6; /* 19.01:1 */
@@ -229,114 +202,13 @@
   --glass: rgb(2 2 2 / 0.88);
   --grain-opacity: 0.05;
   --grain-blend: screen;
-  /* Las capturas ya vienen invertidas de `proyectos/oscuro/`: nada que filtrar. */
-  --shot-filter: none;
-  /* Su propio juego, con la tinta crema de la lámina. */
-  --logo-1x: url("/logo/apilado-oscuro@2x.webp");
-  --logo: image-set(
-    url("/logo/apilado-oscuro.webp") 1x,
-    url("/logo/apilado-oscuro@2x.webp") 2x
-  );
-  --logo-icono-1x: url("/logo/icono-oscuro@2x.webp");
-  --logo-icono: image-set(
-    url("/logo/icono-oscuro.webp") 1x,
-    url("/logo/icono-oscuro@2x.webp") 2x,
-    url("/logo/icono-oscuro@3x.webp") 3x
-  );
-}
-
-/* Azul — misma base clara. Lo que cambia es la marca: acento, CTA y titulares. */
-[data-theme="azul"] {
-  color-scheme: light;
-
-  --color-page: #f8f9fa;
-  --color-page-soft: #e9eef6;
-  --color-surface: #ffffff;
-  --color-surface-2: #f0f4fa;
-  --color-line: #dce3ec;
-  --color-edge: #78828f; /* 3.70:1 */
-  --color-ink: #0c1725; /* 17.10:1 */
-  --color-ink-soft: #4c5a6d; /* 6.66:1 */
-  --color-accent: #17539e; /* 7.20:1 */
-  --color-accent-soft: #e4edf9;
-  --color-accent-2: #0f7480; /* 5.20:1 */
-  --color-on-accent: #ffffff;
-  --color-frame: #f0f4fa;
-  --color-frame-line: #dce3ec;
-  --color-btn: #17539e; /* texto encima: 7.59:1 */
-  --color-on-btn: #ffffff;
-  --color-heading: #123f78; /* 9.92:1 */
-  --color-eyebrow: #17539e; /* 7.20:1 */
-  --color-nav-line: var(--color-accent);
-
-  --color-btn-hover: #113f79;
-  --shadow-card: 0 1px 2px rgb(12 23 37 / 0.04), 0 10px 30px -18px rgb(12 23 37 / 0.18);
-  --shadow-card-hover: 0 2px 4px rgb(12 23 37 / 0.05), 0 24px 50px -24px rgb(12 23 37 / 0.26);
-  --shadow-shot: 0 26px 52px -26px rgb(12 23 37 / 0.32);
-  --shadow-float: 0 10px 30px -8px rgb(12 23 37 / 0.26);
-  --glass: rgb(248 249 250 / 0.86);
-  --grain-opacity: 0.02;
-  --grain-blend: normal;
-  --shot-filter: none;
-  /* Su propio juego, con la tinta azul marino de la lámina. */
-  --logo-1x: url("/logo/apilado-azul@2x.webp");
-  --logo: image-set(
-    url("/logo/apilado-azul.webp") 1x,
-    url("/logo/apilado-azul@2x.webp") 2x
-  );
-  --logo-icono-1x: url("/logo/icono-azul@2x.webp");
-  --logo-icono: image-set(
-    url("/logo/icono-azul.webp") 1x,
-    url("/logo/icono-azul@2x.webp") 2x,
-    url("/logo/icono-azul@3x.webp") 3x
-  );
-}
-
-/* Verde — misma base clara. Verde bosque, no verde ecológico. */
-[data-theme="verde"] {
-  color-scheme: light;
-
-  --color-page: #f8f9fa;
-  --color-page-soft: #e9f1ec;
-  --color-surface: #ffffff;
-  --color-surface-2: #f0f6f2;
-  --color-line: #dde5e0;
-  --color-edge: #79837c; /* 3.72:1 */
-  --color-ink: #0d1913; /* 17.09:1 */
-  --color-ink-soft: #485950; /* 7.06:1 */
-  --color-accent: #245c41; /* 7.43:1 */
-  --color-accent-soft: #e1ede6;
-  --color-accent-2: #8a6a2e; /* 4.76:1 */
-  --color-on-accent: #ffffff;
-  --color-frame: #f0f6f2;
-  --color-frame-line: #dde5e0;
-  --color-btn: #245c41; /* texto encima: 7.83:1 */
-  --color-on-btn: #ffffff;
-  --color-heading: #1b4a33; /* 9.61:1 */
-  --color-eyebrow: #245c41; /* 7.43:1 */
-  --color-nav-line: var(--color-accent);
-
-  --color-btn-hover: #1a4630;
-  --shadow-card: 0 1px 2px rgb(13 25 19 / 0.04), 0 10px 30px -18px rgb(13 25 19 / 0.18);
-  --shadow-card-hover: 0 2px 4px rgb(13 25 19 / 0.05), 0 24px 50px -24px rgb(13 25 19 / 0.26);
-  --shadow-shot: 0 26px 52px -26px rgb(13 25 19 / 0.32);
-  --shadow-float: 0 10px 30px -8px rgb(13 25 19 / 0.26);
-  --glass: rgb(248 249 250 / 0.86);
-  --grain-opacity: 0.02;
-  --grain-blend: normal;
-  --shot-filter: none;
-  /* Su propio juego, con la tinta verde bosque de la lámina. */
-  --logo-1x: url("/logo/apilado-verde@2x.webp");
-  --logo: image-set(
-    url("/logo/apilado-verde.webp") 1x,
-    url("/logo/apilado-verde@2x.webp") 2x
-  );
-  --logo-icono-1x: url("/logo/icono-verde@2x.webp");
-  --logo-icono: image-set(
-    url("/logo/icono-verde.webp") 1x,
-    url("/logo/icono-verde@2x.webp") 2x,
-    url("/logo/icono-verde@3x.webp") 3x
-  );
+  /*
+   * Las capturas ya vienen invertidas de `proyectos/oscuro/`, pero siguen
+   * siendo muy saturadas y pelean con el negro: se atenúan un poco más. Se
+   * aplica a TODA imagen de captura.
+   */
+  --shot-filter: saturate(0.8) brightness(0.9);
+  --shadow-deck: 0 24px 60px rgb(0 0 0 / 0.6);
 }
 
 /*
@@ -400,44 +272,238 @@ html.theme-switching *::after {
 
 @layer components {
   /*
-   * El logotipo. Va de fondo y no en un `<img>` porque así lo elige el estilo
-   * activo con `--logo` y no hace falta pasarle el tema por props a nadie: el
-   * pie usa `.isotipo` igual que la barra sin saber nada. Es lo que evita el
-   * `if (tema === …)` que con un `<img src>` habría sido inevitable.
-   *
-   * Se les da SÓLO la altura; el ancho sale del `aspect-ratio`, que es el del
-   * archivo que exporta scripts/logo.py —si cambia allí, cambia aquí—. Las
-   * piezas salen todas a la MISMA caja a propósito: con la caja de cada una, el
-   * logotipo daba un salto de tamaño al cambiar de estilo.
-   *
-   * Cada pieza va en `image-set()` con sus dos densidades, y **cada archivo
-   * está exportado al tamaño exacto en que se pinta**: 97x56 el apilado a 1x y
-   * 194x112 a 2x. Antes había una sola copia a 243x140 y era el navegador quien
-   * la reducía a 97x56 con su propio filtro —una reducción de 2,5x— y por eso
-   * se veía blando en un monitor normal al 100%. Si se cambia la altura a la
-   * que se pinta el logo, hay que cambiar `MEDIDAS` en el script: si no, vuelve
-   * a haber una reducción de por medio.
-   *
-   * El monograma lleva además 3x y el apilado no: el apilado sólo sale en la
-   * barra de escritorio, y el monograma es el de móvil, donde el usuario amplía
-   * con los dedos y conviene que detrás haya el archivo más grande posible.
-   *
-   * La primera declaración de fondo es la RESERVA y va con un `url()` normal.
-   * `image-set()` sin prefijo no lo entiende Safari 16 ni anterior, y como aquí
-   * viaja dentro de una variable, el navegador la acepta y luego falla al
-   * usarla: el logotipo se quedaría sin fondo, es decir, invisible. Con las dos
-   * declaraciones, quien no entienda `image-set()` se queda con la de arriba.
+   * El logo, en una línea: isotipo + «RuberpDev». El isotipo se escala por la
+   * altura con un ancho máximo y `object-fit: contain`: nunca un ancho fijo,
+   * que es lo que lo estiraba. En oscuro se invierte por CSS.
    */
-  .logotipo {
-    aspect-ratio: 97 / 56;
-    background: var(--logo-1x) center / contain no-repeat;
-    background-image: var(--logo);
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
   }
 
-  .isotipo {
-    aspect-ratio: 81 / 28;
-    background: var(--logo-icono-1x) center / contain no-repeat;
-    background-image: var(--logo-icono);
+  .logo-img {
+    display: block;
+    flex-shrink: 0;
+    height: 32px;
+    width: auto;
+    max-width: 44px;
+    object-fit: contain;
+  }
+
+  .logo-img-sm {
+    height: 24px;
+    max-width: 34px;
+  }
+
+  [data-theme="oscuro"] .logo-img {
+    filter: invert(1) brightness(1.08);
+  }
+
+  .logo-word {
+    font-family: var(--font-display);
+    font-size: 19px;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+    color: var(--color-ink);
+  }
+
+  /*
+   * Las tres cifras del hero, bajo los botones y tras un filete.
+   */
+  .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    margin-top: 34px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .hero-stat {
+    min-width: 118px;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .hero-stat-value {
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 1.2;
+    color: var(--color-ink);
+  }
+
+  .hero-stat-label {
+    margin-top: 2px;
+    font-size: 12.5px;
+    color: var(--color-ink-soft);
+  }
+
+  /*
+   * El mazo del hero. Cada carta es una ventana falsa con la captura debajo;
+   * la posición de cada una (desplazada, encogida, girada) la pone el
+   * componente según su índice. El `padding` deja aire a las de atrás.
+   */
+  .deck {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    padding: 24px 26px 0 0;
+  }
+
+  .deck-card {
+    position: absolute;
+    inset: 24px 26px 0 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    box-shadow: var(--shadow-deck);
+    transform-origin: bottom left;
+    transition:
+      transform 0.5s cubic-bezier(0.22, 0.8, 0.26, 1),
+      opacity 0.5s ease;
+  }
+
+  .deck-bar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 5px;
+    height: 26px;
+    padding: 0 10px;
+    background: var(--color-surface-2);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .deck-bar span {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--color-edge);
+    opacity: 0.45;
+  }
+
+  .deck-shot {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    background: var(--color-mat);
+  }
+
+  .deck-shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    filter: var(--shot-filter);
+  }
+
+  .deck-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    transition: background-color 0.2s ease;
+  }
+
+  @media (hover: hover) {
+    .deck-btn:hover {
+      background: var(--color-page-soft);
+    }
+  }
+
+  .deck-counter {
+    font-size: 12px;
+    letter-spacing: 1.6px;
+    color: var(--color-ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .deck-tag {
+    margin-left: auto;
+    font-size: 12px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+
+  .deck-progress {
+    height: 2px;
+    margin-top: 12px;
+    overflow: hidden;
+    background: var(--color-line);
+  }
+
+  .deck-progress span {
+    display: block;
+    height: 100%;
+    background: var(--color-accent);
+    transform-origin: left center;
+    transition: transform 0.4s ease;
+  }
+
+  .deck-caption {
+    margin-top: 12px;
+    min-height: 42px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--color-ink-soft);
+    text-wrap: pretty;
+  }
+
+  /*
+   * Carrusel «pasar página» de cada proyecto. La captura nueva va debajo con
+   * `contain` (nunca se recorta) y la anterior gira encima sobre su borde
+   * izquierdo durante 900 ms; el componente la desmonta a los 930.
+   */
+  .flip {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--color-mat);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    overflow: hidden;
+    perspective: 1500px;
+  }
+
+  .flip-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: var(--shot-filter);
+  }
+
+  .flip-page {
+    position: absolute;
+    inset: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: var(--shot-filter);
+    transform-origin: left center;
+    z-index: 3;
+    backface-visibility: hidden;
+    box-shadow: 6px 0 24px rgba(0, 0, 0, 0.18);
+    animation: rp-flip 900ms cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+  }
+
+  .flip-caption {
+    margin-top: 10px;
+    min-height: 38px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--color-ink-soft);
   }
 
   /*
@@ -933,86 +999,32 @@ html.theme-switching *::after {
   }
 
   /*
-   * ---- Selector de estilos ----
-   * No es un interruptor de tema: es la demostración de que el mismo sitio
-   * admite cuatro identidades. Cada muestra pinta los colores REALES del tema
-   * al que lleva, así que la decisión se toma mirando, no leyendo.
+   * ---- Interruptor de tema ----
+   * Un solo botón. Los dos iconos están siempre en el DOM y cada tema enseña
+   * el suyo: luna en claro (lleva al oscuro), sol en oscuro (lleva al claro).
    */
-  .swatch {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    border: 1px solid var(--color-edge);
-    overflow: hidden;
-    transition:
-      transform 0.25s var(--ease-out-soft),
-      border-color 0.25s var(--ease-out-soft);
+  .theme-toggle-sun {
+    display: none;
   }
 
-  .swatch-half {
-    width: 50%;
-    height: 100%;
+  [data-theme="oscuro"] .theme-toggle-moon {
+    display: none;
+  }
+
+  [data-theme="oscuro"] .theme-toggle-sun {
+    display: block;
   }
 
   @media (hover: hover) {
-    .style-option:hover .swatch {
-      transform: scale(1.06);
+    .theme-toggle:hover {
+      border-color: var(--color-edge);
+      background-color: var(--color-page-soft);
     }
   }
 
-  /*
-   * El estilo puesto. Anillo fino y un 8% de tamaño: en móvil, sin nombres
-   * debajo, esto es lo único que dice cuál está activo, así que tiene que verse
-   * de un vistazo sin convertirse en un borde grueso.
-   */
-  .style-option[aria-checked="true"] .swatch {
-    border-color: var(--color-ink);
-    transform: scale(1.08);
-    box-shadow: 0 0 0 2px var(--color-page), 0 0 0 3.5px var(--color-ink);
+  .theme-toggle:active {
+    transform: scale(0.94);
   }
-
-  /*
-   * El toque. En táctil no hay hover, y sin esto pulsar una muestra no acusaba
-   * nada hasta que la página entera cambiaba de color: medio segundo en el que
-   * parecía que el botón no había respondido. Encoge mientras dura el dedo.
-   *
-   * Lleva `[aria-checked]` y va DESPUÉS de la regla del estilo activo: esa
-   * también escribe `transform` sobre la muestra, así que hace falta el atributo
-   * para igualar su peso y el orden para ganarle. Sin las dos cosas, la muestra
-   * que ya está puesta era justo la única que no acusaba el toque.
-   */
-  .style-option[aria-checked]:active .swatch {
-    transform: scale(0.9);
-    transition-duration: 0.1s;
-  }
-
-  /*
-   * Las cuatro miniaturas de la sección Estilos: el mismo selector, a tamaño
-   * grande. La caja se levanta con el puntero y se hunde con el dedo. El
-   * movimiento va en la caja y no en el botón porque el botón es un `.reveal`
-   * y los dos escribirían sobre el mismo `transform`.
-   *
-   * La transición incluye el color: aquí NO puede ir un `transition-colors` de
-   * Tailwind, que se declara después y se llevaría por delante el `transform`.
-   */
-  .style-tile-box {
-    transition:
-      transform 0.28s var(--ease-out-soft),
-      border-color 0.28s var(--ease-out-soft);
-  }
-
-  @media (hover: hover) {
-    .style-tile:hover .style-tile-box {
-      transform: translateY(-3px);
-    }
-  }
-
-  .style-tile:active .style-tile-box {
-    transform: translateY(0) scale(0.985);
-    transition-duration: 0.1s;
-  }
-
 
   /*
    * ---- El marco del arco ----
@@ -1407,6 +1419,15 @@ html.theme-switching *::after {
   }
 }
 
+@keyframes rp-flip {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-118deg);
+  }
+}
+
 @keyframes lightbox-in {
   from {
     opacity: 0;
@@ -1430,6 +1451,10 @@ html.theme-switching *::after {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  /* El carrusel cambia de captura sin voltear la página. */
+  .flip-page {
+    display: none;
   }
   .reveal-words > span {
     opacity: 1;
@@ -1459,10 +1484,6 @@ html.theme-switching *::after {
   .btn-primary:hover,
   .btn-primary:active,
   .btn-ghost:active {
-    transform: none;
-  }
-  .style-tile:hover .style-tile-box,
-  .style-tile:active .style-tile-box {
     transform: none;
   }
   /* El arco aparece ya dibujado: no hay trazo que recorrer. */

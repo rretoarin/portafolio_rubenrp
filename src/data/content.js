@@ -24,30 +24,16 @@ export const PROFILE = {
 }
 
 /*
- * Capturas por estilo, en `proyectos/<estilo>/`, que genera
- * `scripts/capturas-estilo.py`. No es lo mismo en todos:
- *
- * - **oscuro**: TODAS invertidas, porque una captura clara a pantalla completa
- *   deslumbra sobre el negro.
- * - **azul y verde**: sólo las de J&M, y sólo se les cambia el verde de marca
- *   —titular, botones, filete del menú— por el color del estilo. Es lo que hace
- *   que la sección Estilos enseñe de verdad «así podría verse tu negocio».
- *   Las del sistema de Arin no tienen color de marca que cambiar, así que en los
- *   tres estilos claros son las mismas.
- *
- * Se probó teñir la captura entera y quedaba mal: parecía un filtro encima, no
- * un rediseño. Y un filtro CSS tampoco vale — no distingue una foto de una
- * tabla ni un verde de marca de un verde cualquiera.
+ * Capturas por tema. En oscuro salen de `proyectos/oscuro/` (las genera
+ * `scripts/capturas-estilo.py`), porque una captura clara a pantalla completa
+ * deslumbra sobre el negro; encima, `--shot-filter` las atenúa un poco más.
  *
  * Es la única excepción a que el estilo no cambie nada más que variables: aquí
- * cambia un archivo, no cómo se pinta un componente. Se resuelve en `Hero`, en
- * `Styles` y en `Projects`; de ahí para abajo todos reciben rutas ya resueltas.
+ * cambia un archivo, no cómo se pinta un componente. Se resuelve en `Hero` y en
+ * `Projects`; de ahí para abajo todos reciben rutas ya resueltas.
  */
 export function shotFor(theme, ruta) {
   if (theme === 'oscuro') return ruta.replace('/proyectos/', '/proyectos/oscuro/')
-  if ((theme === 'azul' || theme === 'verde') && ruta.includes('/jm-')) {
-    return ruta.replace('/proyectos/', `/proyectos/${theme}/`)
-  }
   return ruta
 }
 
@@ -111,18 +97,17 @@ export const CONTENT = {
     langAria: 'Cambiar idioma a inglés',
 
     /*
-     * Los cuatro estilos. El identificador vive en `hooks/useTheme.js` y el
-     * color en `index.css`: aquí sólo están los nombres que ve el visitante.
+     * Los dos temas. El identificador vive en `hooks/useTheme.js` y el color en
+     * `index.css`: aquí sólo está lo que lee el visitante. El botón dice el
+     * tema al que LLEVA.
      */
     theme: {
-      aria: 'Elegir el estilo visual del sitio',
-      label: 'Estilo',
-      names: { claro: 'Claro', oscuro: 'Oscuro', azul: 'Azul', verde: 'Verde' },
+      toDark: 'Cambiar a modo oscuro',
+      toLight: 'Cambiar a modo claro',
     },
 
     nav: {
       services: 'Soluciones',
-      styles: 'Estilos',
       projects: 'Proyectos',
       process: 'Proceso',
       contact: 'Contacto',
@@ -143,16 +128,28 @@ export const CONTENT = {
        * de cliente (emprendedores, talleres, consultoras…), que ocupaba mucho
        * sitio y no ayudaba a decidir.
        */
+      /*
+       * Las tres cifras bajo los botones. Son 1 / 1 / 0: UN sistema interno y
+       * UNA página web. Nunca «2 sistemas».
+       */
+      stats: [
+        { value: '1', label: 'sistema interno en producción' },
+        { value: '1', label: 'página web en línea' },
+        { value: '0', label: 'intermediarios' },
+      ],
       services: [
         'Páginas web corporativas',
         'Sistemas web a medida',
         'Automatización de procesos',
         'Integraciones de servicios',
       ],
-      mock: {
-        laptopAlt: 'Panel del sistema de gestión de muestras, en producción',
-        phoneAlt: 'Sitio de J&M Consulting Foods visto en un móvil',
-        label: 'arin · desarrollo de muestras',
+      // El visor del hero. Los pies de foto salen de `projects.items`.
+      deck: {
+        tag: 'Un vistazo a cada proyecto',
+        prev: 'Captura anterior',
+        next: 'Captura siguiente',
+        pause: 'Pausar la secuencia',
+        play: 'Reanudar la secuencia',
       },
     },
 
@@ -181,15 +178,6 @@ export const CONTENT = {
       ],
     },
 
-    styles: {
-      eyebrow: 'Tu negocio, tu identidad',
-      title: 'Un mismo objetivo. Diferentes estilos.',
-      subtitle:
-        'Cada negocio tiene una identidad diferente. Tu experiencia digital también debería tenerla.',
-      note: 'El diseño cambia. La calidad no.',
-      hint: 'El mismo contenido, diferentes estilos',
-    },
-
     process: {
       eyebrow: 'Del proyecto al acompañamiento',
       title: 'Tu proyecto, en buenas manos. Siempre.',
@@ -211,7 +199,7 @@ export const CONTENT = {
       eyebrow: 'Casos reales',
       title: 'Proyectos que solucionan problemas.',
       subtitle:
-        'Dos sistemas construidos de cero este año y funcionando hoy. En los dos empecé por entender el proceso, no por elegir la tecnología.',
+        'Un sistema interno y una página web, construidos de cero este año y funcionando hoy. En los dos empecé por entender el proceso, no por elegir la tecnología.',
       clientLabel: 'Cliente',
       viewLive: 'Ver el sitio',
       privateLabel: 'Sistema interno',
@@ -219,7 +207,6 @@ export const CONTENT = {
       solutionLabel: 'Solución',
       resultLabel: 'Resultado',
       toolsLabel: 'Construido con',
-      viewShots: 'Ver las {n} capturas',
       galleryLabel: 'Capturas del sistema',
       closeShot: 'Cerrar la captura',
       prev: 'Captura anterior',
@@ -255,10 +242,10 @@ export const CONTENT = {
           result:
             'En uso con dominio propio. El equipo gestiona su contenido sin tocar código y recibe las consultas ya armadas.',
           shots: [
-            'Portada: la propuesta de valor y el paso directo a WhatsApp.',
+            'Portada de J&M: la propuesta de valor y el paso directo a WhatsApp.',
             'Catálogo de servicios con el detalle de cada trámite y certificación.',
             'Capacitaciones: fotos reales de los talleres, cada una con su pie de foto.',
-            'El proceso en cuatro etapas, para que el cliente sepa en todo momento dónde está.',
+            'El proceso en cuatro etapas, para que el cliente sepa dónde está.',
             'Los sectores de alimentos que atienden, listados uno a uno.',
             'Carrusel de las empresas que ya trabajaron con la consultora.',
           ],
@@ -298,7 +285,7 @@ export const CONTENT = {
         label: 'Sitio',
         lines: [
           'Diseñado y construido por mí',
-          'Cuatro estilos, un mismo contenido',
+          'Claro y oscuro, un mismo contenido',
           'Desplegado en Vercel',
         ],
       },
@@ -310,14 +297,12 @@ export const CONTENT = {
     langAria: 'Switch language to Spanish',
 
     theme: {
-      aria: 'Choose the visual style of the site',
-      label: 'Style',
-      names: { claro: 'Light', oscuro: 'Dark', azul: 'Blue', verde: 'Green' },
+      toDark: 'Switch to dark mode',
+      toLight: 'Switch to light mode',
     },
 
     nav: {
       services: 'Solutions',
-      styles: 'Styles',
       projects: 'Projects',
       process: 'Process',
       contact: 'Contact',
@@ -333,16 +318,23 @@ export const CONTENT = {
       lead: 'I design and build websites, systems and digital experiences shaped around what each business actually needs.',
       ctaPrimary: 'Let us talk about your project',
       ctaSecondary: 'See how I work',
+      stats: [
+        { value: '1', label: 'internal system in production' },
+        { value: '1', label: 'website live' },
+        { value: '0', label: 'middlemen' },
+      ],
       services: [
         'Corporate websites',
         'Custom web systems',
         'Process automation',
         'Service integrations',
       ],
-      mock: {
-        laptopAlt: 'Dashboard of the sample management system, in production',
-        phoneAlt: 'J&M Consulting Foods site seen on a phone',
-        label: 'arin · desarrollo de muestras',
+      deck: {
+        tag: 'A glance at each project',
+        prev: 'Previous screen',
+        next: 'Next screen',
+        pause: 'Pause the sequence',
+        play: 'Resume the sequence',
       },
     },
 
@@ -371,15 +363,6 @@ export const CONTENT = {
       ],
     },
 
-    styles: {
-      eyebrow: 'Your business, your identity',
-      title: 'One goal. Different styles.',
-      subtitle:
-        'Every business has a different identity. Your digital experience should have one too.',
-      note: 'The design changes. The quality does not.',
-      hint: 'The same content, different styles',
-    },
-
     process: {
       eyebrow: 'From the project to the follow-up',
       title: 'Your project, in good hands. Always.',
@@ -401,7 +384,7 @@ export const CONTENT = {
       eyebrow: 'Real cases',
       title: 'Projects that solve problems.',
       subtitle:
-        'Two systems built from scratch this year and running today. In both I started by understanding the process, not by picking the technology.',
+        'An internal system and a website, built from scratch this year and running today. In both I started by understanding the process, not by picking the technology.',
       clientLabel: 'Client',
       viewLive: 'Visit the site',
       privateLabel: 'Internal system',
@@ -409,7 +392,6 @@ export const CONTENT = {
       solutionLabel: 'Solution',
       resultLabel: 'Result',
       toolsLabel: 'Built with',
-      viewShots: 'See all {n} screens',
       galleryLabel: 'System screens',
       closeShot: 'Close the screen',
       prev: 'Previous screen',
@@ -425,14 +407,14 @@ export const CONTENT = {
           result:
             'In production. Every movement is signed, and changing one holiday recalculates deadlines across the system.',
           shots: [
-            'Dashboard: pending, finished and approved work, with the load of every process up to date.',
-            'Design list: combined filters by status and category, with Excel export.',
-            'Closing calendar: the full year, colored by overdue, due soon and on-time samples.',
-            'Design sheet: approvals are signed with name and date, and the history keeps every change.',
-            'Due-date report: percentage by status, distribution by business unit and pieces by karat.',
-            'Sample report: closing curve, statuses for the period and average lead time.',
-            'Holiday maintenance: one change here recalculates deadlines across the whole system.',
-            'The reports of the system, grouped: by week, by month, by designer and by due date.',
+            'Dashboard: pending, finished and approved, with each process load up to date.',
+            'Design list: combined status and category filters, with Excel export.',
+            'Deadline calendar: the full year, colour-coded by overdue, due soon and on time.',
+            'Design record: approvals signed with name and date, and a history of every change.',
+            'Overdue report: share by status, split by business unit and pieces by karat.',
+            'Sample report: closing curve, period statuses and average delivery time.',
+            'Holiday settings: one change here recalculates deadlines across the system.',
+            'All system reports, grouped: by week, month, designer and due date.',
           ],
         },
         'jm-consulting': {
@@ -445,12 +427,12 @@ export const CONTENT = {
           result:
             'In use on its own domain. The team manages its content without touching code and gets enquiries ready to answer.',
           shots: [
-            'Home: the value proposition and a direct path to WhatsApp.',
-            'Service catalog detailing every procedure and certification.',
-            'Training: real photos from the workshops, each one with its caption.',
-            'The four-stage process, so the client always knows where they stand.',
+            'J&M home: the value proposition and a direct step to WhatsApp.',
+            'Service catalogue detailing every procedure and certification.',
+            'Training: real workshop photos, each with its own caption.',
+            'A four-stage process, so the client always knows where things stand.',
             'The food sectors they serve, listed one by one.',
-            'Carousel of the companies that already worked with the consultancy.',
+            'Carousel of companies that have already worked with the consultancy.',
           ],
         },
       },
@@ -487,7 +469,7 @@ export const CONTENT = {
         label: 'Site',
         lines: [
           'Designed and built by me',
-          'Four styles, one same content',
+          'Light and dark, one same content',
           'Deployed on Vercel',
         ],
       },

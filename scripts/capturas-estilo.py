@@ -42,14 +42,15 @@ import os
 SRC = os.path.join(os.path.dirname(__file__), "..", "public", "proyectos")
 
 # Los colores son los `--color-accent` de cada estilo en src/index.css.
+#
+# Rediseño v2: sólo quedan claro y oscuro. El tratamiento de azul y verde se
+# conserva abajo por si vuelve, pero ya no se genera.
 ESTILOS = {
     "oscuro": None,               # se invierte entera
-    "azul": (0x17, 0x53, 0x9E),   # sólo cambia el verde de marca
-    "verde": (0x24, 0x5C, 0x41),
 }
 
 # En azul y en verde sólo se tocan las capturas de J&M: son las que tienen un
-# color de marca. `jm-movil` incluida.
+# color de marca.
 PREFIJO_MARCA = "jm-"
 
 # Rango de tono del verde de J&M, en grados, y saturación mínima para que un

@@ -1,46 +1,44 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 /*
- * Los cuatro estilos de RuberpDev. El orden es el del selector.
+ * Los dos temas de RuberpDev: claro y oscuro. Un solo botón los alterna.
  *
  * Aquí sólo vive el identificador: los colores están en `src/index.css` y los
- * nombres visibles, en `content.js` (uno por idioma). Este archivo no sabe de
- * ninguna de las dos cosas, así que añadir un quinto estilo es añadir su bloque
- * de variables, su copia y su entrada en esta lista. Nada más.
+ * nombres visibles, en `content.js` (uno por idioma).
  */
-export const THEMES = ['claro', 'oscuro', 'azul', 'verde']
+export const THEMES = ['claro', 'oscuro']
 
 export const DEFAULT_THEME = 'claro'
 
 /*
  * Se queda con el nombre viejo de la marca A PROPÓSITO. Renombrarla a
  * `ruberpdev-theme` haría que todo el que ya ha visitado el sitio perdiera el
- * estilo que tenía elegido y volviera al claro. No es una errata: no tocarla.
+ * tema que tenía elegido. No es una errata: no tocarla.
  * El mismo literal está en el script en línea de `index.html`.
  */
 const STORAGE_KEY = 'rubendev-theme'
 
-// El mismo cálculo que corre el script en línea de `index.html` antes de pintar.
+/*
+ * El mismo cálculo que corre el script en línea de `index.html` antes de pintar:
+ * lo guardado manda; si no hay nada (o era azul o verde, que ya no existen), el
+ * primer arranque sigue la preferencia del sistema.
+ */
 export function readTheme() {
   if (typeof window === 'undefined') return DEFAULT_THEME
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY)
     if (THEMES.includes(saved)) return saved
   } catch {
-    // Modo privado o cookies bloqueadas: se arranca con el estilo por defecto.
+    // Modo privado o cookies bloqueadas: se sigue con la preferencia del sistema.
   }
-  return DEFAULT_THEME
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'oscuro' : DEFAULT_THEME
 }
 
 /*
- * Fuente de verdad del estilo visual. Se llama UNA vez, en `App`, y el valor se
- * pasa por props a los dos únicos consumidores (la barra y la sección Estilos).
- * Es el `ThemeProvider` de toda la vida sin meter contexto, que aquí sería
- * complejidad sin beneficio — el mismo criterio que ya se sigue con el idioma.
- *
- * Ningún componente pregunta qué tema hay puesto para pintarse distinto: todos
- * consumen las variables de diseño. Lo único que hace este hook es escribir
- * `data-theme` en el <html>.
+ * Fuente de verdad del tema. Se llama UNA vez, en `App`, y el valor se pasa por
+ * props. Ningún componente pregunta qué tema hay puesto para pintarse distinto:
+ * todos consumen las variables de diseño. Lo único que hace este hook es
+ * escribir `data-theme` en el <html>.
  */
 export function useTheme() {
   const [theme, setThemeState] = useState(readTheme)
@@ -49,12 +47,6 @@ export function useTheme() {
   useEffect(() => {
     const raiz = document.documentElement
     raiz.dataset.theme = theme
-
-    try {
-      window.localStorage.setItem(STORAGE_KEY, theme)
-    } catch {
-      // Sin almacenamiento el estilo simplemente no sobrevive a la recarga.
-    }
 
     /*
      * La barra del navegador en móvil. Se lee el color ya resuelto en vez de
@@ -67,7 +59,7 @@ export function useTheme() {
 
     /*
      * El fundido se enciende sólo mientras dura el cambio. En el primer render
-     * no: si no, el sitio entraría fundiendo desde el estilo por defecto y se
+     * no: si no, el sitio entraría fundiendo desde el tema por defecto y se
      * vería un parpadeo de color al cargar.
      */
     if (primeraVez.current) {
@@ -80,8 +72,19 @@ export function useTheme() {
     return () => clearTimeout(id)
   }, [theme])
 
+  /*
+   * Se guarda sólo cuando el visitante elige, no en cada render: si se guardara
+   * al arrancar, la preferencia del sistema quedaría congelada en la primera
+   * visita y dejaría de seguirla aunque nunca hubiese tocado el botón.
+   */
   const setTheme = useCallback((siguiente) => {
-    if (THEMES.includes(siguiente)) setThemeState(siguiente)
+    if (!THEMES.includes(siguiente)) return
+    setThemeState(siguiente)
+    try {
+      window.localStorage.setItem(STORAGE_KEY, siguiente)
+    } catch {
+      // Sin almacenamiento el tema simplemente no sobrevive a la recarga.
+    }
   }, [])
 
   return [theme, setTheme]

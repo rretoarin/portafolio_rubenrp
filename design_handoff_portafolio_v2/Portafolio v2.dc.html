@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+@font-face { font-family:'Sentient'; src:url('public/fonts/sentient-variable.woff2') format('woff2'); font-weight:200 700; font-display:swap; }
+@font-face { font-family:'Satoshi'; src:url('public/fonts/satoshi-variable.woff2') format('woff2'); font-weight:300 900; font-display:swap; }
+html, body { margin:0; padding:0; }
+:root {
+  --page:#f8f9fa; --page-soft:#eceff2; --surface:#ffffff; --surface-2:#f1f3f6;
+  --line:#e1e5ea; --edge:#767d86; --ink:#101317; --ink-soft:#535a63;
+  --accent:#9a5638; --accent-soft:#f3e9e4; --btn:#101317; --on-btn:#f8f9fa;
+  --shot-filter:none; --mat:#eef0f3;
+}
+[data-rp="oscuro"] {
+  --page:#020202; --page-soft:#0e0f11; --surface:#0a0b0c; --surface-2:#121416;
+  --line:#1f2225; --edge:#6e747c; --ink:#f4f5f6; --ink-soft:#a5abb3;
+  --accent:#cbb894; --accent-soft:#16181b; --btn:#f4f5f6; --on-btn:#020202;
+  --shot-filter:saturate(0.8) brightness(0.9); --mat:#121416;
+}
+a { color:var(--accent); text-decoration:none; }
+a:hover { color:var(--ink); }
+* { box-sizing:border-box; }
+@keyframes rp-in { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+@media (min-width:940px) { [data-nav] { display:inline-block !important; } [data-menu-btn] { display:none !important; } }
+[data-nav] { position:relative; padding-bottom:6px; }
+[data-nav]::after { content:''; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--accent); transform:scaleX(0); transform-origin:left center; transition:transform .32s cubic-bezier(.22,.8,.26,1); }
+[data-nav]:hover::after, [data-nav]:focus-visible::after, [data-nav][data-on="1"]::after { transform:scaleX(1); }
+[data-rp="oscuro"] [data-nav]::after { background:#ffffff; }
+@media (max-width:520px) { [data-hide-sm] { display:none !important; } }
+[data-rp="oscuro"] [data-logo] { filter:invert(1) brightness(1.08); }
+@keyframes rp-flip { from { transform:rotateY(0deg); } to { transform:rotateY(-118deg); } }
+a, button, nav a, header a, footer a, article, [data-card] { transition:color .32s ease, background-color .32s ease, border-color .32s ease, opacity .32s ease, transform .32s ease, box-shadow .32s ease; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+</style>
+</helmet>
+<div data-rp="{{ themeAttr }}" style="background:var(--page);color:var(--ink);font-family:'Satoshi',-apple-system,'Segoe UI',sans-serif;min-height:100vh;transition:background .35s ease,color .35s ease;overflow-x:hidden;">
+
+<header style="position:sticky;top:0;z-index:60;background:var(--page);border-bottom:1px solid var(--line);">
+<div style="max-width:1140px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;">
+<a href="#top" style="display:flex;align-items:center;gap:9px;flex-shrink:0;min-width:0;">
+<img data-logo="1" src="public/logo/icono-claro@2x.webp" alt="RuberpDev" style="height:32px;width:auto;max-width:44px;object-fit:contain;display:block;flex-shrink:0;" />
+<span style="font-family:'Sentient',Georgia,serif;font-size:19px;letter-spacing:-0.2px;color:var(--ink);white-space:nowrap;">RuberpDev</span>
+</a>
+<nav style="display:flex;align-items:center;gap:26px;margin-left:auto;font-size:14px;">
+<a href="#soluciones" data-nav="1" data-on="{{ on.soluciones }}" style="color:var(--ink-soft);display:none;" style-hover="color:var(--ink)">{{ t.nav1 }}</a>
+<a href="#trabajo" data-nav="1" data-on="{{ on.trabajo }}" style="color:var(--ink-soft);display:none;" style-hover="color:var(--ink)">{{ t.nav2 }}</a>
+<a href="#proceso" data-nav="1" data-on="{{ on.proceso }}" style="color:var(--ink-soft);display:none;" style-hover="color:var(--ink)">{{ t.nav3 }}</a>
+<a href="#contacto" data-nav="1" data-on="{{ on.contacto }}" style="color:var(--ink-soft);display:none;" style-hover="color:var(--ink)">{{ t.nav4 }}</a>
+</nav>
+<div style="display:flex;align-items:center;gap:8px;">
+<button type="button" data-menu-btn="1" onClick="{{ toggleMenu }}" aria-label="{{ menuLabel }}" style="width:44px;height:44px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;" style-hover="background:var(--page-soft)">{{ menuIcon }}</button>
+<button type="button" onClick="{{ toggleLang }}" aria-label="{{ langLabel }}" title="{{ langLabel }}" style="height:44px;min-width:44px;padding:0 14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;cursor:pointer;font:inherit;font-size:13px;font-weight:700;letter-spacing:1px;" style-hover="background:var(--page-soft)">{{ langCode }}</button>
+<button type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" style="width:44px;height:44px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;" style-hover="background:var(--page-soft)">{{ themeIcon }}</button>
+<a data-hide-sm="1" href="https://wa.me/51933214520" target="_blank" rel="noreferrer noopener" style="background:var(--btn);color:var(--on-btn);padding:13px 20px;border-radius:999px;font-size:14px;font-weight:700;white-space:nowrap;" style-hover="opacity:0.88">{{ t.navCta }}</a>
+</div>
+</div>
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+<div style="border-top:1px solid var(--line);background:var(--surface);">
+<nav style="max-width:1140px;margin:0 auto;padding:8px 20px 18px 20px;display:flex;flex-direction:column;">
+<a href="#soluciones" onClick="{{ closeMenu }}" style="padding:15px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink);">{{ t.nav1 }}</a>
+<a href="#trabajo" onClick="{{ closeMenu }}" style="padding:15px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink);">{{ t.nav2 }}</a>
+<a href="#proceso" onClick="{{ closeMenu }}" style="padding:15px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink);">{{ t.nav3 }}</a>
+<a href="#contacto" onClick="{{ closeMenu }}" style="padding:15px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink);">{{ t.nav4 }}</a>
+<a href="https://wa.me/51933214520" target="_blank" rel="noreferrer noopener" style="margin-top:14px;text-align:center;background:var(--btn);color:var(--on-btn);padding:15px 20px;border-radius:999px;font-size:15px;font-weight:700;">{{ t.navCta }}</a>
+</nav>
+</div>
+</sc-if>
+</header>
+
+<section id="top" style="max-width:1140px;margin:0 auto;padding:clamp(36px,6vw,80px) 20px clamp(28px,4vw,44px) 20px;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:clamp(28px,5vw,56px);align-items:center;">
+
+<div style="min-width:0;animation:rp-in .7s ease both;">
+<p style="margin:0 0 18px 0;font-size:12px;letter-spacing:2.2px;text-transform:uppercase;color:var(--accent);font-weight:700;">{{ t.eyebrow }}</p>
+<h1 style="margin:0 0 20px 0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:clamp(33px,5.2vw,58px);line-height:1.06;letter-spacing:-1px;color:var(--ink);text-wrap:pretty;">{{ t.h1 }}</h1>
+<p style="margin:0 0 30px 0;font-size:clamp(15px,1.5vw,18px);line-height:1.65;color:var(--ink-soft);max-width:46ch;text-wrap:pretty;">{{ t.sub }}</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+<a href="https://wa.me/51933214520" target="_blank" rel="noreferrer noopener" style="display:inline-flex;align-items:center;gap:10px;background:var(--btn);color:var(--on-btn);padding:16px 26px;border-radius:999px;font-size:15px;font-weight:700;" style-hover="opacity:0.88">{{ t.cta1 }} <span aria-hidden="true">→</span></a>
+<a href="#proceso" style="display:inline-flex;align-items:center;padding:16px 22px;border-radius:999px;border:1px solid var(--line);color:var(--ink);font-size:15px;font-weight:600;" style-hover="background:var(--page-soft)">{{ t.cta2 }}</a>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:34px;padding-top:24px;border-top:1px solid var(--line);">
+<div style="min-width:118px;"><p style="margin:0;font-family:'Sentient',Georgia,serif;font-size:26px;color:var(--ink);">1</p><p style="margin:2px 0 0 0;font-size:12.5px;color:var(--ink-soft);">{{ t.stat1 }}</p></div>
+<div style="min-width:118px;"><p style="margin:0;font-family:'Sentient',Georgia,serif;font-size:26px;color:var(--ink);">1</p><p style="margin:2px 0 0 0;font-size:12.5px;color:var(--ink-soft);">{{ t.stat2 }}</p></div>
+<div style="min-width:118px;"><p style="margin:0;font-family:'Sentient',Georgia,serif;font-size:26px;color:var(--ink);">0</p><p style="margin:2px 0 0 0;font-size:12.5px;color:var(--ink-soft);">{{ t.stat3 }}</p></div>
+</div>
+</div>
+
+<div style="min-width:0;animation:rp-in .8s ease .1s both;" onMouseEnter="{{ pause }}" onMouseLeave="{{ resume }}">
+<div style="position:relative;width:100%;aspect-ratio:16/11;padding:24px 26px 0 0;">
+<sc-for list="{{ deck }}" as="card" hint-placeholder-count="3">
+<div style="{{ card.style }}">
+<div style="height:26px;background:var(--surface-2);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:5px;padding:0 10px;flex-shrink:0;">
+<span style="width:7px;height:7px;border-radius:999px;background:var(--edge);opacity:.45;"></span>
+<span style="width:7px;height:7px;border-radius:999px;background:var(--edge);opacity:.45;"></span>
+<span style="width:7px;height:7px;border-radius:999px;background:var(--edge);opacity:.45;"></span>
+</div>
+<div style="flex:1;min-height:0;background:var(--mat);display:flex;">
+<img src="{{ card.src }}" alt="{{ card.alt }}" loading="lazy" style="display:block;width:100%;height:100%;object-fit:contain;object-position:center;filter:var(--shot-filter);" />
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap;">
+<button type="button" onClick="{{ prev }}" aria-label="{{ t.prev }}" style="width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font-size:16px;" style-hover="background:var(--page-soft)">←</button>
+<button type="button" onClick="{{ togglePlay }}" aria-label="{{ playLabel }}" title="{{ playLabel }}" style="width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font-size:13px;" style-hover="background:var(--page-soft)">{{ playIcon }}</button>
+<button type="button" onClick="{{ next }}" aria-label="{{ t.next }}" style="width:44px;height:44px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font-size:16px;" style-hover="background:var(--page-soft)">→</button>
+<span style="font-size:12px;letter-spacing:1.6px;color:var(--ink-soft);font-variant-numeric:tabular-nums;">{{ counter }}</span>
+<span style="margin-left:auto;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-soft);">{{ heroTag }}</span>
+</div>
+<div style="height:2px;background:var(--line);margin-top:12px;overflow:hidden;">
+<div style="{{ barStyle }}"></div>
+</div>
+<p style="margin:12px 0 0 0;font-size:13px;line-height:1.55;color:var(--ink-soft);min-height:42px;text-wrap:pretty;">{{ caption }}</p>
+</div>
+
+</div>
+</section>
+
+<section id="soluciones" style="background:var(--page-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+<div style="max-width:1140px;margin:0 auto;padding:clamp(48px,6vw,80px) 20px;">
+<p style="margin:0 0 14px 0;font-size:12px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ink-soft);font-weight:700;">{{ t.solEyebrow }}</p>
+<h2 style="margin:0 0 14px 0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:clamp(26px,3.4vw,40px);line-height:1.12;letter-spacing:-0.6px;color:var(--ink);max-width:22ch;">{{ t.solTitle }}</h2>
+<p style="margin:0 0 36px 0;font-size:16px;line-height:1.65;color:var(--ink-soft);max-width:56ch;">{{ t.solSub }}</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1px;background:var(--line);border:1px solid var(--line);">
+<sc-for list="{{ servicios }}" as="s" hint-placeholder-count="4">
+<div data-card="1" style="background:var(--surface);padding:28px 24px;" style-hover="background:var(--page-soft)">
+<p style="margin:0 0 10px 0;font-size:11.5px;letter-spacing:1.8px;color:var(--accent);font-weight:700;">{{ s.n }}</p>
+<h3 style="margin:0 0 8px 0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:20px;color:var(--ink);">{{ s.t }}</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-soft);">{{ s.d }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="trabajo" style="max-width:1140px;margin:0 auto;padding:clamp(48px,6vw,80px) 20px;">
+<p style="margin:0 0 14px 0;font-size:12px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ink-soft);font-weight:700;">{{ t.workEyebrow }}</p>
+<h2 style="margin:0 0 36px 0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:clamp(26px,3.4vw,40px);line-height:1.12;letter-spacing:-0.6px;color:var(--ink);max-width:24ch;">{{ t.workTitle }}</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;">
+<article style="border:1px solid var(--line);background:var(--surface);padding:clamp(22px,3vw,32px);display:flex;flex-direction:column;gap:14px;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(16,19,23,.09)">
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:11.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-soft);"><span>Arin S.A.</span><span>{{ t.tagInterno }}</span></div>
+<h3 style="margin:0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:clamp(21px,2.4vw,27px);line-height:1.2;color:var(--ink);">{{ t.p1Title }}</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.65;color:var(--ink-soft);">{{ t.p1Body }}</p>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px;"><span style="font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;">React</span><span style="font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;">Node.js</span><span style="font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;">Express</span><span style="font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;">MongoDB</span></div>
+<div onMouseEnter="{{ carA.hold }}" onMouseLeave="{{ carA.free }}" style="position:relative;aspect-ratio:16/10;background:var(--mat);border:1px solid var(--line);border-radius:10px;overflow:hidden;perspective:1500px;">
+<img src="{{ carA.cur }}" alt="{{ carA.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:var(--shot-filter);" />
+<sc-if value="{{ carA.flipping }}" hint-placeholder-val="{{ false }}">
+<div style="{{ carA.flipStyle }}"></div>
+</sc-if>
+</div>
+<p style="margin:0;font-size:12.5px;line-height:1.5;color:var(--ink-soft);min-height:38px;">{{ carA.counter }} · {{ carA.alt }}</p>
+</article>
+<article style="border:1px solid var(--line);background:var(--surface);padding:clamp(22px,3vw,32px);display:flex;flex-direction:column;gap:14px;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(16,19,23,.09)">
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:11.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-soft);"><span>J&amp;M Consulting Foods</span><span>{{ t.tagLive }}</span></div>
+<h3 style="margin:0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:clamp(21px,2.4vw,27px);line-height:1.2;color:var(--ink);">{{ t.p2Title }}</h3>
+<p style="margin:0;font-size:14.5px;line-height:1.65;color:var(--ink-soft);">{{ t.p2Body }}</p>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px;"><span style="font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;">React</span><span style="font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;">Node.js</span><span style="font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;">MongoDB</span><span style="font-size:11.5px;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:999px;">Netlify</span></div>
+<div onMouseEnter="{{ carB.hold }}" onMouseLeave="{{ carB.free }}" style="position:relative;aspect-ratio:16/10;background:var(--mat);border:1px solid var(--line);border-radius:10px;overflow:hidden;perspective:1500px;">
+<img src="{{ carB.cur }}" alt="{{ carB.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:var(--shot-filter);" />
+<sc-if value="{{ carB.flipping }}" hint-placeholder-val="{{ false }}">
+<div style="{{ carB.flipStyle }}"></div>
+</sc-if>
+</div>
+<p style="margin:0;font-size:12.5px;line-height:1.5;color:var(--ink-soft);min-height:38px;">{{ carB.counter }} · {{ carB.alt }}</p>
+<a href="https://jm-consulting-foods.netlify.app/" target="_blank" rel="noreferrer noopener" style="align-self:flex-start;font-size:14px;font-weight:700;color:var(--accent);">{{ t.p2Visit }} →</a>
+</article>
+</div>
+</section>
+
+<section id="proceso" style="background:var(--page-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+<div style="max-width:1140px;margin:0 auto;padding:clamp(48px,6vw,80px) 20px;">
+<p style="margin:0 0 14px 0;font-size:12px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ink-soft);font-weight:700;">{{ t.procEyebrow }}</p>
+<h2 style="margin:0 0 36px 0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:clamp(26px,3.4vw,40px);line-height:1.12;letter-spacing:-0.6px;color:var(--ink);max-width:22ch;">{{ t.procTitle }}</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:24px;">
+<sc-for list="{{ pasos }}" as="p" hint-placeholder-count="5">
+<div style="{{ p.style }}">
+<p style="margin:0 0 6px 0;font-size:11.5px;letter-spacing:1.8px;color:var(--ink-soft);font-weight:700;">{{ p.n }}</p>
+<h3 style="margin:0 0 6px 0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:18px;color:var(--ink);">{{ p.t }}</h3>
+<p style="margin:0;font-size:14px;line-height:1.6;color:var(--ink-soft);">{{ p.d }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="contacto" style="max-width:1140px;margin:0 auto;padding:clamp(48px,6vw,84px) 20px;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(28px,4vw,52px);align-items:center;">
+<div style="min-width:0;">
+<p style="margin:0 0 14px 0;font-size:12px;letter-spacing:2.2px;text-transform:uppercase;color:var(--accent);font-weight:700;">{{ t.ctaEyebrow }}</p>
+<h2 style="margin:0 0 16px 0;font-family:'Sentient',Georgia,serif;font-weight:400;font-size:clamp(28px,3.8vw,44px);line-height:1.1;letter-spacing:-0.8px;color:var(--ink);">{{ t.ctaTitle }}</h2>
+<div style="display:flex;align-items:center;gap:16px;margin:0 0 22px 0;">
+<img src="https://portafolio-rubenrp.vercel.app/ruben.webp" alt="Rubén Reto Panta" loading="lazy" style="width:76px;height:76px;flex-shrink:0;border-radius:999px;object-fit:cover;object-position:center top;border:1px solid var(--line);" />
+<div style="min-width:0;">
+<p style="margin:0;font-family:'Sentient',Georgia,serif;font-size:19px;line-height:1.25;color:var(--ink);">Rubén Reto Panta</p>
+<p style="margin:3px 0 0 0;font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);">{{ t.role }}</p>
+</div>
+</div>
+<p style="margin:0 0 26px 0;font-size:16px;line-height:1.65;color:var(--ink-soft);max-width:48ch;">{{ t.ctaBody }}</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;">
+<a href="https://wa.me/51933214520" target="_blank" rel="noreferrer noopener" style="display:inline-flex;align-items:center;gap:10px;background:var(--btn);color:var(--on-btn);padding:16px 26px;border-radius:999px;font-size:15px;font-weight:700;" style-hover="opacity:0.88">WhatsApp +51 933 214 520</a>
+<a href="mailto:rubenretopanta@gmail.com" style="display:inline-flex;align-items:center;padding:16px 22px;border-radius:999px;border:1px solid var(--line);color:var(--ink);font-size:15px;font-weight:600;" style-hover="background:var(--page-soft)">{{ t.ctaMail }}</a>
+</div>
+</div>
+<div style="min-width:0;border:1px solid var(--line);background:var(--accent-soft);padding:clamp(24px,3vw,36px);">
+<p style="margin:0 0 18px 0;font-family:'Sentient',Georgia,serif;font-size:clamp(18px,2vw,22px);line-height:1.45;color:var(--ink);text-wrap:pretty;">{{ t.quote }}</p>
+<p style="margin:0;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-soft);">Rubén Reto Panta · Lima, Perú</p>
+</div>
+</div>
+</section>
+
+<footer style="border-top:1px solid var(--line);background:var(--page-soft);">
+<div style="max-width:1140px;margin:0 auto;padding:clamp(40px,5vw,64px) 20px 28px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(28px,4vw,48px);">
+
+<nav style="display:flex;flex-direction:column;gap:16px;font-size:14px;">
+<a href="#soluciones" style="color:var(--ink-soft);" style-hover="color:var(--ink)">{{ t.nav1 }}</a>
+<a href="#trabajo" style="color:var(--ink-soft);" style-hover="color:var(--ink)">{{ t.nav2 }}</a>
+<a href="#proceso" style="color:var(--ink-soft);" style-hover="color:var(--ink)">{{ t.nav3 }}</a>
+<a href="#contacto" style="color:var(--ink-soft);" style-hover="color:var(--ink)">{{ t.nav4 }}</a>
+</nav>
+
+<div style="display:flex;flex-direction:column;gap:16px;">
+<p style="margin:0;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);font-weight:700;">{{ t.fContacto }}</p>
+<a href="https://wa.me/51933214520" target="_blank" rel="noreferrer noopener" style="display:flex;align-items:center;gap:11px;font-size:14px;color:var(--ink-soft);" style-hover="color:var(--ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="flex-shrink:0;opacity:.75;"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6a11.6 11.6 0 0 1-4.4-4c-.3-.5-.8-1.3-.8-2.4s.6-1.7.8-1.9c.2-.2.5-.3.6-.3h.5c.2 0 .4 0 .6.4l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3 0 .5a8 8 0 0 0 3.5 3c.3.1.4.1.6-.1l.7-.9c.2-.2.3-.2.6-.1l1.8.9c.2.1.4.2.4.3v.8Z"/></svg>+51 933 214 520</a>
+<a href="mailto:rubenretopanta@gmail.com" style="display:flex;align-items:center;gap:11px;font-size:14px;color:var(--ink-soft);word-break:break-all;" style-hover="color:var(--ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" style="flex-shrink:0;opacity:.75;"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 6.5L21 6"/></svg>rubenretopanta@gmail.com</a>
+<a href="https://www.linkedin.com/in/ruben-reto-panta-1580301a8/" target="_blank" rel="noreferrer noopener" style="display:flex;align-items:center;gap:11px;font-size:14px;color:var(--ink-soft);" style-hover="color:var(--ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="flex-shrink:0;opacity:.75;"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-.95 1.83-1.95 3.75-1.95C21.4 8.75 22 11 22 14v7h-4v-6.2c0-1.5-.03-3.4-2.1-3.4-2.1 0-2.4 1.6-2.4 3.3V21h-4V9Z"/></svg>ruben-reto-panta</a>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px;">
+<p style="margin:0;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);font-weight:700;">{{ t.fSitio }}</p>
+<p style="margin:0;font-size:14px;color:var(--ink-soft);">{{ t.fSitio1 }}</p>
+<p style="margin:0;font-size:14px;color:var(--ink-soft);">{{ t.fSitio2 }}</p>
+<p style="margin:0;font-size:14px;color:var(--ink-soft);">{{ t.fSitio3 }}</p>
+</div>
+
+</div>
+<div style="max-width:1140px;margin:0 auto;padding:22px 20px 34px 20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center;">
+<img data-logo="1" src="public/logo/icono-claro@2x.webp" alt="RuberpDev" style="height:24px;width:auto;max-width:34px;object-fit:contain;display:block;" />
+<p style="margin:0;font-size:13px;color:var(--ink-soft);">{{ t.fRights }}</p>
+<a href="#top" aria-label="{{ t.fTop }}" title="{{ t.fTop }}" style="margin-left:auto;width:44px;height:44px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:15px;" style-hover="background:var(--surface)">↑</a>
+</div>
+</footer>
+
+<a href="https://wa.me/51933214520" target="_blank" rel="noreferrer noopener" aria-label="{{ t.fWa }}" title="{{ t.fWa }}" style="position:fixed;right:20px;bottom:20px;z-index:80;width:56px;height:56px;border-radius:999px;background:#0f6b4f;color:#ffffff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(15,107,79,.4);" style-hover="background:#0c5640"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6a11.6 11.6 0 0 1-4.4-4c-.3-.5-.8-1.3-.8-2.4s.6-1.7.8-1.9c.2-.2.5-.3.6-.3h.5c.2 0 .4 0 .6.4l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3 0 .5a8 8 0 0 0 3.5 3c.3.1.4.1.6-.1l.7-.9c.2-.2.3-.2.6-.1l1.8.9c.2.1.4.2.4.3v.8Z"/></svg></a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;claro&quot;,&quot;oscuro&quot;],&quot;default&quot;:&quot;claro&quot;,&quot;tsType&quot;:&quot;'claro' | 'oscuro'&quot;},&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;es&quot;,&quot;en&quot;],&quot;default&quot;:&quot;es&quot;,&quot;tsType&quot;:&quot;'es' | 'en'&quot;}}">
+const BASE = 'https://portafolio-rubenrp.vercel.app/proyectos/';
+const SHOTS = [
+  { g:'muestras', f:'muestras-1.webp', es:'Panel de control: pendientes, finalizados y aprobados, con la carga de cada proceso al día.', en:'Dashboard: pending, finished and approved, with each process load up to date.' },
+  { g:'muestras', f:'muestras-2.webp', es:'Listado de diseños: filtros combinados por estado y categoría, con exportación a Excel.', en:'Design list: combined status and category filters, with Excel export.' },
+  { g:'muestras', f:'muestras-3.webp', es:'Calendario de cierres: el año completo, coloreado por muestras vencidas, por vencer y a tiempo.', en:'Deadline calendar: the full year, colour-coded by overdue, due soon and on time.' },
+  { g:'muestras', f:'muestras-4.webp', es:'Ficha del diseño: las aprobaciones quedan firmadas con nombre y fecha, y el historial guarda cada cambio.', en:'Design record: approvals signed with name and date, and a history of every change.' },
+  { g:'muestras', f:'muestras-5.webp', es:'Reporte de vencimientos: porcentaje por estado, distribución por unidad de negocio y piezas por kilataje.', en:'Overdue report: share by status, split by business unit and pieces by karat.' },
+  { g:'muestras', f:'muestras-6.webp', es:'Reporte de muestras: curva de cierres, estados del periodo y tiempo promedio de entrega.', en:'Sample report: closing curve, period statuses and average delivery time.' },
+  { g:'muestras', f:'muestras-7.webp', es:'Mantenimiento de feriados: un cambio acá recalcula los plazos de todo el sistema.', en:'Holiday settings: one change here recalculates deadlines across the system.' },
+  { g:'muestras', f:'muestras-8.webp', es:'Los reportes del sistema, agrupados: por semana, por mes, por diseñador y por vencimiento.', en:'All system reports, grouped: by week, month, designer and due date.' },
+  { g:'jm', f:'jm-1.webp', es:'Portada de J&M: la propuesta de valor y el paso directo a WhatsApp.', en:'J&M home: the value proposition and a direct step to WhatsApp.' },
+  { g:'jm', f:'jm-2.webp', es:'Catálogo de servicios con el detalle de cada trámite y certificación.', en:'Service catalogue detailing every procedure and certification.' },
+  { g:'jm', f:'jm-3.webp', es:'Capacitaciones: fotos reales de los talleres, cada una con su pie de foto.', en:'Training: real workshop photos, each with its own caption.' },
+  { g:'jm', f:'jm-4.webp', es:'El proceso en cuatro etapas, para que el cliente sepa dónde está.', en:'A four-stage process, so the client always knows where things stand.' },
+  { g:'jm', f:'jm-5.webp', es:'Los sectores de alimentos que atienden, listados uno a uno.', en:'The food sectors they serve, listed one by one.' },
+  { g:'jm', f:'jm-6.webp', es:'Carrusel de las empresas que ya trabajaron con la consultora.', en:'Carousel of companies that have already worked with the consultancy.' },
+];
+
+const RP_TIMERS = (window.__rpTimers = window.__rpTimers || { hero: null, cards: null });
+const TICK_CARDS = 2900, TICK_HERO = 2900, FLIP_MS = 900;
+const HERO = [SHOTS[0], SHOTS[8]];
+const GRUPOS = { muestras: SHOTS.filter((s) => s.g === 'muestras'), jm: SHOTS.filter((s) => s.g === 'jm') };
+
+const T = {
+  es: {
+    nav1:'Soluciones', nav2:'Proyectos', nav3:'Proceso', nav4:'Contacto', navCta:'Hablemos',
+    fContacto:'Contacto', fSitio:'Sitio',
+    fSitio1:'Diseñado y construido por mí', fSitio2:'Claro y oscuro, un mismo contenido', fSitio3:'Desplegado en Vercel',
+    fRights:'© 2026 Rubén Reto Panta · Todos los derechos reservados.',
+    fTop:'Volver arriba', fWa:'Escribir por WhatsApp',
+    eyebrow:'Soluciones digitales para tu negocio',
+    h1:'El sistema que transforma tu operación en algo simple.',
+    sub:'Diseño y desarrollo páginas web, sistemas a medida y automatizaciones. Hablas directamente conmigo, del primer boceto al despliegue: sin agencias, sin intermediarios.',
+    cta1:'Hablemos de tu proyecto', cta2:'Ver cómo trabajo',
+    stat1:'sistema interno en producción', stat2:'página web en línea', stat3:'intermediarios',
+    prev:'Captura anterior', next:'Captura siguiente', play:'Pausar la secuencia', pausedLbl:'Reanudar la secuencia',
+    fAll:'Todas',
+    solEyebrow:'¿Qué puedo hacer por tu negocio?', solTitle:'Soluciones pensadas en tus objetivos.',
+    solSub:'Cada negocio tiene necesidades diferentes. Construyo a medida para que trabajes mejor, ahorres tiempo y crezcas.',
+    serv:[
+      ['Páginas web','Sitios corporativos, landings y tiendas que comunican tu marca y generan confianza.'],
+      ['Sistemas web','Herramientas que ordenan tu operación y te devuelven el control sobre ella.'],
+      ['Automatización','Lo que hoy se repite a mano cada semana pasa a hacerlo el sistema, y sin errores.'],
+      ['Integraciones','Conecto tus sistemas, APIs y servicios externos para que todo funcione en un solo lugar.'],
+    ],
+    workEyebrow:'Casos reales', workTitle:'Proyectos que solucionan problemas.',
+    tagInterno:'2026 · interno', tagLive:'2026 · en línea',
+    p1Title:'Sistema de Gestión de Muestras',
+    p1Body:'El control vivía en hojas de cálculo y nadie sabía dónde estaba cada muestra. Hoy: seguimiento por estados, historial firmado y reportes de vencimiento. Cambiar un feriado recalcula los plazos de todo el sistema.',
+    p1Link:'Ver sus 8 capturas ↑',
+    p2Title:'Sitio y panel de contenidos',
+    p2Body:'Dependían de terceros para publicar cualquier cambio. Ahora el equipo gestiona su catálogo de trámites desde un panel autenticado y recibe las consultas ya armadas por WhatsApp.',
+    p2Link:'Ver sus 6 capturas ↑', p2Visit:'Visitar el sitio',
+    procEyebrow:'Del proyecto al acompañamiento', procTitle:'Tu proyecto, en buenas manos. Siempre.',
+    pasos:[
+      ['Conversamos','Entendemos qué necesita tu negocio y dónde se traba hoy.'],
+      ['Diseñamos','Definimos la experiencia y la forma de la solución.'],
+      ['Desarrollamos','Construyo el sistema por entregas que puedes revisar.'],
+      ['Lanzamos','Ponemos en marcha y capacito a quien va a usarla.'],
+      ['Te acompaño','Soporte, mejoras y evolución después del lanzamiento.'],
+    ],
+    ctaEyebrow:'¿Tienes un proyecto en mente?', ctaTitle:'Hablemos y hagamos realidad tu idea.',
+    ctaBody:'Soy Rubén, desarrollador full stack especializado en crear soluciones digitales para negocios. Me apoyo en inteligencia artificial para avanzar más rápido y entregarte antes, pero las decisiones las tomo yo y todo pasa por mi revisión. Hablas directamente conmigo, del primer boceto al despliegue.',
+    ctaMail:'Escribir un correo', role:'Desarrollador full stack · Lima, Perú',
+    quote:'«Empecé por entender el proceso, no por elegir la tecnología.»',
+    footTag:'Diseño web y software a medida', footMail:'Correo', footTop:'Volver arriba',
+    langLabel:'Switch to English',
+  },
+  en: {
+    nav1:'Services', nav2:'Projects', nav3:'Process', nav4:'Contact', navCta:"Let's talk",
+    fContacto:'Contact', fSitio:'Site',
+    fSitio1:'Designed and built by me', fSitio2:'Light and dark, one same content', fSitio3:'Deployed on Vercel',
+    fRights:'© 2026 Rubén Reto Panta · All rights reserved.',
+    fTop:'Back to top', fWa:'Message on WhatsApp',
+    eyebrow:'Digital solutions for your business',
+    h1:'The system that turns your operation into something simple.',
+    sub:'I design and build websites, custom systems and automations. You talk straight to me, from first sketch to deployment: no agencies, no middlemen.',
+    cta1:'Talk about your project', cta2:'See how I work',
+    stat1:'internal system in production', stat2:'website live', stat3:'middlemen',
+    prev:'Previous screen', next:'Next screen', play:'Pause the sequence', pausedLbl:'Resume the sequence',
+    fAll:'All',
+    solEyebrow:'What can I do for your business?', solTitle:'Solutions built around your goals.',
+    solSub:'Every business has different needs. I build to measure so you work better, save time and grow.',
+    serv:[
+      ['Websites','Corporate sites, landings and stores that communicate your brand and build trust.'],
+      ['Web systems','Tools that bring order to your operation and hand the control back to you.'],
+      ['Automation','What is repeated by hand every week is now done by the system, without errors.'],
+      ['Integrations','I connect your systems, APIs and external services so everything runs in one place.'],
+    ],
+    workEyebrow:'Real cases', workTitle:'Projects that solve real problems.',
+    tagInterno:'2026 · internal', tagLive:'2026 · live',
+    p1Title:'Sample Management System',
+    p1Body:'Control lived in spreadsheets and nobody knew where each sample was. Today: status tracking, signed history and overdue reports. Changing a holiday recalculates deadlines across the whole system.',
+    p1Link:'See its 8 screens ↑',
+    p2Title:'Website and content panel',
+    p2Body:'They depended on third parties to publish any change. Now the team manages its catalogue of procedures from an authenticated panel and receives enquiries ready-made over WhatsApp.',
+    p2Link:'See its 6 screens ↑', p2Visit:'Visit the site',
+    procEyebrow:'From project to partnership', procTitle:'Your project, in good hands. Always.',
+    pasos:[
+      ['We talk','We work out what your business needs and where it gets stuck today.'],
+      ['We design','We define the experience and the shape of the solution.'],
+      ['We build','I build the system in deliveries you can review.'],
+      ['We launch','We go live and I train whoever will use it.'],
+      ['I stay on','Support, improvements and evolution after launch.'],
+    ],
+    ctaEyebrow:'Got a project in mind?', ctaTitle:"Let's talk and make your idea real.",
+    ctaBody:"I'm Rubén, a full stack developer specialised in building digital solutions for businesses. I lean on AI to move faster and deliver sooner, but the decisions are mine and everything goes through my review. You talk straight to me, from first sketch to deployment.",
+    ctaMail:'Send an email', role:'Full stack developer · Lima, Peru',
+    quote:'“I started by understanding the process, not by picking the technology.”',
+    footTag:'Web design and custom software', footMail:'Email', footTop:'Back to top',
+    langLabel:'Cambiar a español',
+  },
+};
+
+class Component extends DCLogic {
+  state = { theme:'claro', lang:'es', i:0, menu:false, playing:true, a:0, b:0, aPrev:null, bPrev:null, activo:'' };
+
+  componentDidMount() {
+    if (this.props.defaultTheme === 'oscuro') this.setState({ theme:'oscuro' });
+    if (this.props.defaultLang === 'en') this.setState({ lang:'en' });
+    this._key = (e) => {
+      if (e.key === 'ArrowRight') { this.mover(1); this.setState({ playing:false }); }
+      if (e.key === 'ArrowLeft') { this.mover(-1); this.setState({ playing:false }); }
+    };
+    window.addEventListener('keydown', this._key);
+    this._spy = () => {
+      const ids = ['soluciones', 'trabajo', 'proceso', 'contacto'];
+      let act = '';
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 140) act = id;
+      });
+      if (act !== this.state.activo) this.setState({ activo: act });
+    };
+    window.addEventListener('scroll', this._spy, { passive: true });
+    this._spy();
+    this.arranca();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._key);
+    window.removeEventListener('scroll', this._spy);
+    if (RP_TIMERS.hero === this._t) { clearInterval(this._t); RP_TIMERS.hero = null; }
+    if (RP_TIMERS.cards === this._ta) { clearInterval(this._ta); RP_TIMERS.cards = null; }
+    clearTimeout(this._fa); clearTimeout(this._fb);
+  }
+
+  componentDidUpdate() {
+    if (this._ritmo !== TICK_CARDS) this.arranca();
+  }
+  arranca() {
+    this._ritmo = TICK_CARDS;
+    clearInterval(RP_TIMERS.hero);
+    RP_TIMERS.hero = this._t = setInterval(() => {
+      if (this.state.playing && !this._hover && !document.hidden) this.mover(1);
+    }, TICK_HERO);
+    clearInterval(RP_TIMERS.cards);
+    RP_TIMERS.cards = this._ta = setInterval(() => {
+      if (!document.hidden) { this.pasaPagina('a', 'muestras'); this.pasaPagina('b', 'jm'); }
+    }, TICK_CARDS);
+  }
+  pasaPagina(clave, grupo) {
+    if (this['_h' + clave]) return;
+    const n = SHOTS.filter((s) => s.g === grupo).length;
+    this.setState((s) => ({ [clave + 'Prev']: s[clave], [clave]: (s[clave] + 1) % n }));
+    clearTimeout(this['_f' + clave]);
+    this['_f' + clave] = setTimeout(() => this.setState({ [clave + 'Prev']: null }), FLIP_MS + 30);
+  }
+  lista() { return HERO; }
+  mover(paso) {
+    const n = this.lista().length;
+    this.setState((s) => ({ i: (s.i + paso + n) % n }));
+  }
+  manual(paso) { this.mover(paso); this.arranca(); }
+  url(shot) { return BASE + (this.state.theme === 'oscuro' ? 'oscuro/' : '') + shot.f; }
+
+  renderVals() {
+    const oscuro = this.state.theme === 'oscuro';
+    const t = T[this.state.lang];
+    const list = this.lista();
+    const i = Math.min(this.state.i, list.length - 1);
+
+    const deck = [2, 1, 0].map((k) => {
+      const shot = list[(i + k) % list.length];
+      const activo = k === 0;
+      return {
+        src: this.url(shot),
+        alt: activo ? shot[this.state.lang] : '',
+        style: {
+          position:'absolute', inset:0, display:'flex', flexDirection:'column', overflow:'hidden',
+          background:'var(--surface)', border:'1px solid var(--line)', borderRadius:'14px',
+          boxShadow: oscuro ? '0 24px 60px rgba(0,0,0,.6)' : '0 22px 48px rgba(16,19,23,.13)',
+          transform:`translate3d(${k * 7}%, ${k * -5}%, 0) scale(${1 - k * 0.06}) rotate(${k * 1.3}deg)`,
+          transformOrigin:'bottom left',
+          opacity: activo ? 1 : 1 - k * 0.2,
+          filter: activo ? 'none' : 'blur(0.5px)',
+          zIndex: 10 - k,
+          transition:'transform .5s cubic-bezier(.22,.8,.26,1), opacity .5s ease',
+          pointerEvents: activo ? 'auto' : 'none',
+        },
+      };
+    });
+
+    const pill = (on) => ({
+      font:'inherit', fontSize:'12.5px', fontWeight:600, cursor:'pointer',
+      padding:'9px 15px', borderRadius:'999px',
+      border:'1px solid ' + (on ? 'transparent' : 'var(--line)'),
+      background: on ? 'var(--btn)' : 'transparent',
+      color: on ? 'var(--on-btn)' : 'var(--ink-soft)',
+      transition:'background .2s ease, color .2s ease',
+    });
+    const car = (clave, grupo) => {
+      const g = GRUPOS[grupo];
+      const idx = this.state[clave] % g.length;
+      const prev = this.state[clave + 'Prev'];
+      const prevUrl = prev == null ? '' : this.url(g[prev % g.length]);
+      return {
+        cur: this.url(g[idx]),
+        flipping: prev != null,
+        flipStyle: {
+          position:'absolute', inset:0,
+          backgroundImage:`url(${prevUrl})`, backgroundSize:'contain',
+          backgroundPosition:'center', backgroundRepeat:'no-repeat',
+          filter:'var(--shot-filter)', transformOrigin:'left center', zIndex:3,
+          backfaceVisibility:'hidden', boxShadow:'6px 0 24px rgba(0,0,0,.18)',
+          animation:`rp-flip ${FLIP_MS}ms cubic-bezier(.45,.05,.25,1) forwards`,
+        },
+        alt: g[idx][this.state.lang],
+        counter: `${idx + 1}/${g.length}`,
+        hold: () => { this['_h' + clave] = true; },
+        free: () => { this['_h' + clave] = false; },
+      };
+    };
+
+    return {
+      carA: car('a', 'muestras'),
+      carB: car('b', 'jm'),
+      on: {
+        soluciones: this.state.activo === 'soluciones' ? '1' : '0',
+        trabajo: this.state.activo === 'trabajo' ? '1' : '0',
+        proceso: this.state.activo === 'proceso' ? '1' : '0',
+        contacto: this.state.activo === 'contacto' ? '1' : '0',
+      },
+      heroTag: this.state.lang === 'es' ? 'Un vistazo a cada proyecto' : 'A glance at each project',
+      t,
+      themeAttr: this.state.theme,
+      themeIcon: oscuro ? '☀' : '☾',
+      themeLabel: oscuro ? 'Modo claro / Light mode' : 'Modo oscuro / Dark mode',
+      toggleTheme: () => this.setState({ theme: oscuro ? 'claro' : 'oscuro' }),
+      langCode: this.state.lang === 'es' ? 'EN' : 'ES',
+      langLabel: t.langLabel,
+      toggleLang: () => this.setState({ lang: this.state.lang === 'es' ? 'en' : 'es' }),
+      menuOpen: this.state.menu,
+      menuIcon: this.state.menu ? '✕' : '☰',
+      menuLabel: this.state.menu ? 'Cerrar menú' : 'Abrir menú',
+      toggleMenu: () => this.setState((s) => ({ menu: !s.menu })),
+      closeMenu: () => this.setState({ menu:false }),
+      deck,
+      counter: `${i + 1} / ${list.length}`,
+      caption: list[i][this.state.lang],
+      next: () => this.manual(1),
+      prev: () => this.manual(-1),
+      pause: () => { this._hover = true; },
+      resume: () => { this._hover = false; },
+      playIcon: this.state.playing ? '❙❙' : '▶',
+      playLabel: this.state.playing ? t.play : t.pausedLbl,
+      togglePlay: () => { this.setState((s) => ({ playing: !s.playing })); this.arranca(); },
+      barStyle: {
+        height:'2px', background:'var(--accent)',
+        width: `${((i + 1) / list.length) * 100}%`,
+        transition:'width .4s ease',
+      },
+      servicios: t.serv.map(([ti, d], n) => ({ n: String(n + 1).padStart(2, '0'), t: ti, d })),
+      pasos: t.pasos.map(([ti, d], n) => ({
+        n: String(n + 1).padStart(2, '0'), t: ti, d,
+        style: { borderTop: '2px solid ' + (n === 0 ? 'var(--accent)' : 'var(--line)'), paddingTop: '16px' },
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

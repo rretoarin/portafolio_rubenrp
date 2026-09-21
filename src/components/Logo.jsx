@@ -1,34 +1,24 @@
-/*
- * El logotipo de RuberpDev: el círculo con «RD» y su rayita de terracota, y el
- * nombre apilado debajo con el subrayado bajo «Dev».
- *
- * Es la LÁMINA DE CONCEPTO recortada, no un redibujo. Se intentó reconstruirlo
- * con vectores —contornos de Outfit colocados con las medidas de la lámina— y
- * seguía sin ser lo aprobado, así que el logo del sitio es la propia lámina.
- * Las piezas las recorta `scripts/logo.py` a `public/logo/*.webp`. **No volver
- * a redibujarlo.**
- *
- * Aquí no se elige ninguna pieza: el estilo activo las pone en `--logo` y
- * `--logo-icono`, y `.logotipo` y `.isotipo` de `index.css` las pintan de
- * fondo. Por eso este componente no recibe el tema, no lo pregunta y no hay
- * ningún `if (tema === …)`: el pie usa `<Mark>` exactamente igual que la barra.
- *
- * Son dos piezas y no una que se encoge porque el nombre necesita sitio: el
- * apilado mide 434 × 368 de recorte, así que en la barra de 64 de móvil su
- * nombre caería a ocho píxeles. Ahí va sólo el círculo.
- *
- * Las dos se escalan dando SÓLO la altura; el ancho sale del `aspect-ratio`.
- */
+import { PROFILE } from '../data/content'
 
 /*
- * El círculo suelto. Es lo que se ve en la barra por debajo de `md` y en la
- * línea de cierre del pie, que es texto a cuerpo 12 y no admite el apilado.
+ * El logo de RuberpDev, en UNA sola línea: el isotipo RD y la palabra
+ * «RuberpDev» al lado. Nada apilado.
+ *
+ * El isotipo es la pieza que recorta `scripts/logo.py` de la lámina de
+ * concepto. Se le da la altura y un ancho máximo, nunca un ancho fijo: con
+ * `width: auto` + `object-fit: contain` no se estira (el bug de antes era un
+ * `width` fijo). En oscuro se invierte por CSS en vez de cargar otro archivo.
  */
 export function Mark({ className = '' }) {
-  return <span aria-hidden className={`isotipo shrink-0 ${className}`} />
+  return <img src="/logo/icono-claro@2x.webp" alt="" aria-hidden className={`logo-img ${className}`} />
 }
 
-/* El logotipo entero, apilado. La barra de escritorio, de `md` en adelante. */
-export default function Logo({ className = '' }) {
-  return <span aria-hidden className={`logotipo shrink-0 ${className}`} />
+/* Isotipo + nombre. La barra; el pie usa sólo el isotipo, a 24px. */
+export default function Logo() {
+  return (
+    <>
+      <Mark />
+      <span className="logo-word">{PROFILE.brand}</span>
+    </>
+  )
 }

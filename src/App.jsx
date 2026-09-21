@@ -8,7 +8,6 @@ import Nav from './components/Nav'
 import ScrollProgress from './components/ScrollProgress'
 import Hero from './components/Hero'
 import Services from './components/Services'
-import Styles from './components/Styles'
 import Process from './components/Process'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
@@ -66,9 +65,8 @@ export default function App() {
       <Nav t={t} onToggleLang={toggleLang} theme={theme} onThemeChange={setTheme} />
 
       {/*
-        Seis secciones y ninguna más. La historia es: qué resuelvo → qué puedes
-        encargarme → cómo se vería tu marca → cómo trabajo y hasta dónde te
-        acompaño → ya lo he hecho → hablemos.
+        La historia es: qué resuelvo → qué puedes encargarme → cómo trabajo y
+        hasta dónde te acompaño → ya lo he hecho → hablemos.
 
         Lo que se quitó de aquí —el problema, los resultados, las tecnologías,
         un CTA intermedio y una sección entera sobre mí— no se sustituyó por
@@ -77,7 +75,6 @@ export default function App() {
       <main>
         <Hero t={t} theme={theme} />
         <Services t={t} />
-        <Styles t={t} theme={theme} onThemeChange={setTheme} />
         <Process t={t} />
         <Projects t={t} theme={theme} />
         <Contact t={t} />

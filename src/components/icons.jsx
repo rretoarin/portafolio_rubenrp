@@ -185,3 +185,36 @@ export function Link(props) {
     </svg>
   )
 }
+
+export function Moon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" />
+    </svg>
+  )
+}
+
+export function Sun(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+  )
+}
+
+export function Pause(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M9 6v12M15 6v12" />
+    </svg>
+  )
+}
+
+export function Play(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M8 5.5v13l10-6.5-10-6.5Z" />
+    </svg>
+  )
+}

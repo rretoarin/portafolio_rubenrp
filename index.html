@@ -23,20 +23,23 @@
     <meta name="theme-color" content="#f8f9fa" />
 
     <!--
-      El estilo elegido se aplica ANTES de pintar. Si esperase a que React
-      monte, quien tenga puesto el oscuro vería un fogonazo claro en cada carga.
-      Es la misma lectura que hace `readTheme()` en src/hooks/useTheme.js.
+      El tema se aplica ANTES de pintar. Si esperase a que React monte, quien
+      tenga puesto el oscuro vería un fogonazo claro en cada carga. Es la misma
+      lectura que hace `readTheme()` en src/hooks/useTheme.js: lo guardado
+      manda y, si no hay nada, la preferencia del sistema.
     -->
     <script>
       (function () {
+        var t = null
         try {
-          var t = localStorage.getItem('rubendev-theme')
-          if (['claro', 'oscuro', 'azul', 'verde'].indexOf(t) !== -1) {
-            document.documentElement.dataset.theme = t
-          }
+          t = localStorage.getItem('rubendev-theme')
         } catch (e) {
-          /* Modo privado: se queda el estilo por defecto del atributo. */
+          /* Modo privado: se sigue con la preferencia del sistema. */
         }
+        if (t !== 'claro' && t !== 'oscuro') {
+          t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro'
+        }
+        document.documentElement.dataset.theme = t
       })()
     </script>
 

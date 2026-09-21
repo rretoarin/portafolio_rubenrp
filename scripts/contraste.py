@@ -15,8 +15,7 @@ def ratio(a, b):
 
 
 TEMAS = {
-    # Base clara: #F8F9FA (Seasalt), la que eligió Rubén. La comparten claro,
-    # azul y verde: lo único que los separa es el color de la marca.
+    # Base clara: #F8F9FA (Seasalt), la que eligió Rubén.
     'claro': dict(
         page='#F8F9FA', page_soft='#ECEFF2', surface='#FFFFFF', surface2='#F1F3F6',
         line='#E1E5EA', edge='#767D86', ink='#101317', ink_soft='#535A63',
@@ -29,18 +28,6 @@ TEMAS = {
         line='#1F2225', edge='#6E747C', ink='#F4F5F6', ink_soft='#A5ABB3',
         btn='#F4F5F6', on_btn='#020202', heading='#F4F5F6', eyebrow='#A5ABB3',
         accent='#CBB894', accent_soft='#16181B', on_accent='#0A0B0C', accent2='#8FA8A0',
-    ),
-    'azul': dict(
-        page='#F8F9FA', page_soft='#E9EEF6', surface='#FFFFFF', surface2='#F0F4FA',
-        line='#DCE3EC', edge='#78828F', ink='#0C1725', ink_soft='#4C5A6D',
-        btn='#17539E', on_btn='#FFFFFF', heading='#123F78', eyebrow='#17539E',
-        accent='#17539E', accent_soft='#E4EDF9', on_accent='#FFFFFF', accent2='#0F7480',
-    ),
-    'verde': dict(
-        page='#F8F9FA', page_soft='#E9F1EC', surface='#FFFFFF', surface2='#F0F6F2',
-        line='#DDE5E0', edge='#79837C', ink='#0D1913', ink_soft='#485950',
-        btn='#245C41', on_btn='#FFFFFF', heading='#1B4A33', eyebrow='#245C41',
-        accent='#245C41', accent_soft='#E1EDE6', on_accent='#FFFFFF', accent2='#8A6A2E',
     ),
 }
 

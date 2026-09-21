@@ -1,20 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { PROFILE, whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
-import Logo, { Mark } from './Logo'
+import Logo from './Logo'
 import ThemeSwitch from './ThemeSwitch'
-import { THEMES } from '../hooks/useTheme'
-import { useMedia } from '../hooks/useMedia'
 
-// Cinco destinos, los mismos en escritorio y en móvil: son todas las secciones
+// Cuatro destinos, los mismos en escritorio y en móvil: son todas las secciones
 // que hay. La home ya no tiene nada que esconder detrás de un menú más largo.
-// Los estilos que caben en la barra de móvil. Los cuatro siguen en la sección
-// Estilos; esto es sólo lo que se enseña arriba cuando no hay sitio.
-const ESTILOS_BARRA_MOVIL = ['claro', 'oscuro']
 
-const SECTIONS = ['services', 'styles', 'projects', 'process', 'contact']
+const SECTIONS = ['services', 'projects', 'process', 'contact']
 
-const MENU = ['services', 'styles', 'projects', 'process', 'contact']
+const MENU = ['services', 'projects', 'process', 'contact']
 
 /*
  * Dónde se dibuja el subrayado dentro de un enlace, en píxeles: metido
@@ -31,8 +26,6 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
-  // El mismo corte que usa el logotipo para pasar del monograma al apilado.
-  const escritorio = useMedia('(min-width: 48rem)')
   const lista = useRef(null)
   const [riel, setRiel] = useState(null)
 
@@ -124,25 +117,9 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
         }`}
       >
         <nav className="shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
-          {/*
-            Isotipo + nombre. El nombre se cae por debajo de `sm` y queda sólo
-            el monograma: el `aria-label` mantiene la marca completa para quien
-            navega con lector de pantalla.
-
-            De `md` en adelante el logotipo entero —monograma y «RuberpDev»
-            debajo—, a 56 de alto: 97 de ancho. Por debajo, sólo el monograma, a
-            28: 80 de ancho. Apilado en móvil, el nombre se quedaría en unos
-            ocho píxeles y no se leería.
-
-            Son dos piezas y no una que se encoge porque el lienzo es otro: el
-            apilado va a 1,729 y el monograma solo a 2,869.
-
-            Medido a 320px, el ancho más apretado: quedan 28px de aire entre el
-            monograma y la primera muestra del selector.
-          */}
-          <a href="#top" className="tap group flex items-center" aria-label={PROFILE.brand}>
-            <Mark className="h-7 md:hidden" />
-            <Logo className="hidden h-14 md:block" />
+          {/* Isotipo + «RuberpDev», en una línea, en todos los anchos. */}
+          <a href="#top" className="logo tap" aria-label={PROFILE.brand}>
+            <Logo />
           </a>
 
           <div className="flex items-center gap-1">
@@ -178,30 +155,8 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
               />
             </ul>
 
-            {/*
-              Los estilos, siempre a la vista y a la altura de la marca.
-              Estuvieron detrás de un desplegable: se abría sobre el hero y hacía
-              falta un toque de más para algo que es una seña de identidad.
-
-              En la barra de MÓVIL van sólo dos —claro y oscuro—; los cuatro
-              vuelven de `md` en adelante. Ahí la fila la comparten el logotipo,
-              las muestras, el idioma y el menú, y con cuatro quedaba apretada.
-              **Los otros dos no desaparecen del sitio**: la sección Estilos, más
-              abajo, sigue enseñando los cuatro y tiene su propio selector en
-              `Styles.jsx`.
-
-              La lista se decide en JS y no ocultando botones con CSS: un
-              `radiogroup` con nodos invisibles dentro manda el foco del teclado
-              a un botón que no se ve.
-            */}
-            <div className="mx-0.5 md:mx-1">
-              <ThemeSwitch
-                theme={theme}
-                onChange={onThemeChange}
-                labels={t.theme}
-                themes={escritorio ? THEMES : ESTILOS_BARRA_MOVIL}
-              />
-            </div>
+            {/* Un solo botón alterna claro ↔ oscuro. */}
+            <ThemeSwitch theme={theme} onChange={onThemeChange} labels={t.theme} />
 
             <button
               type="button"

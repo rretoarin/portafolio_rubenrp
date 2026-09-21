@@ -1,40 +1,124 @@
-import { useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { PROJECTS, shotFor } from '../data/content'
 import Lightbox from './Lightbox'
 import Section from './Section'
 import { ArrowUpRight, Lock } from './icons'
 import { Arc } from './ui'
 
+// Ritmo del carrusel: ~2 s quieta + 0,9 s de volteo. El mismo en todo ancho.
+const CICLO_MS = 2900
+const DESMONTE_MS = 930
+
 /*
- * Un caso ya no ocupa tres pantallas. Cada uno es una tarjeta con una sola
- * captura y tres líneas —problema, solución, resultado—, que es exactamente lo
- * que un cliente necesita para decidir si esto se parece a su situación.
+ * `i` es la captura a la vista; `prev`, la que se está volteando encima (o
+ * `null` si no hay volteo en curso). Un reducer y no dos `useState` para que el
+ * paso de página cambie las dos cosas a la vez, sin un setState dentro de otro.
+ */
+function paginar(estado, accion) {
+  if (accion.tipo === 'siguiente') {
+    return { i: (estado.i + 1) % accion.total, prev: estado.i }
+  }
+  return { ...estado, prev: null }
+}
+
+/*
+ * Carrusel «pasar página de un libro». Debajo, la captura nueva; encima, la
+ * anterior como un `span` con fondo que gira sobre su borde izquierdo y se
+ * desmonta a los 930 ms. Las capturas nunca se recortan: `contain` sobre el
+ * paspartú (`--color-mat`).
  *
- * Las demás capturas no se pierden: siguen todas en el visor, a un clic. Antes
- * se enseñaban catorce de golpe y la sección era la mitad de la página.
+ * UN solo intervalo por carrusel: se crea en un único efecto y se limpia en su
+ * `return`. Si no, se acumulan temporizadores y las páginas pasan mucho más
+ * rápido de lo configurado.
+ */
+function Carrusel({ shots, captions, name, pausado, onOpen, label }) {
+  const [estado, dispatch] = useReducer(paginar, { i: 0, prev: null })
+  const [oculto, setOculto] = useState(() => typeof document !== 'undefined' && document.hidden)
+  const total = shots.length
+
+  useEffect(() => {
+    const onVis = () => setOculto(document.hidden)
+    document.addEventListener('visibilitychange', onVis)
+    return () => document.removeEventListener('visibilitychange', onVis)
+  }, [])
+
+  useEffect(() => {
+    if (pausado || oculto) return
+    const id = setInterval(() => dispatch({ tipo: 'siguiente', total }), CICLO_MS)
+    return () => clearInterval(id)
+  }, [pausado, oculto, total])
+
+  // La página que voltea se desmonta al terminar su giro.
+  useEffect(() => {
+    if (estado.prev === null) return
+    const id = setTimeout(() => dispatch({ tipo: 'fin' }), DESMONTE_MS)
+    return () => clearTimeout(id)
+  }, [estado])
+
+  // La siguiente se pide antes de que toque, para que no aparezca en blanco.
+  useEffect(() => {
+    const img = new Image()
+    img.src = shots[(estado.i + 1) % total]
+  }, [estado.i, shots, total])
+
+  const texto = captions[estado.i]
+
+  return (
+    <div>
+      {/* La captura sigue abriendo el visor, en la que esté a la vista. */}
+      <button
+        type="button"
+        onClick={() => onOpen(estado.i)}
+        aria-label={`${label} — ${name}`}
+        className="flip block w-full"
+      >
+        <img
+          src={shots[estado.i]}
+          alt={`${name} — ${texto}`}
+          width={1600}
+          height={1000}
+          decoding="async"
+          className="flip-img"
+        />
+        {estado.prev !== null && (
+          <span
+            aria-hidden
+            key={estado.prev}
+            className="flip-page"
+            style={{ backgroundImage: `url(${shots[estado.prev]})` }}
+          />
+        )}
+      </button>
+      <p className="flip-caption">
+        {estado.i + 1}/{total} · {texto}
+      </p>
+    </div>
+  )
+}
+
+/*
+ * Cada caso es una tarjeta con TODAS sus capturas pasando solas y tres líneas
+ * —problema, solución, resultado—. El carrusel se pausa mientras el puntero
+ * está sobre la tarjeta.
  */
 function Caso({ project, copy, labels, shots, onOpen }) {
   const esEnlace = Boolean(project.url)
+  const [encima, setEncima] = useState(false)
 
   return (
-    <article className="reveal flex flex-col">
-      {/* La captura abre la galería: es la puerta a la evidencia completa. */}
-      <button
-        type="button"
-        onClick={() => onOpen(0)}
-        aria-label={`${labels.galleryLabel} — ${copy.name}`}
-        className="shot reveal group block overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface delay-75 md:delay-150"
-      >
-        <img
-          src={shots[0]}
-          alt={`${copy.name} — ${copy.shots[0]}`}
-          width={1600}
-          height={900}
-          loading="lazy"
-          decoding="async"
-          className="shot-img block aspect-[16/10] w-full object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
-        />
-      </button>
+    <article
+      className="reveal flex flex-col"
+      onMouseEnter={() => setEncima(true)}
+      onMouseLeave={() => setEncima(false)}
+    >
+      <Carrusel
+        shots={shots}
+        captions={copy.shots}
+        name={copy.name}
+        pausado={encima}
+        onOpen={onOpen}
+        label={labels.galleryLabel}
+      />
 
       <p className="mt-3 text-xs text-ink-soft">{copy.evidenceNote}</p>
 
@@ -86,9 +170,6 @@ function Caso({ project, copy, labels, shots, onOpen }) {
           <span className="eyebrow eyebrow-plain mr-2.5">{labels.toolsLabel}</span>
           {project.stack.join(' · ')}
         </p>
-        <button type="button" onClick={() => onOpen(0)} className="tap link text-sm font-medium">
-          {labels.viewShots.replace('{n}', shots.length)}
-        </button>
       </div>
     </article>
   )
