@@ -36,7 +36,19 @@ export default function Process({ t }) {
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <h3 className="block-title eyebrow eyebrow-plain mt-4 block">{step.title}</h3>
+              {/*
+                El título del paso destacado va en el acento. Era lo único que
+                el quinto compartía a pelo con los otros cuatro: mismo gris,
+                mismo peso. Con el filete y el número ya en acento, dejar el
+                nombre en gris deshacía media señal.
+              */}
+              <h3
+                className={`block-title eyebrow eyebrow-plain mt-4 block ${
+                  destacado ? 'text-accent' : ''
+                }`}
+              >
+                {step.title}
+              </h3>
               <p
                 className={`mt-2.5 text-sm leading-relaxed ${
                   destacado ? 'text-ink' : 'text-ink-soft'

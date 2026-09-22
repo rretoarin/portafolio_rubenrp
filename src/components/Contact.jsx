@@ -118,7 +118,14 @@ export default function Contact({ t }) {
                 {t.contact.formSend}
               </button>
 
-              <p className="mt-3 text-xs leading-relaxed text-ink-soft">{t.contact.formNote}</p>
+              {/*
+                13px y no 12: es la letra pequeña que quita el miedo a pulsar
+                —dice que no se guarda nada—, justo debajo del botón que más
+                importa de la página. A 12 había que acercarse a leerla.
+              */}
+              <p className="mt-3 text-[0.8125rem] leading-relaxed text-ink-soft">
+                {t.contact.formNote}
+              </p>
             </form>
           </div>
         </div>

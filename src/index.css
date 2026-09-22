@@ -157,6 +157,14 @@
   --shadow-card-hover: 0 2px 4px rgb(16 19 23 / 0.05), 0 24px 50px -24px rgb(16 19 23 / 0.24);
   --shadow-shot: 0 26px 52px -26px rgb(16 19 23 / 0.3);
   --shadow-float: 0 10px 30px -8px rgb(16 19 23 / 0.24);
+  /*
+   * El CTA principal. En claro es tinta sobre crema y estaba completamente
+   * plano: al lado del enlace secundario se leían como dos cosas del mismo
+   * peso. Una sombra corta lo despega del fondo sin agrandarlo ni cambiarle el
+   * color, que es lo único que se pedía —que destaque «ligeramente más»—.
+   */
+  --shadow-cta: 0 6px 18px -8px rgb(16 19 23 / 0.45);
+  --shadow-cta-hover: 0 12px 28px -10px rgb(16 19 23 / 0.5);
   --glass: rgb(248 249 250 / 0.86);
   --grain-opacity: 0.015;
   --grain-blend: normal;
@@ -199,6 +207,14 @@
   --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.7), 0 28px 56px -26px rgb(0 0 0 / 1);
   --shadow-shot: 0 30px 60px -28px rgb(0 0 0 / 1);
   --shadow-float: 0 12px 32px -8px rgb(0 0 0 / 0.8);
+  /*
+   * En oscuro el CTA es casi blanco sobre negro: una sombra negra debajo no se
+   * ve, y cualquier halo claro lo convertiría en un botón que brilla. Aquí el
+   * relieve ya lo da el propio contraste, así que el token se apaga. Es la
+   * diferencia entre los temas, no un `if` en el componente.
+   */
+  --shadow-cta: none;
+  --shadow-cta-hover: none;
   --glass: rgb(2 2 2 / 0.88);
   --grain-opacity: 0.03;
   --grain-blend: screen;
@@ -302,6 +318,20 @@ html.theme-switching *::after {
     flex-shrink: 0;
     height: 15px;
     width: auto;
+    transition: translate 0.25s var(--ease-out-soft);
+  }
+
+  /*
+   * El logo es un enlace —lleva arriba del todo— y era lo único pulsable de la
+   * barra sin ningún estado. Se mueve el isotipo, no la palabra: un píxel del
+   * «RD» basta para que la marca acuse el puntero, y desplazar el bloque entero
+   * movería la línea de base contra el menú.
+   */
+  @media (hover: hover) {
+    .logo:hover .logo-img,
+    .logo:focus-visible .logo-img {
+      translate: 0 -1px;
+    }
   }
 
   /* El del pie: el mismo isotipo, más pequeño. */
@@ -394,13 +424,20 @@ html.theme-switching *::after {
     border: 1px solid var(--color-line);
     background: var(--color-surface);
     color: var(--color-ink);
-    transition: background-color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s var(--ease-out-soft);
   }
 
   @media (hover: hover) {
     .deck-btn:hover {
       background: var(--color-page-soft);
     }
+  }
+
+  /* En táctil no hay hover: el hundido es el único acuse de recibo que queda. */
+  .deck-btn:active {
+    transform: scale(0.94);
   }
 
   .deck-counter {
@@ -457,6 +494,25 @@ html.theme-switching *::after {
     perspective: 1500px;
   }
 
+  /*
+   * La captura abre el visor, pero en reposo no lo decía: era la única cosa
+   * pulsable de la página sin respuesta al puntero. Se despega con el mismo
+   * par —filete y sombra— que ya usan `.shot` y `.card-hover`, sin mover la
+   * imagen: cualquier desplazamiento pelearía con el volteo de página.
+   */
+  .flip {
+    transition:
+      border-color 0.3s var(--ease-out-soft),
+      box-shadow 0.3s var(--ease-out-soft);
+  }
+
+  @media (hover: hover) {
+    .flip:hover {
+      border-color: var(--color-edge);
+      box-shadow: var(--shadow-shot);
+    }
+  }
+
   .flip-img {
     position: absolute;
     inset: 0;
@@ -488,7 +544,13 @@ html.theme-switching *::after {
   .flip-caption {
     margin-top: 10px;
     min-height: 3em;
-    font-size: 12.5px;
+    /*
+     * 13px y no 12.5. Es el texto que explica QUÉ enseña la captura —lo que
+     * más se lee de la tarjeta después del titular— y justo debajo va la nota
+     * de «capturas reales», que se queda en 12: medio píxel de diferencia no
+     * era jerarquía, era un borrón de dos líneas grises iguales.
+     */
+    font-size: 13px;
     line-height: 1.5;
     color: var(--color-ink-soft);
     text-wrap: pretty;
@@ -693,14 +755,17 @@ html.theme-switching *::after {
     background-color: var(--color-btn);
     color: var(--color-on-btn);
     font-weight: 600;
+    box-shadow: var(--shadow-cta);
     transition:
       background-color 0.2s var(--ease-out-soft),
+      box-shadow 0.2s var(--ease-out-soft),
       transform 0.2s var(--ease-out-soft);
   }
 
   @media (hover: hover) {
     .btn-primary:hover {
       background-color: var(--color-btn-hover);
+      box-shadow: var(--shadow-cta-hover);
       /*
        * Un píxel arriba y un 1,5% de tamaño. Es deliberadamente poco: el CTA
        * tiene que sentirse firme, no elástico. Por encima de 1.03 el botón
@@ -782,6 +847,18 @@ html.theme-switching *::after {
 
   .text-cta:focus-visible .text-cta-label::after {
     transform: scaleX(1);
+  }
+
+  /*
+   * En táctil no hay hover, así que el enlace secundario no daba ninguna señal
+   * al pulsarlo: el dedo tocaba y no pasaba nada hasta que WhatsApp abría. El
+   * subrayado aparece mientras dura el toque, más rápido, como en `.block-top`.
+   */
+  @media (hover: none) {
+    .text-cta:active .text-cta-label::after {
+      transform: scaleX(1);
+      transition-duration: 0.15s;
+    }
   }
 
   /* Enlace de texto: el subrayado engorda y pasa al acento. */
@@ -1500,6 +1577,7 @@ html.theme-switching *::after {
 
   .flip:focus-visible {
     border-color: var(--color-edge);
+    box-shadow: var(--shadow-shot);
   }
 
   /*
@@ -1635,6 +1713,18 @@ html.theme-switching *::after {
   }
   /* El subrayado del enlace secundario aparece sin dibujarse. */
   .text-cta-label::after {
+    transition: none;
+  }
+  /* El isotipo del logo y el hundido de los botones del mazo: sin movimiento. */
+  .logo:hover .logo-img,
+  .logo:focus-visible .logo-img {
+    translate: none;
+  }
+  .deck-btn:active {
+    transform: none;
+  }
+  /* La captura del caso sigue cambiando de filete y sombra, sin transición. */
+  .flip {
     transition: none;
   }
   /* El arco aparece ya dibujado: no hay trazo que recorrer. */

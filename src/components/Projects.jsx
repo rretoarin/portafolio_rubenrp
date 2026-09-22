@@ -183,15 +183,45 @@ function Caso({ project, copy, labels, shots, onOpen, visorAbierto }) {
 
       <h3 className="display mt-4 text-[1.625rem] text-heading md:text-[1.875rem]">{copy.name}</h3>
 
-      <dl className="mt-6 space-y-4">
+      {/*
+        Las tres líneas del caso. El RESULTADO no es una más: es lo único que
+        demuestra que el trabajo sirvió, así que se lleva el peso. Problema y
+        solución se quedan en `ink-soft`; el resultado pasa a tinta plena
+        (de 9.49:1 a 17.67:1), sube un punto de cuerpo y su etiqueta se pinta
+        con el acento. Sigue siendo la misma lista de definiciones en el mismo
+        sitio: cambia el peso, no la estructura.
+      */}
+      <dl className="mt-6 space-y-5">
         {[
-          [labels.problemLabel, copy.problem],
-          [labels.solutionLabel, copy.solution],
-          [labels.resultLabel, copy.result],
-        ].map(([etiqueta, texto]) => (
+          [labels.problemLabel, copy.problem, false],
+          [labels.solutionLabel, copy.solution, false],
+          [labels.resultLabel, copy.result, true],
+        ].map(([etiqueta, texto, resultado]) => (
           <div key={etiqueta} className="grid gap-1 sm:grid-cols-[6.5rem_1fr] sm:gap-5">
-            <dt className="eyebrow eyebrow-plain">{etiqueta}</dt>
-            <dd className="leading-relaxed text-ink-soft">{texto}</dd>
+            {/*
+              `self-start` y cuatro píxeles de aire. `.eyebrow` es un `inline-flex`
+              con `align-items: center`, así que como celda de la rejilla se
+              estiraba a todo el alto de la fila y la etiqueta se centraba contra
+              el párrafo entero en vez de sentarse en su primera línea: caía 13px
+              por debajo con dos líneas y 26 con tres. Sólo desde `sm`, que es
+              donde hay dos columnas; apilado, la etiqueta ya va encima.
+            */}
+            <dt
+              className={`eyebrow eyebrow-plain sm:self-start sm:pt-1 ${
+                resultado ? 'text-accent' : ''
+              }`}
+            >
+              {etiqueta}
+            </dt>
+            <dd
+              className={
+                resultado
+                  ? 'text-[1.0625rem] leading-relaxed text-ink'
+                  : 'leading-relaxed text-ink-soft'
+              }
+            >
+              {texto}
+            </dd>
           </div>
         ))}
       </dl>
