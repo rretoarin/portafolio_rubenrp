@@ -897,6 +897,34 @@ html.theme-switching *::after {
       opacity 0.25s var(--ease-out-soft);
   }
 
+  /*
+   * El botón flotante de WhatsApp. El `right` no puede ser un hueco fijo desde
+   * el borde del navegador: el contenido se detiene en `.shell` (78rem) y en
+   * una ventana ancha el botón se quedaba solo en el margen —26px por fuera del
+   * borde de la columna y 154px del texto a 1476px—, como si no fuera de la
+   * página.
+   *
+   * `50% - 36.5rem` es ese margen (la mitad de lo que sobra de 78rem) más el
+   * relleno de `.shell` (2.5rem), así que el botón cae en la misma línea
+   * vertical que el texto, la tarjeta del formulario y el botón «Hablemos» de
+   * la barra. A ras del borde exterior de `.shell` todavía sobresalía 40px de
+   * esa línea. El `max()` lo devuelve al hueco del borde cuando la ventana es
+   * más estrecha que la columna, que es cuando ya no sobra nada.
+   *
+   * Va en porcentaje y no en `vw` a propósito: el porcentaje se mide contra el
+   * bloque contenedor —la ventana sin la barra de desplazamiento— y `100vw` la
+   * incluye, que desplazaría el botón medio ancho de barra hacia dentro.
+   */
+  .wa-fab {
+    right: max(calc(1.25rem + env(safe-area-inset-right)), calc(50% - 36.5rem));
+  }
+
+  @media (min-width: 768px) {
+    .wa-fab {
+      right: max(calc(2rem + env(safe-area-inset-right)), calc(50% - 36.5rem));
+    }
+  }
+
   /* Enlaces sin caja (pie, menú móvil): el subrayado ocupa todo el ancho. */
   .nav-link-plain::after {
     left: 0;
