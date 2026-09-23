@@ -1,5 +1,126 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight, Close } from './icons'
+
+const MAX = 4
+const DOBLE = 2.5
+const REPOSO = { s: 1, x: 0, y: 0 }
+
+/*
+ * Zoom de la captura. En el móvil una tabla del sistema de Arin cabe en ~340px
+ * y no se lee: aquí se amplía con dos dedos, con doble toque (o doble clic) y
+ * se recorre arrastrando. Todo con Pointer Events, sin librería.
+ *
+ * `touch-none` es lo que impide que el pellizco amplíe la página entera en vez
+ * de la captura. El desplazamiento se limita al dibujo real de la imagen —no a
+ * su caja, que con `object-contain` lleva franjas vacías— para que nunca se
+ * pueda arrastrar la captura fuera de la vista.
+ */
+function Zoom({ src, alt }) {
+  const zona = useRef(null)
+  const foto = useRef(null)
+  const punteros = useRef(new Map())
+  const inicio = useRef(null)
+  const toque = useRef(null)
+  const [vista, setVista] = useState(REPOSO)
+  const [gesto, setGesto] = useState(false)
+
+  // Coordenadas respecto al centro de la zona, que es el origen del transform.
+  const alCentro = (cx, cy) => {
+    const z = zona.current.getBoundingClientRect()
+    return { x: cx - z.left - z.width / 2, y: cy - z.top - z.height / 2 }
+  }
+
+  const limitar = ({ s, x, y }) => {
+    const z = zona.current.getBoundingClientRect()
+    const im = foto.current
+    const r = Math.min(z.width / (im.naturalWidth || 1), z.height / (im.naturalHeight || 1))
+    const mx = Math.max(0, (im.naturalWidth * r * s - z.width) / 2)
+    const my = Math.max(0, (im.naturalHeight * r * s - z.height) / 2)
+    return { s, x: Math.min(mx, Math.max(-mx, x)), y: Math.min(my, Math.max(-my, y)) }
+  }
+
+  // Amplía manteniendo quieto el punto `p` bajo el dedo o el cursor.
+  const ampliar = (s, p, v) => {
+    const s2 = Math.min(MAX, Math.max(1, s))
+    return limitar({ s: s2, x: p.x - (p.x - v.x) * (s2 / v.s), y: p.y - (p.y - v.y) * (s2 / v.s) })
+  }
+
+  const empezar = () => {
+    const [a, b] = [...punteros.current.values()]
+    inicio.current = b
+      ? { dist: Math.hypot(a.x - b.x, a.y - b.y), mid: alCentro((a.x + b.x) / 2, (a.y + b.y) / 2), v: vista }
+      : { x: a.x, y: a.y, v: vista, movido: false }
+  }
+
+  const onPointerDown = (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return
+    zona.current.setPointerCapture(e.pointerId)
+    punteros.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
+    setGesto(true)
+    empezar()
+  }
+
+  const onPointerMove = (e) => {
+    if (!punteros.current.has(e.pointerId)) return
+    punteros.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
+    const i = inicio.current
+    const [a, b] = [...punteros.current.values()]
+    if (b) {
+      const mid = alCentro((a.x + b.x) / 2, (a.y + b.y) / 2)
+      const v = ampliar(i.v.s * (Math.hypot(a.x - b.x, a.y - b.y) / i.dist), i.mid, i.v)
+      setVista(limitar({ ...v, x: v.x + mid.x - i.mid.x, y: v.y + mid.y - i.mid.y }))
+      return
+    }
+    if (Math.hypot(a.x - i.x, a.y - i.y) > 8) i.movido = true
+    if (i.v.s > 1) setVista(limitar({ ...i.v, x: i.v.x + a.x - i.x, y: i.v.y + a.y - i.y }))
+  }
+
+  const onPointerUp = (e) => {
+    if (!punteros.current.has(e.pointerId)) return
+    punteros.current.delete(e.pointerId)
+    const i = inicio.current
+    if (punteros.current.size) {
+      // Se levantó un dedo del pellizco: el que queda sigue arrastrando.
+      empezar()
+      toque.current = null
+      return
+    }
+    setGesto(false)
+    if (i?.dist || i?.movido) return (toque.current = null)
+    const antes = toque.current
+    const ahora = { t: e.timeStamp, x: e.clientX, y: e.clientY }
+    if (antes && ahora.t - antes.t < 320 && Math.hypot(ahora.x - antes.x, ahora.y - antes.y) < 30) {
+      setVista(vista.s > 1 ? REPOSO : ampliar(DOBLE, alCentro(ahora.x, ahora.y), vista))
+      toque.current = null
+    } else {
+      toque.current = ahora
+    }
+  }
+
+  return (
+    <div
+      ref={zona}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
+      className={`relative min-h-0 flex-1 self-stretch touch-none overflow-hidden select-none ${
+        vista.s > 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in'
+      }`}
+    >
+      <img
+        ref={foto}
+        src={src}
+        alt={alt}
+        draggable={false}
+        style={{ transform: `translate3d(${vista.x}px, ${vista.y}px, 0) scale(${vista.s})` }}
+        className={`size-full rounded-[var(--radius-card)] object-contain ${
+          gesto ? '' : 'motion-safe:transition-transform motion-safe:duration-200'
+        }`}
+      />
+    </div>
+  )
+}
 
 /*
  * Visor de capturas a pantalla completa. Existe para que el bento pueda mostrar
@@ -107,11 +228,8 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
             <ArrowRight width={18} height={18} />
           </button>
 
-          <img
-            src={shots[index]}
-            alt={`${name} — ${captions[index]}`}
-            className="min-h-0 flex-1 rounded-[var(--radius-card)] object-contain"
-          />
+          {/* La `key` vuelve el zoom a cero en cada captura. */}
+          <Zoom key={index} src={shots[index]} alt={`${name} — ${captions[index]}`} />
 
           <button
             type="button"
@@ -125,6 +243,10 @@ export default function Lightbox({ shots, captions, index, name, labels, onClose
 
         <p aria-live="polite" className="mx-auto max-w-2xl pt-4 text-center text-sm text-on-scrim/80">
           {captions[index]}
+        </p>
+        <p className="pt-1 text-center text-xs text-on-scrim/60">
+          <span className="pointer-fine:hidden">{labels.zoomTouch}</span>
+          <span className="hidden pointer-fine:inline">{labels.zoomMouse}</span>
         </p>
 
         {/*

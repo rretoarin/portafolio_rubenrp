@@ -122,7 +122,7 @@ export const CONTENT = {
     },
 
     hero: {
-      kicker: 'Dos proyectos en producción · Míralos por dentro',
+      kicker: 'Proyectos reales en producción · Míralos por dentro',
       headline: 'Transformo procesos complejos en soluciones digitales simples.',
       lead: 'Diseño y desarrollo páginas web, sistemas y experiencias digitales adaptadas a las necesidades reales de cada negocio.',
       ctaPrimary: 'Hablemos de tu proyecto',
@@ -204,6 +204,8 @@ export const CONTENT = {
       toolsLabel: 'Construido con',
       galleryLabel: 'Capturas del sistema',
       closeShot: 'Cerrar la captura',
+      zoomTouch: 'Pellizca o toca dos veces para ampliar',
+      zoomMouse: 'Doble clic para ampliar y arrastra para moverte',
       prev: 'Captura anterior',
       next: 'Captura siguiente',
       items: {
@@ -212,11 +214,11 @@ export const CONTENT = {
           name: 'Sistema de Gestión de Muestras',
           evidenceNote: 'Capturas reales en producción. Los datos de cliente van difuminados.',
           problem:
-            'El control de cada muestra vivía en hojas de cálculo y nadie sabía con certeza dónde estaba ni quién la había tocado.',
+            'El control de cada muestra vivía en hojas de Excel que se colgaban, y nadie sabía con certeza dónde estaba ni quién la había tocado.',
           solution:
             'Una plataforma con seguimiento por estados, historial firmado, calendario de cierres y reportes de vencimiento.',
           result:
-            'En producción. Cada movimiento queda firmado y cambiar un feriado recalcula los plazos de todo el sistema.',
+            'En producción y estable. Todo queda registrado y ordenado, y los reportes permiten medir y tomar decisiones con información fiable.',
           shots: [
             'Panel de control: pendientes, finalizados y aprobados, con la carga de cada proceso al día.',
             'Listado de diseños: filtros combinados por estado y categoría, con exportación a Excel.',
@@ -308,17 +310,17 @@ export const CONTENT = {
       projects: 'Projects',
       process: 'Process',
       contact: 'Contact',
-      talk: 'Let us talk',
+      talk: 'Let’s talk',
       language: 'View in Spanish',
       menu: 'Menu',
       close: 'Close menu',
     },
 
     hero: {
-      kicker: 'Two projects in production · See them from the inside',
+      kicker: 'Real projects in production · See them from the inside',
       headline: 'I turn complex processes into simple digital solutions.',
       lead: 'I design and build websites, systems and digital experiences shaped around what each business actually needs.',
-      ctaPrimary: 'Let us talk about your project',
+      ctaPrimary: 'Let’s talk about your project',
       ctaSecondary: 'See real projects',
       services: [
         'Corporate websites',
@@ -339,7 +341,7 @@ export const CONTENT = {
       eyebrow: 'What can I do for your business?',
       title: 'Digital solutions built around your goals.',
       subtitle:
-        'Every business has different needs. That is why I build tailored solutions that help you work better, save time and grow your business.',
+        'Every business has different needs. That’s why I build tailored solutions that help you work better, save time and grow your business.',
       items: [
         {
           title: 'Websites',
@@ -351,7 +353,7 @@ export const CONTENT = {
         },
         {
           title: 'Automation',
-          text: 'What is repeated by hand every week becomes the system’s job, and with no mistakes.',
+          text: 'The work you repeat by hand every week becomes the system’s job, with no mistakes.',
         },
         {
           title: 'Integrations',
@@ -364,7 +366,7 @@ export const CONTENT = {
       eyebrow: 'From the project to the follow-up',
       title: 'Your project, in good hands. Always.',
       subtitle:
-        'I do not hand the project over and disappear: I stay with you through the whole process, and after launch too.',
+        'I don’t hand the project over and disappear: I stay with you through the whole process, and after launch too.',
       steps: [
         { title: 'We talk', text: 'We work out what your business needs and where it gets stuck today.' },
         { title: 'We design', text: 'We define the experience and the shape of the solution.' },
@@ -391,6 +393,8 @@ export const CONTENT = {
       toolsLabel: 'Built with',
       galleryLabel: 'System screens',
       closeShot: 'Close the screen',
+      zoomTouch: 'Pinch or double-tap to zoom in',
+      zoomMouse: 'Double-click to zoom in, then drag to move around',
       prev: 'Previous screen',
       next: 'Next screen',
       items: {
@@ -399,11 +403,11 @@ export const CONTENT = {
           name: 'Sample Management System',
           evidenceNote: 'Real screens in production. Client data is blurred out.',
           problem:
-            'Tracking for every sample lived in spreadsheets and nobody knew for certain where it was or who had touched it.',
+            'Tracking for every sample lived in Excel sheets that kept freezing, and nobody knew for certain where it was or who had touched it.',
           solution:
             'A platform with status tracking, a signed history, a closing calendar and due-date reports.',
           result:
-            'In production. Every movement is signed, and changing one holiday recalculates deadlines across the system.',
+            'In production and stable. Everything is recorded and in order, and the reports let them measure and make decisions on reliable data.',
           shots: [
             'Dashboard: pending, finished and approved, with each process load up to date.',
             'Design list: combined status and category filters, with Excel export.',
@@ -444,11 +448,11 @@ export const CONTENT = {
 
     contact: {
       eyebrow: 'Have a project in mind?',
-      title: 'Let us talk and make your idea real.',
-      text: 'Tell me what you need and let us find the best solution for your business together.',
+      title: 'Let’s talk and make your idea real.',
+      text: 'Tell me what you need and let’s find the best solution for your business together.',
       about:
-        'I am Rubén, a full stack developer specialised in building digital solutions for businesses. I lean on AI to move faster and deliver sooner, but the decisions are mine and everything goes through my review. You work directly with me, from the first sketch to deployment.',
-      cta: 'Let us talk about your project',
+        'I’m Rubén, a full stack developer specialised in building digital solutions for businesses. I lean on AI to move faster and deliver sooner, but the decisions are mine and everything goes through my review. You work directly with me, from the first sketch to deployment.',
+      cta: 'Let’s talk about your project',
       ctaNote: 'You get me, not an automated form.',
       whatsappAria: 'Message me on WhatsApp',
       whatsappMessage:
@@ -473,7 +477,7 @@ export const CONTENT = {
         label: 'Site',
         lines: [
           'Designed and built by me',
-          'Light and dark, one same content',
+          'Light and dark, same content',
           'Deployed on Vercel',
         ],
       },

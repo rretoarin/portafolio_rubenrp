@@ -389,6 +389,7 @@ El sitio se diseña primero para 375px. Reglas que no se negocian:
 - Probar el toggle ES/EN en la sección tocada
 - Probar **los dos temas** a 375px y a 1440px
 - Comprobar que el cambio de estilo no recarga, no salta el scroll y no pierde
-  el estado del formulario ni del visor ......
+  el estado del formulario ni del visor 
   
+
 

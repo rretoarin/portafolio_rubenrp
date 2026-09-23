@@ -102,10 +102,10 @@ export default function App() {
             sameAs: [PROFILE.linkedin],
             description: t.hero.lead,
             knowsAbout: [
-              'Diseno y desarrollo web',
+              'Diseño y desarrollo web',
               'Sistemas web a medida',
-              'Automatizacion de procesos',
-              'Integracion de sistemas',
+              'Automatización de procesos',
+              'Integración de sistemas',
               'Aplicaciones web',
               'Paneles de control y reportes',
             ],

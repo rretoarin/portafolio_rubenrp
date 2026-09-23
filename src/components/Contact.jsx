@@ -97,7 +97,7 @@ export default function Contact({ t }) {
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 placeholder={t.contact.formNamePlaceholder}
-                className="mt-2 w-full rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink focus-visible:border-ink focus:border-ink"
+                className="mt-2 w-full rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-base transition-colors md:text-sm duration-200 placeholder:text-ink-soft/70 hover:border-ink focus-visible:border-ink focus:border-ink"
               />
 
               <label htmlFor="mensaje" className="mt-4 block text-sm font-medium">
@@ -110,7 +110,7 @@ export default function Contact({ t }) {
                 value={mensaje}
                 onChange={(e) => setMensaje(e.target.value)}
                 placeholder={t.contact.formMessagePlaceholder}
-                className="mt-2 w-full resize-y rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-sm transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink focus-visible:border-ink focus:border-ink"
+                className="mt-2 w-full resize-y rounded-[var(--radius-tile)] border border-edge bg-page px-3 py-2.5 text-base transition-colors md:text-sm duration-200 placeholder:text-ink-soft/70 hover:border-ink focus-visible:border-ink focus:border-ink"
               />
 
               <button type="submit" className="btn-primary mt-5 w-full justify-center px-6">

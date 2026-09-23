@@ -36,18 +36,22 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Marca en el menú la sección que domina la pantalla.
+  /*
+   * Marca en el menú la sección que domina la pantalla. El hero también se
+   * observa, aunque no tenga enlace: sin él, al volver arriba se quedaba
+   * marcada la última sección visitada. Con el hero a la vista no se marca nada.
+   */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (visible) setActive(visible.target.id)
+        if (visible) setActive(visible.target.id === 'top' ? '' : visible.target.id)
       },
       { rootMargin: '-45% 0px -45% 0px' },
     )
-    SECTIONS.forEach((id) => {
+    ;['top', ...SECTIONS].forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
