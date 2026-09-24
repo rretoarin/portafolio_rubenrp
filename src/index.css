@@ -343,6 +343,24 @@ html.theme-switching *::after {
     filter: invert(1) brightness(1.08);
   }
 
+  /*
+   * El logo de la barra: el vector horizontal en línea. Sólo la altura; el
+   * ancho sale del viewBox (3657x637). 28px en móvil, 34px desde md.
+   */
+  .logo-svg {
+    display: block;
+    flex-shrink: 0;
+    height: 28px;
+    width: auto;
+    color: var(--color-ink);
+  }
+
+  @media (min-width: 48rem) {
+    .logo-svg {
+      height: 34px;
+    }
+  }
+
   .logo-word {
     font-family: var(--font-display);
     font-size: 19px;
