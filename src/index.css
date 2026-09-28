@@ -344,20 +344,23 @@ html.theme-switching *::after {
   }
 
   /*
-   * El logo de la barra: el vector horizontal en línea. Sólo la altura; el
-   * ancho sale del viewBox (3657x637). 28px en móvil, 34px desde md.
+   * El logo de la barra: el apilado refinado en línea, el mismo en todos los
+   * anchos. Sólo la altura; el ancho sale del viewBox (1012x898). 44px hasta
+   * 768px (barra de 64) y 56px desde 769px (barra de 80): cabe en las dos sin
+   * que la barra crezca y queda centrado con el menú por el `items-center`.
+   * Alturas enteras a propósito, para que el trazo caiga en la rejilla.
    */
   .logo-svg {
     display: block;
     flex-shrink: 0;
-    height: 28px;
+    height: 44px;
     width: auto;
     color: var(--color-ink);
   }
 
-  @media (min-width: 48rem) {
+  @media (min-width: 769px) {
     .logo-svg {
-      height: 34px;
+      height: 56px;
     }
   }
 

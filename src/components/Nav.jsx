@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { PROFILE, whatsappUrl } from '../data/content'
+import { whatsappUrl } from '../data/content'
 import { ArrowRight, Close, Menu } from './icons'
 import Logo from './Logo'
 import ThemeSwitch from './ThemeSwitch'
@@ -122,7 +122,7 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
       >
         <nav className="shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
           {/* Isotipo + «RuberpDev», en una línea, en todos los anchos. */}
-          <a href="#top" className="logo tap" aria-label={PROFILE.brand}>
+          <a href="#top" className="logo tap" aria-label={t.nav.home}>
             <Logo />
           </a>
 

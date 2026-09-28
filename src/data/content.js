@@ -111,6 +111,7 @@ export const CONTENT = {
     },
 
     nav: {
+      home: 'RuberpDev - Inicio',
       services: 'Soluciones',
       projects: 'Proyectos',
       process: 'Proceso',
@@ -306,6 +307,7 @@ export const CONTENT = {
     },
 
     nav: {
+      home: 'RuberpDev - Home',
       services: 'Solutions',
       projects: 'Projects',
       process: 'Process',

@@ -39,7 +39,7 @@ src/
 │  ├─ Section.jsx      ← envoltorio común (eyebrow, título, subtítulo, espaciado)
 │  ├─ ui.jsx           ← Words, Eyebrow, Frame, Arc, Tick, Check
 │  ├─ icons.jsx        ← SVG inline, sin librería de iconos
-│  ├─ Logo.jsx         ← isotipo + «RuberpDev» en una línea
+│  ├─ Logo.jsx         ← logo apilado de la barra (SVG en línea) + isotipo del pie
 │  ├─ ThemeSwitch.jsx  ← botón único claro ↔ oscuro
 │  ├─ HeroDeck.jsx     ← mazo de capturas del hero (una por proyecto)
 │  ├─ Lightbox.jsx     ← visor de capturas, accesible
@@ -185,27 +185,38 @@ eliminaron en el rediseño v2 (2026-09-21), con sus capturas y sus logos.
 
 ### El logo RuberpDev
 
-**Una sola línea**: isotipo RD + la palabra «RuberpDev». Nada apilado (el
-logotipo apilado se retiró en el v2).
+**En la barra, el logo APILADO** (el «RD» grande con «RuberpDev» debajo), el
+mismo en móvil y en escritorio. Es el logo final que eligió Rubén el
+2026-09-28 y sustituye a la versión en una línea del v2.
 
-- `<a href="#top" class="logo">` → `display:flex; align-items:center; gap:5px` (el handoff decía 9; Rubén lo quería más junto).
-- Isotipo: `<img src="/logo/icono-claro@2x.webp">` a `height:15px;
-  width:auto` (24×15 visibles). **Nunca un `width` fijo**: ése era el bug que
-  lo estiraba. En el pie, el mismo isotipo a 12px (`.logo-img-sm`).
-- **El archivo va recortado al dibujo (91×56), sin margen transparente.** La
-  exportación común de `logo.py` dejaba ~34px vacíos a cada lado, que a 44px
-  de ancho sumaban ~10px al `gap` y separaban el «RD» del nombre (~19px en
-  vez de 9). `logo.py` lo recorta al final con `recortar_margen()`. El handoff
-  pedía `height:32px; max-width:44px`, que con el margen daba este mismo
-  tamaño visible; ahora se da la altura directamente (2026-09-21).
-- Palabra: Sentient 19px, `letter-spacing:-0.2px`, `white-space:nowrap`.
-- **En oscuro se invierte por CSS** (`filter: invert(1) brightness(1.08)`) en
-  vez de cargar otro archivo. Efecto conocido: el corte rojo sale en cian.
-- El isotipo sale de la lámina de concepto (`scripts/logo-fuente/refrencia.png`
-  → `scripts/logo.py`). **No redibujarlo.** El script ya sólo exporta
-  `icono-claro@2x.webp` y la tarjeta de compartir (`tarjeta-claro.webp`), pero
-  sigue midiendo los cuatro cuadrantes de la lámina porque la caja común sale
-  de su unión.
+- Fuente: `Desktop\claude\logo-refinadouberpdev-logo-apilado.svg`
+  (viewBox `0 0 1012 898`), vectores limpios. **Paths, viewBox y colores tal
+  cual**: no se retocan ni se redibujan. Va **en línea** en `Logo()` de
+  `Logo.jsx`, no como `<img>`, para que `currentColor` tome `--color-ink` en
+  los dos temas; el rojo `#d2533d` es fijo. Al SVG sólo se le cambia
+  `role`/`aria-label` por `aria-hidden="true"`.
+- Enlace: `<a href="#top" class="logo tap" aria-label={t.nav.home}>`
+  («RuberpDev - Inicio» / «RuberpDev - Home»).
+- Tamaño **sólo por la altura** (`.logo-svg`, `width:auto`): 44px hasta 768px
+  y 56px desde 769px. Nunca `width` y `height` fijos a la vez. Caben en la
+  barra de 64/80px sin que crezca y quedan centrados con el menú (medido: 0px
+  de desvío). Alturas enteras, para que el trazo caiga en la rejilla.
+- Efecto conocido: a esas alturas «RuberpDev» sale con ~6–8px de mayúscula.
+  Nítido (es vector), pero pequeño; es decisión de Rubén.
+- En la misma carpeta están `ruberpdev-logo-horizontal.svg` y
+  `ruberpdev-mark.svg`, que se usaron unos días y ya no salen en el sitio.
+  `Desktop\claude\logo-vector` era un calco sucio: no usarlo.
+
+**En el pie sigue el isotipo raster** (`Mark`): `<img
+src="/logo/icono-claro@2x.webp">` a 12px (`.logo-img-sm`), `width:auto`.
+
+- El archivo va recortado al dibujo (91×56), sin margen transparente
+  (`recortar_margen()` en `logo.py`).
+- **En oscuro se invierte por CSS** (`filter: invert(1) brightness(1.08)`).
+  Efecto conocido: el corte rojo sale en cian.
+- Sale de la lámina de concepto (`scripts/logo-fuente/refrencia.png` →
+  `scripts/logo.py`), que exporta también la tarjeta de compartir
+  (`tarjeta-claro.webp`).
 - **El favicon es otra pieza** (disco con «RD» calado) y cambia con el tema del
   navegador, no con el del sitio.
 - **Si cambia el nombre de la marca**: `PROFILE.brand` en `content.js`, el
