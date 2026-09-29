@@ -301,36 +301,33 @@ html.theme-switching *::after {
 
 @layer components {
   /*
-   * El logo apilado (`Logo.jsx`). El tamaño NO se pone aquí: cada geometría
-   * lleva su `width`/`height` en píxeles enteros, alineada a la rejilla para
-   * que se vea nítida a 1x (ver el comentario de `Logo.jsx`). Escalarlo con CSS
-   * rompería esa alineación. Aquí sólo se elige cuál se ve: `sm` (51x37) en
-   * móvil y `lg` (68x51) desde 769px; los dos caben en la barra de 64/80 y
-   * quedan centrados con el menú por el `items-center`.
+   * El logo, como imagen (`Logo.jsx`, `scripts/logo-png.py`). El tamaño lo dan
+   * los `width`/`height` de cada archivo, que ya está exportado a esa medida
+   * (77x54 desde 769px, 60x40 por debajo y en el pie): aquí NO se escala, que
+   * es lo que lo ablandaría. Sólo se elige la copia del tema: las dos están en
+   * la página y se enseña una.
    */
   .logo {
     display: flex;
     align-items: center;
   }
 
-  .logo-svg {
+  .logo-img {
     display: block;
     flex-shrink: 0;
-    color: var(--color-ink);
   }
 
-  .logo-lg {
+  .logo-img img {
+    display: block;
+  }
+
+  .logo-oscuro,
+  [data-theme="oscuro"] .logo-claro {
     display: none;
   }
 
-  @media (min-width: 769px) {
-    .logo-lg {
-      display: block;
-    }
-
-    .logo-sm {
-      display: none;
-    }
+  [data-theme="oscuro"] .logo-oscuro {
+    display: block;
   }
 
   .logo-word {
