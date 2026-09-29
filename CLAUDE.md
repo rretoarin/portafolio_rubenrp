@@ -39,7 +39,7 @@ src/
 │  ├─ Section.jsx      ← envoltorio común (eyebrow, título, subtítulo, espaciado)
 │  ├─ ui.jsx           ← Words, Eyebrow, Frame, Arc, Tick, Check
 │  ├─ icons.jsx        ← SVG inline, sin librería de iconos
-│  ├─ Logo.jsx         ← logo apilado de la barra (SVG en línea) + isotipo del pie
+│  ├─ Logo.jsx         ← logo apilado en línea (barra y pie), alineado a píxel
 │  ├─ ThemeSwitch.jsx  ← botón único claro ↔ oscuro
 │  ├─ HeroDeck.jsx     ← mazo de capturas del hero (una por proyecto)
 │  ├─ Lightbox.jsx     ← visor de capturas, accesible
@@ -185,38 +185,48 @@ eliminaron en el rediseño v2 (2026-09-21), con sus capturas y sus logos.
 
 ### El logo RuberpDev
 
-**En la barra, el logo APILADO** (el «RD» grande con «RuberpDev» debajo), el
-mismo en móvil y en escritorio. Es el logo final que eligió Rubén el
-2026-09-28 y sustituye a la versión en una línea del v2.
+**En la barra, el logo APILADO** (el «RD» con «RuberpDev» debajo), el mismo
+en móvil y en escritorio. Es el logo final (2026-09-28), diseñado por Rubén en
+Figma: `Desktop\claude\revisar\RuberpDev — logo apilado maestro 24%.svg`
+(viewBox `0 0 1527 1000`).
 
-- Fuente: `Desktop\claude\logo-refinadouberpdev-logo-apilado.svg`
-  (viewBox `0 0 1012 898`), vectores limpios. **Paths, viewBox y colores tal
-  cual**: no se retocan ni se redibujan. Va **en línea** en `Logo()` de
-  `Logo.jsx`, no como `<img>`, para que `currentColor` tome `--color-ink` en
-  los dos temas; el rojo `#d2533d` es fijo. Al SVG sólo se le cambia
-  `role`/`aria-label` por `aria-hidden="true"`.
+- **La palabra ocupa el 24% del alto y va en Bold.** Es lo que la hace legible
+  a 44/56px. El apilado anterior (`logo-refinado`, 12% y peso medio) se veía
+  borroso a ese tamaño; agrandarlo a 80/96px lo arreglaba pero se descartó por
+  demasiado grande. No volver a ninguno de los dos.
+- Va **en línea** en `Logo()` de `Logo.jsx`. Paths y viewBox tal cual; al
+  pasarlo se quitó el `<rect>` de fondo que exporta Figma (`#1E1E1E`) y
+  `fill="black"` pasó a `currentColor`, para que tome `--color-ink` en los dos
+  temas. El rojo `#D2533D` es fijo. El SVG lleva `aria-hidden="true"`.
 - Enlace: `<a href="#top" class="logo tap" aria-label={t.nav.home}>`
   («RuberpDev - Inicio» / «RuberpDev - Home»).
-- Tamaño **sólo por la altura** (`.logo-svg`, `width:auto`): 44px hasta 768px
-  y 56px desde 769px. Nunca `width` y `height` fijos a la vez. Caben en la
-  barra de 64/80px sin que crezca y quedan centrados con el menú (medido: 0px
-  de desvío). Alturas enteras, para que el trazo caiga en la rejilla.
-- Efecto conocido: a esas alturas «RuberpDev» sale con ~6–8px de mayúscula.
-  Nítido (es vector), pero pequeño; es decisión de Rubén.
-- En la misma carpeta están `ruberpdev-logo-horizontal.svg` y
-  `ruberpdev-mark.svg`, que se usaron unos días y ya no salen en el sitio.
-  `Desktop\claude\logo-vector` era un calco sucio: no usarlo.
+- **2026-09-29, maqueta de Rubén** (`Desktop\claude\asiquiero.png`): el «RD»
+  más estrecho (~1.6:1 en vez de 2.2:1) y más pequeño que la palabra.
+- **Nitidez = alineación a la rejilla.** A 1x el logo mide 37–51px y la
+  palabra 6–8px: si los bordes rectos caen a medio píxel salen grises y se leen
+  como dientes. Por eso `Logo.jsx` tiene **una geometría por tamaño, en
+  píxeles** (`TAMANOS`): viewBox = `width`×`height` (escala 1:1) y dos
+  `<g transform>` calculados para que el asta de la R (x 98.75–285.62 en
+  unidades de Figma), la barra de arriba (0–138), el corte rojo (552–690) y la
+  base y la línea de mayúsculas de la palabra (950.26 / 770.77) caigan en
+  píxel entero:
+  - `lg`, barra desde 769px: **68×51**, RD de 35px, asta de 7, palabra de 8.
+  - `sm`, barra en móvil y pie: **51×37**, RD de 25px, asta de 5, palabra de 6.
+  Aquí `width` y `height` van fijos **a propósito**: coinciden con el viewBox y
+  no deforman. `width:auto` daba 66.55px y desplazaba todo medio píxel. **No
+  escalarlo con CSS**: para otro tamaño, recalcular (escala vertical = alto del
+  RD / 690; horizontal = asta / 186.87, con un `translate` que lleve el asta a
+  píxel entero; palabra = mayúsculas / 179.49). El CSS sólo elige cuál se ve
+  (`.logo-lg` / `.logo-sm`).
+- Las otras exportaciones de esa carpeta (`44px`, `56px`, `Sin título`) son
+  vistas previas con fondo: no usarlas. `logo-refinado` y `logo-vector` ya no
+  salen en el sitio.
 
-**En el pie sigue el isotipo raster** (`Mark`): `<img
-src="/logo/icono-claro@2x.webp">` a 12px (`.logo-img-sm`), `width:auto`.
+**En el pie, el mismo logo** (`Mark`, geometría `sm`) junto al copyright. El
+isotipo raster (`icono-claro@2x.webp`, invertido en oscuro) ya no sale en el
+sitio; `public/logo/` sigue alimentando la tarjeta de compartir
+(`tarjeta-claro.webp`, desde `scripts/logo.py`).
 
-- El archivo va recortado al dibujo (91×56), sin margen transparente
-  (`recortar_margen()` en `logo.py`).
-- **En oscuro se invierte por CSS** (`filter: invert(1) brightness(1.08)`).
-  Efecto conocido: el corte rojo sale en cian.
-- Sale de la lámina de concepto (`scripts/logo-fuente/refrencia.png` →
-  `scripts/logo.py`), que exporta también la tarjeta de compartir
-  (`tarjeta-claro.webp`).
 - **El favicon es otra pieza** (disco con «RD» calado) y cambia con el tema del
   navegador, no con el del sitio.
 - **Si cambia el nombre de la marca**: `PROFILE.brand` en `content.js`, el
@@ -294,7 +304,7 @@ src="/logo/icono-claro@2x.webp">` a 12px (`.logo-img-sm`), `width:auto`.
   de toda la página.
 - **Las capturas son la evidencia**, no ilustración. Van dentro de `<Frame>` y a
   ancho completo. Las prepara `scripts/capturas.py` desde
-  `Desktop\clauderin muestras` (11) y `Desktop\claude\web` (8): pixela los
+  `Desktop\claude\arin muestras` (11) y `Desktop\claude\web` (8): pixela los
   nombres de clientes y usuarios del sistema de Arin (localizados con el OCR
   de Windows; el saludo «Ruben Reto» se deja), le pone a TODAS las de Arin una
   marca de agua diagonal tenue («RuberpDev · datos protegidos»), recorta el

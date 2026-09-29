@@ -91,9 +91,9 @@ export default function Footer({ t }) {
             El cierre de marca es esta línea y nada más. El nombre a gran escala
             que había aquí ocupaba media pantalla sin decir nada nuevo.
           */}
-          <p className="text-xs text-ink-soft">
-            <Mark className="logo-img-sm mr-2 inline-block align-middle" />
-            <span> · © {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}</span>
+          <p className="flex items-center gap-3 text-xs text-ink-soft">
+            <Mark className="shrink-0" />
+            <span>© {new Date().getFullYear()} {PROFILE.name} · {t.footer.rights}</span>
           </p>
           <a
             href="#top"

@@ -301,66 +301,35 @@ html.theme-switching *::after {
 
 @layer components {
   /*
-   * El logo, en una línea: isotipo + «RuberpDev». El isotipo se escala SÓLO
-   * por la altura (`width: auto`): nunca un ancho fijo, que es lo que lo
-   * estiraba. El archivo va recortado al dibujo, sin margen transparente, así
-   * que el `gap` de 5px es el aire real entre «RD» y el nombre. En oscuro se
-   * invierte por CSS.
+   * El logo apilado (`Logo.jsx`). El tamaño NO se pone aquí: cada geometría
+   * lleva su `width`/`height` en píxeles enteros, alineada a la rejilla para
+   * que se vea nítida a 1x (ver el comentario de `Logo.jsx`). Escalarlo con CSS
+   * rompería esa alineación. Aquí sólo se elige cuál se ve: `sm` (51x37) en
+   * móvil y `lg` (68x51) desde 769px; los dos caben en la barra de 64/80 y
+   * quedan centrados con el menú por el `items-center`.
    */
   .logo {
     display: flex;
     align-items: center;
-    gap: 5px;
   }
 
-  .logo-img {
-    display: block;
-    flex-shrink: 0;
-    height: 15px;
-    width: auto;
-    transition: translate 0.25s var(--ease-out-soft);
-  }
-
-  /*
-   * El logo es un enlace —lleva arriba del todo— y era lo único pulsable de la
-   * barra sin ningún estado. Se mueve el isotipo, no la palabra: un píxel del
-   * «RD» basta para que la marca acuse el puntero, y desplazar el bloque entero
-   * movería la línea de base contra el menú.
-   */
-  @media (hover: hover) {
-    .logo:hover .logo-img,
-    .logo:focus-visible .logo-img {
-      translate: 0 -1px;
-    }
-  }
-
-  /* El del pie: el mismo isotipo, más pequeño. */
-  .logo-img-sm {
-    height: 12px;
-  }
-
-  [data-theme="oscuro"] .logo-img {
-    filter: invert(1) brightness(1.08);
-  }
-
-  /*
-   * El logo de la barra: el apilado refinado en línea, el mismo en todos los
-   * anchos. Sólo la altura; el ancho sale del viewBox (1012x898). 44px hasta
-   * 768px (barra de 64) y 56px desde 769px (barra de 80): cabe en las dos sin
-   * que la barra crezca y queda centrado con el menú por el `items-center`.
-   * Alturas enteras a propósito, para que el trazo caiga en la rejilla.
-   */
   .logo-svg {
     display: block;
     flex-shrink: 0;
-    height: 44px;
-    width: auto;
     color: var(--color-ink);
   }
 
+  .logo-lg {
+    display: none;
+  }
+
   @media (min-width: 769px) {
-    .logo-svg {
-      height: 56px;
+    .logo-lg {
+      display: block;
+    }
+
+    .logo-sm {
+      display: none;
     }
   }
 
@@ -1736,11 +1705,7 @@ html.theme-switching *::after {
   .text-cta-label::after {
     transition: none;
   }
-  /* El isotipo del logo y el hundido de los botones del mazo: sin movimiento. */
-  .logo:hover .logo-img,
-  .logo:focus-visible .logo-img {
-    translate: none;
-  }
+  /* El hundido de los botones del mazo: sin movimiento. */
   .deck-btn:active {
     transform: none;
   }
