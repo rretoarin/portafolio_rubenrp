@@ -62,11 +62,17 @@ npx vercel --prod    # publica en la URL definitiva
 
 Desde ahí, cada `git push` a `main` publica solo.
 
-### Después del primer despliegue
+### Dominio
 
-Actualiza la URL real en `index.html` — la etiqueta `<link rel="canonical">` y
-`og:url`. Ahora mismo apuntan a `https://portafolio-rubenrp.vercel.app/`, que es un
-marcador de posición.
+El sitio vive en **https://www.ruberp.com** (canónico). `https://ruberp.com`
+redirige a `www` con un 308, configurado en Vercel; el DNS está en Cloudflare
+(CNAME en «DNS only»).
+
+Si el dominio cambia, hay que actualizarlo en:
+
+- `index.html`: `<link rel="canonical">`, `og:url`, `og:image` y `twitter:image`
+- `src/data/content.js`: `PROFILE.site` (alimenta el JSON-LD)
+- `public/sitemap.xml` y la línea `Sitemap:` de `public/robots.txt`
 
 ## Estructura
 

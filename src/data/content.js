@@ -20,7 +20,7 @@ export const PROFILE = {
   photo: '/ruben.webp',
   whatsapp: '51933214520', // Formato wa.me: sin +, espacios ni guiones.
   whatsappDisplay: '+51 933 214 520',
-  site: 'https://portafolio-rubenrp.vercel.app/',
+  site: 'https://www.ruberp.com/',
 }
 
 /*

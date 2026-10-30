@@ -14,6 +14,10 @@ página, bilingüe (ES/EN), con tema claro y oscuro.
 - Dos tipografías autoalojadas en `public/fonts`, las dos variables:
   Sentient (serifa, titulares) y Satoshi (sans, todo lo demás)
 - Deploy: Vercel (`vercel.json` ya configurado)
+- Dominio canónico: **https://www.ruberp.com** (`ruberp.com` redirige a `www`
+  con 308 desde Vercel; DNS en Cloudflare, «DNS only»). Va en el `<head>` de
+  `index.html`, en `PROFILE.site`, en `sitemap.xml` y en `robots.txt`.
+  Sin hreflang: ES/EN comparten URL (se cambia con un botón)
 
 ## Comandos
 
