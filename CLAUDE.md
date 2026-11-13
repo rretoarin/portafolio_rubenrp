@@ -258,9 +258,29 @@ vector en línea, que «se veía igual o peor». **No volver a SVG sin que lo pi
 - **Composición asimétrica**: rejilla de 12 donde los bloques no comparten eje.
   El título ocupa 7 columnas y el subtítulo cae a la derecha alineado abajo.
   La asimetría **tiene que sostenerse a 375px**.
-- **Casi nada de tarjetas**: el recurso por defecto es un bloque abierto bajo
-  `border-t border-line`. `.card` queda para agrupar de verdad (el formulario y
-  la banda de CTA). `.card-hover` sólo si el bloque es pulsable.
+- **Cajas redondeadas en Soluciones, Proceso y Proyectos** (2026-11-13, a
+  partir de una referencia que trajo Rubén): cada solución, cada paso y cada
+  caso va en un `.box` —filete fino `line`, esquinas de 1.5rem, fondo
+  `surface`, **sin sombra**— junto con `.block` para heredar los gestos de
+  hover/foco del título y el icono; al pasar el cursor el filete pasa a `edge`.
+  - Proceso: el número va en `.num-dot` (círculo lleno de acento con
+    `on-accent`), a la izquierda del texto en móvil y encima desde `lg`. El paso
+    5 lleva además `.box-accent` (filete de acento + `accent-soft`) y en `sm`
+    ocupa las dos columnas.
+  - En Proyectos la caja envuelve carrusel, etiquetas, las tres líneas y el pie
+    «Construido con»; la `<dl>` lleva `mb-8` para que el filete del pie no se
+    pegue al resultado en móvil.
+  - `.card` (con sombra) sigue siendo para el formulario y la banda de CTA, y
+    `.card-hover` sólo si el bloque es pulsable. Fuera de esas tres secciones,
+    el recurso por defecto sigue siendo el bloque abierto bajo
+    `border-t border-line`.
+- **La barra va a todo el ancho y con fondo sólido** (`bg-page` en cuanto se
+  baja, en todos los anchos), sin cápsula ni rectángulo alrededor del logo.
+  Se probó una cápsula flotante el 2026-11-13 y Rubén la quitó: «debe quedar
+  limpio sin rectángulo». Además, por el aire alrededor de la cápsula y por el
+  vidrio translúcido que había en escritorio (`--glass` + `backdrop-blur`) se
+  veían las letras del contenido por debajo del logo. **Nada de fondos
+  translúcidos en la barra.**
 - El ritmo entre secciones lo marca el espacio vertical (`py-10 md:py-12`, y lo
   mismo en `Contact` y en el `pt` del pie), no franjas de color. **Medido**:
   entre el final de una sección y el título de la siguiente quedan ~106px en
@@ -333,7 +353,7 @@ vector en línea, que «se veía igual o peor». **No volver a SVG sin que lo pi
   palabras no miden lo mismo) y con un `ResizeObserver`. Mide **1px y no 1.5**:
   con `transform` va en su propia capa y ahí el navegador no ajusta la altura a
   la rejilla, así que 1.5 se reparte entre dos filas y la línea sale más blanda
-  que el trazo del hover. Los bloques editoriales llevan `.block` +
+  que el trazo del hover. Los bloques editoriales (los que no van en `.box`) llevan `.block` +
   `.block-rule` —cuando el filete ya es un `<span>`— o `.block-top` —cuando lo
   dibuja un `border-t`—, y al pasar el cursor repintan el filete, desplazan
   `.block-title` 4px y encienden `.block-num`. **El color en reposo de
