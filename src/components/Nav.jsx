@@ -113,20 +113,14 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
 
   return (
     <>
-      {/*
-        PRUEBA «cápsula flotante» (2026-11-13, referencia vacantes.lat). La
-        barra ya no es una franja a todo el ancho: es una cápsula separada del
-        borde, siempre visible. El alto total no cambia —0.5rem de aire más
-        3.5rem de cápsula en móvil, 0.5rem más 4.5rem desde `md`—, así que `.ancla`
-        y el arranque del hero siguen midiendo lo mismo.
-      */}
-      <header className="barra-fija pointer-events-none fixed inset-x-0 top-0 z-50 pt-[calc(0.5rem+env(safe-area-inset-top))] md:pt-[calc(0.5rem+env(safe-area-inset-top))]">
-        <div className="shell">
-        <nav
-          className={`capsula pointer-events-auto flex h-14 items-center justify-between gap-3 rounded-full border pr-1.5 pl-4 md:h-[4.5rem] md:gap-4 md:pr-3 md:pl-6 ${
-            scrolled || open ? 'capsula-viva' : ''
-          }`}
-        >
+      <header
+        className={`barra-fija fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] transition-colors duration-300 ${
+          scrolled || open
+            ? 'border-line bg-page'
+            : 'border-transparent bg-transparent'
+        }`}
+      >
+        <nav className="shell flex h-16 items-center justify-between gap-3 md:h-20 md:gap-4">
           {/* Isotipo + «RuberpDev», en una línea, en todos los anchos. */}
           <a href="#top" className="logo tap" aria-label={t.nav.home}>
             <Logo />
@@ -184,28 +178,21 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
               Oculto conserva su hueco (sólo opacidad y desplazamiento), así la
               barra no salta, y sale del recorrido del tabulador.
             */}
-            {/*
-              En la cápsula el hueco reservado se veía: quedaba un tramo vacío
-              a la derecha. Ahora se pliega mientras el botón está oculto y se
-              despliega al bajar, así los enlaces se desplazan en vez de saltar.
-            */}
-            <div className={`nav-cta-hueco hidden lg:flex ${scrolled ? '' : 'nav-cta-hueco-plegado'}`}>
-              <a
-                href={whatsappUrl(t.contact.whatsappMessage)}
-                target="_blank"
-                rel="noreferrer noopener"
-                tabIndex={scrolled ? 0 : -1}
-                aria-hidden={!scrolled}
-                className={`btn-primary nav-cta group ml-1 hidden h-11 whitespace-nowrap min-h-0 pr-2.5 pl-5 text-sm lg:inline-flex ${
-                  scrolled ? '' : 'nav-cta-oculto'
-                }`}
-              >
-                {t.nav.talk}
-                <span className="flex size-7 items-center justify-center rounded-full btn-badge transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5">
-                  <ArrowRight width={13} height={13} />
-                </span>
-              </a>
-            </div>
+            <a
+              href={whatsappUrl(t.contact.whatsappMessage)}
+              target="_blank"
+              rel="noreferrer noopener"
+              tabIndex={scrolled ? 0 : -1}
+              aria-hidden={!scrolled}
+              className={`btn-primary nav-cta group ml-1 hidden h-11 min-h-0 pr-2.5 pl-5 text-sm lg:inline-flex ${
+                scrolled ? '' : 'nav-cta-oculto'
+              }`}
+            >
+              {t.nav.talk}
+              <span className="flex size-7 items-center justify-center rounded-full btn-badge transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5">
+                <ArrowRight width={13} height={13} />
+              </span>
+            </a>
 
             <button
               type="button"
@@ -218,7 +205,6 @@ export default function Nav({ t, onToggleLang, theme, onThemeChange }) {
             </button>
           </div>
         </nav>
-        </div>
       </header>
 
       {/*
