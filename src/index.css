@@ -554,6 +554,28 @@ html.theme-switching *::after {
     backface-visibility: hidden;
   }
 
+  /*
+   * La cápsula de la barra. En reposo, sobre el hero, va con el filete y el
+   * fondo de superficie; al bajar gana la sombra de tarjeta para separarse
+   * del contenido que pasa por debajo. En escritorio el fondo es el vidrio.
+   */
+  .capsula {
+    border-color: var(--color-line);
+    background-color: var(--color-surface);
+    transition: box-shadow 0.3s var(--ease-out-soft);
+  }
+
+  @media (min-width: 48rem) {
+    .capsula {
+      background-color: var(--glass);
+      backdrop-filter: blur(24px);
+    }
+  }
+
+  .capsula-viva {
+    box-shadow: var(--shadow-card);
+  }
+
   .shell {
     width: 100%;
     max-width: 78rem;
@@ -731,6 +753,49 @@ html.theme-switching *::after {
     }
   }
 
+  /*
+   * PRUEBA «rectángulos» (2026-11-13, referencia vacantes.lat). Caja plana:
+   * filete fino, esquinas amplias y sin sombra. Va con `.block` para heredar
+   * los gestos de hover/foco del título y el icono; el filete pasa a `edge`.
+   */
+  .box {
+    position: relative;
+    border: 1px solid var(--color-line);
+    border-radius: 1.5rem;
+    background-color: var(--color-surface);
+    transition: border-color 0.3s var(--ease-out-soft);
+  }
+
+  .box-accent {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
+  }
+
+  @media (hover: hover) {
+    .box:not(.box-accent):hover {
+      border-color: var(--color-edge);
+    }
+  }
+
+  .box:not(.box-accent):focus-within {
+    border-color: var(--color-edge);
+  }
+
+  /* Número del paso en círculo lleno, como en la referencia. */
+  .num-dot {
+    display: inline-grid;
+    flex: none;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
   /* CTA principal. En claro es tinta sobre crema; en oscuro se invierte solo. */
   .btn-primary {
     position: relative;
@@ -785,6 +850,22 @@ html.theme-switching *::after {
       transform 0.3s var(--ease-out-soft),
       opacity 0.3s var(--ease-out-soft),
       visibility 0.3s;
+  }
+
+  /*
+   * El hueco del CTA en la cápsula. Se pliega con `max-width` en el contenedor
+   * y no con una rejilla 0fr: el relleno del botón no encoge y dejaba 34px.
+   * 12rem cubre el botón en los dos idiomas (~140px).
+   */
+  .nav-cta-hueco {
+    max-width: 12rem;
+    overflow: clip;
+    overflow-clip-margin: 0.5rem;
+    transition: max-width 0.3s var(--ease-out-soft);
+  }
+
+  .nav-cta-hueco-plegado {
+    max-width: 0;
   }
 
   .nav-cta-oculto {
@@ -1664,6 +1745,7 @@ html.theme-switching *::after {
     transition: none;
   }
   /* El CTA de la barra aparece sin desplazarse. */
+  .nav-cta-hueco,
   .nav-cta,
   .nav-cta-oculto {
     transform: none;

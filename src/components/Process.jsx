@@ -18,44 +18,41 @@ export default function Process({ t }) {
       title={t.process.title}
       subtitle={t.process.subtitle}
     >
-      <ol className="stagger relative grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
+      {/*
+        PRUEBA «rectángulos»: cada paso en su caja con el número en un círculo
+        lleno. En móvil el círculo va a la izquierda del texto; en escritorio,
+        encima, para que quepan los cinco en una fila. El quinto conserva su
+        señal: caja con filete y fondo de acento.
+      */}
+      <ol className="stagger relative grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {t.process.steps.map((step, i) => {
           const destacado = i === ultimo
           return (
             <li
               key={i}
-              className={`reveal block-top border-t pt-5 ${
-                destacado ? 'border-accent' : 'border-line'
+              className={`reveal block box flex gap-4 p-6 lg:flex-col ${
+                destacado ? 'box-accent sm:col-span-2 lg:col-span-1' : ''
               }`}
             >
-              <span
-                aria-hidden
-                className={`display text-[1.75rem] leading-none ${
-                  destacado ? 'text-accent' : 'text-accent/40'
-                }`}
-              >
-                {String(i + 1).padStart(2, '0')}
+              <span aria-hidden className="num-dot">
+                {i + 1}
               </span>
-              {/*
-                El título del paso destacado va en el acento. Era lo único que
-                el quinto compartía a pelo con los otros cuatro: mismo gris,
-                mismo peso. Con el filete y el número ya en acento, dejar el
-                nombre en gris deshacía media señal.
-              */}
-              <h3
-                className={`block-title eyebrow eyebrow-plain mt-4 block ${
-                  destacado ? 'text-accent' : ''
-                }`}
-              >
-                {step.title}
-              </h3>
-              <p
-                className={`mt-2.5 text-sm leading-relaxed ${
-                  destacado ? 'text-ink' : 'text-ink-soft'
-                }`}
-              >
-                {step.text}
-              </p>
+              <div>
+                <h3
+                  className={`block-title display-light text-lg leading-snug ${
+                    destacado ? 'text-accent' : 'text-heading'
+                  }`}
+                >
+                  {step.title}
+                </h3>
+                <p
+                  className={`mt-2 text-sm leading-relaxed ${
+                    destacado ? 'text-ink' : 'text-ink-soft'
+                  }`}
+                >
+                  {step.text}
+                </p>
+              </div>
             </li>
           )
         })}

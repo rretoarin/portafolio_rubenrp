@@ -131,7 +131,7 @@ function Caso({ project, copy, labels, shots, onOpen, visorAbierto }) {
 
   return (
     <article
-      className="reveal flex flex-col"
+      className="reveal box flex flex-col p-4 sm:p-6"
       onMouseEnter={() => setEncima(true)}
       onMouseLeave={() => setEncima(false)}
       onFocusCapture={() => setFoco(true)}
@@ -191,7 +191,7 @@ function Caso({ project, copy, labels, shots, onOpen, visorAbierto }) {
         con el acento. Sigue siendo la misma lista de definiciones en el mismo
         sitio: cambia el peso, no la estructura.
       */}
-      <dl className="mt-6 space-y-5">
+      <dl className="mt-6 mb-8 space-y-5">
         {[
           [labels.problemLabel, copy.problem, false],
           [labels.solutionLabel, copy.solution, false],
@@ -226,7 +226,7 @@ function Caso({ project, copy, labels, shots, onOpen, visorAbierto }) {
         ))}
       </dl>
 
-      <div className="mt-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-line pt-5 sm:mt-8">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-line pt-5">
         <p className="text-sm text-ink-soft">
           <span className="eyebrow eyebrow-plain mr-2.5">{labels.toolsLabel}</span>
           {project.stack.join(' · ')}
@@ -253,7 +253,7 @@ export default function Projects({ t, theme }) {
     >
       <Arc className="-top-[10rem] -right-[38rem] size-[54rem]" />
 
-      <div className="stagger relative grid gap-x-14 gap-y-16 lg:grid-cols-2">
+      <div className="stagger relative grid gap-5 lg:grid-cols-2">
         {PROJECTS.map((project) => (
           <Caso
             key={project.id}

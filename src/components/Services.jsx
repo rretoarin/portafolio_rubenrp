@@ -22,11 +22,11 @@ export default function Services({ t }) {
     >
       <Arc className="-top-[38rem] -right-[34rem] size-[52rem]" />
 
-      <div className="stagger relative grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="stagger relative grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {t.services.items.map((item, i) => {
           const Icono = ICONOS[i]
           return (
-            <article key={i} className="reveal block-top border-t border-line pt-6">
+            <article key={i} className="reveal block box p-6 md:p-7">
               <Icono width={26} height={26} className="block-icon text-accent" aria-hidden />
               <h3 className="block-title display-light mt-5 text-xl">{item.title}</h3>
               <p className="mt-3 leading-relaxed text-ink-soft">{item.text}</p>
